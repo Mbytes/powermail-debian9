@@ -24,7 +24,14 @@ sed -i 's/OPTIONS\=\"\-\-create-prefs \-\-max\-children 5 \-\-helper\-home\-dir\
 
 sed -i "s/#    Alias \/roundcube \/var\/lib\/roundcube/    Alias \/roundcube \/var\/lib\/roundcube/" /etc/apache2/conf-enabled/roundcube.conf
 sed -i "s/\$config\['default_host'\] = '';/\$config\['default_host'\] = '127.0.0.1';/" /etc/roundcube/config.inc.php
+sed -i "s/\$config\['smtp_server'\] = '';/\$config\['smtp_server'\] = '127.0.0.1';/" /etc/roundcube/config.inc.php
 
+
+sed -i "s/SOCKET\=local\:\$RUNDIR\/opendkim.sock/#SOCKET\=local\:\$RUNDIR\/opendkim.sock/" /etc/default/opendkim
+sed -i "s/#SOCKET\=inet\:12345\@localhost/SOCKET\=inet\:12345\@localhost/" /etc/default/opendkim 
+/lib/opendkim/opendkim.service.generate
+systemctl daemon-reload
+service opendkim restart
 
 
 #/bin/cp -pR files/spamassassin-etc/* /etc/spamassassin/
@@ -37,10 +44,10 @@ sed -i "s/\$config\['default_host'\] = '';/\$config\['default_host'\] = '127.0.0
 #/etc/init.d/clamav-daemon restart
 
 
-#/bin/cp -pR files/postfix/* /etc/postfix/
-#/bin/cp -pR files/dovecot/* /etc/dovecot/
-#/bin/cp -pR files/opendkim.conf /etc/
-#/bin/cp -pR files/opendkim /etc/
+/bin/cp -pR files/postfix/* /etc/postfix/
+/bin/cp -pR files/dovecot/* /etc/dovecot/
+/bin/cp -pR files/opendkim.conf /etc/
+/bin/cp -pR files/opendkim /etc/
 
 
 echo "Working on importing powermail MySQL database..."

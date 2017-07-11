@@ -1,0 +1,2 @@
+mail._domainkey.mail.technomail.xyz mail.technomail.xyz:default:/etc/opendkim/keys/mail.technomail.xyz/mail.private
+mail._domainkey.technomail.xyz technomail.xyz:default:/etc/opendkim/keys/technomail.xyz/mail.private

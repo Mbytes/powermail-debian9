@@ -1,0 +1,2 @@
+mail._domainkey	IN	TXT	( "v=DKIM1; k=rsa; "
+	  "p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCrAGAhDHbbAPKDZG+V9rFVGMw+UfhWqQ9mz9DthA1moww/kTUgaFSpO5LWwUuOZUTtn1OB4GTwQ0a990GRm3xWhvoU3SyFZJm1SOjsHayGFLcupsxjBN+Q/fwrYB37ioroHPV8GHntKRJi4gL5iKzn6sn0lWUuwvtoUifEnKWRjwIDAQAB" )  ; ----- DKIM key mail for mail.technomail.xyz
