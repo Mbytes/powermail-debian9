@@ -1,0 +1,40 @@
+auto lo
+iface lo inet loopback
+
+iface eth0 inet manual
+
+iface eth1 inet manual
+
+iface eth2 inet manual
+
+iface eth3 inet manual
+
+auto bond0
+iface bond0 inet static
+        address  192.168.2.1
+        netmask  255.255.255.0
+        slaves eth1 eth2 eth3
+        bond_miimon 100
+        bond_mode balance-rr
+
+auto vmbr0
+iface vmbr0 inet static
+        address  192.168.2.1
+        netmask  255.255.255.0
+        gateway  192.168.2.100
+        bridge_ports eth0
+        bridge_stp off
+        bridge_fd 0
+
+
+# below setting for only internal network ..no bridge
+auto vmbr1
+iface vmbr1 inet static
+	address  192.168.100.1
+	netmask  255.255.255.0
+	bridge_ports none
+	bridge_stp off
+	bridge_fd 0
+#INTERNAL NETWORK - USE THIS
+
+

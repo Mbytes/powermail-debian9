@@ -1,0 +1,48 @@
+
+
+## to mount via NFS WD my Clod Storage (NAS Server)
+mount -o soft,intr,rsize=8192,wsize=8192 :/nfs /home/myusername/nfs/
+
+
+https://cloudfaqs.wordpress.com/2013/09/14/20-linux-server-hardening-security-tips/
+http://www.cyberciti.biz/faq/rhel-apache-httpd-mod-ssl-tutorial/
+http://www.cyberciti.biz/tips/how-to-linux-prevent-the-reuse-of-old-passwords.html
+http://www.cyberciti.biz/tips/linux-how-to-disable-the-ipv6-protocol.html
+http://www.cyberciti.biz/faq/debian-ubuntu-linux-software-integrity-checking-with-aide/
+http://www.cyberciti.biz/tips/postfix-smtp-ssl-certificate-csr-installation-guide.html
+http://www.cyberciti.biz/faq/unix-dovecot-ssl-tls-server-configuration/
+http://www.cyberciti.biz/faq/rhel-apache-httpd-mod-ssl-tutorial/
+https://help.ubuntu.com/community/EncryptedPrivateDirectory
+http://www.cyberciti.biz/tips/linux-how-to-encrypt-and-decrypt-files-with-a-password.html
+
+http://wiki.dovecot.org/LDA/Postfix
+
+
+https://wiki.archlinux.org/index.php/Virtual_user_mail_system
+
+https://www.group-office.com/blog/post?id=8568233904931744115
+http://serion.co.nz/howto/howto-setup-mailserver-using-postfix-mysql-dovecot-postfixadmin-amavis-new
+https://www.group-office.com/wiki/Mailserver#Optionally_install_the_serverclient
+https://www.group-office.com/wiki/Mailserver#Enabling_TLS_and_SMTP_authentication
+http://wiki.linpert.de/index.php?title=Group-Office#.2Fetc.2Fpostfix.2Fmain.cf
+http://wiki.linpert.de/index.php?title=Group-Office
+http://wiki.linpert.de/index.php?title=Group-Office#Errors
+https://www.group-office.com/wiki/Installing_on_Debian_or_Ubuntu
+https://group-office.com/wiki/Installation_manual#Servermanager
+http://blog.shines.me.uk/configure-postfix-postfixadmin-dovecot-smtp-auth-sasl-using-mysql-on-ubuntu-12-04-lts/i
+https://www.exratione.com/2014/05/a-mailserver-on-ubuntu-1404-postfix-dovecot-mysql/
+
+https://www.sawmill.net/formats/postfix.html
+http://serverfault.com/questions/106931/logging-bounced-messages-to-a-database-postfix-with-virtual-domains-users
+http://www.fluentd.org/architecture
+http://www.fluentd.org/dataoutputs
+http://www.fluentd.org/guides/recipes/maillog-mongodb
+http://www.tipstuff.org/2014/01/Postfix-log-centralize-and-analysis-in-realtime-with-fluentd-elasticsearch-and-kibana.html
+
+https://github.com/zewish/php-postfix-maillog-importer
+http://185iq.blogspot.in/2010/05/postfix-rsyslog.html
+http://my.host.net.nz/2012/06/29/summarised-database-logging-using-postfix-and-postgresql/
+
+disable #mailbox_command = procmail -a "$EXTENSION" for virtual domain delivery .
+also remove myhostname from mydestin
+

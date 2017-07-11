@@ -1,0 +1,9 @@
+
+
+# Network configuration
+lxc.network.type = veth
+lxc.network.flags = up
+lxc.network.link = br0
+lxc.network.ipv4 = 1792.168.1.4/24
+lxc.network.hwaddr = 00:1E:62:01:02:02
+

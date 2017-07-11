@@ -1,0 +1,5 @@
+
+##https://www.howtoforge.com/community/threads/xmpp-with-ispconfig.68501/i
+https://git.ispconfig.org/ispconfig/ispconfig3/issues/3666
+plan for XMMP Server setup. based on  Metronome/prosody or ejabberd or openfire
+

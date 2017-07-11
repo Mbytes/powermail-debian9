@@ -1,0 +1,9 @@
+## to Check imap ssl certficate
+openssl s_client -connect powermail.mydomainname.com:imaps 
+## to Check smtp ssl certficate
+openssl s_client -connect powermail.mydomainname.com:smtps 
+## to check website
+openssl s_client -connect powermail.mydomainname.com:443
+
+## to check exipre date
+openssl s_client -connect powermail.mydomainname.com:imaps | openssl x509 -noout -enddate

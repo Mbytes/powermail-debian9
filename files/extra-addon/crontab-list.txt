@@ -1,0 +1,4 @@
+MAILTO=""
+30 2 * * 1 /opt/letsencrypt/certbot-auto renew >> /var/log/letsencrypt-renew.log
+*/2 * * * * /usr/local/src/make-archive-index/read-and-make-emailarchive-from-mailscanner-postfix.pl
+*/2 * * * * /usr/local/src/mailscanner-with-postfix-relay-log/mailwatch-postfix-relay-info-update.sh

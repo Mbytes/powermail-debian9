@@ -1,0 +1,11 @@
+imkdir /etc/opendkim/keys/powermail.mydomainname.com
+cd /etc/opendkim/keys/powermail.mydomainname.com
+opendkim-genkey --domain=powermail.mydomainname.com --selector=mail
+echo "mail._domainkey.powermail.mydomainname.com powermail.mydomainname.com:default:/etc/opendkim/keys/powermail.mydomainname.com/mail.private"  >>/etc/opendkim/KeyTable
+echo "powermail.mydomainname.com mail._domainkey.powermail.mydomainname.com" >> /etc/opendkim/SigningTable
+chmod -R 644 /etc/opendkim/keys
+
+chown -R opendkim:opendkim /etc/opendkim/keys
+chmod -R 700 /etc/opendkim/keys
+
+

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+### do not run on proxmox server
+apt-get install lxc

@@ -1,0 +1,7 @@
+#create a file in /etc/X11/xorg.conf
+# if display driver issue
+Section "Device"
+	Identifier "Normal"
+	Driver	"vesa"
+EndSection
+
