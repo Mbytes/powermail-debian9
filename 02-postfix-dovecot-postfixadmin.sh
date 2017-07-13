@@ -17,6 +17,7 @@ useradd -g vmail -u 89 -d /home/powermail vmail 2>/dev/null
 
 /bin/cp -pR files/rootdir/* /
 /bin/cp -pR files/extra-tools/* /bin/
+mkdir  /var/www/html/powermailadmin/templates_c 2>/dev/null
 chmod -R 777 /var/www/html/powermailadmin/templates_c
 
 chown -R vmail:vmail /home/powermail
