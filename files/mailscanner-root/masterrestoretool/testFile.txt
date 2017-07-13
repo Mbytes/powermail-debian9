@@ -1,0 +1,3 @@
+
+  SELECT `id`, `adddatetime`, `adddate`, `emaildatetime`, `emaildate`, `emailfrom`, `emailfromdomain`, `emailfromfull`, `emailto`, `emailtodomain`, `emailtofull`, `subject`, `attachment01`, `attachment02`, `attachment03`, `attachment04`, `attachment05`, `attachment06`, `attachment07`, `attachment08`, `attachment09`, `attachment10`, `mailsize` , `mailstorepath`   from `details_2017_05_17` where (emailto like 'postmaster@demo.technomail.xyz' || emailfrom like 'postmaster@demo.technomail.xyz')  and emaildate like '2017-05%'       Group by messageid order by `emaildate` DESC    
+    

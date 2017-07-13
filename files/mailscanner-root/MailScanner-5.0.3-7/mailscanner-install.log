@@ -1,0 +1,621 @@
+[3;J[H[2J
+Installation results are being logged to mailscanner-install.log
+
+Installing required system packages ...
+
+Ign http://download.webmin.com sarge InRelease
+Hit http://security.debian.org jessie/updates InRelease
+Hit http://security.debian.org jessie/updates/main amd64 Packages
+Ign http://httpredir.debian.org jessie InRelease
+Hit http://security.debian.org jessie/updates/contrib amd64 Packages
+Hit http://httpredir.debian.org jessie-updates InRelease
+Hit http://download.webmin.com sarge Release.gpg
+Hit http://security.debian.org jessie/updates/non-free amd64 Packages
+Hit http://httpredir.debian.org jessie-backports InRelease
+Hit http://security.debian.org jessie/updates/contrib Translation-en
+Hit http://security.debian.org jessie/updates/main Translation-en
+Hit http://httpredir.debian.org jessie Release.gpg
+Hit http://security.debian.org jessie/updates/non-free Translation-en
+Hit http://download.webmin.com sarge Release
+Get:1 http://httpredir.debian.org jessie-updates/main amd64 Packages/DiffIndex [7,900 B]
+Hit http://httpredir.debian.org jessie-updates/contrib amd64 Packages
+Hit https://deb.nodesource.com jessie InRelease
+Hit http://download.webmin.com sarge/contrib amd64 Packages
+Get:2 http://httpredir.debian.org jessie-updates/non-free amd64 Packages/DiffIndex [736 B]
+Hit https://deb.nodesource.com jessie/main Sources
+Hit https://deb.nodesource.com jessie/main amd64 Packages
+Hit http://httpredir.debian.org jessie-updates/contrib Translation-en
+Get:3 https://deb.nodesource.com jessie/main Translation-en_US [162 B]
+Get:4 https://deb.nodesource.com jessie/main Translation-en [162 B]
+Get:5 http://httpredir.debian.org jessie-updates/main Translation-en/DiffIndex [2,704 B]
+Get:6 https://deb.nodesource.com jessie/main Translation-en_US.UTF-8 [162 B]
+Get:7 https://deb.nodesource.com jessie/main Translation-en_US [162 B]
+Get:8 http://httpredir.debian.org jessie-updates/non-free Translation-en/DiffIndex [736 B]
+Get:9 https://deb.nodesource.com jessie/main Translation-en [162 B]
+Get:10 https://deb.nodesource.com jessie/main Translation-en_US.UTF-8 [162 B]
+Get:11 http://httpredir.debian.org jessie-backports/main Sources/DiffIndex [27.8 kB]
+Get:12 https://deb.nodesource.com jessie/main Translation-en_US [162 B]
+Get:13 https://deb.nodesource.com jessie/main Translation-en [162 B]
+Get:14 http://httpredir.debian.org jessie-backports/main amd64 Packages/DiffIndex [27.8 kB]
+Get:15 https://deb.nodesource.com jessie/main Translation-en_US.UTF-8 [162 B]
+Get:16 https://deb.nodesource.com jessie/main Translation-en_US [162 B]
+Get:17 http://httpredir.debian.org jessie-backports/main Translation-en/DiffIndex [27.8 kB]
+Get:18 https://deb.nodesource.com jessie/main Translation-en [162 B]
+Get:19 https://deb.nodesource.com jessie/main Translation-en_US.UTF-8 [162 B]
+Hit http://httpredir.debian.org jessie Release
+Get:20 https://deb.nodesource.com jessie/main Translation-en_US [162 B]
+Ign https://deb.nodesource.com jessie/main Translation-en_US
+Get:21 https://deb.nodesource.com jessie/main Translation-en [162 B]
+Ign https://deb.nodesource.com jessie/main Translation-en
+Get:22 https://deb.nodesource.com jessie/main Translation-en_US.UTF-8 [162 B]
+Ign https://deb.nodesource.com jessie/main Translation-en_US.UTF-8
+Hit http://httpredir.debian.org jessie/main amd64 Packages
+Hit http://httpredir.debian.org jessie/contrib amd64 Packages
+Hit http://httpredir.debian.org jessie/non-free amd64 Packages
+Hit http://httpredir.debian.org jessie/contrib Translation-en
+Hit http://httpredir.debian.org jessie/main Translation-en
+Hit http://httpredir.debian.org jessie/non-free Translation-en
+Ign http://download.webmin.com sarge/contrib Translation-en_US
+Ign http://download.webmin.com sarge/contrib Translation-en
+Ign http://download.webmin.com sarge/contrib Translation-en_US.UTF-8
+Fetched 95.5 kB in 10s (8,939 B/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+perl-doc is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libmailtools-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+re2c is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+curl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libnet-cidr-lite-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libmime-tools-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+wget is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libtest-manifest-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libnet-cidr-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+tar is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libdata-dump-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libsys-syslog-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+binutils is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libbusiness-isbn-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libio-stringy-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+unrar is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libdbd-mysql-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+perl-modules is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+gcc is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libconvert-tnef-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libdbd-mysql-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+make is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libdbd-sqlite3-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libencode-detect-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+patch is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libfilesys-df-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libc6-dev is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+antiword is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libarchive-zip-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libconfig-yaml-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+pyzor is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libole-storage-lite-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libsys-sigaction-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+razor is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libinline-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libmail-imapclient-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+tnef is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libmail-spf-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libtest-pod-coverage-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+gzip is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libnetaddr-ip-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libfile-sharedir-install-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+unzip is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libnet-ldap-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libsys-hostname-long-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+openssl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libmail-dkim-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libhtml-tokeparser-simple-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libbusiness-isbn-data-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libnet-dns-resolver-programmable-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+postfix is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+[3;J[H[2J
+Installing Clam AV via apt ... 
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+clamav-daemon is already the newest version.
+libclamav-client-perl is already the newest version.
+The following packages were automatically installed and are no longer required:
+  sendmail-base sendmail-cf
+Use 'apt-get autoremove' to remove them.
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+[3;J[H[2J
+Checking Perl Modules ... 
+
+Archive::Tar => OK
+Archive::Zip => OK
+bignum => OK
+Carp => OK
+Compress::Zlib => OK
+Compress::Raw::Zlib => OK
+Convert::BinHex => OK
+Convert::TNEF => OK
+Data::Dumper => OK
+Date::Parse => OK
+DBD::SQLite => OK
+DBI => OK
+Digest::HMAC => OK
+Digest::MD5 => OK
+Digest::SHA1 => OK
+DirHandle => OK
+ExtUtils::MakeMaker => OK
+Fcntl => OK
+File::Basename => OK
+File::Copy => OK
+File::Path => OK
+File::Spec => OK
+File::Temp => OK
+FileHandle => OK
+Filesys::Df => OK
+Getopt::Long => OK
+Inline::C => OK
+IO => OK
+IO::File => OK
+IO::Pipe => OK
+IO::Stringy => OK
+HTML::Entities => OK
+HTML::Parser => OK
+HTML::Tagset => OK
+HTML::TokeParser => OK
+Mail::Field => OK
+Mail::Header => OK
+Mail::IMAPClient => OK
+Mail::Internet => OK
+Math::BigInt => OK
+Math::BigRat => OK
+MIME::Base64 => OK
+MIME::Decoder => OK
+MIME::Decoder::UU => OK
+MIME::Head => OK
+MIME::Parser => OK
+MIME::QuotedPrint => OK
+MIME::Tools => OK
+MIME::WordDecoder => OK
+Net::CIDR => OK
+Net::DNS => OK
+Net::IP => OK
+OLE::Storage_Lite => OK
+Pod::Escapes => OK
+Pod::Simple => OK
+POSIX => OK
+Scalar::Util => OK
+Socket => OK
+Storable => OK
+Test::Harness => OK
+Test::Pod => OK
+Test::Simple => OK
+Time::HiRes => OK
+Time::localtime => OK
+Sys::Hostname::Long => OK
+Sys::SigAction => OK
+Sys::Syslog => OK
+Env => OK
+File::ShareDir::Install => OK
+Mail::SpamAssassin => OK
+bignum => OK
+Business::ISBN => OK
+Business::ISBN::Data => OK
+Data::Dump => OK
+DB_File => OK
+DBD::SQLite => OK
+DBI => OK
+Digest => OK
+Encode::Detect => OK
+Error => OK
+ExtUtils::CBuilder => OK
+ExtUtils::ParseXS => OK
+Getopt::Long => OK
+Inline => OK
+IO::String => OK
+IO::Zlib => OK
+IP::Country => OK
+Mail::SPF => OK
+Mail::SPF::Query => OK
+Module::Build => OK
+Net::CIDR::Lite => OK
+Net::DNS => OK
+Net::LDAP => OK
+Net::DNS::Resolver::Programmable => OK
+NetAddr::IP => OK
+Parse::RecDescent => OK
+Test::Harness => OK
+Test::Manifest => OK
+Text::Balanced => OK
+URI => OK
+version => OK
+IO::Compress::Bzip2 => OK
+Mail::SpamAssassin::Plugin::Rule2XSBody => OK
+Mail::SpamAssassin::Plugin::DCC => OK
+Mail::SpamAssassin::Plugin::Pyzor => OK
+[3;J[H[2J
+Installing the MailScanner .deb package ... 
+Selecting previously unselected package mailscanner.
+(Reading database ... 138278 files and directories currently installed.)
+Preparing to unpack .../MailScanner-5.0.3-7-noarch.deb ...
+Unpacking mailscanner (5.0.3-7) ...
+Setting up mailscanner (5.0.3-7) ...
+ClamAV update process started at Wed May 17 15:54:58 2017
+main.cvd is up to date (version: 57, sigs: 4218790, f-level: 60, builder: amishhammer)
+daily.cld is up to date (version: 23392, sigs: 2071631, f-level: 63, builder: neo)
+safebrowsing.cvd is up to date (version: 45944, sigs: 2889029, f-level: 63, builder: google)
+bytecode.cvd is up to date (version: 301, sigs: 58, f-level: 63, builder: anvilleg)
+
+----------------------------------------------------------
+Installation Complete
+
+See http://www.mailscanner.info for more information and  
+support via the MailScanner mailing list.
+
+
+Review: Set your preferences in /etc/MailScanner/MailScanner.conf
+and review /etc/MailScanner/defaults
+

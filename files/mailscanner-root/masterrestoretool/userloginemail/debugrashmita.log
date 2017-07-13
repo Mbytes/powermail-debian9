@@ -1,0 +1,1 @@
+SELECT `displayname`, `username`, `email`, `orgunit`  FROM `mosluseremailmap` where 1     LIMIT 0,100

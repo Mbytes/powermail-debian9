@@ -1,0 +1,269 @@
+<html>
+     <head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>QMail Queue Status</title>
+          <link rel="stylesheet" type="text/css" href="ext-2.2/resources/css/ext-all.css" />
+          <script type="text/javascript" src="ext-2.2/adapter/ext/ext-base.js"></script>
+          <script type="text/javascript" src="ext-2.2/ext-all.js"></script>
+         <link rel="stylesheet" type="text/css" href="grid-examples.css" />
+
+         <link rel="stylesheet" type="text/css" href="css/icons.css">
+<link rel="stylesheet" type="text/css" href="css/Ext.ux.grid.RowActions.css">
+<link rel="stylesheet" type="text/css" href="css/webpage.css">
+        <link rel="stylesheet" type="text/css" href="css/recordform.css">
+      <link rel="stylesheet" type="text/css" href="css/filetree.css">
+      <link rel="stylesheet" type="text/css" href="css/filetype.css">
+      <link rel="stylesheet" type="text/css" href="css/famflag.css">
+       <link rel="stylesheet" type="text/css" href="css/Ext.ux.IconCombo.css">
+      <link rel="shortcut icon" href="img/extjs.ico">
+        <script type="text/javascript" src="ext-2.2/adapter/ext/ext-base.js"></script>
+        <script type="text/javascript" src="ext-2.2/ext-all-debug.js"></script>
+        <script type="text/javascript" src="js/WebPage.js"></script>
+       <script type="text/javascript" src="js/Ext.ux.ThemeCombo.js"></script>
+        <script type="text/javascript" src="js/Ext.ux.Toast.js"></script>
+        <script type="text/javascript" src="js/Ext.ux.grid.Search.js"></script>
+        <script type="text/javascript" src="js/Ext.ux.IconMenu.js"></script>
+        <script type="text/javascript" src="js/Ext.ux.grid.RowActions.js"></script>
+        <script type="text/javascript" src="js/Ext.ux.grid.RecordForm.js"></script>
+        <script type="text/javascript" src="js/Example.Grid.js"></script>
+         <script type="text/javascript" src="js/Ext.ux.form.BrowseButton.js"></script>
+        <script type="text/javascript" src="js/Ext.ux.IconCombo.js"></script>
+      <script type="text/javascript" src="js/Ext.ux.LangSelectCombo.js"></script>
+         <link rel="stylesheet" type="text/css" href="ext-2.2/examples/multiselect/multiselect.css"/>
+    <script type="text/javascript" src="DDView.js"></script>
+    <script type="text/javascript" src="MultiSelect.js"></script>
+    <script type="text/javascript" src="ItemSelector.js"></script>
+
+
+         <script type="text/javascript" src="ext-2.2/examples/grid-filtering/menu/EditableItem.js"></script>
+         <script type="text/javascript" src="ext-2.2/examples/grid-filtering/menu/RangeMenu.js"></script>
+         <script type="text/javascript" src="ext-2.2/examples/grid-filtering/grid/GridFilters.js"></script>
+         <script type="text/javascript" src="ext-2.2/examples/grid-filtering/grid/filter/Filter.js"></script>
+         <script type="text/javascript" src="ext-2.2/examples/grid-filtering/grid/filter/StringFilter.js"></script>
+         <script type="text/javascript" src="ext-2.2/examples/grid-filtering/grid/filter/DateFilter.js"></script>
+         <script type="text/javascript" src="ext-2.2/examples/grid-filtering/grid/filter/ListFilter.js"></script>
+         <script type="text/javascript" src="ext-2.2/examples/grid-filtering/grid/filter/NumericFilter.js"></script>
+         <script type="text/javascript" src="ext-2.2/examples/grid-filtering/grid/filter/BooleanFilter.js"></script>
+
+         <link rel="stylesheet" type="text/css" href="examples.css" />
+<script type="text/javascript" src="ux.Andrie.pPageSize/pPageSize.js"></script>
+<link rel="stylesheet" type="text/css" href="file-upload.css"/>
+    <script type="text/javascript" src="FileUploadField.js"></script>
+
+
+         <script type="text/javascript">
+           Ext.onReady(function(){
+           Ext.QuickTips.init();
+
+           /*function subject(val){
+                                 return '<span style="color:red;">' + val + '</span>';
+                                }*/
+          
+              var dsmailstatus = new Ext.data.JsonStore({
+         url:'mailqueuestatusds.cgi',
+           method: 'POST',
+           root: 'data.results',
+           autoShow : true,
+           totalProperty: 'data.total',
+           fields: [
+                    {name:'msgfilename'},
+                    {name:'mailondate'},
+                    {name:'from'},
+                    {name:'to'},
+                    {name:'subject'},
+                    {name:'size'},
+                    {name:'asondate'}
+                  ],
+            sortInfo: {field: 'subject', direction: 'DESC'},
+            remoteSort:true
+           });
+             dsmailstatus.load();
+
+
+           /* var filtermailstatus = new Ext.grid.GridFilters({
+                 remote:true,
+                 filters:[
+                          {type: 'string', dataIndex: 'msgfilename'},
+                          {type:'string', dataIndex: 'mailondate'},
+                          {type: 'string', dataIndex: 'from'},
+                          {type: 'string', dataIndex: 'to'},
+                          {type: 'string', dataIndex: 'subject'},
+                          {type: 'numeric', dataIndex: 'size'},
+                          {type: 'string', dataIndex: 'asondate'}
+            ]});*/
+         var smmailstatus = new Ext.grid.CheckboxSelectionModel();
+         var cmmailstatus = new Ext.grid.ColumnModel([
+               smmailstatus,
+                       {header: "File Name", width: 90, sortable: true },
+                       {header: "Mail Dated", width: 120, sortable: true},
+                       {header: "From", width: 90, sortable: true},
+                       {header: "To", width: 90, sortable: true},
+                       {header: "Subject", width: 160, sortable: true},
+                       {header: "Size", width: 50, sortable: true},
+                       {header: "As On Date", width: 120, sortable: true}
+            ]);
+            cmmailstatus.defaultSortable = true;
+         
+           var gridmailstatus = new Ext.grid.GridPanel({
+                     id: 'gridmailstatus',
+                     ds:dsmailstatus,
+                     cm:cmmailstatus,
+                     sm:smmailstatus,
+                     enableColLock: false,
+                     loadMask: true,
+                 //    plugins: filtermailstatus,
+                     frame:true,
+                     autoScroll:true,
+                     viewConfig: {
+                                  forceFit: true
+                                 },
+                   /*  bbar: new Ext.PagingToolbar({
+                                  plugins:[filtermailstatus,new Ext.ux.Andrie.pPageSize()],
+                                  store:dsmailstatus,
+                                  pageSize: 100,
+                                  displayInfo: true,
+                                  emptyMsg: "No queues to display"
+                              }),*/
+                     width:550,
+                     height:300
+            });
+            cmmailstatus.defaultSortable = true;
+            dsmailstatus.load({params:{start: 0, limit: 100}});
+
+
+           gridmailstatus.addListener({
+                    'cellclick':{
+                                   fn: function(grid, rowIndex, columnIndex, event){
+                                   var record = gridmailstatus.getStore().getAt(rowIndex);  // Get the Record
+                                var fieldName = gridmailstatus.getColumnModel().getDataIndex(columnIndex); // Get field name
+                                   var subject = record.get(fieldName);
+                                 if(fieldName=='subject')
+                                               {
+                                                     rashfunmailstatus(subject,msgfilename);
+                                               }
+                                      }
+                     ,scope:this
+                  }
+           });
+
+           function rashfunmailstatus(subject,msgfilename)
+              {
+                  var winmailstatusclick= new Ext.Window({
+                          id:'mailstatusclickwin',
+                          name:'mailstatusclickwin',
+                          title: 'Showing Single Email Details',
+                          closable:true,
+                          width: 500,
+                          height:350,
+
+                          iconCls:'icon-magnifier',
+                          plain:true,
+                          maximizable:true,
+                          frame:true
+                     });
+             //winmailstatusclick.render(Ext.getCmp('maxviewrender').body);
+             winmailstatusclick.show();
+           }
+
+
+            /*function funreloadmailstatus()
+           {
+              Ext.getBody().mask('Loading...');
+              var resultxmail="";
+              var errorxmail="Some of the form(s) are not added to database.please enter the records.";
+              var resultxmail;
+              Ext.Ajax.request({
+                                 url : '/cgi-bin/consolemaster/read-qmail-queue-add-to-db.cgi' ,
+                                 success: function ( result, request ) {
+                                          resultxmail=result.responseText;
+                                          Ext.getBody().unmask();
+                                          dsmailstatus.load({params:{start: 0, limit: 100}});
+                                          if(resultxmail=="ERR1")
+                                             {
+                                               Ext.MessageBox.show({ 'Data Selection Error', msg: errorxmail});
+                                             }
+                                }
+                         });
+           }*/
+
+         /* function mailstatuscsv()
+             {
+               Ext.MessageBox.confirm('Export Remote Mail Status?', '<b>Are you sure you want to export remote mail status?<
+br/>There require few more time...</b>',
+              function (btn) {
+                if (btn == 'yes') {
+                                  var u ="";
+                                  alert(masterkeyx);
+                                  u="mailmanagementmailstatuscsv.php?"+masterkeyx;
+                                  window.open(u,'_self');
+                                }
+                  });
+             }*/
+
+
+
+          var tabmailstatus = new Ext.Panel({
+             region: 'center',
+             margins:'3 0 3 3',
+             cmargins:'3 3 3 3',
+             layout:'fit',
+          /*    tbar:[{
+text: 'Export Remote Mail Status',id:'remailstatuscsv', name:'remailstatuscsv', iconCls:'icon-arrowdown',
+                         listeners:{
+                        click:{ fn:mailstatuscsv}
+                         }
+                }],*/
+
+             bbar:[{
+                     text: 'Delete Selected',id:'maildeleteselected',name:'maildeleteselected', iconCls:'icon-minus',
+                     listeners:{click:{fn:
+                         gridmailstatus.getSelectionModel().on('rowselect', function(smmailstatus, rowIdx, r) {
+                          })
+                      }}
+
+                   }, '-', {
+                     text: 'Reload Mail Status',id:'mailstatusreload',name:'mailstatusreload', iconCls:'icon-refresh',
+                 /*  listeners:{
+                       click:{ fn:funreloadmailstatus}
+                       }*/
+
+
+                      }],
+                       items:[gridmailstatus]
+           });
+
+
+
+       var winmanagementmailstatus7 = new Ext.Window({
+                 id:'mailstatuswin',
+                 name:'mailstatuswin',
+                 title: 'QMail Queue Status',
+                 closable:false,
+                 width: 750,
+                 height:350,
+                 iconCls:'icon-email',
+                 layout: 'fit',
+                 plain:true,
+                 maximizable:true,
+                 minimizable:false,
+                 border:true,
+                 region:'center',
+                 frame:true,
+                 resizable:true,
+                 onEsc: Ext.emptyFn,
+                 items:tabmailstatus
+            });
+       //  winmanagementmailstatus7.render(Ext.getCmp('maxviewrender').body);
+         winmanagementmailstatus7.show();
+        });
+
+
+          </script>
+
+     </head>
+           <body>
+                <script type="text/javascript" src="ext-2.2/examples/shared/examples.js"></script><!-- EXAMPLES -->
+
+           </body>
+</html>
+

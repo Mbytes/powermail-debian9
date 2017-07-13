@@ -1,0 +1,19 @@
+---- Changes since 1.130 ----
+The first version of this module, which extracts the mail reading functionality from the Sendmail, Postfix and Qmail modules and puts it into a more powerful server-independent user email module instead.
+---- Changes since 1.150 ----
+Added a basic HTML editor for sending and replying to email in HTML format. Requires Java 1.4+ in the browser. Must be enabled on the Module Config page, as it is still rather unstable.
+Included support for SMTP authentication when sending email, configurable on the Module Config page.
+---- Changes since 1.160 ----
+Added buttons for reporting a message as spam and adding the sender to the global SpamAssassin blacklist.
+---- Changes since 1.170 ----
+Added button for deleting all mail in a folder (disabled by default in the Module Config).
+---- Changes since 1.180 ----
+Added support for two new mail systems - VPopMail and Qmail+LDAP. Both of these access mail for users in external databases, rather than Unix users.
+---- Changes since 1.200 ----
+Added a Module Config option (on by default) to get the From: address for users from Virtualmin, if installed.
+---- Changes since 1.210 ----
+Added Module Config options to show the number of messages in each users' inbox and sent-mail folder, and to attached a signature to sent mail.
+---- Changes since 1.220 ----
+All Webmin users can now report spam, rather than just those that have access to the SpamAssassin module.
+---- Changes since 1.240 ----
+Output from sa-learn or spamassassin is now show when reporting multiple messages as spam.

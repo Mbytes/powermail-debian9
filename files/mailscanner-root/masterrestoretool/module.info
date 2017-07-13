@@ -1,0 +1,5 @@
+category=servers
+os_support=!windows
+desc=Email Archive Search Tool
+version=1.250
+readonly=1
