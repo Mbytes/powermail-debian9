@@ -41,8 +41,6 @@ service opendkim restart
 /etc/init.d/spamassassin start
 /etc/init.d/clamav-freshclam start
 /etc/init.d/clamav-daemon start
-/etc/init.d/postfix start
-/etc/init.d/dovecot start
 /etc/init.d/apache2 start
 
 #systemctl enable spamassassin
@@ -63,7 +61,29 @@ mysqladmin -uroot refresh
 ## disabled amavis if got install
 postconf -e 'content_filter = '
 
-#perl files/powermail-db-pass.pl
+mysql  <  files/powermaildb.sql
+
+sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/postfix/sql/mysql_relay_domains_maps.cf
+sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/postfix/sql/mysql_virtual_alias_domain_catchall_maps.cf
+sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/postfix/sql/mysql_virtual_alias_domain_mailbox_maps.cf
+sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/postfix/sql/mysql_virtual_alias_domain_maps.cf
+sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/postfix/sql/mysql_virtual_alias_maps.cf
+sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/postfix/sql/mysql_virtual_domains_maps.cf
+sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/postfix/sql/mysql_virtual_mailbox_limit_maps.cf
+sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/postfix/sql/mysql_virtual_mailbox_maps.cf
+sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/dovecot/dovecot-sql.conf.ext
+
+sed -i "s/powermail\.mydomainname\.com/`hostname`/" /etc/postfix/main.cf
+
+echo > /var/log/mail.log
+echo > /var/log/mail.info
+echo > /var/log/mail.warn
+echo > /var/log/dovecot.log
+
+
+/etc/init.d/postfix start
+/etc/init.d/dovecot start
+
 
 
 

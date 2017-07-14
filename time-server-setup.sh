@@ -6,3 +6,6 @@ timedatectl set-ntp true
 timedatectl status
 
 systemctl restart  systemd-timedated systemd-timesyncd
+
+## restart rsyslog show that mail.log shows proper time
+/etc/init.d/rsyslog restart

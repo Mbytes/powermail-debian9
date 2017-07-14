@@ -106,8 +106,8 @@ message_size_limit = 20480000
 
 bounce_queue_lifetime = 1h
 maximal_queue_lifetime = 1h
-2bounce_notice_recipient = postmaster@mail.technomail.xyz
-empty_address_recipient = postmaster@mail.technomail.xyz
+2bounce_notice_recipient = postmaster@powermail.mydomainname.com
+empty_address_recipient = postmaster@powermail.mydomainname.com
 
 # TLS parameters
 # See /usr/share/doc/postfix/TLS_README.gz in the postfix-doc package for
@@ -135,10 +135,10 @@ smtp_tls_ciphers = high
 tls_random_source = dev:/dev/urandom
 
 tls_preempt_cipherlist = yes
-#smtpd_tls_cert_file = /etc/letsencrypt/live/mail.technomail.xyz/fullchain.pem
-#smtpd_tls_key_file = /etc/letsencrypt/live/mail.technomail.xyz/privkey.pem
-#smtp_tls_cert_file = /etc/letsencrypt/live/mail.technomail.xyz/fullchain.pem
-#smtp_tls_key_file = /etc/letsencrypt/live/mail.technomail.xyz/privkey.pem
+#smtpd_tls_cert_file = /etc/letsencrypt/live/powermail.mydomainname.com/fullchain.pem
+#smtpd_tls_key_file = /etc/letsencrypt/live/powermail.mydomainname.com/privkey.pem
+#smtp_tls_cert_file = /etc/letsencrypt/live/powermail.mydomainname.com/fullchain.pem
+#smtp_tls_key_file = /etc/letsencrypt/live/powermail.mydomainname.com/privkey.pem
 
 
 smtpd_tls_cert_file=/etc/ssl/certs/ssl-cert-snakeoil.pem
@@ -170,4 +170,6 @@ milter_protocol = 6
 smtpd_milters = inet:localhost:12345
 non_smtpd_milters = inet:localhost:12345
 
+transport_maps = hash:/etc/postfix/transport_smtp_routes 
+#smtp_sasl_password_maps = hash:/etc/postfix/transport_smtp_routes_sasl_passwd
  
