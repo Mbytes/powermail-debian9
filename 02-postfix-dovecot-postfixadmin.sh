@@ -77,14 +77,15 @@ sed -i "s/powermail\.mydomainname\.com/`hostname`/" /etc/postfix/main.cf
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /home/powermail/etc/powermail.mysql 
 
 echo > /var/log/mail.log
-echo > /var/log/mail.info
-echo > /var/log/mail.warn
+/bin/rm -rf /var/log/mail.info
+/bin/rm -rf /var/log/mail.warn
+/bin/rm -rf /var/log/mail.err
 echo > /var/log/dovecot.log
 
 
 /etc/init.d/postfix start
 /etc/init.d/dovecot start
-
+/etc/init.d/rsyslog restart
 
 
 

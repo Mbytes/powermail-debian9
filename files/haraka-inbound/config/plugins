@@ -60,8 +60,9 @@ bounce
 # Check mail headers are valid
 data.headers
 data.uribl
-attachment
+#attachment
 clamd
+rspamd
 spamassassin
 #dkim_sign
 #karma
