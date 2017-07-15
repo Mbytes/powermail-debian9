@@ -43,7 +43,7 @@ npm install -g haraka-plugin-graph
 echo "make postfix local only as haraka check for port 25"
 postconf -e 'inet_interfaces = loopback-only';
 sed -i "s/smtp      inet  n       \-       y       \-       \-       smtpd/2525      inet  n       \-       y       \-       \-       smtpd/" /etc/postfix/master.cf
-
+hostname > /opt/haraka-inbound/config/me
 
 mkdir -p /usr/local/share/GeoIP
 
