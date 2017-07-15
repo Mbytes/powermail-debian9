@@ -1,621 +1,508 @@
-[3;J[H[2J
+[3J[H[2J
 Installation results are being logged to mailscanner-install.log
 
 Installing required system packages ...
 
-Ign http://download.webmin.com sarge InRelease
-Hit http://security.debian.org jessie/updates InRelease
-Hit http://security.debian.org jessie/updates/main amd64 Packages
-Ign http://httpredir.debian.org jessie InRelease
-Hit http://security.debian.org jessie/updates/contrib amd64 Packages
-Hit http://httpredir.debian.org jessie-updates InRelease
-Hit http://download.webmin.com sarge Release.gpg
-Hit http://security.debian.org jessie/updates/non-free amd64 Packages
-Hit http://httpredir.debian.org jessie-backports InRelease
-Hit http://security.debian.org jessie/updates/contrib Translation-en
-Hit http://security.debian.org jessie/updates/main Translation-en
-Hit http://httpredir.debian.org jessie Release.gpg
-Hit http://security.debian.org jessie/updates/non-free Translation-en
-Hit http://download.webmin.com sarge Release
-Get:1 http://httpredir.debian.org jessie-updates/main amd64 Packages/DiffIndex [7,900 B]
-Hit http://httpredir.debian.org jessie-updates/contrib amd64 Packages
-Hit https://deb.nodesource.com jessie InRelease
-Hit http://download.webmin.com sarge/contrib amd64 Packages
-Get:2 http://httpredir.debian.org jessie-updates/non-free amd64 Packages/DiffIndex [736 B]
-Hit https://deb.nodesource.com jessie/main Sources
-Hit https://deb.nodesource.com jessie/main amd64 Packages
-Hit http://httpredir.debian.org jessie-updates/contrib Translation-en
-Get:3 https://deb.nodesource.com jessie/main Translation-en_US [162 B]
-Get:4 https://deb.nodesource.com jessie/main Translation-en [162 B]
-Get:5 http://httpredir.debian.org jessie-updates/main Translation-en/DiffIndex [2,704 B]
-Get:6 https://deb.nodesource.com jessie/main Translation-en_US.UTF-8 [162 B]
-Get:7 https://deb.nodesource.com jessie/main Translation-en_US [162 B]
-Get:8 http://httpredir.debian.org jessie-updates/non-free Translation-en/DiffIndex [736 B]
-Get:9 https://deb.nodesource.com jessie/main Translation-en [162 B]
-Get:10 https://deb.nodesource.com jessie/main Translation-en_US.UTF-8 [162 B]
-Get:11 http://httpredir.debian.org jessie-backports/main Sources/DiffIndex [27.8 kB]
-Get:12 https://deb.nodesource.com jessie/main Translation-en_US [162 B]
-Get:13 https://deb.nodesource.com jessie/main Translation-en [162 B]
-Get:14 http://httpredir.debian.org jessie-backports/main amd64 Packages/DiffIndex [27.8 kB]
-Get:15 https://deb.nodesource.com jessie/main Translation-en_US.UTF-8 [162 B]
-Get:16 https://deb.nodesource.com jessie/main Translation-en_US [162 B]
-Get:17 http://httpredir.debian.org jessie-backports/main Translation-en/DiffIndex [27.8 kB]
-Get:18 https://deb.nodesource.com jessie/main Translation-en [162 B]
-Get:19 https://deb.nodesource.com jessie/main Translation-en_US.UTF-8 [162 B]
-Hit http://httpredir.debian.org jessie Release
-Get:20 https://deb.nodesource.com jessie/main Translation-en_US [162 B]
-Ign https://deb.nodesource.com jessie/main Translation-en_US
-Get:21 https://deb.nodesource.com jessie/main Translation-en [162 B]
-Ign https://deb.nodesource.com jessie/main Translation-en
-Get:22 https://deb.nodesource.com jessie/main Translation-en_US.UTF-8 [162 B]
-Ign https://deb.nodesource.com jessie/main Translation-en_US.UTF-8
-Hit http://httpredir.debian.org jessie/main amd64 Packages
-Hit http://httpredir.debian.org jessie/contrib amd64 Packages
-Hit http://httpredir.debian.org jessie/non-free amd64 Packages
-Hit http://httpredir.debian.org jessie/contrib Translation-en
-Hit http://httpredir.debian.org jessie/main Translation-en
-Hit http://httpredir.debian.org jessie/non-free Translation-en
-Ign http://download.webmin.com sarge/contrib Translation-en_US
-Ign http://download.webmin.com sarge/contrib Translation-en
-Ign http://download.webmin.com sarge/contrib Translation-en_US.UTF-8
-Fetched 95.5 kB in 10s (8,939 B/s)
+Ign:1 http://dl.google.com/linux/chrome/deb stable InRelease
+Hit:2 http://dl.google.com/linux/chrome/deb stable Release
+Ign:4 http://download.webmin.com/download/repository sarge InRelease
+Ign:5 http://repos.groupoffice.eu sixtwo InRelease
+Hit:6 http://security.debian.org stretch/updates InRelease
+Hit:8 http://repos.groupoffice.eu sixtwo Release
+Get:10 http://repos.groupoffice.eu sixtwo Release.gpg [473 B]
+Ign:3 http://cdn-fastly.deb.debian.org/debian stretch InRelease
+Hit:11 https://deb.nodesource.com/node_6.x stretch InRelease
+Hit:12 http://download.webmin.com/download/repository sarge Release
+Hit:13 http://rspamd.com/apt-stable stretch InRelease
+Get:7 http://cdn-fastly.deb.debian.org/debian stretch-updates InRelease [88.5 kB]
+Ign:10 http://repos.groupoffice.eu sixtwo Release.gpg
+Hit:14 http://cdn-fastly.deb.debian.org/debian stretch Release
+Fetched 89.0 kB in 3s (24.8 kB/s)
 Reading package lists...
+W: GPG error: http://repos.groupoffice.eu sixtwo Release: The following signatures were invalid: F865A8EAF4E082F91C7A1200DC8F5C920B31D69D
+W: The repository 'http://repos.groupoffice.eu sixtwo Release' is not signed.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-perl-doc is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+The following NEW packages will be installed:
+  perl-doc
+0 upgraded, 1 newly installed, 0 to remove and 1 not upgraded.
+Need to get 7,143 kB of archives.
+After this operation, 13.8 MB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 perl-doc all 5.24.1-3 [7,143 kB]
+Fetched 7,143 kB in 47s (149 kB/s)
+Selecting previously unselected package perl-doc.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 176677 files and directories currently installed.)
+Preparing to unpack .../perl-doc_5.24.1-3_all.deb ...
+Adding 'diversion of /usr/bin/perldoc to /usr/bin/perldoc.stub by perl-doc'
+Unpacking perl-doc (5.24.1-3) ...
+Setting up perl-doc (5.24.1-3) ...
+Processing triggers for man-db (2.7.6.1-2) ...
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libmailtools-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+libmailtools-perl is already the newest version (2.18-1).
+libmailtools-perl set to manually installed.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-re2c is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+re2c is already the newest version (0.16-2).
+re2c set to manually installed.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-curl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+curl is already the newest version (7.52.1-5).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libnet-cidr-lite-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+libnet-cidr-lite-perl is already the newest version (0.21-1).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libmime-tools-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+libmime-tools-perl is already the newest version (5.508-1).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-wget is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+wget is already the newest version (1.18-5).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libtest-manifest-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+The following NEW packages will be installed:
+  libtest-manifest-perl
+0 upgraded, 1 newly installed, 0 to remove and 1 not upgraded.
+Need to get 13.8 kB of archives.
+After this operation, 32.8 kB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libtest-manifest-perl all 2.02-2 [13.8 kB]
+Fetched 13.8 kB in 1s (9,934 B/s)
+Selecting previously unselected package libtest-manifest-perl.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 177646 files and directories currently installed.)
+Preparing to unpack .../libtest-manifest-perl_2.02-2_all.deb ...
+Unpacking libtest-manifest-perl (2.02-2) ...
+Setting up libtest-manifest-perl (2.02-2) ...
+Processing triggers for man-db (2.7.6.1-2) ...
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libnet-cidr-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+libnet-cidr-perl is already the newest version (0.18-1).
+libnet-cidr-perl set to manually installed.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-tar is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+tar is already the newest version (1.29b-1.1).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libdata-dump-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+The following NEW packages will be installed:
+  libdata-dump-perl
+0 upgraded, 1 newly installed, 0 to remove and 1 not upgraded.
+Need to get 29.5 kB of archives.
+After this operation, 68.6 kB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libdata-dump-perl all 1.23-1 [29.5 kB]
+Fetched 29.5 kB in 0s (30.8 kB/s)
+Selecting previously unselected package libdata-dump-perl.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 177653 files and directories currently installed.)
+Preparing to unpack .../libdata-dump-perl_1.23-1_all.deb ...
+Unpacking libdata-dump-perl (1.23-1) ...
+Setting up libdata-dump-perl (1.23-1) ...
+Processing triggers for man-db (2.7.6.1-2) ...
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libsys-syslog-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+libperl5.24 is already the newest version (5.24.1-3).
+libperl5.24 set to manually installed.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-binutils is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+binutils is already the newest version (2.28-5).
+binutils set to manually installed.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libbusiness-isbn-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+The following additional packages will be installed:
+  libbusiness-isbn-data-perl
+Suggested packages:
+  libgd-barcode-perl
+The following NEW packages will be installed:
+  libbusiness-isbn-data-perl libbusiness-isbn-perl
+0 upgraded, 2 newly installed, 0 to remove and 1 not upgraded.
+Need to get 46.6 kB of archives.
+After this operation, 262 kB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libbusiness-isbn-data-perl all 20140910.003-1 [19.3 kB]
+Get:2 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libbusiness-isbn-perl all 3.003-1 [27.4 kB]
+Fetched 46.6 kB in 2s (20.4 kB/s)
+Selecting previously unselected package libbusiness-isbn-data-perl.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 177666 files and directories currently installed.)
+Preparing to unpack .../libbusiness-isbn-data-perl_20140910.003-1_all.deb ...
+Unpacking libbusiness-isbn-data-perl (20140910.003-1) ...
+Selecting previously unselected package libbusiness-isbn-perl.
+Preparing to unpack .../libbusiness-isbn-perl_3.003-1_all.deb ...
+Unpacking libbusiness-isbn-perl (3.003-1) ...
+Setting up libbusiness-isbn-data-perl (20140910.003-1) ...
+Setting up libbusiness-isbn-perl (3.003-1) ...
+Processing triggers for man-db (2.7.6.1-2) ...
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libio-stringy-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+libio-stringy-perl is already the newest version (2.111-2).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-unrar is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+The following NEW packages will be installed:
+  unrar
+0 upgraded, 1 newly installed, 0 to remove and 1 not upgraded.
+Need to get 125 kB of archives.
+After this operation, 310 kB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/non-free amd64 unrar amd64 1:5.3.2-1 [125 kB]
+Fetched 125 kB in 1s (69.8 kB/s)
+Selecting previously unselected package unrar.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 177689 files and directories currently installed.)
+Preparing to unpack .../unrar_1%3a5.3.2-1_amd64.deb ...
+Unpacking unrar (1:5.3.2-1) ...
+Setting up unrar (1:5.3.2-1) ...
+update-alternatives: using /usr/bin/unrar-nonfree to provide /usr/bin/unrar (unrar) in auto mode
+Processing triggers for man-db (2.7.6.1-2) ...
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libdbd-mysql-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+libdbd-mysql-perl is already the newest version (4.041-2).
+libdbd-mysql-perl set to manually installed.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-perl-modules is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+perl-modules-5.24 is already the newest version (5.24.1-3).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-gcc is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+gcc is already the newest version (4:6.3.0-4).
+gcc set to manually installed.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libconvert-tnef-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+libconvert-tnef-perl is already the newest version (0.18-1).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libdbd-mysql-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+libdbd-mysql-perl is already the newest version (4.041-2).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-make is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+make is already the newest version (4.1-9.1).
+make set to manually installed.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libdbd-sqlite3-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+The following NEW packages will be installed:
+  libdbd-sqlite3-perl
+0 upgraded, 1 newly installed, 0 to remove and 1 not upgraded.
+Need to get 164 kB of archives.
+After this operation, 424 kB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libdbd-sqlite3-perl amd64 1.54-1 [164 kB]
+Fetched 164 kB in 1s (87.6 kB/s)
+Selecting previously unselected package libdbd-sqlite3-perl.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 177694 files and directories currently installed.)
+Preparing to unpack .../libdbd-sqlite3-perl_1.54-1_amd64.deb ...
+Unpacking libdbd-sqlite3-perl (1.54-1) ...
+Setting up libdbd-sqlite3-perl (1.54-1) ...
+Processing triggers for man-db (2.7.6.1-2) ...
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libencode-detect-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+libencode-detect-perl is already the newest version (1.01-4+b3).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-patch is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+patch is already the newest version (2.7.5-1+b2).
+patch set to manually installed.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libfilesys-df-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+The following NEW packages will be installed:
+  libfilesys-df-perl
+0 upgraded, 1 newly installed, 0 to remove and 1 not upgraded.
+Need to get 12.5 kB of archives.
+After this operation, 48.1 kB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libfilesys-df-perl amd64 0.92-6+b1 [12.5 kB]
+Fetched 12.5 kB in 1s (11.6 kB/s)
+Selecting previously unselected package libfilesys-df-perl.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 177717 files and directories currently installed.)
+Preparing to unpack .../libfilesys-df-perl_0.92-6+b1_amd64.deb ...
+Unpacking libfilesys-df-perl (0.92-6+b1) ...
+Setting up libfilesys-df-perl (0.92-6+b1) ...
+Processing triggers for man-db (2.7.6.1-2) ...
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libc6-dev is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+libc6-dev is already the newest version (2.24-11+deb9u1).
+libc6-dev set to manually installed.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-antiword is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+The following NEW packages will be installed:
+  antiword
+0 upgraded, 1 newly installed, 0 to remove and 1 not upgraded.
+Need to get 134 kB of archives.
+After this operation, 638 kB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 antiword amd64 0.37-11+b1 [134 kB]
+Fetched 134 kB in 1s (87.7 kB/s)
+Selecting previously unselected package antiword.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 177728 files and directories currently installed.)
+Preparing to unpack .../antiword_0.37-11+b1_amd64.deb ...
+Unpacking antiword (0.37-11+b1) ...
+Processing triggers for mime-support (3.60) ...
+Processing triggers for man-db (2.7.6.1-2) ...
+Processing triggers for hicolor-icon-theme (0.15-1) ...
+Setting up antiword (0.37-11+b1) ...
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libarchive-zip-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+libarchive-zip-perl is already the newest version (1.59-1).
+libarchive-zip-perl set to manually installed.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libconfig-yaml-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+The following additional packages will be installed:
+  libyaml-libyaml-perl libyaml-perl
+Suggested packages:
+  libyaml-shell-perl
+The following NEW packages will be installed:
+  libconfig-yaml-perl libyaml-libyaml-perl libyaml-perl
+0 upgraded, 3 newly installed, 0 to remove and 1 not upgraded.
+Need to get 144 kB of archives.
+After this operation, 443 kB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libyaml-perl all 1.21-1 [64.8 kB]
+Get:2 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libconfig-yaml-perl all 1.42-2 [10.3 kB]
+Get:3 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libyaml-libyaml-perl amd64 0.63-2 [68.8 kB]
+Fetched 144 kB in 1s (92.5 kB/s)
+Selecting previously unselected package libyaml-perl.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 177787 files and directories currently installed.)
+Preparing to unpack .../libyaml-perl_1.21-1_all.deb ...
+Unpacking libyaml-perl (1.21-1) ...
+Selecting previously unselected package libconfig-yaml-perl.
+Preparing to unpack .../libconfig-yaml-perl_1.42-2_all.deb ...
+Unpacking libconfig-yaml-perl (1.42-2) ...
+Selecting previously unselected package libyaml-libyaml-perl.
+Preparing to unpack .../libyaml-libyaml-perl_0.63-2_amd64.deb ...
+Unpacking libyaml-libyaml-perl (0.63-2) ...
+Setting up libyaml-perl (1.21-1) ...
+Processing triggers for man-db (2.7.6.1-2) ...
+Setting up libyaml-libyaml-perl (0.63-2) ...
+Setting up libconfig-yaml-perl (1.42-2) ...
 Reading package lists...
 Building dependency tree...
 Reading state information...
-pyzor is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+pyzor is already the newest version (1:1.0.0-2).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libole-storage-lite-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+The following NEW packages will be installed:
+  libole-storage-lite-perl
+0 upgraded, 1 newly installed, 0 to remove and 1 not upgraded.
+Need to get 26.1 kB of archives.
+After this operation, 160 kB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libole-storage-lite-perl all 0.19-1 [26.1 kB]
+Fetched 26.1 kB in 0s (29.8 kB/s)
+Selecting previously unselected package libole-storage-lite-perl.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 177856 files and directories currently installed.)
+Preparing to unpack .../libole-storage-lite-perl_0.19-1_all.deb ...
+Unpacking libole-storage-lite-perl (0.19-1) ...
+Processing triggers for man-db (2.7.6.1-2) ...
+Setting up libole-storage-lite-perl (0.19-1) ...
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libsys-sigaction-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+The following NEW packages will be installed:
+  libsys-sigaction-perl
+0 upgraded, 1 newly installed, 0 to remove and 1 not upgraded.
+Need to get 27.4 kB of archives.
+After this operation, 55.3 kB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libsys-sigaction-perl all 0.23-1 [27.4 kB]
+Fetched 27.4 kB in 0s (28.3 kB/s)
+Selecting previously unselected package libsys-sigaction-perl.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 177872 files and directories currently installed.)
+Preparing to unpack .../libsys-sigaction-perl_0.23-1_all.deb ...
+Unpacking libsys-sigaction-perl (0.23-1) ...
+Setting up libsys-sigaction-perl (0.23-1) ...
+Processing triggers for man-db (2.7.6.1-2) ...
 Reading package lists...
 Building dependency tree...
 Reading state information...
-razor is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+razor is already the newest version (1:2.85-4.2+b2).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libinline-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+The following additional packages will be installed:
+  libinline-c-perl libinline-files-perl libparse-recdescent-perl libpegex-perl
+The following NEW packages will be installed:
+  libinline-c-perl libinline-files-perl libinline-perl
+  libparse-recdescent-perl libpegex-perl
+0 upgraded, 5 newly installed, 0 to remove and 1 not upgraded.
+Need to get 420 kB of archives.
+After this operation, 1,172 kB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libparse-recdescent-perl all 1.967013+dfsg-1 [159 kB]
+Get:2 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libinline-perl all 0.80-1 [86.2 kB]
+Get:3 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libpegex-perl all 0.63-1 [76.8 kB]
+Get:4 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libinline-c-perl all 0.76-1 [73.8 kB]
+Get:5 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libinline-files-perl all 0.68-1 [24.5 kB]
+Fetched 420 kB in 2s (202 kB/s)
+Selecting previously unselected package libparse-recdescent-perl.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 177881 files and directories currently installed.)
+Preparing to unpack .../libparse-recdescent-perl_1.967013+dfsg-1_all.deb ...
+Unpacking libparse-recdescent-perl (1.967013+dfsg-1) ...
+Selecting previously unselected package libinline-perl.
+Preparing to unpack .../libinline-perl_0.80-1_all.deb ...
+Unpacking libinline-perl (0.80-1) ...
+Selecting previously unselected package libpegex-perl.
+Preparing to unpack .../libpegex-perl_0.63-1_all.deb ...
+Unpacking libpegex-perl (0.63-1) ...
+Selecting previously unselected package libinline-c-perl.
+Preparing to unpack .../libinline-c-perl_0.76-1_all.deb ...
+Unpacking libinline-c-perl (0.76-1) ...
+Selecting previously unselected package libinline-files-perl.
+Preparing to unpack .../libinline-files-perl_0.68-1_all.deb ...
+Unpacking libinline-files-perl (0.68-1) ...
+Setting up libparse-recdescent-perl (1.967013+dfsg-1) ...
+Setting up libpegex-perl (0.63-1) ...
+Setting up libinline-files-perl (0.68-1) ...
+Setting up libinline-perl (0.80-1) ...
+Processing triggers for man-db (2.7.6.1-2) ...
+Setting up libinline-c-perl (0.76-1) ...
 Reading package lists...
 Building dependency tree...
 Reading state information...
-libmail-imapclient-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-tnef is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-libmail-spf-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-libtest-pod-coverage-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-gzip is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-libnetaddr-ip-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-libfile-sharedir-install-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-unzip is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-libnet-ldap-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-libsys-hostname-long-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-openssl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-libmail-dkim-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-libhtml-tokeparser-simple-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-libbusiness-isbn-data-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-libnet-dns-resolver-programmable-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-Reading package lists...
-Building dependency tree...
-Reading state information...
-postfix is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-[3;J[H[2J
-Installing Clam AV via apt ... 
-
-Reading package lists...
-Building dependency tree...
-Reading state information...
-clamav-daemon is already the newest version.
-libclamav-client-perl is already the newest version.
-The following packages were automatically installed and are no longer required:
-  sendmail-base sendmail-cf
-Use 'apt-get autoremove' to remove them.
-0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-[3;J[H[2J
-Checking Perl Modules ... 
-
-Archive::Tar => OK
-Archive::Zip => OK
-bignum => OK
-Carp => OK
-Compress::Zlib => OK
-Compress::Raw::Zlib => OK
-Convert::BinHex => OK
-Convert::TNEF => OK
-Data::Dumper => OK
-Date::Parse => OK
-DBD::SQLite => OK
-DBI => OK
-Digest::HMAC => OK
-Digest::MD5 => OK
-Digest::SHA1 => OK
-DirHandle => OK
-ExtUtils::MakeMaker => OK
-Fcntl => OK
-File::Basename => OK
-File::Copy => OK
-File::Path => OK
-File::Spec => OK
-File::Temp => OK
-FileHandle => OK
-Filesys::Df => OK
-Getopt::Long => OK
-Inline::C => OK
-IO => OK
-IO::File => OK
-IO::Pipe => OK
-IO::Stringy => OK
-HTML::Entities => OK
-HTML::Parser => OK
-HTML::Tagset => OK
-HTML::TokeParser => OK
-Mail::Field => OK
-Mail::Header => OK
-Mail::IMAPClient => OK
-Mail::Internet => OK
-Math::BigInt => OK
-Math::BigRat => OK
-MIME::Base64 => OK
-MIME::Decoder => OK
-MIME::Decoder::UU => OK
-MIME::Head => OK
-MIME::Parser => OK
-MIME::QuotedPrint => OK
-MIME::Tools => OK
-MIME::WordDecoder => OK
-Net::CIDR => OK
-Net::DNS => OK
-Net::IP => OK
-OLE::Storage_Lite => OK
-Pod::Escapes => OK
-Pod::Simple => OK
-POSIX => OK
-Scalar::Util => OK
-Socket => OK
-Storable => OK
-Test::Harness => OK
-Test::Pod => OK
-Test::Simple => OK
-Time::HiRes => OK
-Time::localtime => OK
-Sys::Hostname::Long => OK
-Sys::SigAction => OK
-Sys::Syslog => OK
-Env => OK
-File::ShareDir::Install => OK
-Mail::SpamAssassin => OK
-bignum => OK
-Business::ISBN => OK
-Business::ISBN::Data => OK
-Data::Dump => OK
-DB_File => OK
-DBD::SQLite => OK
-DBI => OK
-Digest => OK
-Encode::Detect => OK
-Error => OK
-ExtUtils::CBuilder => OK
-ExtUtils::ParseXS => OK
-Getopt::Long => OK
-Inline => OK
-IO::String => OK
-IO::Zlib => OK
-IP::Country => OK
-Mail::SPF => OK
-Mail::SPF::Query => OK
-Module::Build => OK
-Net::CIDR::Lite => OK
-Net::DNS => OK
-Net::LDAP => OK
-Net::DNS::Resolver::Programmable => OK
-NetAddr::IP => OK
-Parse::RecDescent => OK
-Test::Harness => OK
-Test::Manifest => OK
-Text::Balanced => OK
-URI => OK
-version => OK
-IO::Compress::Bzip2 => OK
-Mail::SpamAssassin::Plugin::Rule2XSBody => OK
-Mail::SpamAssassin::Plugin::DCC => OK
-Mail::SpamAssassin::Plugin::Pyzor => OK
-[3;J[H[2J
-Installing the MailScanner .deb package ... 
-Selecting previously unselected package mailscanner.
-(Reading database ... 138278 files and directories currently installed.)
-Preparing to unpack .../MailScanner-5.0.3-7-noarch.deb ...
-Unpacking mailscanner (5.0.3-7) ...
-Setting up mailscanner (5.0.3-7) ...
-ClamAV update process started at Wed May 17 15:54:58 2017
-main.cvd is up to date (version: 57, sigs: 4218790, f-level: 60, builder: amishhammer)
-daily.cld is up to date (version: 23392, sigs: 2071631, f-level: 63, builder: neo)
-safebrowsing.cvd is up to date (version: 45944, sigs: 2889029, f-level: 63, builder: google)
-bytecode.cvd is up to date (version: 301, sigs: 58, f-level: 63, builder: anvilleg)
-
-----------------------------------------------------------
-Installation Complete
-
-See http://www.mailscanner.info for more information and  
-support via the MailScanner mailing list.
-
-
-Review: Set your preferences in /etc/MailScanner/MailScanner.conf
-and review /etc/MailScanner/defaults
-
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+The following NEW packages will be installed:
+  libmail-imapclient-perl
+0 upgraded, 1 newly installed, 0 to remove and 1 not upgraded.
+Need to get 221 kB of archives.
+After this operation, 1,327 kB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libmail-imapclient-perl all 3.38-1 [221 kB]

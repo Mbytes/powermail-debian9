@@ -2,12 +2,11 @@
 
 #MailScanner Setup
 
-files/etc-config-backup.sh
+files/extra-tools/etc-config-backup.sh
 
-
-cd files/MailScanner-5.0.3-7/
+cd files/mailscanner-root/MailScanner-5.0.3-7/
 ./install.sh
-cd ../../
+cd ../../../
 
 /bin/cp -pRv files/header_checks /etc/postfix/header_checks
 ## disabled amavis
