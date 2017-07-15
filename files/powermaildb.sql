@@ -1,6 +1,4 @@
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
 
 
 use  `powermail`;
@@ -24,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `admin` (
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`username`, `password`, `superadmin`, `created`, `modified`, `active`) VALUES('support@technoinfotech.com', 'techno02srv', 1, '2016-12-26 12:23:03', '2016-12-26 12:23:03', 1);
+-- INSERT INTO `admin` (`username`, `password`, `superadmin`, `created`, `modified`, `active`) VALUES('support@powermail.mydomainname.com', 'change_me_ipx', 1, '2016-12-26 12:23:03', '2016-12-26 12:23:03', 1);
 
 -- --------------------------------------------------------
 
@@ -359,6 +357,3 @@ MODIFY `id` int(11) unsigned NOT NULL AUTO_INCREMENT;
 ALTER TABLE `vacation_notification`
 ADD CONSTRAINT `vacation_notification_pkey` FOREIGN KEY (`on_vacation`) REFERENCES `vacation` (`email`) ON DELETE CASCADE;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

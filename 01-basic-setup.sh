@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#apt-get update
+apt-get update
 #apt-get upgrade
 
 #CFG_HOSTNAME_FQDN = `hostname`
