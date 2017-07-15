@@ -506,3 +506,518 @@ The following NEW packages will be installed:
 Need to get 221 kB of archives.
 After this operation, 1,327 kB of additional disk space will be used.
 Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libmail-imapclient-perl all 3.38-1 [221 kB]
+Fetched 221 kB in 1s (121 kB/s)
+Selecting previously unselected package libmail-imapclient-perl.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 178102 files and directories currently installed.)
+Preparing to unpack .../libmail-imapclient-perl_3.38-1_all.deb ...
+Unpacking libmail-imapclient-perl (3.38-1) ...
+Setting up libmail-imapclient-perl (3.38-1) ...
+Processing triggers for man-db (2.7.6.1-2) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+tnef is already the newest version (1.4.12-1.2).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libmail-spf-perl is already the newest version (2.9.0-4).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+The following additional packages will be installed:
+  libdevel-symdump-perl libpod-coverage-perl libtest-pod-perl
+The following NEW packages will be installed:
+  libdevel-symdump-perl libpod-coverage-perl libtest-pod-coverage-perl
+  libtest-pod-perl
+0 upgraded, 4 newly installed, 0 to remove and 1 not upgraded.
+Need to get 70.1 kB of archives.
+After this operation, 198 kB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libdevel-symdump-perl all 2.17-1 [17.0 kB]
+Get:2 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libpod-coverage-perl all 0.23-1 [23.9 kB]
+Get:3 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libtest-pod-coverage-perl all 1.10-2 [14.5 kB]
+Get:4 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libtest-pod-perl all 1.51-1 [14.7 kB]
+Fetched 70.1 kB in 1s (35.6 kB/s)
+Selecting previously unselected package libdevel-symdump-perl.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 178138 files and directories currently installed.)
+Preparing to unpack .../libdevel-symdump-perl_2.17-1_all.deb ...
+Unpacking libdevel-symdump-perl (2.17-1) ...
+Selecting previously unselected package libpod-coverage-perl.
+Preparing to unpack .../libpod-coverage-perl_0.23-1_all.deb ...
+Unpacking libpod-coverage-perl (0.23-1) ...
+Selecting previously unselected package libtest-pod-coverage-perl.
+Preparing to unpack .../libtest-pod-coverage-perl_1.10-2_all.deb ...
+Unpacking libtest-pod-coverage-perl (1.10-2) ...
+Selecting previously unselected package libtest-pod-perl.
+Preparing to unpack .../libtest-pod-perl_1.51-1_all.deb ...
+Unpacking libtest-pod-perl (1.51-1) ...
+Setting up libdevel-symdump-perl (2.17-1) ...
+Processing triggers for man-db (2.7.6.1-2) ...
+Setting up libtest-pod-perl (1.51-1) ...
+Setting up libpod-coverage-perl (0.23-1) ...
+Setting up libtest-pod-coverage-perl (1.10-2) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+gzip is already the newest version (1.6-5+b1).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libnetaddr-ip-perl is already the newest version (4.079+dfsg-1+b1).
+libnetaddr-ip-perl set to manually installed.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+The following NEW packages will be installed:
+  libfile-sharedir-install-perl
+0 upgraded, 1 newly installed, 0 to remove and 1 not upgraded.
+Need to get 12.4 kB of archives.
+After this operation, 35.8 kB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libfile-sharedir-install-perl all 0.11-1 [12.4 kB]
+Fetched 12.4 kB in 0s (14.9 kB/s)
+Selecting previously unselected package libfile-sharedir-install-perl.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 178178 files and directories currently installed.)
+Preparing to unpack .../libfile-sharedir-install-perl_0.11-1_all.deb ...
+Unpacking libfile-sharedir-install-perl (0.11-1) ...
+Setting up libfile-sharedir-install-perl (0.11-1) ...
+Processing triggers for man-db (2.7.6.1-2) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+unzip is already the newest version (6.0-21).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libnet-ldap-perl is already the newest version (1:0.6500+dfsg-1).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libsys-hostname-long-perl is already the newest version (1.5-1).
+libsys-hostname-long-perl set to manually installed.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+openssl is already the newest version (1.1.0f-3).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libmail-dkim-perl is already the newest version (0.40-1).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+The following NEW packages will be installed:
+  libhtml-tokeparser-simple-perl
+0 upgraded, 1 newly installed, 0 to remove and 1 not upgraded.
+Need to get 38.6 kB of archives.
+After this operation, 92.2 kB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libhtml-tokeparser-simple-perl all 3.16-2 [38.6 kB]
+Fetched 38.6 kB in 0s (38.7 kB/s)
+Selecting previously unselected package libhtml-tokeparser-simple-perl.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 178186 files and directories currently installed.)
+Preparing to unpack .../libhtml-tokeparser-simple-perl_3.16-2_all.deb ...
+Unpacking libhtml-tokeparser-simple-perl (3.16-2) ...
+Setting up libhtml-tokeparser-simple-perl (3.16-2) ...
+Processing triggers for man-db (2.7.6.1-2) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+perl is already the newest version (5.24.1-3).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+libbusiness-isbn-data-perl is already the newest version (20140910.003-1).
+libbusiness-isbn-data-perl set to manually installed.
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+The following NEW packages will be installed:
+  libnet-dns-resolver-programmable-perl
+0 upgraded, 1 newly installed, 0 to remove and 1 not upgraded.
+Need to get 10.8 kB of archives.
+After this operation, 32.8 kB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libnet-dns-resolver-programmable-perl all 0.003-4 [10.8 kB]
+Fetched 10.8 kB in 2s (3,661 B/s)
+Selecting previously unselected package libnet-dns-resolver-programmable-perl.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 178212 files and directories currently installed.)
+Preparing to unpack .../libnet-dns-resolver-programmable-perl_0.003-4_all.deb ...
+Unpacking libnet-dns-resolver-programmable-perl (0.003-4) ...
+Processing triggers for man-db (2.7.6.1-2) ...
+Setting up libnet-dns-resolver-programmable-perl (0.003-4) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+postfix is already the newest version (3.1.4-7).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+0 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+[3J[H[2J
+Installing Clam AV via apt ... 
+
+Reading package lists...
+Building dependency tree...
+Reading state information...
+clamav-daemon is already the newest version (0.99.2+dfsg-6+b1).
+The following package was automatically installed and is no longer required:
+  amavisd-new
+Use 'apt autoremove' to remove it.
+The following NEW packages will be installed:
+  libclamav-client-perl
+0 upgraded, 1 newly installed, 0 to remove and 1 not upgraded.
+Need to get 13.8 kB of archives.
+After this operation, 67.6 kB of additional disk space will be used.
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libclamav-client-perl all 0.11-2 [13.8 kB]
+Fetched 13.8 kB in 0s (15.4 kB/s)
+Selecting previously unselected package libclamav-client-perl.
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 178220 files and directories currently installed.)
+Preparing to unpack .../libclamav-client-perl_0.11-2_all.deb ...
+Unpacking libclamav-client-perl (0.11-2) ...
+Setting up libclamav-client-perl (0.11-2) ...
+Processing triggers for man-db (2.7.6.1-2) ...
+[3J[H[2J
+Checking Perl Modules ... 
+
+[3J[H[2JModule::Build is missing. Installing via CPAN ...
+
+Reading '/root/.cpan/Metadata'
+  Database was generated on Thu, 13 Jul 2017 11:53:51 GMT
+Fetching with LWP:
+http://www.cpan.org/authors/01mailrc.txt.gz
+Reading '/root/.cpan/sources/authors/01mailrc.txt.gz'
+............................................................................DONE
+Fetching with LWP:
+http://www.cpan.org/modules/02packages.details.txt.gz
+Reading '/root/.cpan/sources/modules/02packages.details.txt.gz'
+  Database was generated on Sat, 15 Jul 2017 11:53:50 GMT
+.............
+  New CPAN.pm version (v2.16) available.
+  [Currently running version is v2.1101]
+  You might want to try
+    install CPAN
+    reload cpan
+  to both upgrade CPAN.pm and run the new version without leaving
+  the current session.
+
+
+...............................................................DONE
+Fetching with LWP:
+http://www.cpan.org/modules/03modlist.data.gz
+Reading '/root/.cpan/sources/modules/03modlist.data.gz'
+DONE
+Writing /root/.cpan/Metadata
+Running install for module 'Module::Build'
+Fetching with LWP:
+http://www.cpan.org/authors/id/L/LE/LEONT/Module-Build-0.4224.tar.gz
+Fetching with LWP:
+http://www.cpan.org/authors/id/L/LE/LEONT/CHECKSUMS
+Checksum for /root/.cpan/sources/authors/id/L/LE/LEONT/Module-Build-0.4224.tar.gz ok
+Configuring L/LE/LEONT/Module-Build-0.4224.tar.gz with Makefile.PL
+# running Build.PL --installdirs site
+
+Checking optional features...
+inc_bundling_support....disabled
+  requires:
+    ! inc::latest is not installed
+
+ERRORS/WARNINGS FOUND IN PREREQUISITES.  You may wish to install the versions
+of the modules indicated above before proceeding with this installation
+
+Created MYMETA.yml and MYMETA.json
+Creating new 'Build' script for 'Module-Build' version '0.4224'
+  LEONT/Module-Build-0.4224.tar.gz
+  /usr/bin/perl Makefile.PL INSTALLDIRS=site -- OK
+Running make for L/LE/LEONT/Module-Build-0.4224.tar.gz
+/usr/bin/perl Build --makefile_env_macros 1
+Building Module-Build
+  LEONT/Module-Build-0.4224.tar.gz
+  /usr/bin/make -- OK
+Running make test
+/usr/bin/perl Build --makefile_env_macros 1 test
+t/00-compile.t ................. ok
+t/PL_files.t ................... ok
+t/actions/installdeps.t ........ ok
+t/actions/manifest_skip.t ...... ok
+t/add_property.t ............... ok
+t/add_property_array.t ......... ok
+t/add_property_hash.t .......... ok
+t/basic.t ...................... ok
+t/bundle_inc.t ................. skipped: $ENV{MB_TEST_EXPERIMENTAL} is not set
+t/compat.t ..................... ok
+t/compat/exit.t ................ ok
+t/debug.t ...................... ok
+t/destinations.t ............... ok
+t/ext.t ........................ ok
+t/extend.t ..................... ok
+t/files.t ...................... ok
+t/help.t ....................... ok
+t/install.t .................... ok
+t/install_extra_target.t ....... ok
+t/manifypods.t ................. ok
+t/manifypods_with_utf8.t ....... ok
+t/metadata.t ................... ok
+t/metadata2.t .................. ok
+t/mymeta.t ..................... ok
+t/new_from_context.t ........... ok
+t/notes.t ...................... ok
+t/par.t ........................ skipped: PAR::Dist 0.17 or up not installed to check .par's.
+t/parents.t .................... ok
+t/perl_mb_opt.t ................ ok
+t/pod_parser.t ................. ok
+t/ppm.t ........................ ok
+t/properties/dist_suffix.t ..... ok
+t/properties/license.t ......... ok
+t/properties/module_name.t ..... ok
+t/properties/needs_compiler.t .. ok
+t/properties/release_status.t .. ok
+t/properties/requires.t ........ ok
+t/properties/share_dir.t ....... ok
+t/resume.t ..................... ok
+t/runthrough.t ................. ok
+t/sample.t ..................... ok
+t/script_dist.t ................ ok
+t/signature.t .................. ok
+t/test_file_exts.t ............. ok
+t/test_reqs.t .................. ok
+t/test_type.t .................. ok
+t/test_types.t ................. ok
+t/tilde.t ...................... ok
+t/unit_run_test_harness.t ...... ok
+t/use_tap_harness.t ............ ok
+t/versions.t ................... ok
+t/write_default_maniskip.t ..... ok
+t/xs.t ......................... ok
+All tests successful.
+Files=53, Tests=1167, 258 wallclock secs ( 1.29 usr  0.28 sys + 208.89 cusr 27.63 csys = 238.09 CPU)
+Result: PASS
+  LEONT/Module-Build-0.4224.tar.gz
+  /usr/bin/make test -- OK
+Running make install
+/usr/bin/perl Build --makefile_env_macros 1 install
+Building Module-Build
+Installing /usr/local/man/man1/config_data.1p
+Installing /usr/local/share/perl/5.24.1/Module/Build.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Base.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Compat.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Config.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Cookbook.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Dumper.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Notes.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/PPMMaker.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/PodParser.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/API.pod
+Installing /usr/local/share/perl/5.24.1/Module/Build/Authoring.pod
+Installing /usr/local/share/perl/5.24.1/Module/Build/Bundling.pod
+Installing /usr/local/share/perl/5.24.1/Module/Build/ConfigData.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/Default.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/MacOS.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/Unix.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/VMS.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/VOS.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/Windows.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/aix.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/cygwin.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/darwin.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/os2.pm
+Installing /usr/local/man/man3/Module::Build.3pm
+Installing /usr/local/man/man3/Module::Build::API.3pm
+Installing /usr/local/man/man3/Module::Build::Authoring.3pm
+Installing /usr/local/man/man3/Module::Build::Base.3pm
+Installing /usr/local/man/man3/Module::Build::Bundling.3pm
+Installing /usr/local/man/man3/Module::Build::Compat.3pm
+Installing /usr/local/man/man3/Module::Build::ConfigData.3pm
+Installing /usr/local/man/man3/Module::Build::Cookbook.3pm
+Installing /usr/local/man/man3/Module::Build::Notes.3pm
+Installing /usr/local/man/man3/Module::Build::PPMMaker.3pm
+Installing /usr/local/man/man3/Module::Build::Platform::Default.3pm
+Installing /usr/local/man/man3/Module::Build::Platform::MacOS.3pm
+Installing /usr/local/man/man3/Module::Build::Platform::Unix.3pm
+Installing /usr/local/man/man3/Module::Build::Platform::VMS.3pm
+Installing /usr/local/man/man3/Module::Build::Platform::VOS.3pm
+Installing /usr/local/man/man3/Module::Build::Platform::Windows.3pm
+Installing /usr/local/man/man3/Module::Build::Platform::aix.3pm
+Installing /usr/local/man/man3/Module::Build::Platform::cygwin.3pm
+Installing /usr/local/man/man3/Module::Build::Platform::darwin.3pm
+Installing /usr/local/man/man3/Module::Build::Platform::os2.3pm
+Installing /usr/local/bin/config_data
+  LEONT/Module-Build-0.4224.tar.gz
+  /usr/bin/make install  -- OK
+Archive::Tar => OK
+Archive::Zip => OK
+bignum => OK
+Carp => OK
+Compress::Zlib => OK
+Compress::Raw::Zlib => OK
+Convert::BinHex => OK
+Convert::TNEF => OK
+Data::Dumper => OK
+Date::Parse => OK
+DBD::SQLite => OK
+DBI => OK
+Digest::HMAC => OK
+Digest::MD5 => OK
+Digest::SHA1 => OK
+DirHandle => OK
+ExtUtils::MakeMaker => OK
+Fcntl => OK
+File::Basename => OK
+File::Copy => OK
+File::Path => OK
+File::Spec => OK
+File::Temp => OK
+FileHandle => OK
+Filesys::Df => OK
+Getopt::Long => OK
+Inline::C => OK
+IO => OK
+IO::File => OK
+IO::Pipe => OK
+IO::Stringy => OK
+HTML::Entities => OK
+HTML::Parser => OK
+HTML::Tagset => OK
+HTML::TokeParser => OK
+Mail::Field => OK
+Mail::Header => OK
+Mail::IMAPClient => OK
+Mail::Internet => OK
+Math::BigInt => OK
+Math::BigRat => OK
+MIME::Base64 => OK
+MIME::Decoder => OK
+MIME::Decoder::UU => OK
+MIME::Head => OK
+MIME::Parser => OK
+MIME::QuotedPrint => OK
+MIME::Tools => OK
+MIME::WordDecoder => OK
+Net::CIDR => OK
+Net::DNS => OK
+Net::IP => OK
+OLE::Storage_Lite => OK
+Pod::Escapes => OK
+Pod::Simple => OK
+POSIX => OK
+Scalar::Util => OK
+Socket => OK
+Storable => OK
+Test::Harness => OK
+Test::Pod => OK
+Test::Simple => OK
+Time::HiRes => OK
+Time::localtime => OK
+Sys::Hostname::Long => OK
+Sys::SigAction => OK
+Sys::Syslog => OK
+Env => OK
+File::ShareDir::Install => OK
+Mail::SpamAssassin => OK
+bignum => OK
+Business::ISBN => OK
+Business::ISBN::Data => OK
+Data::Dump => OK
+DB_File => OK
+DBD::SQLite => OK
+DBI => OK
+Digest => OK
+Encode::Detect => OK
+Error => OK
+ExtUtils::CBuilder => OK
+ExtUtils::ParseXS => OK
+Getopt::Long => OK
+Inline => OK
+IO::String => OK
+IO::Zlib => OK
+IP::Country => OK
+Mail::SPF => OK
+Mail::SPF::Query => OK
+Module::Build => OK
+Net::CIDR::Lite => OK
+Net::DNS => OK
+Net::LDAP => OK
+Net::DNS::Resolver::Programmable => OK
+NetAddr::IP => OK
+Parse::RecDescent => OK
+Test::Harness => OK
+Test::Manifest => OK
+Text::Balanced => OK
+URI => OK
+version => OK
+IO::Compress::Bzip2 => OK
+Mail::SpamAssassin::Plugin::Rule2XSBody => OK
+Mail::SpamAssassin::Plugin::DCC => OK
+Mail::SpamAssassin::Plugin::Pyzor => OK
+[3J[H[2J
+Installing the MailScanner .deb package ... 
+Selecting previously unselected package mailscanner.
+(Reading database ... 178229 files and directories currently installed.)
+Preparing to unpack .../MailScanner-5.0.3-7-noarch.deb ...
+Unpacking mailscanner (5.0.3-7) ...
+Setting up mailscanner (5.0.3-7) ...
+ERROR: Problem with internal logger (UpdateLogFile = /var/log/clamav/freshclam.log).
+ERROR: /var/log/clamav/freshclam.log is locked by another process
+
+----------------------------------------------------------
+Installation Complete
+
+See http://www.mailscanner.info for more information and  
+support via the MailScanner mailing list.
+
+
+Review: Set your preferences in /etc/MailScanner/MailScanner.conf
+and review /etc/MailScanner/defaults
+

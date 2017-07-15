@@ -443,9 +443,9 @@ else
 	/usr/sbin/ms-update-safe-sites > /dev/null 2>&1
 	/usr/sbin/ms-update-bad-sites > /dev/null 2>&1
 	
-	if [ -d '/etc/clamav' ]; then
-		/usr/bin/freshclam 
-	fi
+#	if [ -d '/etc/clamav' ]; then
+#		#/usr/bin/freshclam 
+#	fi
 	
 	echo;
 	echo '----------------------------------------------------------';
