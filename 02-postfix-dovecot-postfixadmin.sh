@@ -74,6 +74,7 @@ sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/postfix/sql/
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/dovecot/dovecot-sql.conf.ext
 
 sed -i "s/powermail\.mydomainname\.com/`hostname`/" /etc/postfix/main.cf
+sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /home/powermail/etc/powermail.mysql 
 
 echo > /var/log/mail.log
 echo > /var/log/mail.info
