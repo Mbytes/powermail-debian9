@@ -1,0 +1,24 @@
+## if not Xfce4 panel or setting visible but availbe in alt+tab
+
+
+login on direct console example Alt + F2
+
+
+# stop lightdm services ..after logout from GUI
+/etc/init.d/lightdm stop
+
+rm -rf /tmp/.X0-lock
+rm -rf /tmp/.X11-unix/
+rm -rf /tmp/.XIM-unix/
+
+cd /etc/X11/
+## run below command in this folder
+Xorg -configure
+
+cp /root/xorg.conf.new  /etc/X11/xorg.conf
+
+/etc/init.d/lightdm start
+
+## goto  Alt + F7 and try login
+
+
