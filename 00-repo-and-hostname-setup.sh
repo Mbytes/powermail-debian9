@@ -31,7 +31,7 @@ apt-get -y install postfix
 #/bin/ln -vs /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
 
 apt-get update
-apt-get upgrade
+apt-get -y  upgrade
 
 #### for adding firmware realtek driver
 #apt-get install firmware-linux-nonfree
