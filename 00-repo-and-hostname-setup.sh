@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ## setup local hostname with domainname and ifconfig/Local IP on this machine/vm
 
