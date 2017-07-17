@@ -13,7 +13,6 @@
 
 /var/log/haraka-inbound.log
 /var/log/spamassassin.log
-/var/log/dovecot.log
 /var/log/mail.log
 /var/log/daemon.log
 /var/log/kern.log

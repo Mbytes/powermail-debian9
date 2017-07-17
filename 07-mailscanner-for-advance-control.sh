@@ -5,7 +5,7 @@
 files/extra-tools/etc-config-backup.sh
 
 cd files/mailscanner-root/MailScanner-5.0.3-7/
-./install.sh
+#./install.sh
 cd ../../../
 
 /bin/cp -pRv files/mailscanner-root/header_checks /etc/postfix/header_checks
