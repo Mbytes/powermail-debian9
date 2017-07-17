@@ -8,14 +8,12 @@ cd files/mailscanner-root/MailScanner-5.0.3-7/
 ./install.sh
 cd ../../../
 
-/bin/cp -pRv files/header_checks /etc/postfix/header_checks
+/bin/cp -pRv files/mailscanner-root/header_checks /etc/postfix/header_checks
 ## disabled amavis
 postconf -e 'content_filter = '
 chkconfig --level 345 amavis off 2>/dev/null
 
-/bin/cp -pRv files/MailScanner-defaults /etc/MailScanner/defaults
-/bin/cp -pRv files/MailScanner-etc/* /etc/MailScanner/
-###/bin/cp -pRv files/MailScanner-share/* /usr/share/MailScanner/
+/bin/cp -pRv files/mailscanner-root/MailScanner-etc/* /etc/MailScanner/
 
 touch /etc/MailScanner/archives.filetype.rules.conf
 touch /etc/MailScanner/archives.filename.rules.conf
@@ -40,10 +38,6 @@ chmod 777 /mail-archive-compress
 chmod 777 /mail-archive-process
 
 
-/etc/init.d/clamav-daemon restart
-/etc/init.d/opendkim restart
-
-chkconfig --level 2345 opendkim on
 
 #copy PM files to
 #/usr/share/MailScanner/perl/custom
