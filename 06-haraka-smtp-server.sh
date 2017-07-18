@@ -35,6 +35,8 @@ npm install -g haraka-plugin-limit
 npm install -g haraka-plugin-fcrdns
 npm install -g address-rfc2822
 npm install -g haraka-plugin-attachment
+npm install -g nodemailer
+
 ##npm install -g haraka-plugin-graph
 
 /bin/cp -pR files/haraka-inbound /opt/
