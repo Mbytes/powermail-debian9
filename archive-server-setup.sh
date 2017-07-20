@@ -5,4 +5,4 @@
 #apt-get remove webmin
 #apt-get autoremove
 
-apt-get install recoll xapian-tools libpst4
+apt-get install recoll xapian-tools libpst4 antiword wv

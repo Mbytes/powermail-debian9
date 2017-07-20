@@ -104,8 +104,8 @@ message_size_limit = 20480000
 #content_filter = smtp-amavis:[127.0.0.1]:10024
 
 
-bounce_queue_lifetime = 1h
-maximal_queue_lifetime = 1h
+bounce_queue_lifetime = 7d
+maximal_queue_lifetime = 7d
 2bounce_notice_recipient = postmaster@powermail.mydomainname.com
 empty_address_recipient = postmaster@powermail.mydomainname.com
 
