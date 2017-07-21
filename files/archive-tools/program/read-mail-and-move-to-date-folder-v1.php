@@ -1,9 +1,11 @@
 <?php
-	error_reporting(0);
+error_reporting(0);
 
 ## should be without trailing /   (no slash)
 
-$vmainpath="/archive-mail-data";
+$stage1path="/archive-mail-data/stage1";
+$vmainpath="/archive-mail-data/maildata";
+$vindexpath="/archive-mail-data/indexdata";
 
 
 ###$boxtype =1 means monthwise (2016_03)and boxtype =0 means datewise (2016_03_20)
@@ -43,18 +45,10 @@ $Parser->setPath($path);
 $to = $Parser->getHeader('to');
 $from = $Parser->getHeader('from');
 $subject = $Parser->getHeader('subject');
-$stringHeaders = $Parser->getHeadersRaw();	// Get all headers as a string, no charset conversion
-//#print_r($stringHeaders);
-//$arrayHeaders = $Parser->getHeaders();		// Get all headers as an array, with charset conversion
-//print_r($arrayHeaders);
-$maildatey = DateTime::createFromFormat( 'D, d M Y H:i:s O', $maildatex);
-
-/* 
 $maildatex = $Parser->getHeader('date');
 $maildatex = str_replace("  "," ",$maildatex);
 $maildatex = str_replace("GMT"," ",$maildatex);
 #print "\n DATEX: ->".$maildatex."<-";
-
 $maildatey = DateTime::createFromFormat( 'D, d M Y H:i:s O', $maildatex);
 if(gettype($maildatey)=='boolean'){$maildatey = DateTime::createFromFormat( 'd M Y H:i:s O', $maildatex);}
 if(gettype($maildatey)=='boolean'){$maildatey = DateTime::createFromFormat( 'D d M Y H:i:s O', $maildatex);}
@@ -85,8 +79,7 @@ $maildatey = DateTime::createFromFormat( ' d M Y H:i:s ', $maildatex);
 
 }
 
-*/
-//////////////////////
+
 
 if(gettype($maildatey)=='boolean'){
 $rheader = $Parser->getHeader('received');
@@ -107,7 +100,10 @@ $zdzx=array();
 $zdzx=explode(", ",$maildatex);
 if( sizeof($zdzx) >1){$maildatex=$zdzx[1];}
 
-print "\n DATEX RECV: ->".$maildatex."<-";
+#print "\n DATEX RECV: ->".$maildatex."<-";
+
+
+
 
 if(gettype($maildatey)=='boolean'){
 $maildatey = DateTime::createFromFormat( 'd M Y H:i:s', $maildatex);
@@ -125,44 +121,37 @@ $mailfolder=$maildate;
 if($boxtype==1){$mailfolder=$mailmon;}
 #print "\n WORK ON $maildate --> $mailfolder";
 
-$datext=date('hi');
-$indexbox=$vmainpath."/".$mailfolder."/indexdata/";
-$mainbox=$vmainpath."/".$mailfolder."/maindata/".$datext;
-$headerbox=$vmainpath."/".$mailfolder."/headerdata/".$datext;
-$topmainbox=$vmainpath."/".$mailfolder."/headerdata/";
+$indexbox=$vindexpath."/".$mailfolder."/indexdata";
+$mainbox=$vmainpath."/".$mailfolder."/maindata/".date('hi');
+$topmainbox=$vmainpath."/".$mailfolder."/maindata/";
+$stage1box=$stage1path."/".$mailfolder."/maindata/".date('hi');
 
 mkdir($indexbox, 0777, true);
 mkdir($mainbox, 0777, true);
-mkdir($headerbox, 0777, true);
+mkdir($stage1box, 0777, true);
 $configfile=$indexbox."/recoll.conf";
 $topline="topdirs = ".$topmainbox."\n";
 file_put_contents($configfile, $topline);
 
 // wait for 2 seconds
 //usleep(2000000);
-usleep(2);
+//usleep(2);
 
 $mtime=microtime(true);
-$newfile=$mainbox."/".$mtime;
-$hfile=$headerbox."/".$mtime;
-
-print "\n Header : $hfile";
-
-file_put_contents($hfile, $stringHeaders);
-
-#$mcmdx="mv \"".$path."\" \"".$newfile."\" ;  ";
-#print "\n $mcmdx ";
-#`$mcmdx`;
-
-$mcmdx="mv \"".$path."\" \"".$newfile."\" ; gzip -9v \"".$newfile."\" ";
+$newfile=$stage1box."/".$mtime;
+$mcmdx="mv \"".$path."\" \"".$newfile."\" ;  ";
 print "\n $mcmdx ";
 `$mcmdx`;
 
-$addcmdx="recollindex -c ".$indexbox."/ -i ".$hfile."";
-print "\n $addcmdx ";
-`$addcmdx`;
-$searchline="recoll  -t  -c  ".$indexbox."/ -q \"$to\"";
-print "\n$searchline\n";
+#$mcmdx="mv \"".$path."\" \"".$newfile."\" ; gzip -9v \"".$newfile."\" ";
+#print "\n $mcmdx ";
+#`$mcmdx`;
+
+#$addcmdx="recollindex -c ".$indexbox."/ -i ".$newfile.".gz";
+#print "\n $addcmdx ";
+#`$addcmdx`;
+#$searchline="recollq -n 2  -c  ".$indexbox."/ -q \"$to\"";
+#print "\n$searchline\n";
 
 #print "\n";
 
