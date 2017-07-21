@@ -5,4 +5,4 @@
 #apt-get remove webmin
 #apt-get autoremove
 
-apt-get install recoll xapian-tools libpst4 antiword wv
+apt-get install recoll xapian-tools libpst4 antiword wv sqlite3-doc sqlite3
