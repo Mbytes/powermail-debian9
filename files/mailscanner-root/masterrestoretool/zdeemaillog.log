@@ -1,1 +1,0 @@
- tableok - details_2017_05_17 --  from `details_2017_05_17` where (emailto like 'postmaster@demo.technomail.xyz' || emailfrom like 'postmaster@demo.technomail.xyz')  and emaildate like '2017-05%' - 100

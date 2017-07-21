@@ -1,4 +1,0 @@
->>>bounce_mail_time_delivery_log>>>DESC  
- sort1 bounce_mail_time_delivery_log DESC      bounce_mail_time_delivery_log>>>DESCBBBBBBBBBBBBBBB2010-04-20
- SQLa SELECT * FROM `bouncemailtable` where 1  AND bounce_mail_time_delivery_log >= '2010-04-20 00:00:00'   AND bounce_mail_time_delivery_log <= '2010-05-20 23:59:59'       order by `bounce_mail_time_delivery_log` DESC   LIMIT 0,100 
- ENDOK2

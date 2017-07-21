@@ -1,4 +1,0 @@
-/var/qmail/queue/mess/2/2285121
-/var/qmail/queue/mess/1/2285120
-/var/qmail/queue/mess/16/2741800
-/var/qmail/queue/mess/17/2741801
