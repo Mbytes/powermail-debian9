@@ -1,0 +1,10 @@
+readonly=1
+desc=Archive Search
+category=servers
+name=ArchiveSearch
+os_support=solaris redhat-linux mandrake-linux debian-linux slackware-linux suse-linux united-linux aix hpux freebsd osf1 irix unixware openserver macos open-linux turbo-linux openbsd corel-linux cobalt-linux lfs-linux netbsd msc-linux generic-linux gentoo-linux trustix-linux sol-linux coherent-linux openmamba-linux windows pardus-linux
+risk=low medium high
+version=1.820
+longdesc=Search TechnoArchive.
+syslog=1
+depends=1.820
