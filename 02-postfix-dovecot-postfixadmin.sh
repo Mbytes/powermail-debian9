@@ -76,6 +76,20 @@ sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/dovecot/dove
 sed -i "s/powermail\.mydomainname\.com/`hostname`/" /etc/postfix/main.cf
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /home/powermail/etc/powermail.mysql 
 
+#/usr/share/clamav-unofficial-sigs/conf.d/00-clamav-unofficial-sigs.conf
+# disable /comment below lines in above file
+#   honeynet.hdb
+#   securiteinfo.hdb
+#   securiteinfobat.hdb
+#   securiteinfodos.hdb
+#   securiteinfoelf.hdb
+#   securiteinfohtml.hdb
+#   securiteinfooffice.hdb
+#   securiteinfopdf.hdb
+#   securiteinfosh.hdb
+
+
+
 echo > /var/log/mail.log
 /bin/rm -rf /var/log/mail.info
 /bin/rm -rf /var/log/mail.warn
