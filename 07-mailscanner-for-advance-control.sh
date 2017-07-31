@@ -44,8 +44,9 @@ chmod 777 /mail-archive-process
 /bin/cp -pR files/mailscanner-root/MailWatch-1.2.2/MailScanner_perl_scripts/* /usr/share/MailScanner/perl/custom/
 /bin/cp -pR files/mailscanner-root/MailWatch-1.2.2/mailscanner /var/www/html/
 /bin/cp -pR files/mailscanner-root/MailWatch-1.2.2/tools/Postfix_relay/*.php /usr/local/bin/
+/bin/cp -pR files/mailscanner-root/MailWatch-1.2.2/tools/Cron_jobs/*.php /usr/local/bin/
 /bin/cp -pR files/mailscanner-root/MailWatch-1.2.2/tools/Postfix_relay/mailwatch-postfix-relay /usr/local/bin/
-
+/bin/cp -pR files/mailscanner-root/MailWatch-1.2.2/tools/Cron_jobs/mailwatch /etc/cron.daily/ 
 MYSQLPASSMW=`pwgen -c -1 8`
 echo $MYSQLPASSMW > /usr/local/src/mailwatch-admin-pass
 
