@@ -72,6 +72,7 @@ sed -i "s/zaohm8ahC2/`cat /usr/local/src/mysql-mailscanner-pass`/" /usr/share/Ma
 echo "MAILTO=\"\"" >> /var/spool/cron/crontabs/root
 echo "*/5 * * * * /usr/local/bin/mailwatch-postfix-relay" >> /var/spool/cron/crontabs/root
 
+
 /etc/init.d/cron restart
 /etc/init.d/postfix restart
 /etc/init.d/mailscanner restart
