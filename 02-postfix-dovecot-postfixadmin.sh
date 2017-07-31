@@ -112,6 +112,8 @@ echo > /var/log/dovecot.log
 ## add system domain
 
 /home/powermail/bin/vadddomain `hostname`
+/home/powermail/bin/vaddalias root@`hostname` postmaster@`hostname`
+/home/powermail/bin/vaddalias clamav@`hostname` postmaster@`hostname`
 
 
 
