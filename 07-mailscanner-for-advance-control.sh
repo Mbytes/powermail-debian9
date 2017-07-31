@@ -46,16 +46,25 @@ chmod 777 /mail-archive-process
 /bin/cp -pR files/mailscanner-root/MailWatch-1.2.2/tools/Postfix_relay/*.php /usr/local/bin/
 /bin/cp -pR files/mailscanner-root/MailWatch-1.2.2/tools/Postfix_relay/mailwatch-postfix-relay /usr/local/bin/
 
+MYSQLPASSMW=`pwgen -c -1 8`
+echo $MYSQLPASSMW > /usr/local/src/mailwatch-admin-pass
+
+MYSQLPASSMAILW=`pwgen -c -1 8`
+echo $MYSQLPASSMAILW > /usr/local/src/mysql-mailscanner-pass
+
 
 echo "Creating Database mailscanner for storing all logs for mailwatch"
+mysqladmin create mailscanner -uroot 
 mysql < files/mailscanner-root/MailWatch-1.2.2/create.sql
 
+echo "GRANT ALL PRIVILEGES ON mailscanner.* TO mailscanner@localhost IDENTIFIED BY '$MYSQLPASSMAILW'" | mysql -uroot
+mysqladmin -uroot reload
+mysqladmin -uroot refresh
 
+echo 'INSERT INTO `mailscanner`.`users` (`username`, `password`, `fullname`, `type`, `quarantine_report`, `spamscore`, `highspamscore`, `noscan`, `quarantine_rcpt`) VALUES ("mailwatch", MD5("$MYSQLPASSMW"), "Mail Admin", "A", "0", "0", "0", "0", NULL);' | mysql;
 
-MWPASS=`cat /usr/local/src/mailwatch-admin-pass`
-
-echo 'INSERT INTO `mailscanner`.`users` (`username`, `password`, `fullname`, `type`, `quarantine_report`, `spamscore`, `highspamscore`, `noscan`, `quarantine_rcpt`) VALUES ("mailwatch", MD5("$MWPASS"), "Mail Admin", "A", "0", "0", "0", "0", NULL);' | mysql;
-
+sed -i "s/zaohm8ahC2/`cat /usr/local/src/mysql-mailscanner-pass`/" /var/www/html/mailscanner/conf.php
+sed -i "s/zaohm8ahC2/`cat /usr/local/src/mysql-mailscanner-pass`/" /usr/share/MailScanner/perl/custom/MailWatchConf.pm
 
 
 echo "MAILTO=\"\"" >> /var/spool/cron/crontabs/root

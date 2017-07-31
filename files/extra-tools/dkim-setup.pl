@@ -1,6 +1,16 @@
 #!/usr/bin/perl
 
-$newdomain='hricosmetics.com';
+$newdomain=$ARGV[0];
+$newdomain=~ s/\n/""/eg;
+$newdomain=~ s/\t/""/eg;
+$newdomain=~ s/\r/""/eg;
+$newdomain=~ s/ /""/eg;
+$newdomain=~ s/;/""/eg;
+$newdomain=~ s/,/""/eg;
+$newdomain=~ s/'/""/eg;
+$newdomain=~ s/\"/""/eg;
+#print "--> $newdomain";
+#exit;
 
 $cmdx="mkdir /etc/opendkim/keys/".$newdomain."";
 `$cmdx`;
@@ -13,3 +23,4 @@ $cmdx="echo \"".$newdomain." mail._domainkey.".$newdomain."\" >> /etc/opendkim/S
 $cmdx="chmod -R 644 /etc/opendkim/keys; chown -R opendkim:opendkim /etc/opendkim/keys;chmod -R 700 /etc/opendkim/keys";
 `$cmdx`;
 
+print "\nOpendkim for $newdomain added. \n";

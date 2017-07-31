@@ -33,7 +33,13 @@ sed -i "s/SOCKET\=local\:\$RUNDIR\/opendkim.sock/#SOCKET\=local\:\$RUNDIR\/opend
 sed -i "s/#SOCKET\=inet\:12345\@localhost/SOCKET\=inet\:12345\@localhost/" /etc/default/opendkim 
 /lib/opendkim/opendkim.service.generate
 systemctl daemon-reload
+
+### use same to add for other new domain too
+/bin/dkim-setup.pl `hostname`
+
+
 service opendkim restart
+
 
 
 
@@ -51,8 +57,6 @@ echo "Working on importing powermail MySQL database..."
 MYSQLPASSVPOP=`pwgen -c -1 8`
 echo $MYSQLPASSVPOP > /usr/local/src/mysql-powermail-pass
 
-MYSQLPASSMW=`pwgen -c -1 8`
-echo $MYSQLPASSMW > /usr/local/src/mailwatch-admin-pass
 
 
 
