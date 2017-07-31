@@ -19,9 +19,9 @@ touch /etc/MailScanner/archives.filetype.rules.conf
 touch /etc/MailScanner/archives.filename.rules.conf
 touch /etc/MailScanner/filename.rules.conf
 
-mkdir /var/spool/MailScanner/incoming
-mkdir /var/spool/MailScanner/quarantine
-mkdir /var/spool/MailScanner/incoming/Locks
+mkdir /var/spool/MailScanner/incoming 2>/dev/null
+mkdir /var/spool/MailScanner/quarantine 2>/dev/null
+mkdir /var/spool/MailScanner/incoming/Locks 2>/dev/null
 chown postfix.postfix /var/spool/MailScanner/incoming
 chown postfix.postfix /var/spool/MailScanner/quarantine
 chown postfix:root /var/spool/postfix/
@@ -30,9 +30,9 @@ chown postfix:root /var/spool/postfix/
 chmod 744 /var/spool/postfix/incoming/
 chmod 744 /var/spool/postfix/hold/
 chown -R postfix  /var/log/clamav
-mkdir /mail-archive-uncompress
-mkdir /mail-archive-compress
-mkdir /mail-archive-process
+mkdir /mail-archive-uncompress 2>/dev/null
+mkdir /mail-archive-compress 2>/dev/null
+mkdir /mail-archive-process 2>/dev/null
 chmod 777 /mail-archive-uncompress
 chmod 777 /mail-archive-compress
 chmod 777 /mail-archive-process
