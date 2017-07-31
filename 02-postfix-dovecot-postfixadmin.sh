@@ -51,6 +51,10 @@ echo "Working on importing powermail MySQL database..."
 MYSQLPASSVPOP=`pwgen -c -1 8`
 echo $MYSQLPASSVPOP > /usr/local/src/mysql-powermail-pass
 
+MYSQLPASSMW=`pwgen -c -1 8`
+echo $MYSQLPASSMW > /usr/local/src/mailwatch-admin-pass
+
+
 
 mysqladmin create powermail -uroot 
 echo "GRANT ALL PRIVILEGES ON powermail.* TO powermail@localhost IDENTIFIED BY '$MYSQLPASSVPOP'" | mysql -uroot 
