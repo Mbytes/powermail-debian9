@@ -25,7 +25,7 @@ chmod 755 /home/powermail/bin/*
 
 touch /var/log/dovecot.log
 chmod 666 /var/log/dovecot.log
-
+chmod 666 /var/log/clamav/clamav.log
 
 
 
@@ -109,6 +109,9 @@ echo > /var/log/dovecot.log
 /etc/init.d/dovecot start
 /etc/init.d/rsyslog restart
 
+## add system domain
+
+/home/powermail/bin/vadddomain `hostname`
 
 
 

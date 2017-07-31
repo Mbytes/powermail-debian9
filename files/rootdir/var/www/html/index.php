@@ -1,5 +1,5 @@
 <?php
-
-header('Location: /groupoffice/');
+print "Welcome to PowerMail";
+//header('Location: /groupoffice/');
 exit;
 ?>
