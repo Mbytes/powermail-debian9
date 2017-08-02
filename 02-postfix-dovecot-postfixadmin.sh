@@ -107,8 +107,8 @@ echo > /var/log/mail.log
 echo > /var/log/dovecot.log
 
 
-/etc/init.d/postfix start
-/etc/init.d/dovecot start
+/etc/init.d/postfix restart
+/etc/init.d/dovecot restart
 /etc/init.d/rsyslog restart
 
 ## add system domain
@@ -120,4 +120,4 @@ echo > /var/log/dovecot.log
 
 
 
-
+sendEmail -f postmaster@`hostname`  -t postmaster@`hostname` -u "Test Mail" -m "Test Mail" -o tls=no -s 127.0.0.1:2525
