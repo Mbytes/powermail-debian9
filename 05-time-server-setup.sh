@@ -5,7 +5,13 @@ timedatectl set-timezone 'Asia/Kolkata'
 timedatectl set-ntp true 
 timedatectl status
 
+### changing timezone to Asia Kolkata
+sed -i "s/;date.timezone =/date\.timezone \= \'Asia\/Kolkata\'/" /etc/php/7.0/apache2/php.ini
+sed -i "s/;date.timezone =/date\.timezone \= \'Asia\/Kolkata\'/" /etc/php/7.0/cli/php.ini
+
+
 systemctl restart  systemd-timedated systemd-timesyncd
 
 ## restart rsyslog show that mail.log shows proper time
 /etc/init.d/rsyslog restart
+/etc/init.d/apache2 restart
