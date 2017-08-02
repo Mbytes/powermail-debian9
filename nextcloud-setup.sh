@@ -13,4 +13,4 @@ mysqladmin -uroot refresh
 #mysql < files/nextcloud-db-setup.sql
 
 
-# chekc full apache default ssl config file
+# chekc full apache default ssl config file default-ssl.conf-sample
