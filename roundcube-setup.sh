@@ -19,5 +19,7 @@ echo "GRANT ALL PRIVILEGES ON roundcube.* TO roundcube@localhost IDENTIFIED BY '
 mysqladmin -uroot reload
 mysqladmin -uroot refresh
 
+mysql < files/roundcube-db-setup.sql
 
-
+# need to update database password in this file
+#/var/www/html/webmail/config/config.inc.php
