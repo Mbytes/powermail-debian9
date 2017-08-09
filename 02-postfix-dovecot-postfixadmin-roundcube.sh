@@ -84,16 +84,24 @@ sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /var/www/html/pow
 
 sed -i "s/powermail\.mydomainname\.com/`hostname`/" /etc/postfix/main.cf
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /home/powermail/etc/powermail.mysql 
-echo "Working on importing roundcube webmail MySQL database..."
-MYSQLPASS=`pwgen -c -1 8`
-echo $MYSQLPASS > /usr/local/src/mysql-roundcube-webmail-pass
-mysqladmin create roundcube -uroot
-echo "GRANT ALL PRIVILEGES ON roundcube.* TO roundcube@localhost IDENTIFIED BY '$MYSQLPASS'" | mysql -uroot
-mysqladmin -uroot reload
-mysqladmin -uroot refresh
-mysql < files/roundcube-db-setup.sql
 
-sed -i "s/Ophohp7O/`cat /usr/local/src/mysql-roundcube-webmail-pass`/" /var/www/html/webmail/config/config.inc.php
+
+
+apt-get install -y roundcube roundcube-core roundcube-mysql roundcube-plugins roundcube-plugins-extra
+sed -i "s/#    Alias \/roundcube \/var\/lib\/roundcube/    Alias \/roundcube \/var\/lib\/roundcube/" /etc/apache2/conf-enabled/roundcube.conf
+sed -i "s/\$config\['default_host'\] = '';/\$config\['default_host'\] = '127.0.0.1';/" /etc/roundcube/config.inc.php
+sed -i "s/\$config\['smtp_server'\] = '';/\$config\['smtp_server'\] = '127.0.0.1';/" /etc/roundcube/config.inc.php
+
+
+#echo "Working on importing roundcube webmail MySQL database..."
+#MYSQLPASS=`pwgen -c -1 8`
+#echo $MYSQLPASS > /usr/local/src/mysql-roundcube-webmail-pass
+#mysqladmin create roundcube -uroot
+#echo "GRANT ALL PRIVILEGES ON roundcube.* TO roundcube@localhost IDENTIFIED BY '$MYSQLPASS'" | mysql -uroot
+#mysqladmin -uroot reload
+#mysqladmin -uroot refresh
+#mysql < files/roundcube-db-setup.sql
+#sed -i "s/Ophohp7O/`cat /usr/local/src/mysql-roundcube-webmail-pass`/" /var/www/html/webmail/config/config.inc.php
 
 
 
