@@ -84,7 +84,7 @@ function language_hook($PALANG, $language) {
 $CONF['database_type'] = 'mysqli';
 $CONF['database_host'] = 'localhost';
 $CONF['database_user'] = 'powermail';
-$CONF['database_password'] = 'ohm8ahC2';
+$CONF['database_password'] = 'ixi1Eew3';
 $CONF['database_name'] = 'powermail';
 // If you need to specify a different port for a MYSQL database connection, use e.g.
 //   $CONF['database_host'] = '172.30.33.66:3308';
@@ -117,7 +117,7 @@ $CONF['database_tables'] = array (
 // This will be used to send emails from to create mailboxes and
 // from Send Email / Broadcast message pages.
 // Leave blank to send email from the logged-in Admin's Email address.
-$CONF['admin_email'] = 'support@technoinfotech.com';
+$CONF['admin_email'] = 'postmaster@powermail.mydomainname.com';
 
 // Mail Server
 // Hostname (FQDN) of your mail server.
@@ -196,8 +196,8 @@ $CONF['page_size'] = '10';
 // a) a full mail address
 // b) only a localpart ('postmaster' => 'admin') - the alias target will point to the same domain
 $CONF['default_aliases'] = array (
-    'abuse' => 'postmaster@mail.technomail.xyz',
-    'root' => 'postmaster@mail.technomail.xyz'
+    'abuse' => 'postmaster@powermail.mydomainname.com',
+    'root' => 'postmaster@powermail.mydomainname.com'
 );
 
 // Mailboxes
@@ -410,7 +410,7 @@ $CONF['fetchmail_extra_options'] = 'NO';
 
 // Header
 $CONF['show_header_text'] = 'NO';
-$CONF['header_text'] = ':: TechnoMail Admin ::';
+$CONF['header_text'] = ':: Mail Admin ::';
 
 // Footer
 // Below information will be on all pages.
@@ -564,8 +564,8 @@ $CONF['create_mailbox_subdirs_hostoptions'] = array('');
 
 // Theme Config
 // Specify your own logo and CSS file
-$CONF['theme_logo'] = 'images/technomailadmin-logo.png';
-$CONF['theme_css'] = 'css/technomail.css';
+$CONF['theme_logo'] = '/mycompanylogo.png';
+$CONF['theme_css'] = 'css/powermail.css';
 // If you want to customize some styles without editing the $CONF['theme_css'] file,
 // you can add a custom CSS file. It will be included after $CONF['theme_css'].
 $CONF['theme_custom_css'] = '';
