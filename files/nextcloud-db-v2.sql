@@ -496,11 +496,6 @@ CREATE TABLE `oc_cards` (
 -- Dumping data for table `oc_cards`
 --
 
-LOCK TABLES `oc_cards` WRITE;
-/*!40000 ALTER TABLE `oc_cards` DISABLE KEYS */;
-INSERT INTO `oc_cards` VALUES (1,1,'BEGIN:VCARD\r\nVERSION:3.0\r\nPRODID:-//Sabre//Sabre VObject 4.1.2//EN\r\nUID:nextcloudadmin\r\nFN:nextcloudadmin\r\nN:nextcloudadmin;;;;\r\nCLOUD:nextcloudadmin@live.technomail.in/nextcloud\r\nEND:VCARD\r\n','Database:nextcloudadmin.vcf',1501674302,'3c58e5eba7f705944c4902449f24d0b9',191);
-/*!40000 ALTER TABLE `oc_cards` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `oc_cards_properties`
@@ -527,11 +522,6 @@ CREATE TABLE `oc_cards_properties` (
 -- Dumping data for table `oc_cards_properties`
 --
 
-LOCK TABLES `oc_cards_properties` WRITE;
-/*!40000 ALTER TABLE `oc_cards_properties` DISABLE KEYS */;
-INSERT INTO `oc_cards_properties` VALUES (1,1,1,'UID','nextcloudadmin',0),(2,1,1,'FN','nextcloudadmin',0),(3,1,1,'N','nextcloudadmin;;;;',0),(4,1,1,'CLOUD','nextcloudadmin@live.technomail.in/nextcloud',0);
-/*!40000 ALTER TABLE `oc_cards_properties` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `oc_comments`
