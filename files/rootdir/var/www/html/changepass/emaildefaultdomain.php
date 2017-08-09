@@ -1,1 +1,0 @@
-<?$emaildomain="technomail.in";?>
