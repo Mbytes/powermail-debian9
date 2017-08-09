@@ -82,10 +82,10 @@ function language_hook($PALANG, $language) {
 // pgsql = PostgreSQL
 // sqlite = SQLite 3
 $CONF['database_type'] = 'mysqli';
-$CONF['database_host'] = '172.16.201.21';
-$CONF['database_user'] = 'postfix';
-$CONF['database_password'] = 'postfixadmin';
-$CONF['database_name'] = 'postfix';
+$CONF['database_host'] = 'localhost';
+$CONF['database_user'] = 'powermail';
+$CONF['database_password'] = 'ohm8ahC2';
+$CONF['database_name'] = 'powermail';
 // If you need to specify a different port for a MYSQL database connection, use e.g.
 //   $CONF['database_host'] = '172.30.33.66:3308';
 // If you need to specify a different port for POSTGRESQL database connection
