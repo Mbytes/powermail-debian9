@@ -70,4 +70,5 @@ echo "rsyslog-mysql rsyslog-mysql/app-password-confirm password $GENERATED_PASS"
 /etc/init.d/mysql restart
 apt-get install rsyslog-mysql
 
-
+## for termnial name in alt tab ..do following in xfce4 desktop
+## Applications -> settings -> Settings Manager -> Window Manager Tweaks -> Cycling -> Cycle through windows in a list
