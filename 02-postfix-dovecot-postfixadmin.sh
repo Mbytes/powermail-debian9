@@ -58,18 +58,12 @@ service opendkim restart
 
 echo "Working on importing powermail MySQL database..."
 
-
 MYSQLPASSVPOP=`pwgen -c -1 8`
 echo $MYSQLPASSVPOP > /usr/local/src/mysql-powermail-pass
-
-
-
-
 mysqladmin create powermail -uroot 
 echo "GRANT ALL PRIVILEGES ON powermail.* TO powermail@localhost IDENTIFIED BY '$MYSQLPASSVPOP'" | mysql -uroot 
 mysqladmin -uroot reload
 mysqladmin -uroot refresh
-
 
 ## disabled amavis if got install
 postconf -e 'content_filter = '
@@ -88,6 +82,18 @@ sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/dovecot/dove
 
 sed -i "s/powermail\.mydomainname\.com/`hostname`/" /etc/postfix/main.cf
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /home/powermail/etc/powermail.mysql 
+echo "Working on importing roundcube webmail MySQL database..."
+MYSQLPASS=`pwgen -c -1 8`
+echo $MYSQLPASS > /usr/local/src/mysql-roundcube-webmail-pass
+mysqladmin create roundcube -uroot
+echo "GRANT ALL PRIVILEGES ON roundcube.* TO roundcube@localhost IDENTIFIED BY '$MYSQLPASS'" | mysql -uroot
+mysqladmin -uroot reload
+mysqladmin -uroot refresh
+mysql < files/roundcube-db-setup.sql
+
+sed -i "s/Ophohp7O/`cat /usr/local/src/mysql-roundcube-webmail-pass`/" /var/www/html/webmail/config/config.inc.php
+
+
 
 #/usr/share/clamav-unofficial-sigs/conf.d/00-clamav-unofficial-sigs.conf
 # disable /comment below lines in above file
