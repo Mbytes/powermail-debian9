@@ -130,4 +130,4 @@ echo > /var/log/dovecot.log
 
 
 
-sendEmail -f postmaster@`hostname`  -t postmaster@`hostname` -u "Test Mail" -m "Test Mail" -o tls=no -s 127.0.0.1:2525
+sendEmail -f postmaster@`hostname`  -t postmaster@`hostname` -u "Test Mail" -m "Test Mail" -o tls=no -s 127.0.0.1:25

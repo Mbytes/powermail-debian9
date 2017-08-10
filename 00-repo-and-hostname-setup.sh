@@ -17,6 +17,9 @@ echo "deb http://httpredir.debian.org/debian stretch main contrib non-free" >> /
 echo "deb http://httpredir.debian.org/debian stretch-updates main contrib non-free" >> /etc/apt/sources.list
 echo "deb http://security.debian.org/ stretch/updates main contrib non-free" >> /etc/apt/sources.list
 
+CFG_HOSTNAME_FQDN = `hostname`
+echo "postfix postfix/main_mailer_type select Internet Site" | debconf-set-selections
+echo "postfix postfix/mailname string $CFG_HOSTNAME_FQDN" | debconf-set-selections
 
 #### remove exim by installing postfix before upgrade
 apt-get -y install postfix 
