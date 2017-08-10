@@ -77,6 +77,7 @@ echo "*/5 * * * * /usr/local/bin/mailwatch-postfix-relay" >> /var/spool/cron/cro
 /etc/init.d/cron restart
 /etc/init.d/postfix restart
 /etc/init.d/mailscanner restart
+/etc/init.d/clamav-daemon restart
 
 
 sendEmail -f postmaster@`hostname`  -t postmaster@`hostname` -u "Test Mail after MailScanner" -m "Test Mail after MailScanner" -o tls=no -s 127.0.0.1:2525
