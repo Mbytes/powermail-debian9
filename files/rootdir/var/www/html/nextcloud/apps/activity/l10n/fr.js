@@ -36,7 +36,7 @@ OC.L10N.register(
     "Activity" : "Activité",
     "Activity feed" : "Fil d'activité",
     "Configure the default activity settings for new users." : "Configurez les paramètres d'activité par défaut pour les nouveaux utilisateurs.",
-    "Choose for which activities you want to get an email notification, and which should show up in the activity app stream." : "Choisissez pour quelles activités vous souhaitez obtenir une notification par e-mail et qui devrait apparaître dans le flux d'activité.",
+    "Choose for which activities you want to get an email notification, and which should show up in the activity app stream." : "Choisissez les activités pour lesquelles vous souhaitez obtenir une notification par e-mail et que vous voulez voir apparaître dans le flux d'activité.",
     "List your own actions in the stream" : "Lister vos propres actions dans le flux",
     "Notify about your own actions via email" : "M'informer de mes propres actions par courriel",
     "You need to set up your email address before you can receive notification emails." : "Vous devez configurer une adresse de courriel pour pouvoir recevoir des notifications par courriel.",
@@ -47,6 +47,11 @@ OC.L10N.register(
     "Settings" : "Paramètres",
     "Enable RSS feed" : "Activer les flux RSS",
     "No more events to load" : "Plus aucun événement à charger",
-    "Files" : "Fichiers"
+    "Files" : "Fichiers",
+    "Error loading activities" : "Erreur lors du chargement des activités",
+    "No activities" : "Aucune activité",
+    "You are receiving this email because the following things happened at %s" : "Vous recevez cet email car l'activité suivante a eu lieu sur %s",
+    "* %1$s - %2$s" : "* %1$s - %2$s",
+    "_* and %n more _::_* and %n more _" : ["* et %n autre","* et %n autres"]
 },
 "nplurals=2; plural=(n > 1);");

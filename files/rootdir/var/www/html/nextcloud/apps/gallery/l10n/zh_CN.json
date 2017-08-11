@@ -6,7 +6,6 @@
     "Could not move \"{file}\"" : "不能移动 \"{file}\"",
     "No compatible server found at {remote}" : "在 {remote} 没有找到兼容的服务器",
     "Invalid server url" : "无效的服务器链接 url",
-    "Gallery view" : "查看相册",
     "Could not load the description" : "无法载入描述",
     "Could not load the description: " : "无法载入描述",
     "Copyright" : "版权",
@@ -19,7 +18,7 @@
     "please install one of the following alternatives" : "请使用推荐的浏览器",
     "Album cannot be shown" : "相册无法显示",
     "No media files found" : "未找到媒体文件",
-    "Upload pictures in the files app to display them here" : "上传图片文件后您可以在这里查看它们",
+    "Upload pictures in the Files app to display them here" : "将图片上传至",
     "Upload new files via drag and drop or by using the [+] button above" : "通过拖放或使用上面的 [+] 按钮上传新文件",
     "Configuration error" : "配置错误",
     "New" : "新建",
@@ -39,6 +38,7 @@
     "Could not create file \"{file}\"" : "不能创建文件 \"{file}\"",
     "\"{name}\" is an invalid file name." : "“{name}”是一个无效的文件名。",
     "File name cannot be empty." : "文件名不能为空。",
+    "\"{name}\" is not an allowed filetype" : "\"{name}\" 不是允许的文件类型",
     "Upload" : "上传",
     "Error" : "错误",
     "Error while sharing" : "共享时出错",
@@ -105,13 +105,13 @@
     "a conflicting app was installed" : "已安装了一个会引发冲突的应用",
     "a required component is missing or was disconnected" : "必要的部件丢失，或者与服务器的连接已断开",
     "the filesystem is not readable" : "该文件无法打开",
-    "For more information, please contact your friendly ownCloud administrator." : "欲了解更多信息，请联系您的熟悉的 ownCloud 管理员。",
     "Sorry, this link doesn't seem to work anymore." : "抱歉，此链接已失效",
     "the item was removed" : "此项已移除",
     "the link has expired" : "链接已过期",
     "sharing is disabled" : "共享已禁用",
     "For more information, please ask the person who has sent you this link." : "欲知详情，请联系共享链接给你的人。",
     "Add to your Nextcloud" : "添加到您的Nextcloud",
-    "Picture view" : "查看图片"
+    "Picture view" : "查看图片",
+    "Gallery view" : "查看相册"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

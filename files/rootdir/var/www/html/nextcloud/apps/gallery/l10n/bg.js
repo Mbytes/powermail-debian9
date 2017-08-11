@@ -89,7 +89,6 @@ OC.L10N.register(
     "a conflicting app was installed" : "бе инсталирано конфликтно приложение",
     "a required component is missing or was disconnected" : "необходимият компонент липсва или е бил премахнат",
     "the filesystem is not readable" : "файловата система не е четима",
-    "For more information, please contact your friendly ownCloud administrator." : "За повече информация се свържете вашия любезен ownCloud администратор.",
     "Sorry, this link doesn't seem to work anymore." : "Съжаляваме, тази връзка не изглежда да работи повече.",
     "the item was removed" : "съдържанието е премахнато",
     "the link has expired" : "тази връзка е изтекла",

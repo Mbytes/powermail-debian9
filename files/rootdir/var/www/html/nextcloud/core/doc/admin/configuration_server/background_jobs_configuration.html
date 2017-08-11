@@ -210,6 +210,47 @@ path to your current Nextcloud installation.</p>
 <p class="last">Please refer to the crontab man page for the exact command syntax.</p>
 </div>
 </div>
+<div class="section" id="systemd">
+<h3>systemd<a class="headerlink" href="#systemd" title="Permalink to this headline">¶</a></h3>
+<p>If systemd is installed on the system, a systemd timer could be an alternative to a cronjob.</p>
+<p>This approach requires two files: <strong>nextcloudcron.service</strong> and <strong>nextcloudcron.timer</strong>. Create these two files in <code class="docutils literal"><span class="pre">/etc/systemd/system/</span></code>.</p>
+<p><strong>nextcloudcron.service</strong> should look like this:</p>
+<div class="highlight-python"><div class="highlight"><pre>[Unit]
+Description=Nextcloud cron.php job
+
+[Service]
+User=www-data
+ExecStart=/usr/bin/php -f /var/www/nextcloud/cron.php
+
+[Install]
+WantedBy=basic.target
+</pre></div>
+</div>
+<p>Replace the user <code class="docutils literal"><span class="pre">www-data</span></code> with the user of your http server and <code class="docutils literal"><span class="pre">/var/www/nextcloud/cron.php</span></code> with the location of <strong>cron.php</strong> in your nextcloud directory.</p>
+<p><strong>nextcloudcron.timer</strong> should look like this:</p>
+<div class="highlight-python"><div class="highlight"><pre>[Unit]
+Description=Run Nextcloud cron.php every 15 minutes
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=15min
+Unit=nextcloudcron.service
+
+[Install]
+WantedBy=timers.target
+</pre></div>
+</div>
+<p>The important parts in the timer-unit are <code class="docutils literal"><span class="pre">OnBootSec</span></code> and <code class="docutils literal"><span class="pre">OnUnitActiveSec</span></code>.``OnBootSec`` will start the timer 5 minutes after boot, otherwise you would have to start it manually after every boot. <code class="docutils literal"><span class="pre">OnUnitActiveSec</span></code> will set a 15 minute timer after the service-unit was last activated.</p>
+<p>Now all that is left is to start and enable the timer by running these commands:</p>
+<div class="highlight-python"><div class="highlight"><pre>systemctl start nextcloudcron.timer
+systemctl enable nextcloudcron.timer
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Select the option <code class="docutils literal"><span class="pre">Cron</span></code> in the admin menu for background jobs. if left on <code class="docutils literal"><span class="pre">AJAX</span></code> it would execute the AJAX job on every page load.</p>
+</div>
+</div>
 </div>
 </div>
 

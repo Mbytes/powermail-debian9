@@ -1,7 +1,7 @@
 OC.L10N.register(
     "activity",
     {
-    "Activities" : "Activitats",
+    "Activities" : "Totes les activitats",
     "An error occurred while loading activities" : "S'ha produït un error mentre que es carregaven les activitats",
     "No activity yet" : "Cap activitat encara",
     "Load more activities" : "Carrega més activitats",
@@ -47,6 +47,11 @@ OC.L10N.register(
     "Settings" : "Configuració",
     "Enable RSS feed" : "Activa el canal RSS",
     "No more events to load" : "No hi ha més elements a carregar",
-    "Files" : "Fitxers"
+    "Files" : "Fitxers",
+    "Error loading activities" : "Error en carregar les activitats",
+    "No activities" : "Sense activitat",
+    "You are receiving this email because the following things happened at %s" : "Esteu rebent aquest correu perquè han succeït les següents coses a %s",
+    "* %1$s - %2$s" : "* %1$s - %2$s",
+    "_* and %n more _::_* and %n more _" : ["* i %n més ","* i %n més "]
 },
 "nplurals=2; plural=(n != 1);");

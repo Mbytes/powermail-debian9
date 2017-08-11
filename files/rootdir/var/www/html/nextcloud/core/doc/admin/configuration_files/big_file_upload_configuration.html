@@ -206,8 +206,7 @@ necessary, once bug #51747 is fixed.</p>
 <li><a class="reference external" href="http://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_read_timeout">fastcgi_read_timeout</a></li>
 <li><a class="reference external" href="http://nginx.org/en/docs/http/ngx_http_core_module.html#client_body_temp_path">client_body_temp_path</a></li>
 </ul>
-<p>Since nginx 1.7.11 a new config option <a href="#id1"><span class="problematic" id="id2">`fastcgi_request_buffering
-&lt;https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_request_buffering`_</span></a>
+<p>Since nginx 1.7.11 a new config option <a class="reference external" href="https://nginx.org/en/docs/http/ngx_http_fastcgi_module.html#fastcgi_request_buffering">fastcgi_request_buffering</a>
 is availabe. Setting this option to <code class="docutils literal"><span class="pre">fastcgi_request_buffering</span> <span class="pre">off;</span></code> in your nginx config
 might help with timeouts during the upload. Furthermore it helps if you&#8217;re running out of
 disc space on the tmp partition of your system.</p>

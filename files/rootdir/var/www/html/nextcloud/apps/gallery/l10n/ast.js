@@ -7,7 +7,6 @@ OC.L10N.register(
     "Could not move \"{file}\", target exists" : "Nun pudo movese \"{file}\", destín yá esiste",
     "Could not move \"{file}\"" : "Nun pudo movese \"{file}\"",
     "No compatible server found at {remote}" : "Nun s'alcontró dengún sirvidor compatible en {remote}",
-    "Gallery view" : "Vista de galería",
     "Could not load the description" : "Nun pudo cargase la descripción",
     "Could not load the description: " : "Nun pudo cargase la descripción:",
     "Copyright" : "Copyright",
@@ -20,7 +19,6 @@ OC.L10N.register(
     "please install one of the following alternatives" : "por favor instale una de les siguientes alternatives",
     "Album cannot be shown" : "Nun pue amosase l'álbum",
     "No media files found" : "Nun s'atoparon ficheros multimedia",
-    "Upload pictures in the files app to display them here" : "Xubir semeyes nos ficheros d'aplicación p'amosalos equí",
     "Upload new files via drag and drop or by using the [+] button above" : "Xubir nuevos ficheros al traviés d'arrastrar y soltar o utilizando'l botón [+] anterior",
     "Configuration error" : "Error de configuración",
     "New" : "Nuevu",
@@ -100,12 +98,12 @@ OC.L10N.register(
     "a conflicting app was installed" : "Instalóse una aplicación conflictiva",
     "a required component is missing or was disconnected" : "un componente riquíu nun s'atopa o desconectóse",
     "the filesystem is not readable" : "el sistema de ficheros nun ye llexible",
-    "For more information, please contact your friendly ownCloud administrator." : "Pa llograr más información, póngase en contactu col alministrador d'ownCloud.",
     "Sorry, this link doesn't seem to work anymore." : "Sentímoslo, esti enllaz paez que yá nun furrula.",
     "the item was removed" : "desanicióse l'elementu",
     "the link has expired" : "l'enllaz caducó",
     "sharing is disabled" : "la compartición ta deshabilitada",
     "For more information, please ask the person who has sent you this link." : "Pa más información, entrúga-y a la persona qu'unvió esti enllaz.",
-    "Picture view" : "Vista d'imáxenes"
+    "Picture view" : "Vista d'imáxenes",
+    "Gallery view" : "Vista de galería"
 },
 "nplurals=2; plural=(n != 1);");

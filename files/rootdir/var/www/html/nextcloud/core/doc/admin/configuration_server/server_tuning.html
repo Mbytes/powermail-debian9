@@ -187,9 +187,9 @@ support.</li>
 <p>HTTP2 has <a class="reference external" href="https://www.troyhunt.com/i-wanna-go-fast-https-massive-speed-advantage/">huge speed improvements</a> over HTTP with multiple request. Most <a class="reference external" href="http://caniuse.com/#feat=http2">browsers already support HTTP2 over SSL (HTTPS)</a>. So refer to your server manual for guides on how to use HTTP2.</p>
 </div>
 <div class="section" id="enable-php-opcache">
-<span id="opcache"></span><h2>Enable PHP OPcache<a class="headerlink" href="#enable-php-opcache" title="Permalink to this headline">¶</a></h2>
+<h2>Enable PHP OPcache<a class="headerlink" href="#enable-php-opcache" title="Permalink to this headline">¶</a></h2>
 <p>The <a class="reference external" href="http://php.net/manual/en/intro.opcache.php">OPcache</a> improves the performance of PHP applications by caching precompiled bytecode. We recommend at least following settings:</p>
-<div class="code ini highlight-python"><div class="highlight"><pre><span class="n">opcache</span><span class="o">.</span><span class="n">enable</span><span class="o">=</span><span class="n">On</span>
+<div class="code ini highlight-python"><div class="highlight"><pre><span class="n">opcache</span><span class="o">.</span><span class="n">enable</span><span class="o">=</span><span class="mi">1</span>
 <span class="n">opcache</span><span class="o">.</span><span class="n">enable_cli</span><span class="o">=</span><span class="mi">1</span>
 <span class="n">opcache</span><span class="o">.</span><span class="n">interned_strings_buffer</span><span class="o">=</span><span class="mi">8</span>
 <span class="n">opcache</span><span class="o">.</span><span class="n">max_accelerated_files</span><span class="o">=</span><span class="mi">10000</span>

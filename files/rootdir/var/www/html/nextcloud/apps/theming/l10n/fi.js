@@ -15,7 +15,7 @@ OC.L10N.register(
     "Theming" : "Teema",
     "Theming makes it possible to easily customize the look and feel of your instance and supported clients. This will be visible for all users." : "Teeman avulla voit helposti kustomoida web-käyttöliittymän ja tuettujen sovelluksien ulkonäköä ja tuntumaa. Teema näkyy kaikille käyttäjille.",
     "Name" : "Nimi",
-    "reset to default" : "palauta oletukseksi",
+    "Reset to default" : "Palauta oletukseksi",
     "Web address" : "Verkko-osoite",
     "Web address https://…" : "Verkko-osoite https://…",
     "Slogan" : "Slogani",
@@ -25,6 +25,7 @@ OC.L10N.register(
     "Login image" : "Kirjautumissivun kuva",
     "Upload new login background" : "Lähetä uusi kirjautumissivun taustakuva",
     "Remove background image" : "Poista taustakuva",
+    "reset to default" : "palauta oletukseksi",
     "Log in image" : "Kirjautumissivun kuva"
 },
 "nplurals=2; plural=(n != 1);");

@@ -230,6 +230,18 @@ Defaults to ``en``
 
 ::
 
+	'force_language' => 'en',
+
+With this setting a language can be forced for all users. If a language is
+forced, the users are also unable to change their language in the personal
+settings. If users shall be unable to change their language, but users have
+different languages, this value can be set to ``true`` instead of a language
+code.
+
+Defaults to ``false``
+
+::
+
 	'defaultapp' => 'files',
 
 Set the default app to open on login. Use the app names as they appear in the
@@ -1051,10 +1063,6 @@ concerns:
  - OC\\Preview\\TIFF
  - OC\\Preview\\Font
 
-.. note:: Troubleshooting steps for the MS Word previews are available
-   at the :doc:`../configuration_files/collaborative_documents_configuration`
-   section of the Administrators Manual.
-
 The following providers are not available in Microsoft Windows:
 
  - OC\\Preview\\Movie
@@ -1118,6 +1126,15 @@ own or 3rdParty SystemTagsManager should be used that – for instance – uses 
 filesystem instead of the database to keep the tags.
 
 Defaults to ``\OC\SystemTag\ManagerFactory``
+
+::
+
+	'mail_template_class' => '\OC\Mail\EMailTemplate',
+
+Replaces the default mail template layout. This can be utilized if the
+options to modify the mail texts with the theming app is not enough.
+
+The class must extend  ``\OC\Mail\EMailTemplate``
 
 Maintenance
 -----------
@@ -1411,7 +1428,7 @@ and MySQL can handle 4 byte characters instead of 3 byte characters.
 
 If you want to convert an existing 3-byte setup into a 4-byte setup please
 set the parameters in MySQL as mentioned below and run the migration command:
- ./occ db:convert-mysql-charset
+./occ db:convert-mysql-charset
 The config setting will be set automatically after a successful run.
 
 Consult the documentation for more details.
@@ -1723,6 +1740,19 @@ modify *ANY* settings in this file without reading the documentation.
 	'lookup_server' => 'https://lookup.nextcloud.com',
 
 use a custom lookup server to publish user data
+
+::
+
+	'gs.enabled' => false,
+
+set to true if the server is used in a setup based on Nextcloud's Global Scale architecture
+
+::
+
+	'gs.federation' => 'internal',
+
+by default federation is only used internally in a Global Scale setup
+If you want to allow federation outside of your environment set it to 'global'
 
 .. ALL_OTHER_SECTIONS_END
 .. Generated content above. Don't change this.

@@ -2,7 +2,7 @@ OC.L10N.register(
     "activity",
     {
     "Activities" : "Aktiviteter",
-    "An error occurred while loading activities" : "Der opstod en fejl under indlæsning af aktiviteter",
+    "An error occurred while loading activities" : "Der opstod en fejl under indlæsning af aktivitete",
     "No activity yet" : "Ingen aktiviteter endnu",
     "Load more activities" : "Indlæs flere aktiviteter",
     "Copied!" : "Kopieret!",
@@ -47,6 +47,11 @@ OC.L10N.register(
     "Settings" : "Indstillinger",
     "Enable RSS feed" : "Aktiverer RSS feed",
     "No more events to load" : "Der er Ikke flere aktiviteter som kan indlæses",
-    "Files" : "Filer"
+    "Files" : "Filer",
+    "Error loading activities" : "Fejl ved indlæsning af aktiviteter",
+    "No activities" : "Ingen aktiviteter",
+    "You are receiving this email because the following things happened at %s" : "Du modtager denne email fordi følgende er sket på %s",
+    "* %1$s - %2$s" : "* %1$s - %2$s",
+    "_* and %n more _::_* and %n more _" : ["* og %n mere","* og %n mere"]
 },
 "nplurals=2; plural=(n != 1);");

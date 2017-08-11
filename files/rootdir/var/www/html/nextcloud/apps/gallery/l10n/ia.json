@@ -6,7 +6,6 @@
     "Could not move \"{file}\"" : "Impossibile displaciar  \"{file}\"",
     "No compatible server found at {remote}" : "Nulle servitor compatibile trovate a {remote}",
     "Invalid server url" : "Adresse URL de servitor non es valide",
-    "Gallery view" : "Visualisation de Galeria",
     "Could not load the description" : "Impossibile cargar le description",
     "Could not load the description: " : "Impossibile cargar le description:",
     "Copyright" : "Copyright",
@@ -19,7 +18,6 @@
     "please install one of the following alternatives" : "per favor, installa uno del alternativas sequente",
     "Album cannot be shown" : "Impossibile monstrar le album",
     "No media files found" : "Nulle files de multimedia trovate",
-    "Upload pictures in the files app to display them here" : "Incarga imagines in le application Files pro visualisar los in ci ",
     "Configuration error" : "Error de configuration",
     "New" : "Nove",
     "Hide Album" : "Occultar Album",
@@ -95,13 +93,13 @@
     "a conflicting app was installed" : "un application confligente esse installate",
     "a required component is missing or was disconnected" : "un componente requirite es absente o esseva disconnectite",
     "the filesystem is not readable" : "le systema de file non es legibile",
-    "For more information, please contact your friendly ownCloud administrator." : "Pro obtener plus informationes, per favor contacta tu amical administrator ownCloud.",
     "Sorry, this link doesn't seem to work anymore." : "Pardono, iste ligamine sembla non functionar plus.",
     "the item was removed" : "le elemento esseva removite",
     "the link has expired" : "le ligamine ha expirate",
     "sharing is disabled" : "le compartimento de files es disactivate",
     "For more information, please ask the person who has sent you this link." : "Pro obtener plus informationes, per favor demanda le persona qui ha te inviate iste ligamine.",
     "Add to your Nextcloud" : "Adder a tu Nextcloud",
-    "Picture view" : "Visualisation de Imagine"
+    "Picture view" : "Visualisation de Imagine",
+    "Gallery view" : "Visualisation de Galeria"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

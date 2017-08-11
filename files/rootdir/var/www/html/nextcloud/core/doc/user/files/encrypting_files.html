@@ -143,17 +143,17 @@ to learn more.)</p>
 <h2>Encryption FAQ<a class="headerlink" href="#encryption-faq" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="how-can-encryption-be-disabled">
 <h3>How Can Encryption Be Disabled?<a class="headerlink" href="#how-can-encryption-be-disabled" title="Permalink to this headline">¶</a></h3>
-<p>The only way to disable encryption is to run the <span class="xref std std-ref">&#8220;decrypt all&#8221;</span>
-script, which decrypts all files and disables encryption.</p>
+<p>The only way to disable encryption is to run the <a class="reference external" href="https://docs.nextcloud.org/server/12/admin_manual/configuration_server/occ_command.html#encryption-label">&#8220;decrypt all&#8221;</a>.</p>
+<p>script, which decrypts all files and disables encryption.</p>
 </div>
 <div class="section" id="is-it-possible-to-disable-encryption-with-the-recovery-key">
 <h3>Is It Possible To Disable Encryption With The Recovery Key?<a class="headerlink" href="#is-it-possible-to-disable-encryption-with-the-recovery-key" title="Permalink to this headline">¶</a></h3>
-<p>Yes, <em>if</em> every user uses the <span class="xref std std-ref">file recovery key</span>, <span class="xref std std-ref">&#8220;decrypt all&#8221;</span> will use it
-to decrypt all files.</p>
+<p>Yes, <em>if</em> every user uses the <a class="reference external" href="https://docs.nextcloud.com/server/12/admin_manual/configuration_files/encryption_configuration.html#enabling-users-file-recovery-keys">file recovery key</a>,  <a class="reference external" href="https://docs.nextcloud.org/server/12/admin_manual/configuration_server/occ_command.html#encryption-label">&#8220;decrypt all&#8221;</a> will use it to decrypt all files.</p>
 </div>
 <div class="section" id="can-encryption-be-disabled-without-the-users-password">
 <h3>Can Encryption Be Disabled Without The User’s Password?<a class="headerlink" href="#can-encryption-be-disabled-without-the-users-password" title="Permalink to this headline">¶</a></h3>
-<p>If you don&#8217;t have the users password or <span class="xref std std-ref">file recovery key</span> then there is no way to decrypt all files. What&#8217;s
+<p>If you don&#8217;t have the users password or <a class="reference external" href="https://docs.nextcloud.com/server/12/admin_manual/configuration_files/encryption_configuration.html#enabling-users-file-recovery-keys">file recovery key</a>.</p>
+<p>then there is no way to decrypt all files. What&#8217;s
 more, running it on login would be dangerous, because you would most likely run
 into timeouts.</p>
 </div>
@@ -206,6 +206,8 @@ owner to re-share the file with them. For individual shares, un-share and
 re-share the file. For group shares, share with any individuals who can&#8217;t access
 the share. This updates the encryption, and then the share owner can remove the
 individual shares.</p>
+<div class="section" id="recovery-key-password">
+<h3>Recovery Key Password<a class="headerlink" href="#recovery-key-password" title="Permalink to this headline">¶</a></h3>
 <p>If your Nextcloud administrator has enabled the recovery key feature, you can
 choose to use this feature for your account. If you enable &#8220;Password recovery&#8221;
 the administrator can read your data with a special password. This feature
@@ -214,6 +216,7 @@ Nextcloud password. If the recovery key is not enabled, then there is no way to
 restore your files if you lose your login password.</p>
 <div class="figure">
 <img alt="../_images/encryption3.png" src="../_images/encryption3.png" />
+</div>
 </div>
 </div>
 <div class="section" id="files-not-encrypted">
@@ -229,6 +232,8 @@ structures. These files are never encrypted:</p>
 </ul>
 <p>There may be other files that are not encrypted; only files that are exposed to
 third-party storage providers are guaranteed to be encrypted.</p>
+<div class="section" id="change-private-key-password">
+<h3>Change Private Key Password<a class="headerlink" href="#change-private-key-password" title="Permalink to this headline">¶</a></h3>
 <p>This option is only available if your log-in password, but not your encryption
 password, was changed by your administrator. This can occur if your Nextcloud
 provider uses an external user back-end (for example, LDAP) and changed your
@@ -236,6 +241,7 @@ login password using that back-end configuration. In this case, you can set
 your encryption password to your new login password by providing your old and
 new login password. The Encryption app works only if your login password and
 your encryption password are identical.</p>
+</div>
 </div>
 </div>
 

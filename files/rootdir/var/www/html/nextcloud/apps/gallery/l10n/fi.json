@@ -6,7 +6,6 @@
     "Could not move \"{file}\"" : "Tiedoston \"{file}\" siirtäminen ei onnistunut",
     "No compatible server found at {remote}" : "Yhteensopivaa palvelinta ei löytynyt osoitteesta {remote}",
     "Invalid server url" : "Virheellinen palvelimen URL",
-    "Gallery view" : "Gallerianäkymä",
     "Could not load the description" : "Kuvauksen lataaminen epäonnistui",
     "Could not load the description: " : "Kuvauksen lataaminen epäonnistui:",
     "Copyright" : "Tekijänoikeus",
@@ -19,7 +18,6 @@
     "please install one of the following alternatives" : "asenna jokin seuraavista vaihtoehdoista",
     "Album cannot be shown" : "Albumin näyttäminen ei onnistu",
     "No media files found" : "Mediatiedostoja ei löytynyt",
-    "Upload pictures in the files app to display them here" : "Lähetä kuvia tiedostosovelluksen kautta. Sen jälkeen kuvat näkyvät täällä",
     "Upload new files via drag and drop or by using the [+] button above" : "Lähetä uusia tiedostoja vetämällä ne tänne tai käyttämällä yllä olevaa [+]-painiketta",
     "Configuration error" : "Asetusvirhe",
     "New" : "Uusi",
@@ -39,6 +37,7 @@
     "Could not create file \"{file}\"" : "Tiedostoa \"{file}\" ei voitu luoda",
     "\"{name}\" is an invalid file name." : "\"{name}\" on virheellinen tiedostonimi.",
     "File name cannot be empty." : "Tiedoston nimi ei voi olla tyhjä.",
+    "\"{name}\" is not an allowed filetype" : "\"{name}\" ei ole hyväksytty tiedostotyyppi",
     "Upload" : "Lähetä",
     "Error" : "Virhe",
     "Error while sharing" : "Virhe jaettaessa",
@@ -105,13 +104,13 @@
     "a conflicting app was installed" : "ristiriidan aiheuttava sovellus on asennettu",
     "a required component is missing or was disconnected" : "vaadittu komponentti puuttuu tai on irrotettu",
     "the filesystem is not readable" : "tiedostojärjestelmä ei ole luettavissa",
-    "For more information, please contact your friendly ownCloud administrator." : "Lisätietoja on saatavilla ownCloud-istunnon ylläpitäjältä.",
     "Sorry, this link doesn't seem to work anymore." : "Valitettavasti tämä linkki ei enää toimi.",
     "the item was removed" : "kohde poistettiin",
     "the link has expired" : "linkki on vanhentunut",
     "sharing is disabled" : "jakaminen on poistettu käytöstä",
     "For more information, please ask the person who has sent you this link." : "Kysy lisätietoja linkin lähettäneeltä taholta.",
     "Add to your Nextcloud" : "Lisää Nextcloudiisi",
-    "Picture view" : "Kuvanäkymä"
+    "Picture view" : "Kuvanäkymä",
+    "Gallery view" : "Gallerianäkymä"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

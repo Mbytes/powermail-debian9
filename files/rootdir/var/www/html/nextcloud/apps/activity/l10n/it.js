@@ -29,6 +29,7 @@ OC.L10N.register(
     "Hello %s" : "Ciao %s",
     "Hello %s," : "Ciao %s,",
     "There was some activity at %s" : "Attività registrata su %s",
+    "_and %n more _::_and %n more _" : ["e %n altro ","e %n altri "],
     "Activity notification" : "Notifica delle attività",
     ", " : ", ",
     "%s and %s" : "%s e %s",
@@ -46,6 +47,11 @@ OC.L10N.register(
     "Settings" : "Impostazioni",
     "Enable RSS feed" : "Abilita fonte RSS",
     "No more events to load" : "Non ci sono altri eventi da caricare",
-    "Files" : "File"
+    "Files" : "File",
+    "Error loading activities" : "Errore durante il caricamento delle attività",
+    "No activities" : "Nessuna attività",
+    "You are receiving this email because the following things happened at %s" : "Hai ricevuto questa email perché si sono verificati i seguenti eventi su %s",
+    "* %1$s - %2$s" : "* %1$s - %2$s",
+    "_* and %n more _::_* and %n more _" : ["* e %n altro","* e %n altri"]
 },
 "nplurals=2; plural=(n != 1);");

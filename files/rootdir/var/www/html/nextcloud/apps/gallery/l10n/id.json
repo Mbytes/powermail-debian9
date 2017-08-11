@@ -6,7 +6,6 @@
     "Could not move \"{file}\"" : "Tidak dapat memindahkan \"{file}\"",
     "No compatible server found at {remote}" : "Tida ditemukan server yang kompatibel pada {remote}",
     "Invalid server url" : "URL server salah",
-    "Gallery view" : "Tampilan galeri",
     "Could not load the description" : "Tidak dapat memuat deskripsi",
     "Could not load the description: " : "Tidak dapat memuat deskripsi:",
     "Copyright" : "Hak cipta",
@@ -19,7 +18,6 @@
     "please install one of the following alternatives" : "silakan pasang salah satu alternatif berikut",
     "Album cannot be shown" : "Album tidak dapat ditampilkan",
     "No media files found" : "Tidak ditemukan berkas media",
-    "Upload pictures in the files app to display them here" : "Unggah gambar di aplikasi berkas untuk menampilkannya disini",
     "Upload new files via drag and drop or by using the [+] button above" : "Unggah berkas baru melalui drag dan drop atau menggunakan tombol [+] diatas",
     "Configuration error" : "Kesalahan konfigurasi",
     "New" : "Baru",
@@ -102,13 +100,13 @@
     "a conflicting app was installed" : "sebuah aplikasi yang dipasang menyebabkan konflik",
     "a required component is missing or was disconnected" : "sebuah komponen yang diperlukan tidak ada atau telah terputus",
     "the filesystem is not readable" : "sistem berkas tidak dapat dibaca",
-    "For more information, please contact your friendly ownCloud administrator." : "Untuk informasi lebih lanjut, silakan hubungi administrator ownCloud Anda.",
     "Sorry, this link doesn't seem to work anymore." : "Maaf, tautan ini tampaknya tidak bekerja lagi.",
     "the item was removed" : "item telah dihapus",
     "the link has expired" : "tautan telah kadaluarsa",
     "sharing is disabled" : "berbagi dinonaktifkan",
     "For more information, please ask the person who has sent you this link." : "Untuk informasi lebih lanjut, silakan tanyakan pada orang yang telah mengirimkan Anda tautan ini.",
     "Add to your Nextcloud" : "Tambahkan ke Nextcloud Anda",
-    "Picture view" : "Tampilan gambar"
+    "Picture view" : "Tampilan gambar",
+    "Gallery view" : "Tampilan galeri"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

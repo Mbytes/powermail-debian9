@@ -6,7 +6,6 @@
     "Could not move \"{file}\"" : "{file} fájl nem áthelyezhető",
     "No compatible server found at {remote}" : "Itt nem található kompatibilis szerver: {remote}",
     "Invalid server url" : "Érvénytelen szerver URL",
-    "Gallery view" : "Galéria nézet",
     "Could not load the description" : "Nem lehet betölteni a leírást",
     "Could not load the description: " : "Nem lehet betölteni a leírást:",
     "Copyright" : "Szerzői jog",
@@ -19,7 +18,6 @@
     "please install one of the following alternatives" : "kérlek telepíts egy alternatívát a következők közül",
     "Album cannot be shown" : "Az album nem jeleníthető meg",
     "No media files found" : "Nem található média fájl",
-    "Upload pictures in the files app to display them here" : "Töltsön fel képeket a Fájlok alkalmazással, hogy itt megjelenjenek",
     "Upload new files via drag and drop or by using the [+] button above" : "Töltsön fel új fájlokat ráhúzással, vagy használja a [+] gombot",
     "Configuration error" : "Beállítási hiba",
     "New" : "Új",
@@ -39,6 +37,7 @@
     "Could not create file \"{file}\"" : "{file} fájl nem létrehozható",
     "\"{name}\" is an invalid file name." : "\"{name}\" érvénytelen, mint fájlnév.",
     "File name cannot be empty." : "A fájlnév nem lehet semmi.",
+    "\"{name}\" is not an allowed filetype" : "\"{name}\" nem engedélyetett fájltípus",
     "Upload" : "Feltöltés",
     "Error" : "Hiba",
     "Error while sharing" : "Nem sikerült létrehozni a megosztást",
@@ -62,6 +61,8 @@
     "Set expiration date" : "Legyen lejárati idő",
     "Expiration" : "Lejárat",
     "Expiration date" : "Lejárati idő",
+    "No users or groups found for {search}" : "{search} keresésre nem található felhasználó vagy csoport ",
+    "No users found for {search}" : "{search} keresésre nem található felhasználó ",
     "An error occured. Please try again" : "Hiba történt. Kérjük, próbálja újra!",
     "Adding user..." : "Felhasználó hozzáadása...",
     "group" : "csoport",
@@ -102,13 +103,13 @@
     "a conflicting app was installed" : "ütköző alkalmazás lett telepítve",
     "a required component is missing or was disconnected" : "szükséges követelmény hiányzik, vagy szétkapcsolt",
     "the filesystem is not readable" : "a fájlrendszer nem olvasható",
-    "For more information, please contact your friendly ownCloud administrator." : "Bővebb információért, kérjük keresse fel a barátságos ownCloud rendszergazdáját.",
     "Sorry, this link doesn't seem to work anymore." : "Sajnáljuk, de úgy tűnik, hogy ez a hivatkozás már nem működik.",
     "the item was removed" : "az elem el lett távolítva",
     "the link has expired" : "a hivatkozás lejárt",
     "sharing is disabled" : "letiltásra került a megosztás",
     "For more information, please ask the person who has sent you this link." : "Bővebb információért, kérjük keresse fel azt az embert, aki küldte ezt a hivatkozást.",
     "Add to your Nextcloud" : "Add hozzá a saját Nexcloudodhoz",
-    "Picture view" : "Képnézet"
+    "Picture view" : "Képnézet",
+    "Gallery view" : "Galéria nézet"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

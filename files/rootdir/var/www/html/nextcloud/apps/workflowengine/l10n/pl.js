@@ -59,6 +59,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Sprawdź, czy %s jest nieprawidłowy",
     "Check #%s does not exist" : "Sprawdź, czy #%s nie istnieje",
     "Workflow" : "Wpływ na pracę",
+    "Files workflow engine" : "Silnik przepływu pracy nad plikami",
     "Open documentation" : "Otwórz dokumentację",
     "Add rule group" : "Dodaj grupę reguł",
     "Short rule description" : "Krótki opis reguły",
@@ -70,4 +71,4 @@ OC.L10N.register(
     "Successfully saved" : "Zapis się powiódł",
     "File mime type" : "Typ MIME pliku"
 },
-"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
+"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

@@ -323,6 +323,15 @@ French. It overrides automatic language detection on public pages like login
 or shared items. User&#8217;s language preferences configured under &#8220;personal -&gt;
 language&#8221; override this setting after they have logged in.</p>
 <p>Defaults to <code class="docutils literal"><span class="pre">en</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre>&#39;force_language&#39; =&gt; &#39;en&#39;,
+</pre></div>
+</div>
+<p>With this setting a language can be forced for all users. If a language is
+forced, the users are also unable to change their language in the personal
+settings. If users shall be unable to change their language, but users have
+different languages, this value can be set to <code class="docutils literal"><span class="pre">true</span></code> instead of a language
+code.</p>
+<p>Defaults to <code class="docutils literal"><span class="pre">false</span></code></p>
 <div class="highlight-python"><div class="highlight"><pre>&#39;defaultapp&#39; =&gt; &#39;files&#39;,
 </pre></div>
 </div>
@@ -988,12 +997,6 @@ concerns:</p>
 <li>OC\Preview\Font</li>
 </ul>
 </div></blockquote>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Troubleshooting steps for the MS Word previews are available
-at the <code class="xref doc docutils literal"><span class="pre">../configuration_files/collaborative_documents_configuration</span></code>
-section of the Administrators Manual.</p>
-</div>
 <p>The following providers are not available in Microsoft Windows:</p>
 <blockquote>
 <div><ul class="simple">
@@ -1048,6 +1051,12 @@ filesystem instead of the database to keep the comments.</p>
 own or 3rdParty SystemTagsManager should be used that – for instance – uses the
 filesystem instead of the database to keep the tags.</p>
 <p>Defaults to <code class="docutils literal"><span class="pre">\OC\SystemTag\ManagerFactory</span></code></p>
+<div class="highlight-python"><div class="highlight"><pre>&#39;mail_template_class&#39; =&gt; &#39;\OC\Mail\EMailTemplate&#39;,
+</pre></div>
+</div>
+<p>Replaces the default mail template layout. This can be utilized if the
+options to modify the mail texts with the theming app is not enough.</p>
+<p>The class must extend  <code class="docutils literal"><span class="pre">\OC\Mail\EMailTemplate</span></code></p>
 </div>
 <div class="section" id="maintenance">
 <h2>Maintenance<a class="headerlink" href="#maintenance" title="Permalink to this headline">¶</a></h2>
@@ -1287,10 +1296,9 @@ can be &#8216;WAL&#8217; or &#8216;DELETE&#8217; see for more details <a class="
 <p>During setup, if requirements are met (see below), this setting is set to true
 and MySQL can handle 4 byte characters instead of 3 byte characters.</p>
 <p>If you want to convert an existing 3-byte setup into a 4-byte setup please
-set the parameters in MySQL as mentioned below and run the migration command:</p>
-<blockquote>
-<div>./occ db:convert-mysql-charset</div></blockquote>
-<p>The config setting will be set automatically after a successful run.</p>
+set the parameters in MySQL as mentioned below and run the migration command:
+./occ db:convert-mysql-charset
+The config setting will be set automatically after a successful run.</p>
 <p>Consult the documentation for more details.</p>
 <p>MySQL requires a special setup for longer indexes (&gt; 767 bytes) which are
 needed:</p>
@@ -1521,6 +1529,15 @@ modify <em>ANY</em> settings in this file without reading the documentation.</p>
 </pre></div>
 </div>
 <p>use a custom lookup server to publish user data</p>
+<div class="highlight-python"><div class="highlight"><pre>&#39;gs.enabled&#39; =&gt; false,
+</pre></div>
+</div>
+<p>set to true if the server is used in a setup based on Nextcloud&#8217;s Global Scale architecture</p>
+<div class="highlight-python"><div class="highlight"><pre>&#39;gs.federation&#39; =&gt; &#39;internal&#39;,
+</pre></div>
+</div>
+<p>by default federation is only used internally in a Global Scale setup
+If you want to allow federation outside of your environment set it to &#8216;global&#8217;</p>
 </div>
 <div class="section" id="app-config-options">
 <h2>App config options<a class="headerlink" href="#app-config-options" title="Permalink to this headline">¶</a></h2>

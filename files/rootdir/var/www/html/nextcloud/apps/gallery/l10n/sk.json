@@ -6,7 +6,6 @@
     "Could not move \"{file}\"" : "Nie je možné presunúť „{file}“",
     "No compatible server found at {remote}" : "Nebol nájdený kompatibilný server na adrese {remote}",
     "Invalid server url" : "Neplatná url servera",
-    "Gallery view" : "Pohľad galérie",
     "Could not load the description" : "Nemožno načítať popis",
     "Could not load the description: " : "Nemožno načítať popis:",
     "Copyright" : "Copyright",
@@ -19,7 +18,6 @@
     "please install one of the following alternatives" : "prosím inštalujte jednu z nasledujúcich alternatív",
     "Album cannot be shown" : "Album nemožno zobraziť",
     "No media files found" : "Neboli nájdené žiadne multimediálne súbory",
-    "Upload pictures in the files app to display them here" : "Tu sa zobrazia obrázky, ktoré nahráte v aplikácii Súbory",
     "Upload new files via drag and drop or by using the [+] button above" : "Nahrajte nové súbory pretiahnutím alebo pomocou tlačidla [+] vyššie",
     "Configuration error" : "Chyba nastavenia",
     "New" : "Nový",
@@ -102,13 +100,13 @@
     "a conflicting app was installed" : "inštalovaná konfliktná aplikácia",
     "a required component is missing or was disconnected" : "požadovaný komponent chýba alebo nie je pripojený",
     "the filesystem is not readable" : "súborový systém je nečitateľný",
-    "For more information, please contact your friendly ownCloud administrator." : "Viac informácií získate od vášho priateľského ownCloud správcu.",
     "Sorry, this link doesn't seem to work anymore." : "Ľutujem, táto linka už nevyzerá funkčná.",
     "the item was removed" : "položka bola presunutá",
     "the link has expired" : "linka vypršala",
     "sharing is disabled" : "sprístupňovanie je zakázané",
     "For more information, please ask the person who has sent you this link." : "Viac informácií vám poskytne osoba, ktorá vám tento link poslala.",
     "Add to your Nextcloud" : "Pridať do svojho Nextcloudu",
-    "Picture view" : "Zobrazenie obrázka"
+    "Picture view" : "Zobrazenie obrázka",
+    "Gallery view" : "Pohľad galérie"
 },"pluralForm" :"nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;"
 }

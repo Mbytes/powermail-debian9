@@ -7,8 +7,8 @@ OC.L10N.register(
     "Load more activities" : "Załaduj więcej aktywności",
     "Copied!" : "Skopiowano!",
     "Not supported!" : "Brak wsparcia!",
-    "Press ⌘-C to copy." : "Wciśnij ⌘-C aby skopiować.",
-    "Press Ctrl-C to copy." : "Wciśnij Ctrl-C aby skopiować.",
+    "Press ⌘-C to copy." : "Wciśnij ⌘-C, aby skopiować.",
+    "Press Ctrl-C to copy." : "Wciśnij Ctrl-C, aby skopiować.",
     "{name} (invisible)" : "{name} (niewidoczny)",
     "{name} (restricted)" : "{name} (ograniczony)",
     "in {path}" : "w {path}",
@@ -47,6 +47,11 @@ OC.L10N.register(
     "Settings" : "Ustawienia",
     "Enable RSS feed" : "Włącz kanał RSS",
     "No more events to load" : "Brak zdarzeń do załadowania",
-    "Files" : "Pliki"
+    "Files" : "Pliki",
+    "Error loading activities" : "Błąd podczas ładowania aktywności",
+    "No activities" : "Brak aktywności",
+    "You are receiving this email because the following things happened at %s" : "Dostajesz tego e-maila ponieważ poniższe rzeczy wydarzyły się w %s",
+    "* %1$s - %2$s" : "* %1$s - %2$s",
+    "_* and %n more _::_* and %n more _" : ["* i %n więcej ","* i %n więcej ","* i %n więcej ","* i %n więcej "]
 },
-"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
+"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

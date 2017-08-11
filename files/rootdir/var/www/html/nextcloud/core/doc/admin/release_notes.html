@@ -68,11 +68,13 @@
 <li class="toctree-l1"><a class="reference internal" href="index.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="">Release Notes</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#changes-in-nextcloud-version">Changes in Nextcloud 12</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#theming">Theming</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#updates-to-nginx-configuration">Updates to Nginx configuration</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#common-questions">Common questions</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#could-not-install-core-app-bundle">Could not install core app bundle</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#theming-changes">Theming changes</a></li>
 </ul>
 </li>
 </ul>
@@ -114,6 +116,15 @@
 <h2>Changes in Nextcloud 12<a class="headerlink" href="#changes-in-nextcloud-version" title="Permalink to this headline">¶</a></h2>
 <p>A detailed log of all changes can be found in the official <a class="reference external" href="https://nextcloud.com/changelog/">Changelog</a>. There are also all current and previous
 versions linked.</p>
+<div class="section" id="theming">
+<h3>Theming<a class="headerlink" href="#theming" title="Permalink to this headline">¶</a></h3>
+<p>The &#8216;old&#8217; theming method with CSS files is still available, however, we
+switched to using scss on many files which is likely to break your theme.
+Re-creating your theme following the usual documentation should suffice.
+To lower the effort you need to spend on theming your Nextcloud instance we
+highly recommend to use the theming app instead of the themes feature. See
+<a class="reference internal" href="configuration_server/theming.html"><em>Theming</em></a> for details.</p>
+</div>
 <div class="section" id="updates-to-nginx-configuration">
 <h3>Updates to Nginx configuration<a class="headerlink" href="#updates-to-nginx-configuration" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
@@ -141,6 +152,13 @@ automatically. This could have multiple reasons: either you disabled the
 appstore with the config.php flag or your server could not reach the app store.
 The instance will work fine, but the features that are usually provided by this
 app are not available.</p>
+</div>
+<div class="section" id="theming-changes">
+<h3>Theming changes<a class="headerlink" href="#theming-changes" title="Permalink to this headline">¶</a></h3>
+<p>With Nextcloud 12, CSS files have been merged into one server.css so in order
+to keep your theme working you should consolidate your existing css styles into
+a server.css file. As for the example theme the styles.css file has been
+renamed to server.css.</p>
 </div>
 </div>
 </div>

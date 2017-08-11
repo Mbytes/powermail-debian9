@@ -6,7 +6,6 @@
     "Could not move \"{file}\"" : "Nie można przenieść \"{file}\"",
     "No compatible server found at {remote}" : "Nie znaleziono kompatybilnego serwera na {remote}",
     "Invalid server url" : "Błędny adres serwera",
-    "Gallery view" : "Widok galerii",
     "Could not load the description" : "Nie można załadować opisu",
     "Could not load the description: " : "Nie można załadować opisu:",
     "Copyright" : "Prawa autorskie",
@@ -19,7 +18,6 @@
     "please install one of the following alternatives" : "proszę zainstalować jedną z następujących alternatyw",
     "Album cannot be shown" : "Album nie może zostać wyświetlony",
     "No media files found" : "Nie znaleziono plików multimedialnych",
-    "Upload pictures in the files app to display them here" : "Prześlij zdjęcia w plikach z aplikacji, aby wyświetlić je tutaj",
     "Upload new files via drag and drop or by using the [+] button above" : "Wyślij nowe pliki metodą \"przeciągnij i upuść\" lub użyj przycisku [+] powyżej",
     "Configuration error" : "Błąd konfiguracji",
     "New" : "Nowy",
@@ -39,6 +37,7 @@
     "Could not create file \"{file}\"" : "Nie można było utworzyć pliku \"{file}\"",
     "\"{name}\" is an invalid file name." : "\"{name}\" jest nieprawidłową nazwą pliku.",
     "File name cannot be empty." : "Nazwa pliku nie może być pusta.",
+    "\"{name}\" is not an allowed filetype" : "\"{name}\" nie jest dozwolonym typem pliku",
     "Upload" : "Wyślij",
     "Error" : "Błąd",
     "Error while sharing" : "Błąd podczas współdzielenia",
@@ -105,13 +104,13 @@
     "a conflicting app was installed" : "Została zainstalowana kolidująca aplikacja",
     "a required component is missing or was disconnected" : "brak wymaganego komponentu lub został on rozłączony",
     "the filesystem is not readable" : "system plików jest nie czytelny",
-    "For more information, please contact your friendly ownCloud administrator." : "Po więcej informacji, proszę skontaktuj się z twoim przyjaznym administratorem ownCloud.",
     "Sorry, this link doesn't seem to work anymore." : "Przepraszamy ale wygląda na to, że ten link już nie działa.",
     "the item was removed" : "element został usunięty",
     "the link has expired" : "link wygasł",
     "sharing is disabled" : "udostępnianie jest wyłączone",
     "For more information, please ask the person who has sent you this link." : "Po więcej informacji, proszę skontaktuj się z osobą, która wysłała Tobie ten link.",
     "Add to your Nextcloud" : "Dodaj do swojego Nextcloud",
-    "Picture view" : "Widok zdjęć"
-},"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
+    "Picture view" : "Widok zdjęć",
+    "Gallery view" : "Widok galerii"
+},"pluralForm" :"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);"
 }

@@ -280,6 +280,7 @@ class OC {
 			// render error page
 			$template = new OC_Template('', 'update.user', 'guest');
 			OC_Util::addScript('maintenance-check');
+			OC_Util::addStyle('core', 'guest');
 			$template->printPage();
 			die();
 		}
@@ -292,6 +293,9 @@ class OC {
 	 */
 	public static function checkUpgrade($showTemplate = true) {
 		if (\OCP\Util::needUpgrade()) {
+			if (function_exists('opcache_reset')) {
+				opcache_reset();
+			}
 			$systemConfig = \OC::$server->getSystemConfig();
 			if ($showTemplate && !$systemConfig->getValue('maintenance', false)) {
 				self::printUpgradePage();

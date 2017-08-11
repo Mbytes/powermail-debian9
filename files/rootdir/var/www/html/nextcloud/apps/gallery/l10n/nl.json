@@ -6,7 +6,6 @@
     "Could not move \"{file}\"" : "Kon \"{file}\" niet verplaatsen",
     "No compatible server found at {remote}" : "Geen geschikte server gevonden op {remote}",
     "Invalid server url" : "Ongeldige server url",
-    "Gallery view" : "Album",
     "Could not load the description" : "Kon de beschrijving niet laden",
     "Could not load the description: " : "Kon de beschrijving niet laden:",
     "Copyright" : "Copyright",
@@ -19,7 +18,7 @@
     "please install one of the following alternatives" : "Installeer één van de volgende alternatieven",
     "Album cannot be shown" : "Album kan niet worden getoond",
     "No media files found" : "Geen mediabestanden gevonden",
-    "Upload pictures in the files app to display them here" : "Upload afbeeldingen in de bestandsapp, om ze hier te tonen",
+    "Upload pictures in the Files app to display them here" : "Upload afbeeldingen in de bestandsapp, om ze hier te tonen",
     "Upload new files via drag and drop or by using the [+] button above" : "Upload nieuwe bestanden via drag 'n drop of door gebruik van de  [+] knop hierboven",
     "Configuration error" : "Configuratiefout",
     "New" : "Nieuw",
@@ -39,6 +38,7 @@
     "Could not create file \"{file}\"" : "Kon \"{file}\" niet aanmaken",
     "\"{name}\" is an invalid file name." : "\"{name}\" is een ongeldige bestandsnaam.",
     "File name cannot be empty." : "Bestandsnaam kan niet leeg zijn.",
+    "\"{name}\" is not an allowed filetype" : "\"{name}\" is een niet toegestaan bestandstype",
     "Upload" : "Uploaden",
     "Error" : "Fout",
     "Error while sharing" : "Fout tijdens het delen",
@@ -105,13 +105,13 @@
     "a conflicting app was installed" : "een conflicteren app was geinstalleerd",
     "a required component is missing or was disconnected" : "een vereist onderdeel ontbreekt of is losgekoppeld",
     "the filesystem is not readable" : "het bestandssysteem is niet leesbaar",
-    "For more information, please contact your friendly ownCloud administrator." : "Voor meer informatie neemt u contact op met je systeembeheerder.",
     "Sorry, this link doesn't seem to work anymore." : "Sorry, deze link lijkt niet meer in gebruik te zijn.",
     "the item was removed" : "bestand was verwijderd",
     "the link has expired" : "link is verlopen",
     "sharing is disabled" : "delen is uitgeschakeld",
     "For more information, please ask the person who has sent you this link." : "Voor meer informatie, neem contact op met de persoon die u deze link heeft gestuurd.",
     "Add to your Nextcloud" : "Toevoegen aan je Nextcloud",
-    "Picture view" : "Afbeeldingenoverzicht"
+    "Picture view" : "Afbeeldingenoverzicht",
+    "Gallery view" : "Album"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

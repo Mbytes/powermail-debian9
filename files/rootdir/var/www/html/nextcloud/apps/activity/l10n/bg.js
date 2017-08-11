@@ -2,6 +2,7 @@ OC.L10N.register(
     "activity",
     {
     "Activities" : "Активност",
+    "An error occurred while loading activities" : "Възникна грешка, докато зарежда активност",
     "No activity yet" : "Все още няма активност",
     "Load more activities" : "Зареди по-стари",
     "Copied!" : "Копирано!",
@@ -18,12 +19,14 @@ OC.L10N.register(
     "Personal activity feed for %s" : "Емисия за активноста на %s",
     "Your feed URL is invalid" : "Емисията е с невалиден адрес",
     "Your settings have been updated." : "Вашите настройки са актуализирани.",
+    "Settings have been updated." : "Настройките бяха актуализирани.",
     "Mail" : "Поща",
     "Stream" : "Поток",
     "All activities" : "Всички активности",
     "By others" : "От други",
     "By you" : "От Вас",
     "\"remote user\"" : "\"отдалечен потребител\"",
+    "Hello %s" : "Здравейте %s",
     "Hello %s," : "Здравейте %s,",
     "There was some activity at %s" : "Активност на %s",
     "Activity notification" : "Известия за активност",
@@ -38,8 +41,12 @@ OC.L10N.register(
     "Hourly" : "На всеки час",
     "Daily" : "Ежедневно",
     "Weekly" : "Седмично",
+    "Settings" : "Настройки",
     "Enable RSS feed" : "Разрешаване на RSS емисии",
     "No more events to load" : "Няма повече известия за зареждане",
-    "Files" : "Файлове"
+    "Files" : "Файлове",
+    "Error loading activities" : "Грешка при зареждане на активността",
+    "No activities" : "Няма активност",
+    "You are receiving this email because the following things happened at %s" : "Получавате този имейл, защото се случиха следните неща в %s"
 },
 "nplurals=2; plural=(n != 1);");

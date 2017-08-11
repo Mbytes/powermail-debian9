@@ -4,7 +4,6 @@
     "Aborting preview. Could not find the file" : "กำลังยกเลิกการแสดงตัวอย่าง ไม่สามารถค้นหาไฟล์",
     "Could not move \"{file}\", target exists" : "ไม่สามารถย้ายไฟล์ \"{file}\" ไม่มีไฟล์นั้นอยู่",
     "Could not move \"{file}\"" : "ไม่สามารถย้ายไฟล์ \"{file}\"",
-    "Gallery view" : "ดูแกลอรี่",
     "Could not load the description" : "ไม่สามารถโหลดคำอธิบาย",
     "Could not load the description: " : "ไม่สามารถโหลดคำอธิบาย",
     "Copyright" : "ลิขสิทธิ์",
@@ -17,7 +16,6 @@
     "please install one of the following alternatives" : "โปรดติดตั้งหนึ่งในทางเลือกดังต่อไปนี้",
     "Album cannot be shown" : "ไม่สามารถแสดงอัลบั้มได้",
     "No media files found" : "ไม่พบไฟล์สื่อ",
-    "Upload pictures in the files app to display them here" : "อัพโหลดรูปภาพในไฟล์แอพฯเพื่อแสดงพวกเขาที่นี่",
     "Upload new files via drag and drop or by using the [+] button above" : "อัพโหลดไฟล์ใหม่ผ่านการลากและวางหรือโดยการใช้ปุ่ม [+] ดังกล่าวข้างต้น",
     "Configuration error" : "กำหนดค่าผิดพลาด",
     "New" : "ใหม่",
@@ -98,12 +96,12 @@
     "a conflicting app was installed" : "แอพฯตรวจสอบปัญหาได้ถูกติดตั้งแล้ว",
     "a required component is missing or was disconnected" : "ส่วนประกอบที่จำเป็นขาดหายไปหรือถูกยกเลิกการเชื่อมต่อ",
     "the filesystem is not readable" : "ไม่สามารถอ่านระบบแฟ้ม",
-    "For more information, please contact your friendly ownCloud administrator." : "สำหรับข้อมูลเพิ่มเติมโปรดติดต่อผู้ดูแลระบบ ownCloud ของคุณ",
     "Sorry, this link doesn't seem to work anymore." : "ขออภัย ลิงค์นี้ดูเหมือนจะมีปัญหา",
     "the item was removed" : "รายการที่ถูกลบออก",
     "the link has expired" : "ลิงค์หมดอายุ",
     "sharing is disabled" : "การแชร์ถูกปิดใช้งาน",
     "For more information, please ask the person who has sent you this link." : "สำหรับข้อมูลเพิ่มเติม โปรดถามคนที่ส่งลิงค์นี้ให้คุณ",
-    "Picture view" : "ดูรูปภาพ"
+    "Picture view" : "ดูรูปภาพ",
+    "Gallery view" : "ดูแกลอรี่"
 },"pluralForm" :"nplurals=1; plural=0;"
 }

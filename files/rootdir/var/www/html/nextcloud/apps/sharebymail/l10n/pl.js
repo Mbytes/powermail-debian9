@@ -18,7 +18,7 @@ OC.L10N.register(
     "Password to access {file} was sent to you" : "Hasło dostępu do {file} zostało wysłane do ciebie",
     "Sharing %s failed, this item is already shared with %s" : "Współdzielenie %s nie udało się, ten obiekt już jest współdzielony z %s",
     "We can't send you the auto-generated password. Please set a valid email address in your personal settings and try again." : "Nie można wysłać automatycznie wygenerowanego hasła. Proszę ustawić prawidłowy adres e-mail w ustawieniach osobistych i spróbować ponownie.",
-    "Failed to send share by E-mail" : "Nie udało się wysłać współdzielenia przez e-maila",
+    "Failed to send share by email" : "Nie udało się wysłać współdzielenia przez e-mail",
     "%s shared »%s« with you" : "%s współdzieli »%s« z tobą",
     "%s shared »%s« with you." : "%s współdzieli »%s« z tobą.",
     "Click the button below to open it." : "Kliknij przycisk poniżej, żeby to otworzyć.",
@@ -38,6 +38,7 @@ OC.L10N.register(
     "Allows users to share a personalized link to a file or folder by putting in an email address." : "Umożliwia współdzielenie spersonalizowanego linku do pliku lub folderu, umieszczając go w wiadomości e-mail.",
     "Send password by mail" : "Wyślij hasło e-mailem",
     "Enforce password protection" : "Wymuś zabezpieczenie hasłem",
+    "Failed to send share by E-mail" : "Nie udało się wysłać współdzielenia przez e-maila",
     "%s shared »%s« with you on behalf of %s" : "%s współdzieli »%s« z tobą w imieniu %s",
     "Failed to create the E-mail" : "Nie udało się utworzyć e-maila",
     "Hey there,\n\n%s shared »%s« with you on behalf of %s.\n\n%s\n\n" : "Hej,\n\n%s współdzieli »%s« z tobą w imieniu %s.\n\n%s\n\n",
@@ -46,4 +47,4 @@ OC.L10N.register(
     "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you on behalf of %s.<br><br>" : "Hej,<br><br>%s współdzieli <a href=\"%s\">%s</a> z tobą w imieniu %s.<br><br>",
     "Hey there,<br><br>%s shared <a href=\"%s\">%s</a> with you.<br><br>" : "Hej,<br><br>%s współdzieli <a href=\"%s\">%s</a> z tobą.<br><br>"
 },
-"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");
+"nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);");

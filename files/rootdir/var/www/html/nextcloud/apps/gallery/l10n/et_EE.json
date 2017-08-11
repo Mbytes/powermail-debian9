@@ -2,7 +2,6 @@
     "Gallery" : "Galerii",
     "Aborting preview. Could not find the file" : "Eelvaate tühistamine. Faili ei leitud",
     "Could not move \"{file}\"" : "\"{file}\" liigutamine ebaõnnestus",
-    "Gallery view" : "Galeriivaade",
     "Could not load the description" : "Kirjelduse laadimine ebaõnnestus",
     "Could not load the description: " : "Kirjelduse laadimine ebaõnnestus:",
     "Copyright" : "Autoriõigused",
@@ -13,7 +12,6 @@
     "For an improved experience, please install one of the following alternatives" : "Parema kasutajakogemuse saamiseks paigalda palun üks järgnevatest alternatiividest",
     "Your browser is not supported!" : "Sinu veebilehitseja pole toetatud!",
     "please install one of the following alternatives" : "palun paigalda üks järgnevatest alternatiividest",
-    "Upload pictures in the files app to display them here" : "Piltide siin näitamiseks laadi need esmalt failide rakendusega siia",
     "Configuration error" : "Seadistamise tõrge",
     "New" : "Uus",
     "Error loading slideshow template" : "Viga slaidiseansi kujunduse valimisel",
@@ -87,12 +85,12 @@
     "a conflicting app was installed" : "paigaldati rakendus, mis tekitas konflikti",
     "a required component is missing or was disconnected" : "nõutud komponent puudub või pole ühendatud",
     "the filesystem is not readable" : "failisüsteem pole loetav",
-    "For more information, please contact your friendly ownCloud administrator." : "Lisainfo saamiseks võta ühendust oma muheda ownCloudi adminiga.",
     "Sorry, this link doesn't seem to work anymore." : "Vabandust, näib, et see link enam ei tööta.",
     "the item was removed" : "üksus on eemaldatud",
     "the link has expired" : "link on aegunud",
     "sharing is disabled" : "jagamine on peatatud",
     "For more information, please ask the person who has sent you this link." : "Küsi lisainfot inimeselt, kes sulle selle lingi saatis.",
-    "Picture view" : "Pildi vaade"
+    "Picture view" : "Pildi vaade",
+    "Gallery view" : "Galeriivaade"
 },"pluralForm" :"nplurals=2; plural=(n != 1);"
 }

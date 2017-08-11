@@ -3,6 +3,7 @@ OC.L10N.register(
     {
     "Saved" : "Salvato",
     "Saving failed:" : "Salvataggio non riuscito:",
+    "File MIME type" : "Tipo MIME del file",
     "is" : "è",
     "is not" : "non è",
     "matches" : "corrisponde",
@@ -58,6 +59,7 @@ OC.L10N.register(
     "Check %s is invalid" : "Il controllo %s non è valido",
     "Check #%s does not exist" : "Il controllo #%s non esiste",
     "Workflow" : "Flusso di lavoro",
+    "Files workflow engine" : "Motore delle procedure dei file",
     "Open documentation" : "Apri documentazione",
     "Add rule group" : "Aggiungi gruppo di regole",
     "Short rule description" : "Descrizione breve della regola",

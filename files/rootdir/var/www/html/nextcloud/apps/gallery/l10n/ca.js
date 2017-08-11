@@ -5,7 +5,6 @@ OC.L10N.register(
     "Could not move \"{file}\", target exists" : "No s'ha pugut moure \"{file}\", el destí ja existeix",
     "Could not move \"{file}\"" : "No s'ha pogut moure \"{file}\"",
     "Invalid server url" : "URL del servidor invàlida",
-    "Gallery view" : "Vista de galeria",
     "Could not load the description" : "no s'ha pogut carregar la descripció",
     "Could not load the description: " : "no s'ha pogut carregar la descripció:",
     "Copyright" : "Drets de reproducció",
@@ -85,12 +84,12 @@ OC.L10N.register(
     "the file was removed" : "l'arxiu ha estat eliminat",
     "the file is corrupt" : "L'arxiu està corrupte",
     "Possible reasons for the problem:" : "Posible motiu del problema: ",
-    "For more information, please contact your friendly ownCloud administrator." : "Per a més informació pots contactar el teu amigable administrador Nextcloud.",
     "Sorry, this link doesn't seem to work anymore." : "Ho sento, aquest enllaç no sembla funcionar més.",
     "the item was removed" : "l'element ha estat eliminat",
     "the link has expired" : "l'enllaç ha expirat",
     "sharing is disabled" : "s'ha desactivat la compartició",
     "Add to your Nextcloud" : "Afegir al teu Nextcloud",
-    "Picture view" : "Mostra fotos"
+    "Picture view" : "Mostra fotos",
+    "Gallery view" : "Vista de galeria"
 },
 "nplurals=2; plural=(n != 1);");

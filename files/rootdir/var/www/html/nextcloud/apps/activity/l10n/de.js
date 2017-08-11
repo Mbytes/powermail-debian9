@@ -28,7 +28,7 @@ OC.L10N.register(
     "\"remote user\"" : "„Externer Benutzer“",
     "Hello %s" : "Hallo %s",
     "Hello %s," : "Hallo %s,",
-    "There was some activity at %s" : "Es gab einige Aktivitäten bei %s",
+    "There was some activity at %s" : "Es gab Aktivitäten bei %s",
     "_and %n more _::_and %n more _" : ["und %n weiterer","und %n weitere"],
     "Activity notification" : "Benachrichtigung über die Aktivitäten",
     ", " : ", ",
@@ -46,7 +46,12 @@ OC.L10N.register(
     "Weekly" : "Wöchentlich",
     "Settings" : "Einstellungen",
     "Enable RSS feed" : "RSS-Feed aktivieren",
-    "No more events to load" : "Keine weiteren Ereignisse zum Laden",
-    "Files" : "Dateien"
+    "No more events to load" : "Keine weiteren Ereignisse zu laden",
+    "Files" : "Dateien",
+    "Error loading activities" : "Fehler beim Laden der Aktivitäten",
+    "No activities" : "Keine Aktivitäten",
+    "You are receiving this email because the following things happened at %s" : "Du erhältst diese E-Mail, da folgende Dinge auf %s geschehen sind",
+    "* %1$s - %2$s" : "* %1$s - %2$s",
+    "_* and %n more _::_* and %n more _" : ["* und %n weitere","* und %n weitere"]
 },
 "nplurals=2; plural=(n != 1);");

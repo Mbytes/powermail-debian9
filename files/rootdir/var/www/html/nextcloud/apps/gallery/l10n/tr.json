@@ -6,7 +6,6 @@
     "Could not move \"{file}\"" : "\"{file}\" taşınamadı",
     "No compatible server found at {remote}" : "{remote} konumunda uyumlu bir sunucu bulunamadı",
     "Invalid server url" : "Sunucu adresi geçersiz",
-    "Gallery view" : "Galeri görünümü",
     "Could not load the description" : "Açıklama yüklenemedi",
     "Could not load the description: " : "Açıklama yüklenemedi:",
     "Copyright" : "Telif hakları",
@@ -19,7 +18,7 @@
     "please install one of the following alternatives" : "lütfen aşağıdaki alternatiflerden birini kurun",
     "Album cannot be shown" : "Albüm görüntülenemedi",
     "No media files found" : "Herhangi bir ortam dosyası bulunamadı",
-    "Upload pictures in the files app to display them here" : "Dosyalar uygulaması ile yükleyeceğiniz görseller burada görüntülenir",
+    "Upload pictures in the Files app to display them here" : "Dosyalar uygulaması ile yükleyeceğiniz görseller burada görüntülenir",
     "Upload new files via drag and drop or by using the [+] button above" : "Yeni dosyaları sürükleyip bırakarak ya da yukarıdaki [+] düğmesine tıklayarak yükleyin",
     "Configuration error" : "Yapılandırma sorunu",
     "New" : "Yeni",
@@ -39,6 +38,7 @@
     "Could not create file \"{file}\"" : "\"{file}\" dosyası oluşturulamadı",
     "\"{name}\" is an invalid file name." : "\"{name}\" geçersiz bir dosya adı.",
     "File name cannot be empty." : "Dosya adı boş olamaz.",
+    "\"{name}\" is not an allowed filetype" : "\"{name}\" dosya türüne izin verilmiyor",
     "Upload" : "Yükle",
     "Error" : "Hata",
     "Error while sharing" : "Paylaşılırken sorun çıktı",
@@ -105,13 +105,13 @@
     "a conflicting app was installed" : "çakışan bir uygulama kurulmuş",
     "a required component is missing or was disconnected" : "gerekli bir bileşen eksik ya da bağlı değil",
     "the filesystem is not readable" : "dosya sistemi okunamıyor",
-    "For more information, please contact your friendly ownCloud administrator." : "Ayrıntılı bilgi almak için ownCloud yöneticiniz ile görüşün.",
     "Sorry, this link doesn't seem to work anymore." : "Maalesef bu bağlantı artık çalışmıyor.",
     "the item was removed" : "öge kaldırılmış",
     "the link has expired" : "bağlantının kullanma süresi dolmuş",
     "sharing is disabled" : "paylaşım devre dışı",
     "For more information, please ask the person who has sent you this link." : "Ayrıntılı bilgi almak için bu bağlantıyı aldığınız kişi ile görüşün.",
     "Add to your Nextcloud" : "Nextcloud hesabınıza ekleyin",
-    "Picture view" : "Görsel görünümü"
+    "Picture view" : "Görsel görünümü",
+    "Gallery view" : "Galeri görünümü"
 },"pluralForm" :"nplurals=2; plural=(n > 1);"
 }
