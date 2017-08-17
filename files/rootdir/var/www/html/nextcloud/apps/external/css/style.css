@@ -1,0 +1,26 @@
+.site-url {
+	width: 250px;
+}
+
+#loading_sites {
+	width: 512px;
+}
+
+.delete-button {
+	display: none;
+	cursor: pointer;
+}
+
+.invalid-value {
+	border-color: red !important;
+}
+
+li:hover .delete-button {
+	display: inline-block;
+}
+
+#ifm {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
