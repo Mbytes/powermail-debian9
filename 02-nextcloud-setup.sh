@@ -22,5 +22,8 @@ mysql  <  files/nextcloud-db.sql
 ## nextcloudadmin with techno02srv default password
 ##sudo -u www-data php /var/www/html/nextcloud/occ -n maintenance:install --database "mysql" --database-name "nextcloud"  --database-user "nextcloud" --database-pass "`cat /usr/local/src/mysql-nextcloud-pass`" --admin-user "nextcloudadmin" --admin-pass "`cat /usr/local/src/nextcloudadmin-pass`"
 
+cd /var/www/html/nextcloud
+sudo -u www-data bash -c "export OC_PASS=$NCPASS ;php occ  user:resetpassword --password-from-env nextcloud "
 
-# chekc full apache default ssl config file default-ssl.conf-sample
+
+# check full apache default ssl config file default-ssl.conf-sample
