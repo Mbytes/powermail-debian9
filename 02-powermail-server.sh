@@ -1,5 +1,6 @@
 #y!/bin/sh
 
+## install roundcube  , nextcloud, groupoffice , postfixadmin and all mailserver stuff without mailscanner & haraka
 echo `hostname` > /etc/mailname
 sh files/extra-tools/etc-config-backup.sh
 groupadd -g 89 vmail 2>/dev/null
@@ -164,6 +165,13 @@ mysqladmin -uroot  reload
 mysqladmin -uroot  refresh
 
 mysql  godb < files/godb-fresh.sql
+
+sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-nextcloud-pass`/" /var/www/html/nextcloud/config/config.php
+sed -i "s/powermail\.mydomainname\.com/`hostname`/" /var/www/html/nextcloud/config/config.php
+
+sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-godb-pass`/" /var/www/html/groupoffice/config.php
+sed -i "s/powermail\.mydomainname\.com/`hostname`/" /var/www/html/groupoffice/config.php
+
 
 /etc/init.d/dovecot restart
 /etc/init.d/postfix restart

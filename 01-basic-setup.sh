@@ -7,7 +7,7 @@ apt-get update
 
 #debconf-get-selections | grep phpmyadmin
 
-CFG_HOSTNAME_FQDN = `hostname`
+CFG_HOSTNAME_FQDN=`hostname`
 echo "postfix postfix/main_mailer_type select Internet Site" | debconf-set-selections
 #echo "postfix postfix/mailname string $CFG_HOSTNAME_FQDN" | debconf-set-selections
 

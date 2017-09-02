@@ -41,7 +41,7 @@ $CONFIG = array (
 'maintenance' => false,
 
   'datadirectory' => '/var/www/html/nextcloud/data',
-  'overwrite.cli.url' => 'http://127.0.0.1/nextcloud',
+  'overwrite.cli.url' => 'http://powermail.mydomainname.com/nextcloud',
   'dbtype' => 'mysql',
   'version' => '12.0.1.5',
   'dbname' => 'nextcloud',
