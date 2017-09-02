@@ -2,8 +2,8 @@
 
 ## setup local hostname with domainname and ifconfig/Local IP on this machine/vm
 
-HOSTNAME=mail.ajmera.co.in
-IPADDR=192.168.0.233
+HOSTNAME=powermail.mydomainname.com
+IPADDR=192.168.0.2
 
 hostname $HOSTNAME
 echo "$IPADDR	$HOSTNAME" >> /etc/hosts
