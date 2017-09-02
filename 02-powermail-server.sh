@@ -137,6 +137,18 @@ echo > /var/log/mail.log
 /bin/rm -rf /var/log/mail.err
 echo > /var/log/dovecot.log
 
+/bin/rm -rf /var/www/html/nextcloud/core/skeleton/Documents/*
+/bin/rm -rf /var/www/html/nextcloud/core/skeleton/Photos/*
+/bin/rm -rf /var/www/html/nextcloud/core/skeleton/N*
+chown -R www-data:www-data /var/www/html
+
+NCPASS=`pwgen -c -1 8`
+echo $NCPASS > /usr/local/src/nextcloudadmin-pass
+
+echo "Nextcloud admin login: nextcloud and password $NCPASS in /usr/local/src/nextcloudadmin-pass"
+cd /var/www/html/nextcloud
+sudo -u www-data bash -c "export OC_PASS=$NCPASS ;php occ  user:resetpassword --password-from-env nextcloud "
+
 
 /etc/init.d/postfix restart
 /etc/init.d/dovecot restart

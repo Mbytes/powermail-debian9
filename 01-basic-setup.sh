@@ -9,7 +9,7 @@ apt-get update
 
 CFG_HOSTNAME_FQDN = `hostname`
 echo "postfix postfix/main_mailer_type select Internet Site" | debconf-set-selections
-echo "postfix postfix/mailname string $CFG_HOSTNAME_FQDN" | debconf-set-selections
+#echo "postfix postfix/mailname string $CFG_HOSTNAME_FQDN" | debconf-set-selections
 
 
 ## default password for mysql root on debian 9 localhost is NONE

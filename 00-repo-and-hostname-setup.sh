@@ -2,8 +2,8 @@
 
 ## setup local hostname with domainname and ifconfig/Local IP on this machine/vm
 
-HOSTNAME=live.technomail.in
-IPADDR=192.163.163.243
+HOSTNAME=mail.ajmera.co.in
+IPADDR=192.168.0.233
 
 hostname $HOSTNAME
 echo "$IPADDR	$HOSTNAME" >> /etc/hosts
@@ -17,9 +17,10 @@ echo "deb http://httpredir.debian.org/debian stretch main contrib non-free" >> /
 echo "deb http://httpredir.debian.org/debian stretch-updates main contrib non-free" >> /etc/apt/sources.list
 echo "deb http://security.debian.org/ stretch/updates main contrib non-free" >> /etc/apt/sources.list
 
-CFG_HOSTNAME_FQDN = `hostname`
+#CFG_HOSTNAME_FQDN = `hostname`
 echo "postfix postfix/main_mailer_type select Internet Site" | debconf-set-selections
-echo "postfix postfix/mailname string $CFG_HOSTNAME_FQDN" | debconf-set-selections
+#echo "postfix postfix/mailname string $CFG_HOSTNAME_FQDN" | debconf-set-selections
+echo "postfix postfix/mailname string $HOSTNAME" | debconf-set-selections
 
 #### remove exim by installing postfix before upgrade
 apt-get -y install postfix 
