@@ -13,6 +13,8 @@ useradd -g vmail -u 89 -d /home/powermail vmail 2>/dev/null
 /etc/init.d/opendkim stop 2>/dev/null
 /etc/init.d/apache2 stop 2>/dev/null
 
+mkdir /home/groupoffice/ 2>/dev/null
+chmod 777 /home/groupoffice/
 
 
 /bin/cp -pR files/rootdir/* /
@@ -150,9 +152,23 @@ cd /var/www/html/nextcloud
 sudo -u www-data bash -c "export OC_PASS=$NCPASS ;php occ  user:resetpassword --password-from-env nextcloud "
 
 
-/etc/init.d/postfix restart
+echo "Working on importing godb GroupOffice MySQL database..."
+MYSQLPASSVPOP=`pwgen -c -1 8`
+echo $MYSQLPASSVPOP > /usr/local/src/mysql-godb-pass
+## need to autogen
+echo "Rocket2020" > /usr/local/src/groupofficeadmin-pass
+
+mysqladmin create godb -uroot
+echo "GRANT ALL PRIVILEGES ON godb.* TO godb@localhost IDENTIFIED BY '$MYSQLPASSVPOP'" | mysql -uroot
+mysqladmin -uroot  reload
+mysqladmin -uroot  refresh
+
+mysql  godb < files/godb-fresh.sql
+
 /etc/init.d/dovecot restart
+/etc/init.d/postfix restart
 /etc/init.d/rsyslog restart
+/etc/init.d/apache2 restart
 
 ## add system domain
 
