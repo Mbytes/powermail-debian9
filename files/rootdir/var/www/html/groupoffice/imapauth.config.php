@@ -19,9 +19,9 @@ $config[] =
 			
 	'store_password'=>true, //By default the passwords are stored using two way encryption in the database. The encryption key is stored on disk and not in the database. You can disable this and not store the password at all but just keep it in the session. The downside is that email accounts can't be shared when you don't store passwords.
 
-	'smtp_host'=>'mail.technomail.xyz',
-	'smtp_port'=>'465',
-	'smtp_encryption'=>'ssl',
+	'smtp_host'=>'127.0.0.1',
+	'smtp_port'=>'2525',
+	'smtp_encryption'=>'',
 	'smtp_username'=>'',
 	'smtp_password'=>'',
 
