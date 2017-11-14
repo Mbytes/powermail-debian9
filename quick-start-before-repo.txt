@@ -5,6 +5,7 @@ echo "" >  /etc/apt/sources.list
 echo "deb http://httpredir.debian.org/debian stretch main contrib non-free" >> /etc/apt/sources.list
 echo "deb http://httpredir.debian.org/debian stretch-updates main contrib non-free" >> /etc/apt/sources.list
 echo "deb http://security.debian.org/ stretch/updates main contrib non-free" >> /etc/apt/sources.list
+apt-get update
 apt-get -y install vim screen wget elinks telnet openssh-server mc iptraf iputils-ping git sudo bind9 curl elinks xfsprogs debconf-utils pwgen net-tools
 
 mkdir /opt
