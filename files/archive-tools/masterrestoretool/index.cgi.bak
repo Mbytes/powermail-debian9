@@ -1,0 +1,121 @@
+#!/usr/bin/perl
+# index.cgi
+# Display all users on the system
+
+require './mailboxes-lib.pl';
+
+
+# Show main page header
+&ui_print_header(undef, "Detail Mail Reports", "", undef, 0, 0, 0,
+		 undef, undef, undef,undef);
+print <<"EOF";
+
+<script language=\"javascript\">
+function toggleit()
+{
+for (var i = 0; i < document.frm_Lo.elements.length; i++) {
+    if(document.frm_Lo.elements[i].type == 'checkbox'){
+      document.frm_Lo.elements[i].checked =         !(document.frm_Lo.elements[i].checked);
+    }
+  }
+}
+function toggleall()
+{
+for (var i = 0; i < document.frm_Lo.elements.length; i++) {
+    if(document.frm_Lo.elements[i].type == 'checkbox'){
+      document.frm_Lo.elements[i].checked =true;
+    }
+  }
+
+
+
+}
+</script>
+EOF
+
+
+
+#####################
+#my $now = localtime time;
+my ($sec,$min,$hour,$mday,$mon,$year,
+          $wday,$yday,$isdst) = localtime time;
+$year +=1900;
+$mon+=1;
+$yesterday=$mday - 1 ;
+print <<"EOF";
+
+<body onLoad="toggleall()">
+<form name="frm_Lo" id="frmLox" method="post" action="report.cgi">
+<table align="center" border="1" bgcolor="#eeeeee">
+<tbody><tr>
+<td bgcolor="#cccccc"> <b>Show mail log details.</b></td>
+
+</tr>
+<tr>
+<td bgcolor="#eeeeee"> Show report from date : <input size="2" name="frmFromDay" value="$yesterday" type="text">/
+                              <input size="2" name="frmFromMonth" value="$mon" type="text">/
+                              <input size="4" name="frmFromYear" value="$year" type="text">
+
+till date
+                              <input size="2" name="frmToDay" value="$mday" type="text">/
+                              <input size="2" name="frmToMonth" value="$mon" type="text">/
+                              <input size="4" name="frmToYear" value="$year" type="text">
+
+</td></tr>
+<tr>
+<td bgcolor="#cccccc">Do you want to exclude reports of any account <br>(e.g: any mail TO: mailbackup account) Exclude : <input name="frmExclude" value="mailbackup" type="30">  </td>
+
+</tr>
+
+<tr><td bgcolor="#eeeeee">
+From Sender [Email ID or \@domain.com] : &nbsp;<input size="30" name="frmFromEmailId" value="" type="text"> &nbsp;</td></tr><tr><td bgcolor="#eeeeee">
+To Receiver [Email ID or \@domain.com] : &nbsp; <input size="30" name="frmToEmailId" value="" type="text">
+
+</td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr>
+<tr>
+<td bgcolor="#cccccc"><a href="javascript:void(0)" onclick="toggleit()";>Toggle All</a>&nbsp;&nbsp; <b>Show below fields in report.</b></td></tr>
+<tr><td>&nbsp;&nbsp;<input type=checkbox name=mycheck1 value=fromaddr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;From Address</td></tr>
+<tr><td>&nbsp;&nbsp;<input type=checkbox name=mycheck2 value=toaddr>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;To Address</td></tr>
+<tr><td>&nbsp;&nbsp;<input type=checkbox name=mycheck3 value=date>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;Date</td></tr>
+<tr><td>&nbsp;&nbsp;<input type=checkbox name=mycheck4 value=normalmailstatus>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;Normal mail status</td></tr>
+<tr><td>&nbsp;&nbsp;<input type=checkbox name=mycheck5 value=techmailstatus>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;Technical mail status</td></tr>
+<tr><td>&nbsp;&nbsp;<input type=checkbox name=mycheck6 value=archivefilename>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;Archive filename</td></tr>
+<tr><td>&nbsp;&nbsp;<input type=checkbox name=mycheck7 value=archivelocation>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;Archive location</td></tr>
+<tr><td>&nbsp;&nbsp;<input type=checkbox name=mycheck8 value=archivedvdname>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;Archive dvdname</td></tr>
+<tr><td>&nbsp;&nbsp;<input type=checkbox name=mycheck9 value=archivedvddate>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;Archive dvddate</td></tr>
+<tr><td>&nbsp;&nbsp;<input type=checkbox name=mycheck10 value=archivedvdcount>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;Archive dvdcount</td></tr>
+
+<tr><td align="center">
+<input size="5" name="submit" value="Show Detailed Report" type="submit">
+</td></tr>
+
+<tr><td>&nbsp;</td></tr>
+</tbody></table>
+<input name="frmDetailSearch" value="yes" type="hidden">
+
+</form>
+
+
+</body>
+
+
+
+
+
+
+EOF
+
+####################
+
+&ui_print_footer("/", $text{'index'});
+

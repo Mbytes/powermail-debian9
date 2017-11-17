@@ -1,0 +1,6 @@
+#!/bin/sh
+
+#/opt/haraka-inbound/start-inbound.sh
+#/opt/haraka-inbound/stop-inbound.sh
+
+## block port 2525 of postfix on other interface as its only for internal

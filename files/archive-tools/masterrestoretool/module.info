@@ -1,0 +1,5 @@
+category=info
+os_support=!windows
+desc=Master Email Restore Tool
+version=1.250
+readonly=1
