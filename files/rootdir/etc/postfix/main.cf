@@ -126,7 +126,7 @@ smtpd_enforce_tls = no
 smtpd_tls_security_level = may
 smtp_tls_security_level = may
 smtp_sasl_security_options =
-smtpd_tls_auth_only = yes
+smtpd_tls_auth_only = no
 smtpd_tls_received_header = yes
 smtp_tls_loglevel = 1
 smtpd_tls_loglevel = 1
@@ -173,4 +173,39 @@ non_smtpd_milters = inet:localhost:12345
 
 transport_maps = hash:/etc/postfix/transport_smtp_routes 
 #smtp_sasl_password_maps = hash:/etc/postfix/transport_smtp_routes_sasl_passwd
- 
+
+## Postfix send rate limit per user/domain via extra program
+## Guide for http://www.simonecaruso.com/limit-sender-rate-in-postfix/ 
+
+
+
+
+## only to use if its goinf to be used to send mail outside without domain check
+###disable_dns_lookups = yes
+
+## Default process limit
+##default_process_limit = 150
+
+## useful for high bulkmail or mailling list for processing faster
+## The qmgr_message_active_limit parameter limits the number of
+## messages in the active queue.
+## The qmgr_message_recipient_limit parameter limits the number of
+## in-memory recipients. This parameter also limits the size of the
+## short-term, in-memory destination status cache.
+## refere : https://wiki.list.org/DOC/MTA%20Performance%20Tuning%20Tips%20for%20Postfix
+
+#qmgr_message_active_limit = 40000
+#qmgr_message_recipient_limit = 40000
+
+
+#smtpd_recipient_limit = 1000
+
+## perforance tunning codes for healthy server.
+#default_destination_concurrency_limit=50
+#default_destination_recipient_limit=50
+#default_process_limit=200
+#smtp_mx_session_limit=100
+#smtpd_client_connection_count_limit=100
+#smtp_destination_concurrency_limit=100
+#maximal_backoff_time = 1000s
+#minimal_backoff_time = 300s 

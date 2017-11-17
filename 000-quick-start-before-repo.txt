@@ -1,4 +1,5 @@
 
+# Copy Paste on Debian 9.x to get updates and start setup for powermail
 
 /bin/cp -pR /etc/apt/sources.list /root/old-sources.list-`date +%s`
 echo "" >  /etc/apt/sources.list
