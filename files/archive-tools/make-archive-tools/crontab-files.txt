@@ -1,0 +1,5 @@
+MAILTO=""
+*/5 * * * * /usr/local/bin/mailwatch-postfix-relay
+*/30 * * * * /usr/local/src/make-archive-tools/idc-download-archive-mail.sh
+*/10 * * * * /usr/local/src/make-archive-tools/read-mail-and-add-to-archive.sh
+
