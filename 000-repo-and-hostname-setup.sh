@@ -2,8 +2,8 @@
 
 ## setup local hostname with domainname and ifconfig/Local IP on this machine/vm
 
-HOSTNAME=mx2.technomail.in
-IPADDR=62.210.85.166
+HOSTNAME=powermail.sampledomain.com
+IPADDR=192.168.1.1
 
 hostname $HOSTNAME
 echo "$IPADDR	$HOSTNAME" >> /etc/hosts
@@ -43,6 +43,8 @@ apt-get -y  upgrade
 #update-initramfs -u
 
 
+## to have features like CentOS for Bash
+
 echo "" >> /etc/bash.bashrc
 echo "alias cp='cp -i'" >> /etc/bash.bashrc
 echo "alias l.='ls -d .* --color=auto'" >> /etc/bash.bashrc
@@ -52,6 +54,7 @@ echo "alias mv='mv -i'" >> /etc/bash.bashrc
 echo "alias rm='rm -i'" >> /etc/bash.bashrc
 
 #Load bashrc
+
 source /etc/bash.bashrc
 
 
