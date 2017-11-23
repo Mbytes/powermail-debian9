@@ -14,12 +14,12 @@ $CONFIG = array (
 
 
 'filelocking.enabled' => true,
-'memcache.local' => '\OC\Memcache\Redis',
-'memcache.locking' => '\OC\Memcache\Redis',
-'redis' => array(
-     'host' => 'localhost',
-     'port' => 6379,
-      ),
+//'memcache.local' => '\OC\Memcache\Redis',
+//'memcache.locking' => '\OC\Memcache\Redis',
+//'redis' => array(
+//     'host' => 'localhost',
+//     'port' => 6379,
+//      ),
 
   'mail_smtpmode' => 'smtp',
   'mail_from_address' => 'postmaster',

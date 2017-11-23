@@ -172,6 +172,7 @@ sed -i "s/powermail\.mydomainname\.com/`hostname`/" /var/www/html/nextcloud/conf
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-godb-pass`/" /var/www/html/groupoffice/config.php
 sed -i "s/powermail\.mydomainname\.com/`hostname`/" /var/www/html/groupoffice/config.php
 
+systemctl disable spampd.service
 
 /etc/init.d/dovecot restart
 /etc/init.d/postfix restart

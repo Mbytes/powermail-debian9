@@ -1,5 +1,9 @@
 #!/bin/sh
 
+
+/etc/init.d/redis-server restart
+/etc/init.d/memcached restart
+
 NCPASS=`pwgen -c -1 8`
 echo $NCPASS > /usr/local/src/nextcloudadmin-pass
 

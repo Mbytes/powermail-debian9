@@ -4,6 +4,9 @@
  * Visit https://www.group-office.com/wiki/Configuration_file for available values
  */
 
+$config["mailing_messages_per_minute"]=30;
+$config["allow_duplicate_email"]=true;
+$config["allow_password_change"]=false;
 $config["default_timezone"]='Asia/Kolkata';
 $config["default_decimal_separator"]='.';
 $config["default_thousands_separator"]=',';
