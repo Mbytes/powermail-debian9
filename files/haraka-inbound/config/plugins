@@ -22,7 +22,7 @@ access
 # connect.p0f
 geoip
 asn
-connect.fcrdns
+#connect.fcrdns
 # block mails from known bad hosts (see config/dnsbl.zones for the DNS zones queried)
 dnsbl
 
@@ -62,7 +62,7 @@ data.headers
 data.uribl
 #attachment
 clamd
-rspamd
+#rspamd
 spamassassin
 #dkim_sign
 #karma
