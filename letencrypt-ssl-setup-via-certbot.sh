@@ -1,6 +1,7 @@
 #!/bin/sh
 
 
+/etc/init.d/apache2 stop
 ##certbot certonly -d `hostname` --standalone --agree-tos --email yourmail@example.com
 certbot certonly -d `hostname` --standalone --agree-tos 
 
