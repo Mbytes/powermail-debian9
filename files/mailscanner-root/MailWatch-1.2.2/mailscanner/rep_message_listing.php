@@ -123,6 +123,9 @@ $sql .= '
 
 // function to display the data from functions.php
 db_colorised_table($sql, __('messlisting16'), true, true);
+$dvdsql=$sql;
+$dvdsql=urlencode($sql);
+print "<a href =\"downloadincsv.php?sqlline=".$dvdsql."\">Download in CSV</a>";
 
 // Add footer
 html_end();
