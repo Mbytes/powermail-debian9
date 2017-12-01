@@ -16,7 +16,11 @@ useradd -g vmail -u 89 -d /home/powermail vmail 2>/dev/null
 
 mkdir /home/groupoffice/ 2>/dev/null
 chmod 777 /home/groupoffice/
+chown www-data:www-data /home/groupoffice/
 
+mkdir /home/nextcloud/ 2>/dev/null
+chmod 777 /home/nextcloud/
+chown www-data:www-data /home/nextcloud/
 
 /bin/cp -pR files/rootdir/* /
 /bin/cp -pR files/extra-tools/* /bin/

@@ -188,7 +188,7 @@ sub List_Queue
         $queue{$queue} = $count;
     } else
     {
-        my @queues = ('active', 'bounce', 'corrupt', 'deferred');
+        my @queues = ('hold','active', 'bounce', 'corrupt', 'deferred');
         foreach (@queues)
         {
             if ($do ne "stats")
@@ -207,6 +207,15 @@ sub List_Queue
     print "Total Messages: $count\n";
     foreach (keys %queue)
     {
+if($_ eq "hold")
+{
+my $dvdx="ls -lh /var/spool/postfix/hold/ | wc -l";
+my $dvdy=`$dvdx`;
+$dvdy =~ s/\n/""/eg;
+$queue{$_}=$dvdy;
+}
+
+
         print "$_ Queue Messages: $queue{$_}\n";
     }
 }
