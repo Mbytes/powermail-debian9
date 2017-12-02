@@ -12,6 +12,11 @@ myhostname = powermail.mydomainname.com
 ##for Archive
 #always_bcc = fullarchive@powermail.mydomainname.com
 
+## to use /etc/hosts first than dns
+#lmtp_host_lookup = native
+#smtp_host_lookup = native
+
+
 
 smtpd_banner = $myhostname ESMTP $mail_name smtp
 biff = no
@@ -34,6 +39,8 @@ alias_database = hash:/etc/aliases
 mydestination = localhost, localhost.localdomain
 relayhost = 
 mynetworks = 127.0.0.0/8
+#mynetworks = hash:/etc/postfix/tcp_smtp_network_table_relay_network
+
 # if ipv6 too
 ##mynetworks = 127.0.0.0/8 [::ffff:127.0.0.0]/104 [::1]/128
 mailbox_size_limit = 0
