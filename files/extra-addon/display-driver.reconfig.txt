@@ -1,8 +1,9 @@
 ## if not Xfce4 panel or setting visible but availbe in alt+tab
 
 
-login on direct console example Alt + F2
+#login on direct console example Alt + F2
 
+## you can also use slim instead of lightdm
 
 # stop lightdm services ..after logout from GUI
 /etc/init.d/lightdm stop
@@ -16,6 +17,11 @@ cd /etc/X11/
 Xorg -configure
 
 cp /root/xorg.conf.new  /etc/X11/xorg.conf
+#Section "Device"
+#	Identifier "VGA"
+#	Driver "vesa"
+#EndSection
+
 
 /etc/init.d/lightdm start
 

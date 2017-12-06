@@ -3,7 +3,7 @@
 ## setup local hostname with domainname and ifconfig/Local IP on this machine/vm
 
 HOSTNAME=powermail.sampledomain.com
-IPADDR=192.168.1.1
+IPADDR=172.16.201.20
 
 hostname $HOSTNAME
 echo "$IPADDR	$HOSTNAME" >> /etc/hosts
@@ -17,6 +17,7 @@ echo "deb http://httpredir.debian.org/debian stretch main contrib non-free" >> /
 echo "deb http://httpredir.debian.org/debian stretch-updates main contrib non-free" >> /etc/apt/sources.list
 echo "deb http://security.debian.org/ stretch/updates main contrib non-free" >> /etc/apt/sources.list
 
+apt-get update
 CFG_HOSTNAME_FQDN=`hostname`
 echo "postfix postfix/main_mailer_type select Internet Site" | debconf-set-selections
 echo "postfix postfix/mailname string $CFG_HOSTNAME_FQDN" | debconf-set-selections
@@ -34,7 +35,6 @@ apt-get -y install postfix
 #/bin/rm -rf /etc/localtime
 #/bin/ln -vs /usr/share/zoneinfo/Asia/Kolkata /etc/localtime
 
-apt-get update
 apt-get -y  upgrade
 
 #### for adding firmware realtek driver
