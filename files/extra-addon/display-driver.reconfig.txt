@@ -1,6 +1,8 @@
 ## if not Xfce4 panel or setting visible but availbe in alt+tab
 
 
+
+
 #login on direct console example Alt + F2
 
 ## you can also use slim instead of lightdm
@@ -26,5 +28,12 @@ cp /root/xorg.conf.new  /etc/X11/xorg.conf
 /etc/init.d/lightdm start
 
 ## goto  Alt + F7 and try login
+
+
+
+
+#apt-get install xserver-xorg-video-nvidia
+#apt-get install xserver-xorg-video-nouveau
+#apt-get install nvidia-legacy-340xx-driver
 
 
