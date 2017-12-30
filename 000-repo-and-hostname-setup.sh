@@ -9,6 +9,9 @@ hostname $HOSTNAME
 echo "$IPADDR	$HOSTNAME" >> /etc/hosts
 echo $HOSTNAME > /etc/hostname
 
+#Disable vim automatic visual mode using mouse
+echo "\"set mouse=a/g" >  ~/.vimrc
+
 
 ## backup existing repo by copy to root
 /bin/cp -pR /etc/apt/sources.list /root/old-sources.list-`date +%s`
@@ -21,7 +24,6 @@ apt-get update
 CFG_HOSTNAME_FQDN=`hostname`
 echo "postfix postfix/main_mailer_type select Internet Site" | debconf-set-selections
 echo "postfix postfix/mailname string $CFG_HOSTNAME_FQDN" | debconf-set-selections
-#echo "postfix postfix/mailname string $HOSTNAME" | debconf-set-selections
 
 #### remove exim by installing postfix before upgrade
 apt-get -y install postfix 
