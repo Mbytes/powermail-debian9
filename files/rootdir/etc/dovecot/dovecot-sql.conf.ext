@@ -149,6 +149,6 @@ password_query = SELECT username AS user,password FROM mailbox WHERE username = 
 # Query to retrieve user information, note uid matches dovecot.conf AND Postfix virtual_uid_maps parameter.
 ####user_query = SELECT maildir, 1002 AS uid, 1002 AS gid FROM mailbox WHERE username = '%u' AND active='1'
 ####user_query = SELECT CONCAT(CONCAT('/home/powermail/domains/', maildir),'Maildir/') AS home, 89 AS uid, 89 AS gid, CONCAT('maildir:storage=', quota) AS quota FROM mailbox WHERE username = '%u' AND active='1'
-##user_query = SELECT CONCAT(CONCAT('/home/powermail/domains/', maildir),'Maildir/') AS home, 89 AS uid, 89 AS gid, CONCAT('*:bytes=', quota) AS quota_rule FROM mailbox WHERE username = '%u' AND active='1'
-user_query = SELECT CONCAT(CONCAT('/home/powermail/domains/', maildir),'Maildir/') AS home, 89 AS uid, 89 AS gid, CONCAT('*:bytes=', quota) AS quota_rule FROM mailbox WHERE  active='1' AND username IN (SELECT `goto` FROM `alias` WHERE `address`= '%u' AND `active` = 1 ) LIMIT 0 ,1
+user_query = SELECT CONCAT(CONCAT('/home/powermail/domains/', maildir),'Maildir/') AS home, 89 AS uid, 89 AS gid, CONCAT('*:bytes=', quota) AS quota_rule FROM mailbox WHERE username = '%u' AND active='1'
+##user_query = SELECT CONCAT(CONCAT('/home/powermail/domains/', maildir),'Maildir/') AS home, 89 AS uid, 89 AS gid, CONCAT('*:bytes=', quota) AS quota_rule FROM mailbox WHERE  active='1' AND username IN (SELECT `goto` FROM `alias` WHERE `address`= '%u' AND `active` = 1 ) LIMIT 0 ,1
 
