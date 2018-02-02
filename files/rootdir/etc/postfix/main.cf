@@ -59,7 +59,7 @@ recipient_delimiter = +
 ## for only iinternal so that haraka can be outside
 ##inet_interfaces = loopback-only
 
-#inet_interfaces = loopback-only
+##inet_interfaces = loopback-only
 inet_interfaces = all
 
 inet_protocols = ipv4
