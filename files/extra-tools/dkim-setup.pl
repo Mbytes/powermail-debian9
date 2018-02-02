@@ -23,4 +23,7 @@ $cmdx="echo \"".$newdomain." mail._domainkey.".$newdomain."\" >> /etc/opendkim/S
 $cmdx="chmod -R 644 /etc/opendkim/keys; chown -R opendkim:opendkim /etc/opendkim/keys;chmod -R 700 /etc/opendkim/keys";
 `$cmdx`;
 
+$cmdx="sed -i \"s/:default:/:mail:/\"  /etc/opendkim/KeyTable";
+`$cmdx`;
+
 print "\nOpendkim for $newdomain added. \n";
