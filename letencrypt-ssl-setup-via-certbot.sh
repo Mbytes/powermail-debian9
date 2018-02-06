@@ -5,9 +5,10 @@
 ##certbot certonly -d `hostname` --standalone --agree-tos --email yourmail@example.com
 certbot certonly -d `hostname` --standalone --agree-tos 
 
+sed -i "s/powermail\.mydomainname\.com/`hostname`/" /usr/local/src/cert-renew-and-restart.sh
 
-echo "MAILTO=\"\"" >> /var/spool/cron/crontabs/root 
-echo "30 2 * * 1 /usr/bin/certbot renew  >> /var/log/letsencrypt-renew.log" >> /var/spool/cron/crontabs/root 
+#echo "MAILTO=\"\"" >> /var/spool/cron/crontabs/root 
+echo "30 2 * * 1 /usr/local/src/cert-renew-and-restart.sh" >> /var/spool/cron/crontabs/root 
 
 /etc/init.d/cron restart
 
