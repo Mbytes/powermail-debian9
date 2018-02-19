@@ -41,6 +41,7 @@ a2enmod cgi > /dev/null 2>&1
 a2enmod headers > /dev/null 2>&1
 #a2enmod fastcgi > /dev/null 2>&1
 a2ensite default-ssl > /dev/null 2>&1	
+a2ensite proxy_http > /dev/null 2>&1	
 
 # ngnix is install for imap/smtp load balance if needed
 /etc/init.d/apache2  stop
