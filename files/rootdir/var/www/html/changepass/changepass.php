@@ -61,6 +61,8 @@ if($errorx==0)
 $newpswd=str_replace("$","\$",$newpswd);
 $newpswd=str_replace(" ","",$newpswd);
 #####$setpass="/home/vpopmail/bin/webmailvpasswd ".$userid." \"".$newpswd."\" ";
+$newpswd=str_replace("\$","\\\$",$newpswd);
+#$newpswd=str_replace("%","\%",$newpswd);
 $setpass="/home/powermail/bin/vpasswd ".$userid." \"".$newpswd."\" ";
 `$setpass`;
 #print " <hr> $setpass <hr>";
