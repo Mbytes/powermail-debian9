@@ -6,7 +6,7 @@ $l['send']='Send';
 $l['login']='Login';
 $l['lost_password_subject']='New password request';
 $l['lost_password_body']='%s,
-You requested a new password for %s. Your username is "%s".
+You requested a new password for %s from ip-address: {ip_address}. Your username is "%s".
 Click at the link below (or paste it in a browser) to change your password:
 
 %s

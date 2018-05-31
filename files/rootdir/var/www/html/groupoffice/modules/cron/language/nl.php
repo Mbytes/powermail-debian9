@@ -1,6 +1,6 @@
 <?php
 $l['name'] = 'Geplande systeemtaken';
-$l['description'] = 'Module om systeemtaken in Group-Office te beheren.';
+$l['description'] = 'Module om systeemtaken in {product_name} te beheren.';
 
 $l['cronManager'] = 'Systeemtaken beheren';
 

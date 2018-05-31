@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: FilePropertiesDialog.js 20453 2016-09-22 13:40:32Z mschering $
+ * @version $Id: FilePropertiesDialog.js 22441 2018-03-01 11:13:36Z michaelhart86 $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -44,12 +44,21 @@ GO.files.FilePropertiesDialog = function(config){
 		defaultType: 'textfield',
 		items: [
 		{
-			fieldLabel: GO.lang['strName'],
-			name: 'name',
+			xtype: 'compositefield',
 			anchor: '100%',
-			validator:function(v){
-				return !v.match(/[\/\*\"<>|\\]/);
-			}
+			items: [this.nameField = new Ext.form.TextField({
+				fieldLabel: GO.lang['strName'],
+				name: 'name',
+				flex: 1,
+				validator:function(v){
+					return !v.match(/[\/\*\"<>|\\]/);
+				}
+			}),{
+				xtype: 'textfield',
+				fieldLabel: GO.lang.strExtension,
+				name: 'extension',
+				width: 45
+			}]
 		},{
 			xtype: 'plainfield',
 			fieldLabel: GO.lang.strLocation,
@@ -289,7 +298,7 @@ Ext.extend(GO.files.FilePropertiesDialog, GO.Window, {
 	setWritePermission : function(writePermission)
 	{
 		var form = this.formPanel.form;
-		form.findField('name').setDisabled(!writePermission);
+		this.nameField.setDisabled(!writePermission);
 	},
 	
 	save : function(hide)

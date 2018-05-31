@@ -103,5 +103,30 @@ $l['october']= 'Okt';
 $l['november']= 'Nov';
 $l['december']= 'Dez';
 
-$l['errorApprove']= "Sie können nicht Ihre eigenen Urlaubstage genehmigen";
+$l['disapprovedHolidayEntrySubject']='Urlaubseintrag abgelehnt';
+$l['disapprovedHolidayEntryBody']='{manager} hat Ihren Urlaubseintrag ab {first_date} abgelehnt.';
+$l['errorApprove']= "Sie können Ihre Urlaubstage nicht genehmigen";
 $l['hrs']= 'h';
+$l['from']= 'Von';
+$l['monthView']= 'Monatsansicht';
+$l['noHolidaysTaken']= 'Es gibt keine Urlaube in diesem Monat';
+$l['monthReport']= 'Monatsreport';
+$l['month']= 'Monat';
+$l['reload']= 'Neu laden';
+$l['noHours']= 'Bitte geben Sie eine Anzahl von Stunden ein';
+$l['credittypes']= 'Kredittypen';
+$l['type']= 'Typ';
+$l['credit_doesnt_expired']= 'Verbleibende Gutschrift kann automatisch in das nächste Jahr übernommen werden';
+$l['holiday_request']= 'Urlaubseintrag';
+$l['year_summary']= 'Jahresübersicht';
+$l['total']= 'total';
+$l['used']= 'benutzt';
+$l['credit']= 'Kredit';
+$l['errCreditAlreadyGiven']= 'Der Jahreskredit ist bereits für diesen Benutzer in diesem Jahr angegeben.';
+$l['errCreditTypeAlreadyInUse']= 'Fehler Kredittyp wird bereits verwendet!';
+$l['starttimeForCalendar']= 'Startzeit für Kalender';
+$l['removeYearCreditNotPossibleIfLeavedayIsSet']= 'Kann Jahreskredit mit Buchungen nicht entfernen. Bitte zuerst die Buchungen löschen.';
+$l['reason_why']= 'Grund';
+
+$l['deleteHolidayNotPermitted']= 'Urlaub kann nicht entfernt werden, dies kann mehrere Gründe haben: <br /> Sie sind nicht der Manager, <br /> Der Urlaub liegt in der Vergangenheit <br /> Der Urlaub ist bereits genehmigt oder abgelehnt.';
+

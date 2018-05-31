@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: MainPanel.js 21269 2016-03-22 16:01:21Z mschering $
+ * @version $Id: MainPanel.js 22153 2017-03-10 10:22:32Z johan $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -535,7 +535,7 @@ Ext.extend(GO.filesearch.MainPanel, Ext.Panel, {
 			Ext.apply(this.resultsGrid.store.baseParams, formValues);
 		} else {
 			Ext.apply(this.resultsGrid.store.baseParams,{
-				'advancedQueryData':Ext.encode(this.queryPanel.getGridData()), 
+				'advancedQueryData':Ext.encode(this.queryPanel.getData()), 
 				'markDuplicateFields' : this.matchDuplicatesCombo.getValue(), 
 				'showFirstDuplicateOnly' : this.showFirstDuplicateOnlyCheckbox.getValue() ? '1' : '0'
 				});

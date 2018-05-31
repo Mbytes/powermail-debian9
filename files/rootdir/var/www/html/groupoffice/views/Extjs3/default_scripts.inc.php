@@ -8,7 +8,7 @@
  * If you have questions write an e-mail to info@intermesh.nl
  *
  * @copyright Copyright Intermesh
- * @version $Id: default_scripts.inc.php 20049 2016-05-10 08:09:14Z mschering $
+ * @version $Id: default_scripts.inc.php 21274 2017-07-05 11:37:23Z devdevilnl $
  * @author Merijn Schering <mschering@intermesh.nl>
  */
 
@@ -87,6 +87,7 @@ $settings['config']['max_attachment_size']=\GO::config()->max_attachment_size;
 $settings['config']['max_file_size']=\GO::config()->max_file_size;
 $settings['config']['help_link']=\GO::config()->help_link;
 $settings['config']['support_link']=\GO::config()->support_link;
+$settings['config']['report_bug_link']=\GO::config()->report_bug_link;
 $settings['config']['nav_page_size']=intval(\GO::config()->nav_page_size);
 $settings['config']['session_inactivity_timeout']=intval(\GO::config()->session_inactivity_timeout);
 
@@ -95,15 +96,25 @@ $settings['config']['tickets_no_email_required']=GO::config()->tickets_no_email_
 $settings['config']['default_country'] = \GO::config()->default_country;
 $settings['config']['checker_interval'] = (int)\GO::config()->checker_interval;
 
+$settings['config']['remember_login'] = \GO::config()->remember_login;
+
 $settings['show_contact_cf_tabs'] = array();
 
 
 $settings['config']['encode_callto_link']=\GO::config()->encode_callto_link;
 
+
+$settings['config']['login_message']=\GO::config()->login_message;
+
 if(GO::modules()->addressbook){
 	// Add the addresslist tab to the global settings panel
 	$settings['show_addresslist_tab'] = \GO::config()->get_setting('globalsettings_show_tab_addresslist');
 	
+	$addressListsForcedLimit = \GO::config()->addresslists_store_forced_limit;
+	if($addressListsForcedLimit){
+		$settings['addresslists_store_forced_limit'] = (int)$addressListsForcedLimit;
+	}
+
 	if(\GO::modules()->customfields){
 		$settings['show_contact_cf_tabs'] = array();
 		

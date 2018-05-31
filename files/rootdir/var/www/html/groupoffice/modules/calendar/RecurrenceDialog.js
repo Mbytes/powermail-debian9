@@ -7,11 +7,10 @@ GO.calendar.RecurrenceDialog = function(config){
 
 	config.width=400;
 	config.autoHeight=true;
-	config.closeable=false;
+	config.closeable=true;
 	config.closeAction='hide';
 	config.plain=true;
 	config.border=false;
-	config.closable=false;
 	config.title=GO.calendar.lang.recurringEvent;
 	config.modal=false;
 	config.html=config.forDelete ? GO.calendar.lang.deleteRecurringEvent : GO.calendar.lang.editRecurringEvent;
@@ -34,12 +33,19 @@ GO.calendar.RecurrenceDialog = function(config){
 		},
 		scope: this
 	},{
-		text: GO.lang.cmdCancel,
+		text: GO.calendar.lang.thisAndFuture,
 		handler: function()
-		{			
-			this.fireEvent('cancel', this);
+		{
+			this.fireEvent('thisandfuture', this);
 		},
 		scope: this
+//	},{
+//		text: GO.lang.cmdCancel,
+//		handler: function()
+//		{
+//			this.fireEvent('cancel', this);
+//		},
+//		scope: this
 	}]	
 
 	GO.calendar.RecurrenceDialog.superclass.constructor.call(this,config);
@@ -47,6 +53,7 @@ GO.calendar.RecurrenceDialog = function(config){
 	this.addEvents({
 		'single' : true,
 		'entire': true,
+		'thisandfuture': true,
 		'cancel': true
 	});
 }

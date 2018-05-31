@@ -26,3 +26,5 @@ $l["noteCategories"]='Poznámky';
 $l["calendarDialogTitle"]='Vyberte kalendáře pro synchronizaci.';
 
 $l['tooBigAttachments']="Následující přílohy jsou příliš velké pro synchronizaci";
+
+$l['tasklistActiveSyncOnly']= '(pouze pro synchronizaci Exchange účtů)';

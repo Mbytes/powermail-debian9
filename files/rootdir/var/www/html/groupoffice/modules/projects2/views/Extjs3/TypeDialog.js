@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: TypeDialog.js 17031 2013-10-13 09:20:34Z mschering $
+ * @version $Id: TypeDialog.js 23362 2018-02-02 13:15:56Z mschering $
  * @copyright Copyright Intermesh
  * @author Michael de Hart <mdhart@intermesh.nl>
  */
@@ -46,7 +46,19 @@ GO.projects2.TypeDialog = Ext.extend(GO.dialog.TabbedFormDialog, {
         });
 
         this.addPanel(this.formPanel);
-		this.addPermissionsPanel(new GO.grid.PermissionsPanel());
+		this.addPermissionsPanel(new GO.grid.PermissionsPanel({
+			levels: [
+				GO.permissionLevels.read,
+				GO.permissionLevels.create,
+				GO.permissionLevels.write,
+				GO.permissionLevels.writeAndDelete,
+				GO.projects2.permissionLevelFinance, //finance
+				GO.permissionLevels.manage
+			],
+			levelLabels : {
+				45: "Finance"
+			}
+		}));
     }
   
 

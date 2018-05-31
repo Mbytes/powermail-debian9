@@ -50,8 +50,11 @@ class Pdf extends \GO\Base\Util\Pdf {
 		$this->SetFillColor(241, 241, 241);
 		$this->SetDrawColor(0,0,0);
 		
-		if(isset($this->_template['page_format']) && !empty($this->_template['page_format']))
-			$this->setPageFormat ($this->_template['page_format']);
+		if(isset($this->_template['page_format']) && !empty($this->_template['page_format'])) {
+			$format = explode('-', $this->_template['page_format']);
+			if(empty($format[1])) $format[1] = 'P';
+			$this->setPageFormat ($format[0], $format[1]);
+		}
 
 
 		//$this->setImageScale(4);
@@ -391,7 +394,7 @@ class Pdf extends \GO\Base\Util\Pdf {
 			if($this->_IS_PURCHASE_INVOICE && $this->_template['show_supplier_product_id'] == '1')
 				$items[$i]['supplier_product_id'] = $item->product ? $item->product->supplier_product_id : "";
 			$items[$i]['discount'] = $item->discount > 0 ? $item->discount : 0;
-			$items[$i]['amount'] = $item->amount;
+			$items[$i]['amount'] = \GO\Base\Util\Number::localize($item->amount);
 			$items[$i]['description'] = $item->getParsedDescription();
 			//$items[$i]['description'] = $billing2->replace_item_description($items[$i]['description'], $this->order);
 			$items[$i]['id'] = $item->id;
@@ -550,7 +553,7 @@ class Pdf extends \GO\Base\Util\Pdf {
 //		}
 		
 		if ($this->_template['show_vat'] == '1') {
-			$this->_description_width -=30;
+			$this->_description_width -=40;
 		}
 		//start items table
 
@@ -685,12 +688,25 @@ class Pdf extends \GO\Base\Util\Pdf {
 			
 			$summarizedItem = array();
 			
-			foreach ($items as $k => $item) {				
+			foreach ($items as $k => $item) {	
+				
+				 
 				
 				$this->_checkPageBreak();
 				
 				if(!empty($item['item_group_name']) && $lastItem['group_name']!=$item['item_group_name']){					
-					$this->_onNewGroup($item,$summarizedItem,$lastItem);										
+					$this->_onNewGroup($item,$summarizedItem,$lastItem);	
+					if ($item['description'] == 'PAGEBREAK') {
+						continue;
+					}
+				} else
+				{
+				
+					if ($item['description'] == 'PAGEBREAK') {						
+						$this->AddPage();			
+						$this->table_header();
+						continue;
+					}
 				}
 				
 				
@@ -1139,11 +1155,7 @@ class Pdf extends \GO\Base\Util\Pdf {
 	}
 	
 	private function _printItem($item){
-		if ($item['description'] == 'PAGEBREAK') {
-
-			//do not insert page break directly because we might need to print a group summary first
-			$this->_pageBreak = true;
-		} elseif ($item['heading']) {
+		if ($item['heading']) {
 			$this->ln(6);
 			$this->SetFont($this->font, '', 11);
 			$this->MultiCell($this->pageWidth, 16, $item['description'], 0, 1);
@@ -1257,6 +1269,13 @@ class Pdf extends \GO\Base\Util\Pdf {
 				$this->MultiCell($w, 16, $this->_order->book->currency.' '.\GO\Base\Util\Number::localize($lastItem['total_incl']), 'T', 'R', false,1,$this->pageWidth+$this->lMargin-$w);
 
 			$this->ln(4);
+		}
+		
+		
+		if ($item['description'] == 'PAGEBREAK') {
+			//do not insert page break directly because we might need to print a group summary first
+			$this->AddPage();			
+			$this->table_header();			
 		}
 
 				

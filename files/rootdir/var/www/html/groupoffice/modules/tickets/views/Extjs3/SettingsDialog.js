@@ -77,5 +77,14 @@ GO.tickets.SettingsDialog = Ext.extend(GO.dialog.TabbedFormDialog, {
 		});
 		
 		GO.tickets.SettingsDialog.superclass.show.call(this);
+	},
+	afterSubmit : function(action){
+		
+		if(action.result.success){
+			// Update the GO.tickets.show_close_confirm param
+			GO.tickets.show_close_confirm = this.optionsPanel.showConfirmOnCloseCheckbox.getValue();
+		}
+		
+		GO.tickets.SettingsDialog.superclass.afterSubmit.call(this,action);
 	}
 });

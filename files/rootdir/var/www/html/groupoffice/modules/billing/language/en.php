@@ -215,7 +215,7 @@ $l["purchaseOrdersBook"]='Is a purchase orders book';
 $l["minStock"]='Minimal stock';
 $l["delivery"]='Delivery';
 $l["amountsDelivered"]='Amount delivered';
-$l["amountToBeDelivered"]='Te deliver';
+$l["amountToBeDelivered"]='To deliver';
 $l["specialStatuses"]='Special statuses';
 $l["deliveredStatus"]='Delivery status';
 $l["backorderStatus"]='Backorder status';
@@ -384,8 +384,8 @@ $l["productName"] = 'Product name';
 $l["enterOtherName"] = 'This name already exists in the currently selected product category. Please enter another name for this product.';
 $l["newCategory"] = 'New category';
 $l["unknownLanguageExc1"] = "Your import file contains a language";
-$l["unknownLanguageExc2"] = "but it's not available in the Group-Office billing module. Please add this language to the billing module or remove this language's name, category, description and short_description columns from the import file, before continuing to import the file.";
-$l["noLanguageInHeader"] = "The header of the import file should contain at least phrases like 'name_en' and 'name_de' for columns of product names in the English in or German language. Group-Office needs to know as which language imported product names should be saved. There is not one such header found in the import file.";
+$l["unknownLanguageExc2"] = "but it's not available in the {product_name} billing module. Please add this language to the billing module or remove this language's name, category, description and short_description columns from the import file, before continuing to import the file.";
+$l["noLanguageInHeader"] = "The header of the import file should contain at least phrases like 'name_en' and 'name_de' for columns of product names in the English in or German language. {product_name} needs to know as which language imported product names should be saved. There is not one such header found in the import file.";
 $l['mustUploadCSV']='For this action, it is necessary to upload a CSV file.';
 $l['tooFewHeaders']='With the current upload settings, less than 2 headers are found. Please check if the delimiter in the settings is the same as in the uploaded CSV file.';
 $l['invalidChar']='Invalid character';
@@ -508,3 +508,7 @@ $l['totalOutstanding'] = 'Total outstanding';
 
 $l['duplicateLinks'] = 'Duplicate links';
 $l['autoPaidStatus'] = 'Automaticly add above paid status when enough payment is added';
+
+$l['extra_costs'] = 'Extra costs';
+$l['itemModelName'] = 'Order item';
+$l['askToNotifyCustomer'] = 'Ask to notify customer about status change';

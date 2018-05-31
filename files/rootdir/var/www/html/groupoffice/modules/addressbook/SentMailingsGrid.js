@@ -75,9 +75,37 @@ GO.addressbook.SentMailingsGrid = function(config){
 			width: 50
 		});
 		
+		action.on('beforeaction', function (grid, record, action, row, col) {
+//			console.log('beforeaction')
+			
+			grid.setDisabled(true);
+			grid.task = false;
+			var task = {
+				run: function(){
+//					console.log('run')
+					if(grid.task == true) {
+//						console.log('setDisabled')
+						grid.task = false;
+						grid.setDisabled(false);
+					}
+					grid.task = true;
+				},
+				interval: 3000,
+				scope: grid,
+				repeat:2
+			};
+
+			Ext.TaskMgr.start(task);
+				
+		})
+		
 		action.on({
 			action:function(grid, record, action, row, col) {
-
+//				this.setDisabled(true);
+//				
+				
+				
+				
 				switch(action){
 					case 'ml-btn-pause':
 						grid.store.baseParams.pause_mailing_id=record.id;
@@ -98,6 +126,9 @@ GO.addressbook.SentMailingsGrid = function(config){
 						window.open(GO.url("addressbook/sentMailing/viewLog",{'mailing_id': record.id}));
 						break;
 				}
+				
+				
+				
 			}
 		});
 		

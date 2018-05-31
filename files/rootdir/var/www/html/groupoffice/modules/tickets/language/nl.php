@@ -264,3 +264,15 @@ $l["notify_email_by_new_tickit"]= 'Stuur een bericht naar de volgende e-mail adr
 $l["email_on_new_msg_body"]= 'E-mail body';
 
 $l["onlyManagerReopenTicket"]="Alleen module managers mogen tickets heropenen";
+
+$l['ticketReportMailerLabel'] = 'Ticket rapport mailer';
+$l['ticketReportMailerDescription'] = 'Zend een ticket rapport naar de geselecteerde gebruikers.';
+$l['today_closed'] = 'Vandaag gesloten';
+$l['closedAt'] = 'Gesloten op';
+$l['today_new'] = 'Vandaag nieuw';
+$l['currently_unclaimed'] = 'Momenteel nog niet geclaimd';
+$l['ticketCtime'] = 'Gemaakt op';
+$l['ticketReportMailerNothingEnabled'] = 'Niets beschikbaar om weer te geven';
+
+$l['showConfirmOnClose'] = 'Toon bevestigingsdialoog bij sluiten ticket';
+$l['confirmCloseText'] = 'Weet u zeker dat u deze ticket wilt sluiten?';

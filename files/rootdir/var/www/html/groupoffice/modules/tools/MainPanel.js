@@ -45,12 +45,16 @@ GO.tools.MainPanel = function(config){
 		root: 'results',
 		id: 'id',
 		totalProperty:'total',
-		fields: ['name', 'script'],
+		fields: ['name','description','script'],
 		remoteSort: true
 	});
 	
 	var scriptList = new GO.grid.SimpleSelectList({
 //		title: GO.tools.lang.scripts, 
+		cls: 'simple-list',
+		tpl:'<tpl for=".">'+
+			'<div id="{dom_id}" class="go-item-wrap">{name}<span>{description}</span></div>'+
+			'</tpl>',
 		store: this.store
 		});
 		

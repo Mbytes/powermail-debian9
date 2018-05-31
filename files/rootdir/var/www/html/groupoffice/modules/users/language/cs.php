@@ -142,4 +142,11 @@ $l["popupEmailNotification"] = 'Zobrazit vyskakovací okno, když přijde e-mail
 $l["popupReminderNotification"] = 'Zobrazit vyskakovací okno, když se připomínka stane aktivní';
 
 $l["alternativeEmail"]= 'Alternativní e-mail';
-$l["alternativeEmailText"]= 'Tato e-mailová adresa je použita jako alternativa při odeslání žádosti o změnu zapomenutého hesla. Použijte prosím tedy e-mailovou adresu, ke které máte přístup mimo Group-Office.';
+$l["alternativeEmailText"]= 'Tato e-mailová adresa je použita jako alternativa při odeslání žádosti o změnu zapomenutého hesla. Použijte prosím tedy e-mailovou adresu, ke které máte přístup mimo {product_name}.';
+
+$l['diskSpace'] = 'Místo na disku';
+$l['diskQuota'] = 'Disková kvóta';
+$l['spaceUsed'] = 'Využité místo';
+
+$l['desktopNotificationsActive']= 'Upozornění na ploše';
+$l['id']= 'ID';

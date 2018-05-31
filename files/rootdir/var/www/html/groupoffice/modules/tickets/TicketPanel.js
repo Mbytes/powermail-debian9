@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: TicketPanel.js 21849 2016-11-08 12:46:37Z mschering $
+ * @version $Id: TicketPanel.js 22734 2017-12-14 12:48:19Z wsmits $
  * @copyright Copyright Intermesh
  * @author Michiel Schmidt <michiel@intermesh.nl>
  * @author Merijn Schering <mschering@intermesh.nl>
@@ -15,7 +15,7 @@
 GO.tickets.TicketPanel = Ext.extend(GO.DisplayPanel,{
 
 	model_name : "GO\\Tickets\\Model\\Ticket",
-	
+		
 	stateId : 'ti-ticket-panel',
 
 	editGoDialogId : 'ticket',
@@ -91,17 +91,26 @@ GO.tickets.TicketPanel = Ext.extend(GO.DisplayPanel,{
 				hidden:true,
 				text: GO.tickets.lang['closeTicket'],
 				handler:function(){
-					GO.request({
-						url:'tickets/ticket/close',
-						params:{
-							id:this.data.id
-						},
-						success:function(){
-							this.reload();
-							GO.tickets.ticketsGrid.store.reload();
-						},
-						scope:this
-					});
+					
+					var doRequest = true;
+					
+					if(GO.tickets.show_close_confirm && !confirm(GO.tickets.lang.confirmCloseText)){
+						doRequest = false;
+					}
+
+					if(doRequest){
+						GO.request({
+							url:'tickets/ticket/close',
+							params:{
+								id:this.data.id
+							},
+							success:function(){
+								this.reload();
+								GO.tickets.ticketsGrid.store.reload();
+							},
+							scope:this
+						});
+					}
 				},
 				scope:this
 			}),
@@ -159,10 +168,13 @@ GO.tickets.TicketPanel = Ext.extend(GO.DisplayPanel,{
 			'links',
 			"permission_level",
 			'model_name',
+			'model_name_underscores',
 			'unseen',
 			'workflow',
 			'type_id',
-			'group_name'			
+			'group_name',
+			'timeEntries',
+			'timeEntriesTotal'
 			//'link_type'
 		,{
 				name: 'rate_totals'
@@ -301,9 +313,14 @@ GO.tickets.TicketPanel = Ext.extend(GO.DisplayPanel,{
 			'<div class="msg-content">{content}</div>'+
 			'</tpl>'+
 			'<div class="msg-foot">'+
-				'<tpl if="values.template_name">'+
+				'<tpl if="values.template_name && !is_note">'+
 					'<span class="msg-right light">'+
 					'{template_name}' +
+					'</span>'+
+				'</tpl>'+
+				'<tpl if="is_note">'+
+					'<span class="msg-right light">'+
+					GO.tickets.lang['is_note'] +
 					'</span>'+
 				'</tpl>'+
 				'<tpl if="!Ext.isEmpty(status) || !Ext.isEmpty(type)">'+
@@ -502,7 +519,7 @@ GO.tickets.TicketPanel = Ext.extend(GO.DisplayPanel,{
 
 		this.on('afterbodyclick', function(panel, target, e, href){
 			
-			if(href!='#'){
+			if(href!=='#' && href.substr(0,11) !== 'javascript:'){
 				e.preventDefault();
 				window.open(href);
 			}
@@ -584,6 +601,9 @@ GO.tickets.TicketPanel = Ext.extend(GO.DisplayPanel,{
 			this.store.baseParams.hidden_sections=Ext.encode(this.hiddenSections);
 			this.store.load({
 				callback:function(){
+					if(!this.store.getAt(0)){
+						return;
+					}	
 						this.data = this.store.getAt(0).data;
 						this.data.model_name=this.model_name;
 						this.data.panelId=this.getId();
@@ -602,7 +622,7 @@ GO.tickets.TicketPanel = Ext.extend(GO.DisplayPanel,{
 							}
 						}
 						
-						this.afterLoad();
+						this.afterLoad(this.data);
 				},
 				scope:this
 			});

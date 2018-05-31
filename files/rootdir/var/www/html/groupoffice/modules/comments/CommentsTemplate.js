@@ -39,15 +39,16 @@ GO.comments.openComment = function(commentId) {
 
 GO.comments.commentsAccordion = function(id,commentsText) {
 	
-	var maxLength = 300;
+	var maxLength = 200;
 	if (commentsText.length<maxLength || GO.comments.enableReadMore == "0") {
-		return '<div id="comment-'+id+'" class="comment-div">'+commentsText+'</div>';
+		return '<div id="comment-'+id+'" class="comment-div print-always">'+commentsText+'</div>';
 	} else {
-		return '<div id="comment-'+id+'" class="comment-div" style="display:none;">'+
+		return '<div id="comment-'+id+'" class="comment-div print-always" style="display:none;">'+
 //				'<a href="javascript:GO.comments.closeComment('+id+');"><img src="views/Extjs3/themes/Default/images/elbow-end-minus-nl.gif" style="margin-bottom:-4px;margin-right:3px;" /></a>'+
 					commentsText+'</div>'+
-					'<div id="shortComment-'+id+'" class="shortComment-div">'+				
-					Ext.util.Format.ellipsis(commentsText,maxLength)+
+					'<div id="shortComment-'+id+'" class="shortComment-div print-never">'+				
+					cutHtmlString(commentsText,maxLength)+'...'+
+//					Ext.util.Format.ellipsis(commentsText,maxLength)+
 					'&nbsp;<a href="javascript:GO.comments.openComment('+id+');">'+GO.comments.lang.readMore+'</a>'+
 					'</div>';
 					

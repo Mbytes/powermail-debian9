@@ -47,6 +47,9 @@ class Template extends \GO\Base\Db\ActiveRecord{
 	private $_defaultTags;
 	private $_lineBreak;
 	
+	
+	public $attributesFormat = 'formatted';
+	
 		/**
 	 * Returns a static model of itself
 	 * 
@@ -112,7 +115,7 @@ class Template extends \GO\Base\Db\ActiveRecord{
 	}
 	
 	private function _getModelAttributes($model, $tagPrefix=''){
-		$attributes = $model->getAttributes('formatted');		
+		$attributes = $model->getAttributes($this->attributesFormat);		
 		
 		if(method_exists($model, 'getFormattedAddress')){
 			$attributes['formatted_address']=$model->getFormattedAddress();
@@ -123,7 +126,7 @@ class Template extends \GO\Base\Db\ActiveRecord{
 		}
 				
 		if($model->customfieldsRecord){
-			$attributes = array_merge($attributes, $model->customfieldsRecord->getAttributes('formatted'));
+			$attributes = array_merge($attributes, $model->customfieldsRecord->getAttributes($this->attributesFormat));
 			
 			// For multiselect fields, replace the | with a ,
 			$cfCols = $model->customfieldsRecord->getColumns();

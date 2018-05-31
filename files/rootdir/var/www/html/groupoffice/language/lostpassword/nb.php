@@ -6,7 +6,7 @@ $l['send']='Send';
 $l['login']='Logg inn';
 $l['lost_password_subject']='Forespørsel om nytt passord';
 $l['lost_password_body']='%s,
-Du har bedt om et nytt passord for %s. Brukernavnet ditt er "%s".
+Du har bedt om et nytt passord for %s fra IP-adresse: {ip_address}. Brukernavnet ditt er "%s".
 Trykk på lenken nedenfor eller lim den inn i nettleseren for å endre passordt ditt:
 
 %s

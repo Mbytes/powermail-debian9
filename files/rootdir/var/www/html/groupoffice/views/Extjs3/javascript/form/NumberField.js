@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: NumberField.js 14816 2013-05-21 08:31:20Z mschering $
+ * @version $Id: NumberField.js 21282 2017-07-07 12:59:14Z devdevilnl $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -73,7 +73,6 @@ GO.form.NumberField = Ext.extend(Ext.form.TextField, {
 	
 	
 	
-	
 	/**
      * Runs all of NumberFields validations and returns an array of any errors. Note that this first
      * runs TextField's validations, so the returned array is an amalgamation of all field errors.
@@ -84,9 +83,9 @@ GO.form.NumberField = Ext.extend(Ext.form.TextField, {
      */
 	getErrors: function(value) {
 		var errors = GO.form.NumberField.superclass.getErrors.apply(this, arguments);
-        
-		value = Ext.isDefined(value) ? value : GO.util.unlocalizeNumber(this.getRawValue());
-				
+		
+		value = GO.util.unlocalizeNumber(this.getRawValue())
+
 		if (value.length < 1) { // if it's blank and textfield didn't flag it then it's valid
 			return errors;
 		}

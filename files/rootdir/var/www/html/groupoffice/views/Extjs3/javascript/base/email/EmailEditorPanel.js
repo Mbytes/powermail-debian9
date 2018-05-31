@@ -331,9 +331,11 @@ Ext.extend(GO.base.email.EmailEditorPanel, Ext.Panel, {
 //		this.htmlEditor.setValue(v);		
 //	},
 
-	fireSubmit : function(e) {		
+	fireSubmit : function(e) {
 		if (e.ctrlKey && Ext.EventObject.ENTER == e.getKey()) {
+			e.preventDefault();
 			this.fireEvent('submitshortcut',this);
+			return false;
 		}
 	},
 	

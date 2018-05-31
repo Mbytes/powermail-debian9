@@ -42,68 +42,109 @@
 
 namespace GO\Base\Util;
 
+use Defuse\Crypto\Crypto;
+use Defuse\Crypto\Key;
+use Exception;
+use GO;
+use GO\Base\Fs\File;
 
+/**
+ * @deprecated
+ */
 class Crypt {
 
 	/** Encryption Procedure
 	 *
 	 * 	@param   mixed    msg      message/data
-	 * 	@param   StringHelper   k        encryption key
+	 * 	@param   string   k        encryption key
 	 * 	@param   boolean  base64   base64 encode result
 	 *
-	 * 	@return  StringHelper   iv+ciphertext+mac or
+	 * 	@return  string   ciphertext or
 	 *           boolean  false on error
 	 */
-	public static function encrypt($msg, $k='', $base64 = true, $prefix='{GOCRYPT}') {
-
-		if($msg=="")
-			return "";
+	public static function encrypt($plaintext, $password = null) {
 		
-		//Check if mcrypt is supported. mbstring.func_overload will mess up substring with this function
-		if (!function_exists('mcrypt_module_open') || ini_get('mbstring.func_overload') > 0)
-			return false;
-
-		if (empty($k)) {
-			$k = self::getKey();
-			if (empty($k)) {
-				throw new \Exception('Could not generate private encryption key. Please check the file permissions of the folder defined as $config[\'file_storage_path\'] in your config.php and the file key.txt in it.');
-			}
-		}		
-
-		# open cipher module (do not change cipher/mode)
-		if (!$td = mcrypt_module_open('rijndael-256', '', 'ctr', ''))
-			return false;
-
-		$msg = serialize($msg);			 # serialize
-		$iv = mcrypt_create_iv(32, MCRYPT_RAND);	# create iv
-
-		if (mcrypt_generic_init($td, $k, $iv) !== 0) # initialize buffers
-			return false;
-
-		$msg = mcrypt_generic($td, $msg);		# encrypt
-		$msg = $iv . $msg;				# prepend iv
-		$mac = self::pbkdf2($msg, $k, 1000, 32);	# create mac
-		$msg .= $mac;				 # append mac
-
-		mcrypt_generic_deinit($td);			# clear buffers
-		mcrypt_module_close($td);			# close cipher module
-
-		if ($base64)
-			$msg = base64_encode($msg);# base64 encode?
-
-		return $prefix.$msg;				 # return iv+ciphertext+mac
+		if(!isset($password)) {
+			$key = self::getKey();
+			return "{GOCRYPT2}" . Crypto::encrypt($plaintext, $key);
+		} else
+		{
+			return "{GOCRYPT2}" . Crypto::encryptWithPassword($plaintext, $password);
+		}
 	}
 
 	/** Decryption Procedure
 	 *
-	 * 	@param   StringHelper   msg      output from encrypt()
-	 * 	@param   StringHelper   k        encryption key
+	 * 	@param   string   msg      output from encrypt()
+	 * 	@param   string   k        encryption key
 	 * 	@param   boolean  base64   base64 decode msg
 	 *
-	 * 	@return  StringHelper   original message/data or
+	 * 	@return  string   original message/data or
 	 *           boolean  false on error
 	 */
-	public static function decrypt($msg, $k='', $base64 = true) {
+	public static function decrypt($ciphertext, $password = null) {
+		
+		if(empty($ciphertext)) {
+			return "";
+		}
+		
+		if(substr($ciphertext, 0, 9) == '{GOCRYPT}') {
+			return self::decrypt1($ciphertext, $password);
+		} else if(substr($ciphertext, 0, 10) == '{GOCRYPT2}') {		
+			try{
+				if(empty($password)) {
+					$k = self::getKey();
+					$plaintext = Crypto::decrypt(substr($ciphertext, 10), $k);
+				} else
+				{
+					$plaintext = Crypto::decryptWithPassword(substr($ciphertext, 10), $password);
+				}
+			} catch (\Exception $ex) {
+				$plaintext = '';
+			}
+			return $plaintext;	
+		} else
+		{
+			return $ciphertext;
+		}
+
+	}
+	
+	private static $key;
+
+	/**
+	 * Get the private server key
+	 * @return Key
+	 */
+	private static function getKey() {
+		
+		if(!isset(self::$key)) {
+			$file = new File(GO::config()->file_storage_path .'defuse-crypto.txt');
+
+			if (!$file->exists()) {				
+				self::$key = Key::createNewRandomKey();
+				$file->putContents(self::$key->saveToAsciiSafeString());
+				$file->chmod(0600);
+			} else {
+				self::$key = Key::loadFromAsciiSafeString($file->getContents());
+			}
+		}
+
+
+		return self::$key;
+	}
+	
+	
+	/**
+	 * Old deprecated mcrypt base decrypt.
+	 * 
+	 * @param type $msg
+	 * @param type $k
+	 * @param type $base64
+	 * @return boolean
+	 * @throws Exception
+	 */
+	private static function decrypt1($msg, $k, $base64 = true) {
 
 		//Check if mcrypt is supported. mbstring.func_overload will mess up substring with this function
 		if (!function_exists('mcrypt_module_open') || ini_get('mbstring.func_overload') > 0)
@@ -115,9 +156,9 @@ class Crypt {
 			return false;
 		
 		if (empty($k)) {
-			$k = self::getKey();
+			$k = self::getKey1();
 			if (empty($k)) {
-				throw new \Exception('Could not generate private key');
+				throw new Exception('Could not generate private key');
 			}
 		}
 
@@ -150,13 +191,13 @@ class Crypt {
 
 	/** PBKDF2 Implementation (as described in RFC 2898);
 	 *
-	 * 	@param   StringHelper  p   password
-	 * 	@param   StringHelper  s   salt
+	 * 	@param   string  p   password
+	 * 	@param   string  s   salt
 	 * 	@param   int     c   iteration count (use 1000 or higher)
 	 * 	@param   int     kl  derived key length
-	 * 	@param   StringHelper  a   hash algorithm
+	 * 	@param   string  a   hash algorithm
 	 *
-	 * 	@return  StringHelper  derived key
+	 * 	@return  string  derived key
 	 */
 	private static function pbkdf2($p, $s, $c, $kl, $a = 'sha256') {
 
@@ -182,9 +223,9 @@ class Crypt {
 		return substr($dk, 0, $kl);
 	}
 
-	private static function getKey() {
+	private static function getKey1() {
 
-		$key_file = \GO::config()->file_storage_path . 'key.txt';
+		$key_file = GO::config()->file_storage_path . 'key.txt';
 
 		if (file_exists($key_file)) {
 			$key = file_get_contents($key_file);
@@ -206,21 +247,7 @@ class Crypt {
 	 * @return string the encrypted password
 	 */
 	public static function encryptPassword($password) {
-		if(function_exists('password_hash')) {
-			return password_hash($password,PASSWORD_DEFAULT);
-		}else
-		{
-			$salt = uniqid();
-			if(function_exists("mcrypt_create_iv")) {
-				$salt = base64_encode(mcrypt_create_iv(24, MCRYPT_DEV_URANDOM));
-			}
-			
-			if (CRYPT_SHA256 == 1) {
-					$salt = '$5$'.$salt;
-			}
-			
-			return crypt($password, $salt);
-		}
+		return password_hash($password,PASSWORD_DEFAULT);		
 	}
 	
 	/**

@@ -277,6 +277,7 @@ $l["portrait"]='Portrait';
 $l["landscape"]='Landscape';
 $l["link"]='Link';
 $l["savedQueries"]='Saved queries';
+$l["addQueryArgument"]='Add query argument';
 $l["searchQueryName"]= 'Search query name';
 $l["enterSearchQueryName"]= 'Enter search query name';
 $l["pleaseEnterASearchTerm"]='Please enter a search term';
@@ -592,7 +593,7 @@ $l['queryComparator'] = "Comparator";
 $l['queryValue']="Value";
 $l['queryStartGroup']="Start group";
 
-$l['cliOnly'] = "This script can only run through the Group-Office Command Line Interface (CLI).";
+$l['cliOnly'] = "This script can only run through the {product_name} Command Line Interface (CLI).";
 $l['unnamed']='Unnamed';
 
 $l['maxRowslistTooHigh']='The maximum number of rows in lists is too high. (max 50)';
@@ -724,3 +725,25 @@ $l['hasData'] = 'Has data';
 $l['appendValues'] = 'Append to existing';
 
 $l['replace'] = 'Replace';
+
+$l['passwordSameAsPreviousError'] = 'New password cannot be the same as the old password';
+$l['passwordExpired'] = 'Your password is expired.';
+$l['passwordNeedsChange'] = 'The password needs to be changed';
+$l['passwordNeedsChangeText'] = 'Please create a new password to continue working in {product_name}.';
+$l['strCurrentPassword'] = 'Current Password';
+$l['strNewPassword'] = 'New Password';
+$l['strConfirmPassword'] = 'Confirm password';
+$l['alreadyLoggedInOther'] = 'Already logged in on other location';
+$l['alreadyLoggedInOtherText'] = "You are already logged in from another computer at IP {last_login_ip} since {last_login_time}.\nIf you log in here, your other instance will be logged out.";
+$l['cmdContinue'] = 'Continue';
+
+$l['strRecoveryEmail'] = 'Recovery e-mail';
+$l["recoveryEmailText"]= 'This email address is used as recovery to send a forgotten password request to. Please use an email address that you can access from outside {product_name}.';
+$l["currentPasswordText"] = 'You need to provide your current password to be able to modify the settings below.';
+
+$l['strId'] = 'ID';
+$l['strModule'] = 'Module';
+
+$l['createEventText'] = 'Create event for {0}';
+$l['moveEventText'] = 'Move event to {0}';
+$l['updateEventText'] = 'Update event to {0}';

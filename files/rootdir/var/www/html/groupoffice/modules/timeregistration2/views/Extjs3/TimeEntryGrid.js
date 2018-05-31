@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: TimeEntryGrid.js 21612 2016-08-29 10:12:46Z mschering $
+ * @version $Id: TimeEntryGrid.js 22164 2017-03-20 07:57:03Z mschering $
  * @copyright Copyright Intermesh
  * @author Michael de Hart <mdhart@intermesh.nl>
  */
@@ -54,7 +54,7 @@ GO.timeregistration2.TimeEntryGrid = Ext.extend(GO.grid.GridPanel,{
 			id: 'tr-entry-grid',
 			plugins: [this.summary, this.totalSummary],
 			cls:'go-white-bg',
-			title: GO.projects2.lang.units,
+			title: GO.timeregistration2.lang.units,
 			autoFill: true,
 			editDialogClass: GO.projects2.TimeEntryDialog,
 			tbar: [
@@ -197,7 +197,7 @@ GO.timeregistration2.TimeEntryGrid = Ext.extend(GO.grid.GridPanel,{
 					
 				}
 			},{
-				header:GO.projects2.lang.project,
+				header:GO.timeregistration2.lang.project,
 				dataIndex: 'project_name',
 				width:300,
 				id:'project',
@@ -208,11 +208,11 @@ GO.timeregistration2.TimeEntryGrid = Ext.extend(GO.grid.GridPanel,{
 						return "";
 				}
 			},{
-				header:GO.projects2.lang['task'],
+				header:GO.timeregistration2.lang['task'],
 				width:200,
 				dataIndex: 'task'
 			},{
-				header:GO.projects2.lang['activity'],
+				header:GO.timeregistration2.lang['activity'],
 				width:150,
 				dataIndex: 'standard_task'
 			},{
@@ -222,10 +222,10 @@ GO.timeregistration2.TimeEntryGrid = Ext.extend(GO.grid.GridPanel,{
 				header:GO.lang.strDay,
 				dataIndex: 'day'
 			},{
-				header:GO.projects2.lang.travelDistance,
+				header:GO.timeregistration2.lang.travelDistance,
 				dataIndex: 'travel_distance'
 			},{
-				header:GO.projects2.lang.comments,
+				header:GO.timeregistration2.lang.comments,
 				dataIndex: 'comments',
 				hidden:true
 			}]

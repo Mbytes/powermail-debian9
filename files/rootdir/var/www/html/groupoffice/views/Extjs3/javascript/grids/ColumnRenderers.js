@@ -22,6 +22,25 @@ GO.grid.ColumnRenderers = {
 		}
 	},
 	
+	
+	dateExpired : function(val, meta, record, rowIndex, columnIndex, store){
+		
+		if(typeof val == 'string') {
+			var date = Math.round(new Date(val).getTime()/1000);
+		} else {
+			var date = val;
+		}
+		
+		if(date < Math.round(new Date().now()/1000)){
+			meta.css = 'cellbg-red';
+			return GO.lang.no;
+		}
+	},
+
+	countryCode: function(val, meta, record, rowIndex, columnIndex, store) {
+		return GO.lang.countries[val.toUpperCase()] ? GO.lang.countries[val.toUpperCase()] : val;
+	},
+	
 
 	/**
 	 * To override the maxLength, cutWholeWords, showTooltip params you need 

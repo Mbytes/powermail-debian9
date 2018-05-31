@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: Stores.js 18509 2014-03-12 08:17:01Z mschering $
+ * @version $Id: Stores.js 22502 2017-08-30 08:33:43Z mschering $
  * @copyright Copyright Intermesh
  * @author Michiel Schmidt <michiel@intermesh.nl>
  * @author Merijn Schering <mschering@intermesh.nl>
@@ -17,7 +17,7 @@ GO.tickets.writableTypesStore = new GO.data.JsonStore({
 	baseParams:{
 		permissionLevel:GO.permissionLevels.write
 	},
-	fields:['id','name','description','user_name','acl_id','permission_level','group_name']
+	fields:['id','name','description','user_name','acl_id','permission_level','group_name','customfields']
 });
 
 GO.tickets.readableTypesStore = new Ext.data.GroupingStore({
@@ -62,7 +62,8 @@ GO.tickets.statusesStore = new GO.data.JsonStore({
 	fields:['id','name','checked','name_clean'],
 	baseParams: {
 		showTicketCount: true,
-		showOpenClosed: true
+		showOpenClosed: true,
+		sort: 'name'
 	}
 });
 

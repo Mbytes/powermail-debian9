@@ -220,7 +220,7 @@ $l["copyingMessages"]='Копиране на съобщения...';
 
 
 $l["companyId"] = "Номер";
-$l["companyUser_id"] = "Потребител";
+//$l["companyUser_id"] = "Потребител";
 $l["companyAddressbook_id"] = "Адресна книга";
 $l["companyName"] = "Име";
 $l["companyName2"] = "Име 2";
@@ -251,7 +251,7 @@ $l["companyEmail_allowed"] = "Разрешен E-mail";
 $l["companyFiles_folder_id"] = "Папка";
 
 $l["contactId"] = "Номер";
-$l["contactUser_id"] = "Потребител";
+//$l["contactUser_id"] = "Потребител";
 $l["contactAddressbook_id"] = "Адресна книга";
 $l["contactFirst_name"] = "Име";
 $l["contactMiddle_name"] = "Презиме";
@@ -283,7 +283,7 @@ $l["contactMtime"] = "Време на промяна";
 $l["contactSalutation"] = "Поздрав";
 $l["contactEmail_allowed"] = "E-mail е позволен";
 $l["contactFiles_folder_id"] = "Папка";
-$l["contactGo_user_id"] = "Потребител";
+$l["contactGo_user_id"] = "{product_name} Потребител";
 $l["contactSuffix"] = "Суфикс";
 $l["contactHomepage"] = "Уеб страница";
 

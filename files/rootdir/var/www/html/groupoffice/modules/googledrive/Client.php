@@ -8,8 +8,8 @@ class Client extends \Google_Client{
 	public function __construct($config = array()) {
 		parent::__construct($config);
 		
-		if(empty(\GO::config()->googledrive_oauth2_client_id) || empty(\GO::config()->googledrive_oauth2_client_secret) || empty(\GO::config()->googledrive_simple_api_key))
-			throw new \Exception("Google drive API client not setup. \$config['googledrive_oauth2_client_id'], \$config['googledrive_oauth2_client_secret'] and \$config['googledrive_simple_api_key'] must be set.");
+		if(empty(\GO::config()->googledrive_oauth2_client_id) || empty(\GO::config()->googledrive_oauth2_client_secret))
+			throw new \Exception("Google drive API client not setup. \$config['googledrive_oauth2_client_id'], \$config['googledrive_oauth2_client_secret'] must be set.");
 		
 		$this->setApplicationName(\GO::config()->title);
 		$this->setUseObjects(true);

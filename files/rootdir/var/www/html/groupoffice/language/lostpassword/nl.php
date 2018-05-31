@@ -6,7 +6,7 @@ $l['send']='Verzenden';
 $l['login']='Inloggen';
 $l['lost_password_subject']='Aanvraag voor nieuw wachtwoord';
 $l['lost_password_body']='%s,
-U heeft een nieuw wachtwoord voor %s aangevraagd. Uw gebruikersnaam is "%s".
+U heeft een nieuw wachtwoord voor %s aangevraagd vanaf ip-adres: {ip_address}. Uw gebruikersnaam is "%s".
 Klik op onderstaande link (of plak deze in uw browser) om uw wachtwoord te veranderen:
 
 %s

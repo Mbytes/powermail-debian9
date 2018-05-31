@@ -107,7 +107,7 @@ class Directory extends \Sabre\DAV\FS\Directory{
 		$folder->name = $name;
 		$folder->save();
 
-		$this->relpath = $folder->getPath();
+		$this->relpath = $folder->path;
 		$this->path = \GO::config()->file_storage_path.$this->relpath;
 	}
 
@@ -141,7 +141,9 @@ class Directory extends \Sabre\DAV\FS\Directory{
 		
 		$folder->parent_id=$destFolder->id;
 		$folder->name = $destFsFolder->name();
-		$folder->save();
+		if(!$folder->save()) {
+			throw new \Exception("Could not save folder ".$folder->id." ".var_export($folder->getValidationErrors(), true));
+		}
 
 		$this->relpath = $folder->path;
 		$this->path = \GO::config()->file_storage_path.$this->relpath;
@@ -233,12 +235,17 @@ class Directory extends \Sabre\DAV\FS\Directory{
 		}
 		
 		$stmt = $f->getSubFolders();
+		
+		\GO::debug('Subfolders: '.$stmt->rowCount());
 
 		while ($folder = $stmt->fetch()) {
 			$nodes[] = $this->getChild($folder->name);
 		}
 
 		$stmt = $f->files();
+		
+		\GO::debug('Files: '.$stmt->rowCount());
+		
 		while ($file = $stmt->fetch()) {
 			$nodes[] = $this->getChild($file->name);
 		}

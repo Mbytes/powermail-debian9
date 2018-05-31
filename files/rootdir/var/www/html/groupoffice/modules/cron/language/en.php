@@ -1,6 +1,6 @@
 <?php
 $l['name'] = 'System task scheduler';
-$l['description'] = 'Module to manage system tasks inside Group-Office.';
+$l['description'] = 'Module to manage system tasks inside {product_name}.';
 
 $l['cronManager'] = 'Manage system tasks';
 

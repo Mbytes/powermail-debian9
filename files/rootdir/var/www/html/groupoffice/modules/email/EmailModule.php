@@ -58,7 +58,7 @@ class EmailModule extends \GO\Base\Module{
 	}
 
 
-	public static function submitSettings(&$settingsController, &$params, &$response, $user) {
+	public static function submitSettings($settingsController, &$params, &$response, $user) {
 
 		GO::config()->save_setting('email_use_plain_text_markup', isset($params['use_html_markup']) ? '0' : '1', GO::user()->user_id);
 		GO::config()->save_setting('email_show_cc', isset($params['email_show_cc']) ? 1 : 0, GO::user()->user_id);

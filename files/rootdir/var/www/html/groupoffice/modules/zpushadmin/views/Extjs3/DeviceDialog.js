@@ -95,7 +95,7 @@ GO.zpushadmin.DeviceDialog = Ext.extend(GO.dialog.TabbedFormDialog , {
 			width:300,
 			anchor: '99%',
 			maxLength: 100,
-			allowBlank:false,
+//			allowBlank:false,
 			fieldLabel: GO.zpushadmin.lang.canConnect
 		});
 		

@@ -160,7 +160,9 @@ class Reader{
 	} 
 	
 	public function __destruct() {
-		fclose($this->fp);
+		if(isset($this->fp)) {
+			fclose($this->fp);
+		}
 	}
 	
 	/**

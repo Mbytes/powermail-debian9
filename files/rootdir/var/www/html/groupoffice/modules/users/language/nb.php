@@ -139,4 +139,5 @@ $l['id']= 'ID';
 $l['popupReminderNotification']= 'Vise sprettoppvindu når en påminnelse blir aktiv';
 $l['popupEmailNotification']= 'Vise sprettoppvindu når det kommer ny e-post';
 $l['alternativeEmail']= 'Alternativ e-postadresse';
-$l['alternativeEmailText']= 'Denne e-postadressen brukes som et alternativ hvis du har glemt passordet ditt og vil bestille et nytt. Her bør du bruke en e-postkonto som du kan lese uavhengig av Group-Office.';
+$l['alternativeEmailText']= 'Denne e-postadressen brukes som et alternativ hvis du har glemt passordet ditt og vil bestille et nytt. Her bør du bruke en e-postkonto som du kan lese uavhengig av {product_name}.';
+$l['forcePasswordChange']= "Krev endring av passord ved neste innlogging";

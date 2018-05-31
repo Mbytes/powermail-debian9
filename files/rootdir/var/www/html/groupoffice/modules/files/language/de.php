@@ -27,7 +27,6 @@ $l["normalSize"]='Normale Größe';
 $l["imageViewer"]='Bildbetrachter';
 $l["applyState"]= 'Anzeigeeinstellungen dieses Ordners für alle Nutzer übernehmen';
 $l["strDownloadActive"]= 'Externer Downloadlink verfügbar';
-$l["emailDownloadLink"]= 'E-Mail Downloadlink';
 $l["downloadExpireTime"]='Link verfällt nach dem';
 $l["expireTime"]= 'Verfallsdatum des Links';
 $l["downloadUrl"]='URL';
@@ -104,7 +103,6 @@ $l['notifyFileMove']= 'Datei %s wurde nach %s durch %s verschoben';
 $l['notifyFileDelete']= 'Datei %s wurde durch %s gelöscht';
 $l['notifyFileUpdate']= 'Datei %s wurde durch %s aktualisiert';
 $l['downloadLinkExpired']= "Der Downloadlink für diese Datei ist abgelaufen";
-$l['notificationEmailSubject']= 'Änderungen im Ordner';
 $l["fileLocked_user_id"]= "Gesperrt durch";
 $l['recentFiles']="Dateien, die in den letzten 7 Tagen verändert wurden";
 $l['bookmarkFolder']="Zu Favoriten hinzufügen";
@@ -132,8 +130,19 @@ $l['automaticallyDeleted'] = 'Datei wird automatisch gelöscht, wenn der Downloa
 
 $l['downloadSelected']= 'Ausgewählte herunterladen';
 
-$l['editSelection']= 'Auswahl editieren';
-$l['dontEditFolder']="Sie können diesen Ordner nicht editieren";
+$l['editSelection']= 'Auswahl bearbeiten';
+$l['dontEditFolder']="Sie können diesen Ordner nicht bearbeiten";
 
-$l['contentExpiresAt']= 'Inhalt läuft ab am';
-$l['clear']= 'Feld leeren';
+$l['contentExpiresAt']= 'Inhalt läuft am';
+$l['clear']= 'leeren';
+$l['expiredFilesPortlet']= 'Abgelaufene Dateien';
+$l['folderBrowserPortlet']= 'Ordner anzeigen';
+$l['applyCFRecursively']= 'Anwenden dieser benutzerdefinierten Feldeinstellungen rekursiv auf den aktuellen Ordner';
+$l['uploadFailed']= 'Der Upload ist fehlgeschlagen! Wenden Sie sich an den Administrator';
+
+$l['emailDownloadLink']= 'E-Mail-Download-Link';
+$l['notificationEmailSubject']= 'Updates im Ordner';
+
+$l['cronNotifyFolderChangeLabel']= 'Eine Benachrichtigungs-E-Mail senden, wenn sich im Ordner für abonnierte Dateien etwas ändert';
+$l['cronNotifyFolderChangeDescription']= 'Eine E-Mail an den Benutzer senden, wenn ein Ordner geändert wird';
+

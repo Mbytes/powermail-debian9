@@ -139,5 +139,5 @@ $l['cmdFormLabelHolidaySet'] = 'Vakantiedagen';
 $l['noReminders'] = 'Maak geen herinneringen voor mij aan';
 $l['desktopNotificationsActive'] = 'Bureaublad meldingen actief';
 
-$l["alternativeEmail"]= 'Alternatief email';
-$l["alternativeEmailText"]= 'Dit e-mailadres wordt gebruikt als alternatief om een vergeten wachtwoord verzoek te sturen. Gebruik een e-mail adres waar u toegang toe heeft zonder Group-Office toegang.';
+$l["forcePasswordChange"] = "Forceer wachtwoord veranderen bij volgende login";
+$l["changePassword"] = 'Wachtwoord veranderen';

@@ -133,15 +133,15 @@ abstract class Message extends \GO\Base\Model {
 	public function setAttributes($attributes) {
 
 		$this->attributes = array_merge($this->attributes, $attributes);
+		
+		$this->attributes['to'] = new \GO\Base\Mail\EmailRecipients(\GO\Base\Util\StringHelper::clean_utf8($this->attributes['to']));
+		$this->attributes['cc'] = new \GO\Base\Mail\EmailRecipients(\GO\Base\Util\StringHelper::clean_utf8($this->attributes['cc']));
+		$this->attributes['bcc'] = new \GO\Base\Mail\EmailRecipients(\GO\Base\Util\StringHelper::clean_utf8($this->attributes['bcc']));
+		$this->attributes['from'] = new \GO\Base\Mail\EmailRecipients(\GO\Base\Util\StringHelper::clean_utf8($this->attributes['from']));
+		$this->attributes['reply_to'] = new \GO\Base\Mail\EmailRecipients(\GO\Base\Util\StringHelper::clean_utf8($this->attributes['reply_to']));
 
-		$this->attributes['to'] = new \GO\Base\Mail\EmailRecipients($this->attributes['to']);
-		$this->attributes['cc'] = new \GO\Base\Mail\EmailRecipients($this->attributes['cc']);
-		$this->attributes['bcc'] = new \GO\Base\Mail\EmailRecipients($this->attributes['bcc']);
-		$this->attributes['from'] = new \GO\Base\Mail\EmailRecipients($this->attributes['from']);
-		$this->attributes['reply_to'] = new \GO\Base\Mail\EmailRecipients($this->attributes['reply_to']);
-
-
-	$this->attributes['x_priority']= isset($this->attributes['x_priority']) ? strtolower($this->attributes['x_priority']) : 3;
+		$this->attributes['x_priority']= isset($this->attributes['x_priority']) ? strtolower($this->attributes['x_priority']) : 3;
+		
 		switch($this->attributes['x_priority']){
 			case 'high':
 				$this->attributes['x_priority']=1;
@@ -402,8 +402,7 @@ abstract class Message extends \GO\Base\Model {
 			//add unique token for detecting precense of inline attachment when we submit the message in handleFormInput
 			$a['token']=md5($a['tmp_file']);
 			$a['url'] .= '&amp;token='.$a['token'];
-
-
+			
 			if ($html && !empty($a['content_id']))
 				$response['htmlbody'] = str_replace('cid:' . $a['content_id'], $a['url'], $response['htmlbody'], $replaceCount);
 
@@ -412,7 +411,7 @@ abstract class Message extends \GO\Base\Model {
 				continue;
 			}
 
-			if(!$replaceCount)
+			if(!$replaceCount || $a['disposition'] == 'attachment')
 				$response['attachments'][] = $a;
 			else
 				$response['inlineAttachments'][]=$a;

@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: EventDialog.js 20453 2016-09-22 13:40:32Z mschering $
+ * @version $Id: EventDialog.js 21560 2017-10-19 11:53:42Z mschering $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -285,8 +285,16 @@ Ext.extend(GO.calendar.EventDialog, Ext.util.Observable, {
 					
 					this.setData(action);
 					
+					if(action.result.data.enable_reminder){
+						this.reminderComposite.setDisabled(false);
+					} else {
+						this.reminderComposite.setDisabled(true);
+					}
+					
+
 					// If this is a recurrence and the following is true (action.result.data.exception_for_event_id and action.result.data.exception_date are set and not empty)
 					if(action.result.data.exception_date){
+						this.formPanel.form.baseParams['thisAndFuture'] = config.thisAndFuture;
 						this.setEventId(0);
 						this.formPanel.form.baseParams['exception_for_event_id'] = action.result.data.exception_for_event_id;
 						this.formPanel.form.baseParams['exception_date'] = action.result.data.exception_date;
@@ -749,7 +757,7 @@ Ext.extend(GO.calendar.EventDialog, Ext.util.Observable, {
 		
 		if (this.repeatType.getValue() != "") {
 			if (GO.util.empty(this.repeatEndDate.getValue())) {
-				this.repeatForever.setValue(true);
+				this.repeatForeverXCheckbox.setValue(true);
 			} else {
 
 				if (this.repeatEndDate.getValue() < eD) {
@@ -1099,22 +1107,90 @@ Ext.extend(GO.calendar.EventDialog, Ext.util.Observable, {
 			}
 		});
 
-		this.repeatForever = new Ext.ux.form.XCheckbox({
+		
+		
+		
+		this.repeatForeverXCheckbox = new Ext.ux.form.XCheckbox({
 			boxLabel : GO.calendar.lang.repeatForever,
 			name : 'repeat_forever',
-			checked : true,
-			disabled : true,
+			checked: true,
 			width : 'auto',
 			hideLabel : true,
 			listeners : {
 				check : {
-					fn : function(cb, checked){
-						this.repeatEndDate.setDisabled(checked);
+				fn : function(cb, checked){
+					
+						if(!checked && !this.repeatUntilDateXCheckbox.getValue() && !this.repeatCountXCheckbox.getValue()) {
+							this.repeatForeverXCheckbox.setValue(true);
+						} else {
+							this.repeatUntilDateXCheckbox.setValue(false);
+							this.repeatCountXCheckbox.setValue(false);
+						}
 					},
 					scope : this
 				}
 			}
 		});
+		
+		this.repeatUntilDateXCheckbox = new Ext.ux.form.XCheckbox({
+			boxLabel : GO.calendar.lang.repeatUntilDate,
+			name : 'repeat_UntilDate',
+//			checked : true,
+//			disabled : true,
+			width : 'auto',
+			hideLabel : true,
+			listeners : {
+				check : {
+					fn : function(cb, checked){
+					if(!checked && !this.repeatForeverXCheckbox.getValue() && !this.repeatCountXCheckbox.getValue()) {
+							this.repeatUntilDateXCheckbox.setValue(true);
+							return;
+						} else {
+							this.repeatForeverXCheckbox.setValue(false);
+							this.repeatCountXCheckbox.setValue(false);
+
+							this.repeatEndDate.setDisabled(!checked);
+						}
+					},
+					scope : this
+				}
+			}
+		});
+		
+		this.repeatNumber = new Ext.form.NumberField({
+			name: 'count',
+			disabled : true,
+			maxLength: 1000,
+			allowBlank:false,
+			value: 1,
+			minValue: 1,
+			decimals:0
+		});
+		
+		
+		this.repeatCountXCheckbox = new Ext.ux.form.XCheckbox({
+			boxLabel : GO.calendar.lang.repeatCount,
+			name : 'repeat_count',
+			width : 'auto',
+			hideLabel : true,
+			listeners : {
+				check : {
+					fn : function(cb, checked) {
+						if(!checked && !this.repeatForeverXCheckbox.getValue() && !this.repeatUntilDateXCheckbox.getValue()) {
+							this.repeatCountXCheckbox.setValue(true);
+							return;
+						} else {
+							this.repeatForeverXCheckbox.setValue(false);
+							this.repeatUntilDateXCheckbox.setValue(false);
+
+							this.repeatNumber.setDisabled(!checked);
+						}
+					},
+					scope : this
+				}
+			}
+		});
+		
 		this.recurrencePanel = new Ext.Panel({
 			title : GO.calendar.lang.recurrence,
 			bodyStyle : 'padding: 5px',
@@ -1132,11 +1208,29 @@ Ext.extend(GO.calendar.EventDialog, Ext.util.Observable, {
 				xtype : 'compositefield',
 				fieldLabel : GO.calendar.lang.atDays,
 				items : [this.monthTime,this.cb[1],this.cb[2],this.cb[3],this.cb[4],this.cb[5],this.cb[6],this.cb[0]]
-			}, {
-				fieldLabel : GO.calendar.lang.repeatUntil,
-				xtype : 'compositefield',
-				items : [this.repeatEndDate,this.repeatForever]
-			}
+			},{
+//				fieldLabel : GO.calendar.lang.rangeRecurrence,
+//				xtype : 'compositefield',
+//				items : [
+//					{
+//						fieldLabel : GO.calendar.lang.repeatForever,
+						hideLabel: true,
+						xtype : 'compositefield',
+						items : [this.repeatForeverXCheckbox]
+					}, {
+						hideLabel: true,
+//						fieldLabel : GO.calendar.lang.repeatCount,
+						xtype : 'compositefield',
+						items : [this.repeatCountXCheckbox, this.repeatNumber,{xtype:'plainfield', value: GO.calendar.lang.times}]
+					}, {
+						hideLabel: true,
+//						fieldLabel : GO.hideLabel: true,calendar.lang.repeatUntilDate,
+						xtype : 'compositefield',
+						items : [this.repeatUntilDateXCheckbox, this.repeatEndDate]
+					}
+//				]
+//			}
+			
 			]
 		});
 
@@ -1149,7 +1243,7 @@ Ext.extend(GO.calendar.EventDialog, Ext.util.Observable, {
 		this.reminderValue = new GO.form.NumberField({
 			decimals:0,
 			name : 'reminder_value',
-			minValue:1,
+//			minValue:1,
 			width : 50,
 			value : GO.calendar.defaultReminderValue
 		});
@@ -1177,23 +1271,45 @@ Ext.extend(GO.calendar.EventDialog, Ext.util.Observable, {
 			hideLabel : true,
 			labelSeperator : ''
 		});
+		
+		this.reminderComposite = new Ext.form.CompositeField({
+			style:'margin-top:10px;',
+			fieldLabel : GO.calendar.lang.reminder,
+			items : [this.reminderValue,this.reminderMultiplier]
+		});
+		
+		this.enableReminderCheckbox = new Ext.ux.form.XCheckbox({
+			boxLabel : GO.calendar.lang.useReminder,
+			name : 'enable_reminder',
+			width : 'auto',
+			hideLabel : true,
+			listeners : {
+				check : {
+					fn : function(cb, checked) {
+						this.reminderComposite.setDisabled(!checked);
+					},
+					scope : this
+				}
+			}
+		});
 
 		this.participantsPanel = new GO.calendar.ParticipantsPanel(this);
-
-
-		
 
 		this.optionsPanel = new Ext.Panel({
 			layout:"form",
 			title : GO.calendar.lang.options,
-			bodyStyle : 'padding:5px',
+			bodyStyle : 'padding:5px 0',
 			hideMode : 'offsets',
 			border:false,
 			items:[{
-				xtype : 'compositefield',
-				fieldLabel : GO.calendar.lang.reminder,
-				items : [this.reminderValue,this.reminderMultiplier]
-			},this.colorField = new GO.form.ColorField({
+				xtype : 'fieldset',
+				autoHeight : true,
+				layout : 'form',
+				title : GO.calendar.lang.reminder,
+				items : [
+					this.enableReminderCheckbox,
+					this.reminderComposite
+			]},this.colorField = new GO.form.ColorField({
 				fieldLabel : GO.lang.color,
 				value : "EBF1E2",
 				name : 'background',
@@ -1359,6 +1475,7 @@ Ext.extend(GO.calendar.EventDialog, Ext.util.Observable, {
 
         
 	},
+	
 
 	buildAccordion : function()
 	{
@@ -1499,14 +1616,19 @@ Ext.extend(GO.calendar.EventDialog, Ext.util.Observable, {
 
 	changeRepeat : function(value) {
 
-		var repeatForever = this.repeatForever.getValue();
+		var repeatForever = this.repeatForeverXCheckbox.getValue();
+		
+		
 		
 		var form = this.formPanel.form;
 		switch (value) {
 			default :
 				this.disableDays(true);
 				this.monthTime.setDisabled(true);
-				this.repeatForever.setDisabled(true);
+				this.repeatForeverXCheckbox.setDisabled(true);
+				this.repeatCountXCheckbox.setDisabled(true);
+				this.repeatUntilDateXCheckbox.setDisabled(true);
+				this.repeatNumber.setDisabled(true);
 				this.repeatEndDate.setDisabled(true);
 				this.repeatEvery.setDisabled(true);
 				break;
@@ -1514,7 +1636,10 @@ Ext.extend(GO.calendar.EventDialog, Ext.util.Observable, {
 			case 'DAILY' :
 				this.disableDays(true);
 				this.monthTime.setDisabled(true);
-				this.repeatForever.setDisabled(false);
+				this.repeatForeverXCheckbox.setDisabled(false);
+				this.repeatCountXCheckbox.setDisabled(false);
+				this.repeatUntilDateXCheckbox.setDisabled(false);
+				this.repeatNumber.setDisabled(false);
 				this.repeatEndDate.setDisabled(repeatForever);
 				this.repeatEvery.setDisabled(false);
 
@@ -1523,7 +1648,10 @@ Ext.extend(GO.calendar.EventDialog, Ext.util.Observable, {
 			case 'WEEKLY' :
 				this.disableDays(false);
 				this.monthTime.setDisabled(true);
-				this.repeatForever.setDisabled(false);
+				this.repeatForeverXCheckbox.setDisabled(false);
+				this.repeatCountXCheckbox.setDisabled(false);
+				this.repeatUntilDateXCheckbox.setDisabled(false);
+				this.repeatNumber.setDisabled(false);
 				this.repeatEndDate.setDisabled(repeatForever);
 				this.repeatEvery.setDisabled(false);
 
@@ -1532,7 +1660,10 @@ Ext.extend(GO.calendar.EventDialog, Ext.util.Observable, {
 			case 'MONTHLY_DATE' :
 				this.disableDays(true);
 				this.monthTime.setDisabled(true);
-				this.repeatForever.setDisabled(false);
+				this.repeatForeverXCheckbox.setDisabled(false);
+				this.repeatCountXCheckbox.setDisabled(false);
+				this.repeatUntilDateXCheckbox.setDisabled(false);
+				this.repeatNumber.setDisabled(false);
 				this.repeatEndDate.setDisabled(repeatForever);
 				this.repeatEvery.setDisabled(false);
 
@@ -1541,7 +1672,10 @@ Ext.extend(GO.calendar.EventDialog, Ext.util.Observable, {
 			case 'MONTHLY' :
 				this.disableDays(false);
 				this.monthTime.setDisabled(false);
-				this.repeatForever.setDisabled(false);
+				this.repeatForeverXCheckbox.setDisabled(false);
+				this.repeatCountXCheckbox.setDisabled(false);
+				this.repeatUntilDateXCheckbox.setDisabled(false);
+				this.repeatNumber.setDisabled(false);
 				this.repeatEndDate.setDisabled(repeatForever);
 				this.repeatEvery.setDisabled(false);
 				break;
@@ -1549,7 +1683,10 @@ Ext.extend(GO.calendar.EventDialog, Ext.util.Observable, {
 			case 'YEARLY' :
 				this.disableDays(true);
 				this.monthTime.setDisabled(true);
-				this.repeatForever.setDisabled(false);
+				this.repeatForeverXCheckbox.setDisabled(false);
+				this.repeatCountXCheckbox.setDisabled(false);
+				this.repeatUntilDateXCheckbox.setDisabled(false);
+				this.repeatNumber.setDisabled(false);
 				this.repeatEndDate.setDisabled(repeatForever);
 				this.repeatEvery.setDisabled(false);
 				break;

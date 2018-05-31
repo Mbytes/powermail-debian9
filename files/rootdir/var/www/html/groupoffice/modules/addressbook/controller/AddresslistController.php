@@ -36,9 +36,20 @@ class AddresslistController extends \GO\Base\Controller\AbstractModelController 
 			$multiSel->formatCheckedColumn();
 		}
 		
-		
-		
 		$storeParams->getCriteria()->addCondition('level', $params['permissionLevel'],'>=','go_acl');
+		$storeParams->joinRelation('addresslistGroup','LEFT');
+
+		
+		if(isset(\GO::config()->addresslists_store_forced_limit)){
+			$storeParams->limit(\GO::config()->addresslists_store_forced_limit);
+		}
+		
+		// Sorting (First on Group, then on name or posted column
+		$sortColumn = isset($params['sort'])?$params['sort']:'name';
+		$sortDir = isset($params['dir'])?$params['dir']:'ASC';
+		$storeParams->order(array('addresslistGroupName',$sortColumn),array('ASC',$sortDir));
+
+		$storeParams->select('t.*,COALESCE(addresslistGroup.name,"'.\GO::t('strDefault').'") AS addresslistGroupName');
 	}
 
 	public function formatStoreRecord($record, $model, $store) {

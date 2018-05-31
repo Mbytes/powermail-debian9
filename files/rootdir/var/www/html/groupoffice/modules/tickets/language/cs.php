@@ -311,3 +311,16 @@ $l["changeTicketType"]='Změnit typ tiketu';
 $l["typeChange"] = '* typ byl změněn na';
 
 $l['leaveTypeBlankByDefault'] = 'Po vytvoření tiketu, automaticky nevybírat výchozí typ';
+
+$l['setAgent']= 'Změna zodpovědné osoby';
+$l['createdTicketsInMonth']= 'Vytvořené tikety za měsíc';
+$l['createdTicketsInYearPerWeek']= 'Vytvořené tikety za rok v týdnech';
+$l['createdTickets']= 'Vytvořené tikety';
+$l['email notifications']= 'E-mailová upozornění';
+$l['new ticket checkbox']= 'Zaslat e-mail zákazníkovi, když se vytvoří nový tiket';
+$l['assigned checkbox']= 'Zaslat e-mail zákazníkovi po přidělení tiketu';
+$l['notify agent checkbox']= 'Zaslat e-mail zodpovědné osobě, když zákazník odpoví na tiket';
+$l['enable templates by type']= 'Přepsat e-mailová upoznění pro tento typ';
+$l['notify_email_by_new_tickit']= 'Oznámit následující emailové adresy při vytvoření nových tiketů';
+$l['email_on_new_msg_body']= 'Text zprávy';
+$l['onlyManagerReopenTicket']="Uzavřené tikety mohou otevřít pouze správci modulu";

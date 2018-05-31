@@ -52,7 +52,8 @@ class FieldTreeSelectOptionController extends \GO\Base\Controller\AbstractModelC
 				'bindParams'=>array(
 						'field_id'=>$params['field_id'], 
 						'parent_id'=>$params['node']),
-				'order'=>'sort'
+				'order'=>'sort',
+			 'limit'=>0
 		));
 		
 		$response=array();

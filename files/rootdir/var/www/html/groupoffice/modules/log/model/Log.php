@@ -30,6 +30,7 @@
  * @property string $controller_route
  * @property string $action
  * @property string $message
+ * @property string $jsonData
  */
 
 
@@ -65,6 +66,9 @@ class Log extends \GO\Base\Db\ActiveRecord {
 	}
 	
 	protected function init() {
+		
+		// set gotype to HTML because the jsondata will not be HTML encoded this way
+		$this->columns['jsonData']['gotype'] = 'html';
 		
 		//$this->columns['time']='unixtimestamp';
 		
@@ -103,21 +107,29 @@ class Log extends \GO\Base\Db\ActiveRecord {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Log a custom message
 	 * 
-	 * @param StringHelper $action eg update, save
-	 * @param StringHelper $message 
+	 * @param string $action eg. update, save, delete
+	 * @param string $message
+	 * @param string $model_name
+	 * @param int $model_id
+	 * @param string/array $data
 	 */
-	public static function create($action, $message, $model_name="", $model_id=0){
-		$log = new Log();
+	public static function create($action, $message, $model_name="", $model_id=0, $data=""){
 		
+		// Check if the given data is already JSON, if not, then we json_encode it.
+		if(!GO\Base\Util\StringHelper::isJSON($data)){
+			$data = json_encode($data);
+		}
+		
+		$log = new Log();
 		$log->model_id=$model_id;
-
 		$log->action=$action;
 		$log->model=$model_name;			
 		$log->message = $message;
+		$log->jsonData = $data;
 		$log->save();
 	}
 }

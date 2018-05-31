@@ -5,6 +5,7 @@ GO.billing.MainPanel = function(config){
 		config = GO.billing.LanguagesGrid;
 	}
 	this.booksPanel = new GO.billing.BooksGrid({
+		id:'bs-books-list',
 		region:'north',
 		title:GO.billing.lang.books,
 		autoScroll:true,				

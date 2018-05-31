@@ -114,3 +114,18 @@ $l['weekIsClosed'] = 'Deze week is gesloten';
 
 $l['weekTotal'] = 'Totaal geregistreerde uren deze week';
 $l['monthTotal'] = 'Totaal geregistreerde uren deze maand';
+
+
+$l['entriesClosedTill'] = "Tijdschrijven gesloten tot";
+$l["timeTracking"]='Tijdregistratie';
+$l['timerSure'] = "Weet je zeker dat je de timer wilt stoppen?";
+$l['project']='Project';
+$l['task']='Werkzaamheid';
+$l['activity'] = "Activiteit";
+$l['travelDistance']='Reisafstand';
+$l['comments'] = 'Commentaar';
+
+
+
+
+

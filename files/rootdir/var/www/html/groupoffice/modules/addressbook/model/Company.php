@@ -1,5 +1,7 @@
 <?php
 
+namespace GO\Addressbook\Model;
+
 /**
  * Copyright Intermesh
  *
@@ -50,11 +52,6 @@
  * @property String $photoURL URL to photo
  * @property string $color
  */
-
-
-namespace GO\Addressbook\Model;
-
-
 class Company extends \GO\Base\Db\ActiveRecord {
 	
 	/**
@@ -104,7 +101,7 @@ class Company extends \GO\Base\Db\ActiveRecord {
 	}
 	
 	public function defaultAttributes() {
-		$ab = \GO::user() ? Addressbook::model()->getDefault(\GO::user()) : false;
+		$ab = \GO::user() ? Addressbook::model()->getDefault(\GO::user()) : null;
 		return array(
 				'addressbook_id' => $ab ? $ab->id : null,
 //				'country'=>\GO::config()->default_country,
@@ -144,6 +141,7 @@ class Company extends \GO\Base\Db\ActiveRecord {
 //		
 //		$this->columns['phone']['gotype']='phone';
 //		$this->columns['fax']['gotype']='phone';
+		$this->columns['color']['gotype']='color';
 		
 		return parent::init();
 	}
@@ -197,11 +195,13 @@ class Company extends \GO\Base\Db\ActiveRecord {
 							->ignoreAcl()
 							->criteria($whereCriteria);			
 			
-			$stmt = Contact::model()->find($findParams);			
-			while($contact = $stmt->fetch()){
-				$contact->addressbook_id=$this->addressbook_id;
-				$contact->mtime = time();
-				$contact->save();
+			if($this->isModified(['name','addressbook_id', 'address', 'address_no', 'city','state','zip','country', 'post_address', 'post_address_no', 'post_city','post_state','post_zip','post_country'])) {
+				$stmt = Contact::model()->find($findParams);			
+				while($contact = $stmt->fetch()){
+					$contact->addressbook_id=$this->addressbook_id;
+					$contact->mtime = time();
+					$contact->save();
+				}
 			}
 		}		
 		return parent::afterSave($wasNew);
@@ -249,7 +249,53 @@ class Company extends \GO\Base\Db\ActiveRecord {
 		if (empty($this->color))
 			$this->color = "000000";
 		
+		if($this->getIsNew() && $this->addressbook->create_folder) {
+			
+			$c = new \GO\Files\Controller\FolderController();
+			$c->checkModelFolder($this, false, true);
+			
+		}
+		if(!empty(\GO::config()->google_api_key)) {
+			if($this->isLocationModified()) {
+				$this->fetchCoords();
+			}
+			if($this->isLocationModified('post_')) {
+				$this->fetchCoords('post_');
+			}
+		}
+		
 		return parent::beforeSave();
+	}
+	
+	public function fetchCoords($type = '') {
+		$query = array();
+		$addressAttrs = array("{$type}address","{$type}address_no","{$type}country","{$type}city");
+		foreach($addressAttrs as $attr) {
+			$val = $this->getAttribute($attr);
+			if(!empty($val));
+			$query[] = urlencode($val);
+		}
+		$resp = Contact::fetchGoogleCoords(implode('+', $query));
+		if ($resp['status'] == 'OK') {
+			$this->setAttribute("{$type}latitude",$resp['results'][0]['geometry']['location']['lat']);
+			$this->setAttribute("{$type}longitude", $resp['results'][0]['geometry']['location']['lng']);
+		}
+		return $this;
+	}
+	
+	public function isLocationModified($type = '') {
+
+		$addressAttrs = array("{$type}address","{$type}address_no","{$type}country","{$type}city");
+
+		$modified = false;
+		foreach($addressAttrs as $attr) {
+			if($this->isModified($attr)) {
+				$modified = true;
+				break;
+			}
+		}
+		return $modified;
+		
 	}
 	
 	/**

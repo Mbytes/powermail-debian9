@@ -23,8 +23,8 @@ class SieveModule extends Module{
 	public static function initListeners() {
 		// Add trigger
 		$c = new AccountController();
-		$c->addListener('submit', '\GO\Sieve\SieveModule', 'saveOutOfOfficeMessage');
-		$c->addListener('load', '\GO\Sieve\SieveModule', 'loadOutOfOfficeMessage');
+		$c->addListener('submit', 'GO\Sieve\SieveModule', 'saveOutOfOfficeMessage');
+		$c->addListener('load', 'GO\Sieve\SieveModule', 'loadOutOfOfficeMessage');
 	}
 	
 	/**
@@ -37,7 +37,7 @@ class SieveModule extends Module{
 	 * @param array $params
 	 * 
 	 */
-	public static function loadOutOfOfficeMessage(&$this,&$response,&$model,&$params){
+	public static function loadOutOfOfficeMessage($self,&$response,&$model,&$params){
 		
 		$sieve = new \GO\Sieve\Util\Sieve();
 		$connected = $sieve->connect($model->username,$model->decryptPassword(),$model->host,$model->sieve_port,null,!empty($model->sieve_usetls),array(),true);
@@ -153,7 +153,7 @@ class SieveModule extends Module{
 	 * @param array $params
 	 * @param array $modifiedAttributes
 	 */
-	public static function saveOutOfOfficeMessage(&$this,&$response,&$model,&$params,$modifiedAttributes){
+	public static function saveOutOfOfficeMessage($self,&$response,&$model,&$params,$modifiedAttributes){
 		
 		// Check if the ooo_ fields are posted
 		if(isset($params['ooo_message'])){
@@ -267,8 +267,6 @@ class SieveModule extends Module{
 			if (!empty(\GO::config()->sieve_vacation_subject))
 				$rule['actions'][0]['subject']=\GO::config()->sieve_vacation_subject;
 				
-			$response['sieve_after'] = $rule;
-
 			// Search for the correct index of the Out of office script again.
 			if(!empty($sieve->script->content)) {
 				$index=0;
@@ -301,9 +299,21 @@ class SieveModule extends Module{
 			if($sieve->save()) {
 				$response['success'] = true;
 			} else {
-				$response['feedback'] = "Could not save filtering rules. Please check your input.<br />".$sieve->error();
+				// Because this is a form that has file upload enabled, don't use HTML in the response. This will break EXTJS
+				$response['feedback'] = "Could not save filtering rules. Please check your input.";
 				$response['success'] = false;
 			}
+//			
+//			// Fixed issue with encoded foreign utf-8 chars
+//			if(!empty($rule['actions'][0]['reason'])){
+//				$rule['actions'][0]['reason'] = htmlentities($rule['actions'][0]['reason']);
+//			}	
+//			
+//			if(!empty($rule['actions'][0]['subject'])){
+//				$rule['actions'][0]['subject'] = htmlentities($rule['actions'][0]['subject']);
+//			}
+//			
+//			$response['sieve_after'] = $rule;
 		}
 	}
 }

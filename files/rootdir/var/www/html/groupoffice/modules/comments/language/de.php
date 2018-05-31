@@ -18,3 +18,10 @@ $l['enableReadMore']="Aktiviere \"Mehr lesen\"-Links";
 $l['actionDate']='Handlungsdatum';
 
 $l['parent']='Übergeordnet';
+
+$l['originalCommentTabs'] = 'Original Kommentar Reiter';
+$l['disableOriginalCommentsContact'] = 'Original Kommentar Reiter im Kontakt-Dialogfenster verstecken';
+$l['disableOriginalCommentsCompany'] = 'Original Kommentar Reiter im Firmen-Dialogfenster verstecken';
+
+$l['emptyComment']='Kommentar leeren';
+

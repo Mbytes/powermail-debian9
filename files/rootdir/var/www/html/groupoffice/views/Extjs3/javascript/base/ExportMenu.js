@@ -223,13 +223,16 @@ GO.base.ExportMenu = Ext.extend(Ext.Button,{
 			view:item.view,
 			id: item.id			
 		};
+	
+		
+		window.open(GO.url("core/export/export", data));
 		
 //		this.hiddenExportWindow.show();
 		
-		this.hiddenExportForm.form.setValues(data);
-		this.hiddenExportForm.form.submit({
-			scope:this
-		});
+//		this.hiddenExportForm.form.setValues(data);
+//		this.hiddenExportForm.form.submit({
+//			scope:this
+//		});
 //		this.hiddenExportWindow.hide();
 //
 //		window.open(GO.url("core/export/export",data));

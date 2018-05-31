@@ -86,3 +86,4 @@ $l['savePhoneNr']='Nummer speichern';
 $l['scheduleCallTaskName']='{name} anrufen über {number}';
 $l['overwritePhoneNumber']='{field} überschreiben mit ({number})';
 $l['addToPhoneNumber']='Hinzufügen zu {field}';
+$l["id"]= 'ID';

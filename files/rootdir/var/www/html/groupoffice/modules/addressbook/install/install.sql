@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS `ab_addressbooks` (
   `default_salutation` varchar(255) NOT NULL,
   `files_folder_id` int(11) NOT NULL DEFAULT '0',
   `users` tinyint(1) NOT NULL DEFAULT '0',
+	`create_folder` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4;
@@ -24,10 +25,13 @@ CREATE TABLE IF NOT EXISTS `ab_addressbooks` (
 DROP TABLE IF EXISTS `ab_addresslists`;
 CREATE TABLE IF NOT EXISTS `ab_addresslists` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+	`addresslist_group_id` INT DEFAULT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
   `acl_id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(255) DEFAULT NULL,
   `default_salutation` varchar(50) DEFAULT NULL,
+	`ctime` int(11) NOT NULL DEFAULT '0',
+  `mtime` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -73,12 +77,16 @@ CREATE TABLE IF NOT EXISTS `ab_companies` (
   `name2` varchar(100) DEFAULT '',
   `address` varchar(100) DEFAULT '',
   `address_no` varchar(100) DEFAULT '',
+	`latitude` DECIMAL(10,8) NULL,
+	`longitude` DECIMAL(11,8) NULL,
   `zip` varchar(10) DEFAULT '',
   `city` varchar(50) DEFAULT '',
   `state` varchar(50) DEFAULT '',
   `country` varchar(50) DEFAULT '',
   `post_address` varchar(100) DEFAULT '',
   `post_address_no` varchar(100) DEFAULT '',
+	`post_latitude` DECIMAL(10,8) NULL,
+	`post_longitude` DECIMAL(11,8) NULL,
   `post_city` varchar(50) DEFAULT '',
   `post_state` varchar(50) DEFAULT '',
   `post_country` varchar(50) DEFAULT '',
@@ -148,6 +156,8 @@ CREATE TABLE IF NOT EXISTS `ab_contacts` (
   `zip` varchar(10) NOT NULL DEFAULT '',
   `address` varchar(100) NOT NULL DEFAULT '',
   `address_no` varchar(100) NOT NULL DEFAULT '',
+	`latitude` DECIMAL(10,8) NULL,
+	`longitude` DECIMAL(11,8) NULL,
   `comment` text,
   `ctime` int(11) NOT NULL DEFAULT '0',
   `mtime` int(11) NOT NULL DEFAULT '0',
@@ -407,3 +417,46 @@ CREATE TABLE IF NOT EXISTS `ab_portlet_birthdays` (
   `addressbook_id` int(11) NOT NULL,
   PRIMARY KEY (`user_id`,`addressbook_id`)
 ) ENGINE=InnoDB;
+
+
+--
+-- Tabelstructuur voor tabel `ab_settings`
+--
+DROP TABLE IF EXISTS `ab_settings`;
+CREATE TABLE IF NOT EXISTS `ab_settings` (
+  `user_id` int(11) NOT NULL,
+  `default_addressbook_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Tabelstructuur voor tabel `go_links_ab_addresslists`
+--
+
+DROP TABLE IF EXISTS `go_links_ab_addresslists`;
+CREATE TABLE IF NOT EXISTS `go_links_ab_addresslists` (
+  `id` int(11) NOT NULL,
+  `folder_id` int(11) NOT NULL,
+  `model_id` int(11) NOT NULL,
+  `model_type_id` int(11) NOT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  `ctime` int(11) NOT NULL,
+  PRIMARY KEY `model_id` (`id`,`model_id`,`model_type_id`),
+  KEY `id` (`id`,`folder_id`),
+  KEY `ctime` (`ctime`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Tabelstructuur voor tabel `ab_addresslist_group`
+--
+
+CREATE TABLE `ab_addresslist_group` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+ALTER TABLE `ab_addresslist_group`
+  ADD PRIMARY KEY (`id`);
+
+ALTER TABLE `ab_addresslist_group`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;

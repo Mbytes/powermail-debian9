@@ -1,6 +1,6 @@
 <?php
 $l['name']="Activiteiten log";
-$l['description']="Registreert alle verwijder, bewerk en toevoeg actions. Mogelijk heeft dit negatieve invloed op de prestaties van Group-Office bij grote installaties!";
+$l['description']="Registreert alle verwijder, bewerk en toevoeg actions. Mogelijk heeft dit negatieve invloed op de prestaties van {product_name} bij grote installaties!";
 
 $l["logCtime"]="Tijd";
 $l["logAction"]="Actie";			

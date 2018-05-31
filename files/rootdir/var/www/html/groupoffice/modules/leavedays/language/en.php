@@ -138,3 +138,5 @@ $l['starttimeForCalendar'] = 'Start time for calendar';
 $l['removeYearCreditNotPossibleIfLeavedayIsSet'] = 'Can\'t remove year credit with bookings. Please remove bookings first.';
 
 $l['reason_why'] = 'Reason why';
+
+$l['deleteHolidayNotPermitted'] = 'Can\'t remove some holidays, this may have several reasons:<br />You are not the manager,<br />The holiday is in the past<br />The holiday is already approved or disapproved.';

@@ -79,5 +79,26 @@ class Cli {
 		
 		return $input;
 	}
+	
+	
+	public static function getScriptPath() {
+		$output = array();
+		exec('pwd', $output);
+		$path = $output[0].'/'.$_SERVER["SCRIPT_FILENAME"];
+		$parts = explode('/', $path);
+
+		for($i = 0, $c = count($parts); $i < $c; $i++) {
+			if($parts[$i] == '..') {
+				$parts[$i - 1] = null;
+				$parts[$i] = null;
+			}
+		}
+
+		$path = implode('/', array_filter($parts, function($part){
+			return isset($part);
+		}));
+		
+		return $path;
+	}
 
 }

@@ -24,3 +24,5 @@ $l["noDefaultNoteCategory"]='Velg standard kategori for synkronisering av notate
 $l["noteCategories"]='Notatkategorier';
 $l["calendarDialogTitle"]='Velg hvilke kalendere som skal synkroniseres.';
 $l['tooBigAttachments']="Disse vedleggene er for store for mobilsynkronisering.";
+$l['tasklistActiveSyncOnly']= '(kun for synkronisering med Exchange-kontoer. Se calendars -> CalDAV-taskslists for CalDAV)';
+

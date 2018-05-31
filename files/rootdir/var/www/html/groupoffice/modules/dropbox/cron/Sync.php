@@ -3,15 +3,15 @@
 
 namespace GO\Dropbox\Cron;
 
+use Exception;
 use GO;
 use GO\Base\Cron\AbstractCron;
 use GO\Base\Cron\CronJob;
-use GO\Base\Db\FindParams;
 use GO\Base\Mail\Mailer;
 use GO\Base\Mail\Message;
-use GO\Base\Model\User;
-use GO\Dropbox\Model;
-use GO\Dropbox\Model\DropboxException;
+use GO\Base\Util\StringHelper;
+use GO\Dropbox\Model\DropboxClient;
+use GO\Dropbox\Model\DropboxUser;
 
 class Sync extends AbstractCron {
 	
@@ -57,46 +57,36 @@ class Sync extends AbstractCron {
 	 * @param CronJob $cronJob
 	 */
 	public function run(CronJob $cronJob){
-		
-		$stmt = \GO\Dropbox\Model\User::model()->find(FindParams::newInstance()->select());
-		
-		$sync = new Model\Sync();
-		
-		foreach($stmt as $dbxUser){
-			try{
-				if(!empty($dbxUser->access_token)){
-					$sync->start($dbxUser->user);
-				}else{
-					$sync::log("Skipped user ".$dbxUser->user->username." because there's no access token");
-				}
-			}catch(DropboxException $e){
-				
-				$sync::log("Sync failed for user ".$dbxUser->user->username.": ".$e->getMessage());
-				$this->_sendMessage($dbxUser, $e, GO::t('syncFailedBody','dropbox'));				
-				
-				//Remove user that does not work anymore so he can reconnect				
-				//$dbxUser->delete();
-			}catch(\Exception $e){
-				$sync::log("Sync failed for user ".$dbxUser->user->username.": ".$e->getMessage());				
-//				$this->_sendMessage($dbxUser, $e,"");
+	
+		$stmt = DropboxUser::model()->find(\GO\Base\Db\FindParams::newInstance()->select());
+
+		foreach($stmt as $dropboxUser){
+			
+			try {
+				DropboxClient::setDropboxUser($dropboxUser);
+				DropboxClient::syncDropboxToGO();
+				DropboxClient::syncGOToDropbox();
+			} catch(Exception $e){
+				\GO::debug("Dropbox: Sync failed for user ".$dropboxUser->user->username.": ".$e->getMessage());				
+				$this->_sendMessage($dropboxUser, $e);
 			}
+			
 		}
-		
 	}
 	
 	
-	private function _sendMessage($dbxUser, $e, $body){
+	private function _sendMessage($dropboxUser, $e){
 		
-		Model\Sync::log("Sending failure e-mail to ".$dbxUser->user->email);
+		\GO::debug("Dropbox: Sending failure e-mail to ".$dropboxUser->user->email);
 		
 		$message = Message::newInstance();
 		$message->setSubject(GO::t('syncFailed','dropbox'));				
 
-		$body.="\n\nError: ".$e->getMessage();
+		$body="Error: ".$e->getMessage();
 
 		$message->setBody($body,'text/plain');
 		$message->setFrom(GO::config()->webmaster_email,GO::config()->title);
-		$message->addTo($dbxUser->user->email, $dbxUser->user->name);
+		$message->addTo($dropboxUser->user->email, $dropboxUser->user->name);
 
 		Mailer::newGoInstance()->send($message);
 		

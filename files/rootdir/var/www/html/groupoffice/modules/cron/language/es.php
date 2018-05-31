@@ -1,7 +1,7 @@
 <?php
 
 $l['name'] = 'Gestión de CRON';
-$l['description'] = 'Módulo para gestionar tareas de sistema automáticas (CRON) dentro de Group-Office.';
+$l['description'] = 'Módulo para gestionar tareas de sistema automáticas (CRON) dentro de {product_name}.';
 
 $l['cronManager'] = 'Gestión de CRON';
 

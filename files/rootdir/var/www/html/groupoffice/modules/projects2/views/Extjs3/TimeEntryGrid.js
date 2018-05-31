@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: TimeEntryGrid.js 20003 2014-11-24 12:52:50Z wsmits $
+ * @version $Id: TimeEntryGrid.js 23362 2018-02-02 13:15:56Z mschering $
  * @copyright Copyright Intermesh
  * @author Michael de Hart <mdhart@intermesh.nl>
  */
@@ -27,20 +27,17 @@ GO.projects2.TimeEntryGrid = Ext.extend(GO.grid.GridPanel,{
 		cols.push({	header: GO.lang.strUser, dataIndex: 'user_id'	});
 		cols.push({ header: GO.lang.strDate, dataIndex: 'date' });
 		cols.push({ header: GO.lang.strDescription,dataIndex: 'comments' });
-		cols.push({ header: GO.projects2.lang['task'], width:150, dataIndex: 'task' });
+		cols.push({ header: GO.projects2.lang['task'], width:150, dataIndex: 'task', sortable:false });
 		cols.push({ header: GO.projects2.lang['activity'],	width:150, dataIndex: 'standard_task' });
 		
-		if(GO.projects2.has_finance_permission){
-			cols.push({ header: GO.projects2.lang['externalFee'], dataIndex: 'external_fee', align:'right' });
-			cols.push({ header: GO.projects2.lang['internalFee'], dataIndex: 'internal_fee', align:'right' });
-		}
+		cols.push({ header: GO.projects2.lang['externalFee'], dataIndex: 'external_fee', align:'right' });
+		cols.push({ header: GO.projects2.lang['internalFee'], dataIndex: 'internal_fee', align:'right' });
+
 		
 		cols.push({ header: GO.projects2.lang['duration'], dataIndex: 'units', align:'right' });	
 		cols.push({ header: GO.projects2.lang['travelDistance'], dataIndex: 'travel_distance',	align:'right' });
 		
-		if(GO.projects2.has_finance_permission){
-			cols.push({ header: GO.projects2.lang['travel_costs'], dataIndex: 'travel_costs',	align:'right' });
-		}
+		cols.push({ header: GO.projects2.lang['travel_costs'], dataIndex: 'travel_costs',	align:'right' });
 
 		var colModel = new Ext.grid.ColumnModel({
 			defaults:{

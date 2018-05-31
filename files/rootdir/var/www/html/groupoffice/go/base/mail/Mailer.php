@@ -62,6 +62,13 @@ class Mailer extends \Swift_Mailer{
 			\GO::debug("Sending e-mail to ".$getTo);
 		}
 		
+		if(!empty(\GO::config()->debug_email)){
+			$message->setTo(\GO::config()->debug_email);
+			$message->setBcc(array());
+			$message->setCc(array());
+			\GO::debug("E-mail debugging is enabled in the Group-Office config.php file. All emails are send to: ".\GO::config()->debug_email);
+		}
+		
 		if(\GO::modules()->isInstalled("log")){
 			
 			$str = "";
@@ -94,6 +101,13 @@ class Mailer extends \Swift_Mailer{
 		
 		//workaround https://github.com/swiftmailer/swiftmailer/issues/335
 		$messageId = $message->getId();
+		
+		if(!empty(\GO::config()->force_swift_header_base64_encoding)){
+			foreach($message->getHeaders()->getAll() as $header) {
+				if($header->getFieldName() != 'Subject')
+					$header->setEncoder(new \Swift_Mime_HeaderEncoder_Base64HeaderEncoder());
+			}
+		}
 		
 		$count = parent::send($message, $failedRecipients);
 		

@@ -316,6 +316,7 @@ CREATE TABLE IF NOT EXISTS `bs_orders` (
   `shipping_extra` varchar(255) DEFAULT NULL,
 	`telesales_agent` int(11) DEFAULT NULL,
   `fieldsales_agent` int(11) DEFAULT NULL,
+	`extra_costs` double NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `company_id` (`company_id`),
   KEY `book_id` (`book_id`),
@@ -364,6 +365,7 @@ CREATE TABLE IF NOT EXISTS `bs_order_statuses` (
 	`extra_cost_percentage` double DEFAULT NULL,
 	`email_bcc` varchar(100) DEFAULT NULL,
   `email_owner` tinyint(1) NOT NULL DEFAULT '0',
+	`ask_to_notify_customer` TINYINT(1) NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`),
   KEY `book_id` (`book_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -671,3 +673,10 @@ CREATE TABLE IF NOT EXISTS `bs_order_payments` (
   `description` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+-- DROP TABLE IF EXISTS `cf_bs_items`;
+-- CREATE TABLE IF NOT EXISTS `cf_bs_items` (
+--   `model_id` int(11) NOT NULL DEFAULT '0',
+--   PRIMARY KEY (`model_id`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

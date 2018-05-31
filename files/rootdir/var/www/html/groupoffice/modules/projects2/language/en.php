@@ -54,7 +54,7 @@ $l["importEvents"]='Import appointments';
 $l["specifyFee"]='Specify fee at each booking';
 $l["subprojects"]='Sub items';
 $l["subproject"]='Sub item';
-$l["unitsBooked"]='Units booked';
+$l["unitsBooked"]='Booked';
 $l["budgetReached"]='The units budget has been reached!';
 $l["projectEnded"]='This project should have been completed already!';
 $l["template"]="Project template";
@@ -275,7 +275,7 @@ $l['descriptionCol']='Description';
 $l['milestoneTemplate']="Turn project into milestone";
 $l['container']="Container";
 
-$l['budgetedUnits']="Budgeted units";
+$l['budgetedUnits']="Budgeted";
 
 $l['feesAndBudgets']="Fees and budgets";
 $l['fees']="Fees";
@@ -463,7 +463,7 @@ $l["importSuccessCount"]='Records imported successfully:';
 $l['firstRowNoAttributes'] = 'The first row of the CSV file must contain column names of project models. The uploaded CSV file does not contain any.';
 $l['couldNotSaveProject'] = 'Unable to save project.';
 $l['couldNotCreatePathProjects'] = 'Error creating path projects.';
-$l['importProjectsByCsv'] = 'This is to import projects from a CSV file into Group-Office. Make sure that:<br />1) the first row of the file contains the database names of the columns,<br />2) that all the parent projects of the projects are accounted for, and<br />3) that every imported project has a valid project type.';
+$l['importProjectsByCsv'] = 'This is to import projects from a CSV file into {product_name}. Make sure that:<br />1) the first row of the file contains the database names of the columns,<br />2) that all the parent projects of the projects are accounted for, and<br />3) that every imported project has a valid project type.';
 $l['importCsvNoTypeError'] = 'The CSV contains no column "type_id" and no column "type_name". One of the two must be present in the CSV to make sure that every imported project has a valid permission type.';
 $l['importCsvNoParentError'] = 'The CSV contains no column "parent_project_id" and no column "path". One of the two must be present in the CSV to make sure that every imported project has valid parent projects.';
 $l['importCsvNoStatusError'] = 'The CSV contains no column "status_id" and no column "status_name". One of the two must be present in the CSV to make sure that every imported project has valid status.';
@@ -494,11 +494,11 @@ $l["makeInvoiceable"] = 'Set all income to invoiceable';
 $l['showInTreeAndFilter']='Show in left tree and filter';
 $l['showInvoiced'] = 'Show invoiced projects';
 $l['downloadExample'] = 'Download example file';
-$l['noStatusErr'] = 'Could not find a project status in your Group-Office. You must create one for the example file.';
-$l['noTypeErr'] = 'Could not find a project type in your Group-Office. You must create one for the example file.';
-$l['noTemplateErr'] = 'Could not find a project template in your Group-Office. You must create one for the example file.';
-$l['noContactErr'] = 'Could not find a contact in your Group-Office address books. You must create one for the example file.';
-$l['noCompanyErr'] = 'Could not find a company in your Group-Office address books. You must create one for the example file.';
+$l['noStatusErr'] = 'Could not find a project status in your {product_name}. You must create one for the example file.';
+$l['noTypeErr'] = 'Could not find a project type in your {product_name}. You must create one for the example file.';
+$l['noTemplateErr'] = 'Could not find a project template in your {product_name}. You must create one for the example file.';
+$l['noContactErr'] = 'Could not find a contact in your {product_name} address books. You must create one for the example file.';
+$l['noCompanyErr'] = 'Could not find a company in your {product_name} address books. You must create one for the example file.';
 $l['referenceNo'] = 'Reference no.';
 
 $l['realization']='Realization';
@@ -608,3 +608,17 @@ $l['financial'] = 'Financial';
 
 $l['timeentriesPdfReportTitle'] = 'Time entries for project "%s" and it\'s subprojects';
 $l['open_fee'] = 'Open fee';
+$l['startDate'] = 'Start date';
+$l['projectCostReport'] = 'project cost report';
+
+$l['forManager'] = 'For manager';
+$l['totalPercentage'] = 'Total Percentage';
+$l['unitsBilled'] = 'Billed';
+$l['unitsBillable'] = 'Billable';
+
+$l['applyToExistingProjectsWithTemplate'] = 'Apply to all existing projects with this template.';
+
+$l['extRatePerActivity'] = 'External rate per activity';
+$l['noRatePerActivityConfigured'] = 'No external rate per activity configured';
+$l['activity'] = 'Activity';
+$l['rate'] = 'Rate';

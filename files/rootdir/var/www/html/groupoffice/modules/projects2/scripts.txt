@@ -1,6 +1,8 @@
 modules/projects2/views/Extjs3/ResourceDialog.js
 modules/projects2/views/Extjs3/ResourceGrid.js
 modules/projects2/views/Extjs3/StandardTaskDialog.js
+modules/projects2/Stores.js
+
 modules/projects2/views/Extjs3/StandardTaskGrid.js
 modules/projects2/views/Extjs3/TimerButton.js
 modules/projects2/views/Extjs3/TimeEntryGrid.js
@@ -44,7 +46,6 @@ modules/projects2/views/Extjs3/TypeDialog.js
 modules/projects2/views/Extjs3/TypesGrid.js
 
 modules/projects2/StatusesGrid.js
-modules/projects2/Stores.js
 modules/projects2/ProjectDialog.js
 modules/projects2/ProjectPanel.js
 
@@ -77,3 +78,5 @@ modules/projects2/views/Extjs3/AllIncomePanel.js
 
 modules/projects2/views/Extjs3/BillingInvoiceDialog.js
 modules/projects2/views/Extjs3/DuplicateProjectDialog.js
+modules/projects2/views/Extjs3/MergeDialog.js
+modules/projects2/views/Extjs3/ProjectGrid.js

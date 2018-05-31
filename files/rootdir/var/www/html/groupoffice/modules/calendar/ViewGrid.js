@@ -7,7 +7,7 @@
  * If you have questions write an e-mail to info@intermesh.nl
  * 
  * @copyright Copyright Intermesh
- * @version $Id: ViewGrid.js 20164 2016-06-23 13:31:47Z mschering $
+ * @version $Id: ViewGrid.js 21238 2017-06-22 13:30:12Z michaelhart86 $
  * @author Merijn Schering <mschering@intermesh.nl>
  */
 
@@ -677,8 +677,11 @@ GO.grid.ViewGrid = Ext.extend(Ext.Panel, {
 				}				
 				this.domIds[eventData.id].push(domId);
 			}
-			
-			var col = this.gridCells[eventData['calendar_id']][date.format('Ymd')+this.getTimeOfDay(eventData)];
+
+			// If the calendar_id is not given, then we cannot show the event/task in the calendar view
+			if(eventData['calendar_id']){	
+				var col = this.gridCells[eventData['calendar_id']][date.format('Ymd')+this.getTimeOfDay(eventData)];
+			}
 			
 			if(col)
 			{
@@ -844,6 +847,15 @@ GO.grid.ViewGrid = Ext.extend(Ext.Panel, {
 
 				this.fireEvent(this.currentFireEvent, this, remoteEvent , this.currentActionData, domIds);
 		
+				this.recurrenceDialog.hide();
+			},this)
+
+			this.recurrenceDialog.on('thisandfuture', function()
+			{
+				this.currentActionData.singleInstance= true;
+				this.currentActionData.thisAndFuture = true;
+
+				this.fireEvent(this.currentFireEvent, this, this.currentRecurringEvent, this.currentActionData);
 				this.recurrenceDialog.hide();
 			},this)
 

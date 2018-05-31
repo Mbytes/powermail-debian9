@@ -302,14 +302,32 @@ class Module extends Observable {
 		}
 		
 		\GO::clearCache();
-		
-		
+		Observable::cacheListeners();
 		//call saveUser for each user
 //		$stmt = Model\User::model()->find(array('ignoreAcl'=>true));		
 //		while($user = $stmt->fetch()){
 //			call_user_func(array(get_class($this),'saveUser'), $user, true);
 //		}
 		
+		return true;
+	}
+	
+	/**
+	 * Run this code when the module is disabled
+	 * 
+	 * @return boolean
+	 */
+	public function disable() {		
+		return true;
+	}
+	
+	/**
+	 * Run this code when the module is enabled 
+	 * NOTE: This is also called after doing a fresh install of this module. (First time)
+	 * 
+	 * @return boolean
+	 */
+	public function enable() {		
 		return true;
 	}
 
@@ -383,6 +401,7 @@ class Module extends Observable {
 		}
 		
 		\GO::clearCache();
+		Observable::cacheListeners();
 		
 		\GO::setIgnoreAclPermissions($oldIgnore);
 		
@@ -532,7 +551,7 @@ class Module extends Observable {
 	 * 
 	 * @param array $response 
 	 */
-	public static function loadSettings(&$settingsController, &$params, &$response, $user){		
+	public static function loadSettings($settingsController, &$params, &$response, $user){		
 	}
 	
 	/**
@@ -545,6 +564,6 @@ class Module extends Observable {
 	 * 
 	 * @param array $response 
 	 */
-	public static function submitSettings(&$settingsController, &$params, &$response, $user){		
+	public static function submitSettings($settingsController, &$params, &$response, $user){		
 	}
 }

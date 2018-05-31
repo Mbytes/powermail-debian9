@@ -67,7 +67,9 @@ class CalendarController extends \GO\Base\Controller\AbstractModelController {
 			'calendars'=>array($response['data']['id']),
 			'group_id'=>$response['data']['group_id'])
 		);
-
+//		GO::debug($model->getAttributes());
+		$response['remoteComboTexts']['group_id'] = $model->group->name;
+		
 		// Show "None" in the Caldav Tasklist selection when tasklist_id is 0
 		if(empty($response['data']['tasklist_id']))
 				$response['data']['tasklist_id'] = "";
@@ -315,6 +317,10 @@ class CalendarController extends \GO\Base\Controller\AbstractModelController {
 	
 	public function actionExportIcs($params){
 		
+		if($this->isCli()) {
+			\GO::session()->runAsRoot();
+		}
+		
 		$calendar = \GO\Calendar\Model\Calendar::model()->findByPk($params["calendar_id"],false, true);
 		
 		if(!$calendar->public && !$calendar->checkPermissionLevel(\GO\Base\Model\Acl::READ_PERMISSION))
@@ -332,7 +338,7 @@ class CalendarController extends \GO\Base\Controller\AbstractModelController {
 			$stmt = Event::model()->findForPeriod($findParams, \GO\Base\Util\Date::date_add(time(), 0, -$months_in_past));
 		else
 			$stmt = Event::model()->find($findParams);		
-		if(empty($params['no_download'])) {
+		if(empty($params['no_download']) && !$this->isCli()) {
 			\GO\Base\Util\Http::outputDownloadHeaders(new \GO\Base\FS\File($calendar->name.'.ics'));
 		}
 		echo "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Intermesh//NONSGML ".\GO::config()->product_name." ".\GO::config()->version."//EN\r\n";
@@ -523,5 +529,22 @@ class CalendarController extends \GO\Base\Controller\AbstractModelController {
 		$pdf->render($categoryCountModel);
 
 		return $pdf->Output($filename,'D');
-	}	
+	}
+	
+	/**
+	 * Truncate the holidays table so they will be generated again based on the holiday files
+	 * 
+	 * @param array $params
+	 */
+	public function actionTruncateHolidays($params){
+		
+		$pdo_statement = \GO::$db->query('TRUNCATE TABLE '.\GO\Base\Model\Holiday::model()->tableName(). ';');
+		
+		if($pdo_statement->execute()){
+			echo 'Table '.\GO\Base\Model\Holiday::model()->tableName().' is truncated.';
+		} else {
+			echo "Something went wrong";
+		}
+	}
+	
 }

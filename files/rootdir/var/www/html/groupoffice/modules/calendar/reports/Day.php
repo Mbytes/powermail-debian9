@@ -12,7 +12,7 @@ namespace GO\Calendar\Reports;
  * If you have questions write an e-mail to info@intermesh.nl
  *
  * @copyright Copyright Intermesh
- * @version $Id: Day.php 19223 2015-06-22 13:03:41Z michaelhart86 $
+ * @version $Id: Day.php 21220 2017-06-12 09:43:55Z mschering $
  * @author Michael de Hart <mdhart@intermesh.nl>
  */
 class Day extends Calendar {
@@ -122,11 +122,13 @@ class Day extends Calendar {
 		if(isset($this->events[$this->day]['early'])) {
 			$x=$this->headerHeight+6; $i=0;
 			foreach($this->events[$this->day]['early'] as $event) {
+				if($i>1) {
+					$this->Image('modules/calendar/themes/Default/images/pdf/arrow_down.png',$this->leftMargin+$this->leftCol-4, $x+$this->rowHeight*$i-5, 3,3, 'PNG');
+					break;
+				}
 				$this->SetXY($this->leftMargin+$this->timeCol ,$x+$this->rowHeight*$i);
 				$this->Cell($colWidth, $this->rowHeight , date('G:i ', $event->start_time).' - '.date('G:i ', $event->end_time).' '. $event->name, 1, 1, 'L', false);
 				$i++;
-				if($i>1)
-					break;
 			}
 		}
 		if(isset($this->events[$this->day]['part'])) {
@@ -143,14 +145,16 @@ class Day extends Calendar {
 			
 			$x = $this->headerHeight+214;$i=0;
 			$this->SetXY($this->leftMargin+$this->leftCol-4 ,$x+$this->rowHeight-14);
-			$this->WriteHtml(' <b>&#x25BC;</b>'); //arrow down
 			foreach($this->events[$this->day]['late'] as $event) {
+				if($i>2) {
+					$this->Image('modules/calendar/themes/Default/images/pdf/arrow_down.png',$this->leftMargin+$this->leftCol-4, $x+$this->rowHeight*$i-5, 3,3, 'PNG');
+					break;
+				}
 				$this->SetXY($this->leftMargin+$this->timeCol ,$x+$this->rowHeight*$i);
 				$this->EventCell(date('G:i',$event->start_time) .' - '. date('G:i',$event->end_time) .' '. $event->name, $colWidth, $this->rowHeight);
 				//$this->Cell($colWidth, $this->rowHeight , date('G:i ', $event->start_time).' - '.date('G:i ', $event->end_time).' '. $event->name, 1, 1, 'L', false);
 				$i++;
-				if($i>1)
-					break;
+				
 			}
 		}
 	}

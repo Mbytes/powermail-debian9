@@ -100,3 +100,7 @@ $l['till']="Do";
 $l['notificationOptions']= "Možnosti oznámení";
 $l['showAll']= "Zobrazit vše";
 
+$l['hoursBillable']= "Hodiny ke zúčtování";
+$l['weekIsClosed']= 'Tento týden je uzavřen';
+$l['weekTotal']= 'Zaznamenané hodiny za týden celkem';
+$l['monthTotal']= 'Zaznamenané hodiny za měsíc celkem';

@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: AliasDialog.js 20453 2016-09-22 13:40:32Z mschering $
+ * @version $Id: AliasDialog.js 21624 2017-11-06 08:29:46Z mschering $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -44,12 +44,14 @@ GO.postfixadmin.AliasDialog = Ext.extend(GO.dialog.TabbedFormDialog,{
 			
 			new Ext.form.CompositeField({
 				anchor: '-20',
+				plugins:[new Ext.ux.FieldHelp(GO.postfixadmin.lang.aliasAddresHelp)],
 				items:[{
 					xtype: 'textfield',
 					name: 'address',
-					flex:4,
+					flex:3,
 					allowBlank:false,
 					fieldLabel: GO.postfixadmin.lang.address
+					
 				},this.domainLabel]
 			}),				
 			{
@@ -57,6 +59,7 @@ GO.postfixadmin.AliasDialog = Ext.extend(GO.dialog.TabbedFormDialog,{
 			  name: 'goto',
 				anchor: '-20',
 			  allowBlank:true,
+				height:120,
 			  fieldLabel: GO.postfixadmin.lang.goto_address,
 				plugins:[new Ext.ux.FieldHelp(GO.postfixadmin.lang.aliasHelp)]
 			},{

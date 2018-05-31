@@ -13,7 +13,7 @@ class TasksModule extends \GO\Base\Module{
 		return true;
 	}
 	
-	public static function submitSettings(&$settingsController, &$params, &$response, $user) {
+	public static function submitSettings($settingsController, &$params, &$response, $user) {
 		
 		$settings = Model\Settings::model()->getDefault($user);		
 		if($settings->remind = isset($params['remind'])) {
@@ -28,7 +28,7 @@ class TasksModule extends \GO\Base\Module{
 		return parent::submitSettings($settingsController, $params, $response, $user);
 	}
 	
-	public static function loadSettings(&$settingsController, &$params, &$response, $user) {
+	public static function loadSettings($settingsController, &$params, &$response, $user) {
 		
 		$settings = Model\Settings::model()->getDefault($user);
 		$response['data']=array_merge($response['data'], $settings->getAttributes());

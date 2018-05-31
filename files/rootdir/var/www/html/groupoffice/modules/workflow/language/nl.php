@@ -97,6 +97,10 @@ $l["emailBody"] = "Een nieuwe %s heeft uw goedkeuring nodig.<br />
 									 <a href='%s'>Goedkeuren</a> | <a href='%s'>Afkeuren</a>";
 $l["disapprovedBody"] = "%s heeft %s in %s geplaatst. Deze is recentelijk afgekeurd door %s.";
 
+$l["workflowDoneSubject"] = "%s goedgekeurd";
+$l["workflowDoneBody"] = " %s dit is goedgekeurd door %s op %s";
+
+
 $l['reminderSubject'] = "Uw goedkeuring is nodig!";
 $l['reminderDisapproved'] = '%s is afgekeurd door %s.';
 
@@ -119,7 +123,7 @@ $l['decline']= "Afkeuren";
 
 $l['modelTypeNotSupported'] = 'In deze workflow wordt modeltype "%m" niet ondersteund door workflow handeling "%wm".';
 $l['filesOnly'] = 'Alleen van toepassing op bestanden';
-$l['copyToFolder'] = 'Kopieer naar deze map';
+$l['copyToFolder'] = 'Verplaats naar deze map';
 $l['keepOriginalCopy'] = 'Kopiëren i.p.v. verplaatsen';
 
 $l['actionType'] = 'Type handeling';

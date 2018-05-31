@@ -7,7 +7,7 @@
  * If you have questions write an e-mail to info@intermesh.nl
  *
  * @copyright Copyright Intermesh
- * @version $Id: OrderStatusDialog.js 19940 2014-11-10 14:04:23Z wsmits $
+ * @version $Id: OrderStatusDialog.js 23454 2018-02-27 14:27:09Z mdhart $
  * @author Merijn Schering <mschering@intermesh.nl>
  */
 
@@ -272,7 +272,13 @@ Ext.extend(GO.billing.OrderStatusDialog, Ext.Window, {
 			editable: false,
 			displayField: 'name',
 			valueField: 'id',
-			reloadOnExpand: true,
+			reloadOnExpand: false,
+			listeners:{
+				expand:function(field){
+					field.store.load();
+				},
+				scope:this
+			},
 			store: this.requiredStatusStore
 		}));
 		propItems.push({
@@ -315,21 +321,27 @@ Ext.extend(GO.billing.OrderStatusDialog, Ext.Window, {
 			boxLabel: GO.billing.lang.paymentRequired,
 			labelSeparator: '',
 			name: 'payment_required',
-			allowBlank: true,
+//			allowBlank: true,
+			hideLabel: true
+		}));
+		propItems.push(new Ext.ux.form.XCheckbox({
+			boxLabel: GO.billing.lang.askToNotifyCustomer,
+			labelSeparator: '',
+			name: 'ask_to_notify_customer',
 			hideLabel: true
 		}));
 		propItems.push(new Ext.ux.form.XCheckbox({
 			boxLabel: GO.billing.lang.removeFromStock,
 			labelSeparator: '',
 			name: 'remove_from_stock',
-			allowBlank: true,
+//			allowBlank: true,
 			hideLabel: true
 		}));
 		propItems.push(new Ext.ux.form.XCheckbox({
 			boxLabel: GO.billing.lang.readOnly,
 			labelSeparator: '',
 			name: 'read_only',
-			allowBlank: true,
+//			allowBlank: true,
 			hideLabel: true
 		}));
 

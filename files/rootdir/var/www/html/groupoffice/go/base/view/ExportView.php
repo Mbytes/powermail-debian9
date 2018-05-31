@@ -17,7 +17,7 @@ class ExportView extends AbstractView{
 	private $_humanHeaders = false;
 	private $_title;
 	private $_orientation = 'P';
-	private $_extraParams = array();
+	private $_extraParams = array('name'=>'');
 	
 
 	public function render($viewName, $data) {
@@ -80,7 +80,12 @@ class ExportView extends AbstractView{
 	}
 	
 	private function _renderPdf($data){
-		$export = new ExportPDF(
+		if(class_exists('\GOFS\ExportPDF')) {
+			$class = '\GOFS\ExportPDF';
+		} else {
+			$class = '\GO\Base\Export\ExportPDF';
+		}
+		$export = new $class(
 						$this->_store,				//	
 						$this->_columnModel,	//
 						$this->_model,				//
@@ -110,6 +115,10 @@ class ExportView extends AbstractView{
 		
 		// Retreive the name of the file
 		$this->_title = $class->getName();
+		
+		if(!empty($data['savedExportModel']->name)) {
+			$this->_extraParams['name'] = $data['savedExportModel']->name;
+		}
 		
 		// Show the headers in the export (could be 1 instead of true or 0 instead of false)
 		$this->_showHeader = $data['savedExportModel']->include_column_names == true?true:false;

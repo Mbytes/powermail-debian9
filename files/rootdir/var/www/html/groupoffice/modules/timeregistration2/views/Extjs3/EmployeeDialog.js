@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: EmployeeDialog.js 17032 2013-10-13 09:20:48Z mschering $
+ * @version $Id: EmployeeDialog.js 22164 2017-03-20 07:57:03Z mschering $
  * @copyright Copyright Intermesh
  * @author Michael de Hart <mdhart@intermesh.nl>
  */
@@ -16,7 +16,7 @@ GO.timeregistration2.EmployeeDialog = Ext.extend(GO.dialog.TabbedFormDialog, {
 
         Ext.apply(this, {
             layout: 'fit',
-            title: GO.projects2.lang['employee'],
+            title: GO.timeregistration2.lang['employee'],
             width: 400,
             height: 150,
             resizable: false,
@@ -40,7 +40,7 @@ GO.timeregistration2.EmployeeDialog = Ext.extend(GO.dialog.TabbedFormDialog, {
                     allowBlank: false
                 },{
                     xtype: 'datetime',
-                    fieldLabel: GO.projects2.lang['entriesClosedTill'],
+                    fieldLabel: GO.timeregistration2.lang['entriesClosedTill'],
                     name: 'closed_entries_time',
                     allowBlank: false
                 }

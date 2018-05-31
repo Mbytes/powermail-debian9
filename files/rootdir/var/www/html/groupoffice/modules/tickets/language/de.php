@@ -218,10 +218,10 @@ $l["ticketCtime"]= "Erstellt am";
 $l["ticketMtime"]= "Modifiziert am";
 $l["ticketFiles_folder_id"]= "Ordner";
 $l["ticketGroup_id"]= "Gruppe";
-$l['emailToAgent']="Sende E-Mail an Bearbeiter, wenn Kunde antwortet";
-$l['ticketEmail_on_new']='E-Mail bei neuen Tickets';
+$l["emailToAgent"]= "Sende E-Mail an Bearbeiter, wenn Kunde antwortet";
+$l['ticketEmail_on_new']= "E-Mail bei neuen Tickets";
 $l["invalid_agent"]= "Der gewählte Ticketbearbeiter kann nicht für Tickets dieses Typs verantwortlich sein";
-$l['neverCloseStatus']="Tickets mit diesem Status nicht automatisch schließen";
+$l["neverCloseStatus"]="Tickets mit diesem Status nicht automatisch schließen";
 $l['nobody']='Niemand';
 $l['assignedTo']='Zugeordnet zu';
 $l['customSender']= "Verwende alternativen Absender für E-Mails an Kunde";
@@ -283,7 +283,7 @@ $l['ticketOrder_id']= "Bestellung";
 $l['customTicketPageCssText']= 'Im Textfeld unten können Sie css-zeilen für den Stil der externen Ticketseite hinzufügen. <br /> Die Klasse des Seitencontainer ist: external-ticket-page <br /> Ein Beispiel:<br /> .external-ticket-page input { border:1px solid #000;}';
 $l['installExternalSite']= 'Das Website-Modul und/oder das Defaultsite-Modul sind nicht installiert. Möchten Sie sie dies jetzt tun?';
 $l['typeGroup']= "Typgruppe";
-$l['importCaution']='<b>Achtung!</b> Wählen Sie ein IMAP-Konto unten um eMails automatisch als Tickets zu importieren. Alle eMails werden nach dem Import gelöscht. Benutzen Sie also ein dediziertes Konto hierfür.';
+$l['importCaution']='<b>Achtung!</b> Wählen Sie ein IMAP-Konto unten um E-Mails automatisch als Tickets zu importieren. Alle E-Mails werden nach dem Import gelöscht. Benutzen Sie also ein dediziertes Konto hierfür.';
 $l['csvWithRates']='CSV mit Konditionen';
 
 $l['setAgent']= 'Zuständigen Bearbeiter ändern';
@@ -292,7 +292,22 @@ $l['createdTicketsInYearPerWeek']= 'Erstellte Tickets im Jahr pro Woche';
 $l['createdTickets']= 'Erstellte Tickets';
 
 $l['email notifications']= 'E-Mail-Benachrichtigungen';
-$l['new ticket checkbox']= 'E-Mail an den Kunden, wenn der Kunde ein neues Ticket erstellt';
-$l['assigned checkbox']= 'E-Mail an den Kunden, wenn das Ticket einem Agenten zugewiesen wurde';
-$l['notify agent checkbox']= 'E-Mail an den Agenten, wenn der Kunde auf ein Ticket geantwortet hat';
-$l['enable templates by type']= 'E-Mail-Benachrichtigungen für diesen Tickettyp überschreiben';
+$l['new ticket checkbox']= 'Sende E-Mail an Kunden, wenn Kunde ein neues Ticket erstellt';
+$l['assigned checkbox']= 'Sende E-Mail an Kunden, wenn Ticket zugewiesen ist';
+$l['notify agent checkbox']= 'Sende E-Mail an Agent, wenn Kunde auf Ticket antwortet';
+$l['enable templates by type']= 'Überschreibe E-Mail-Benachrichtigungen für diesen Typ';
+
+$l['notify_email_by_new_tickit']= 'Benachrichtigen Sie folgende E-Mail-Adressen, wenn neue Tickets erstellt werden';
+$l['email_on_new_msg_body']= 'Nachrichtentext';
+$l['onlyManagerReopenTicket']="Nur Modulmanager können geschlossene Tickets wieder öffnen";
+
+$l['ticketReportMailerLabel']= 'Ticketbericht Mailer';
+$l['ticketReportMailerDescription']= 'Sendet den ausgewählten Benutzern einen Ticketbericht.';
+$l['today_closed']= 'Heute geschlossen';
+$l['closedAt']= 'Geschlossen am';
+$l['today_new']= 'Heute neu';
+$l['currently_unclaimed']= 'Derzeit nicht zugeordnet';
+$l['ticketReportMailerNothingEnabled']= 'Nichts zu zeigen';
+
+$l['showConfirmOnClose']= 'Dialog beim Schließen des Tickets anzeigen';
+$l['confirmCloseText']= 'Sind Sie sicher, dass Sie dieses Ticket schließen möchten?';

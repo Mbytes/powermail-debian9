@@ -580,10 +580,10 @@ class Folder extends \GO\Base\Db\ActiveRecord {
 
 		$parts = explode('/', $relpath);
 		$parent_id = 0;
-		while ($folderName = array_shift($parts)) {
 
+		foreach($parts as $index=>$folderName){
+		
 			$cacheKey = $parent_id.'/'.$folderName;
-
 
 			if(!isset($this->_folderCache[$cacheKey])){
 
@@ -604,7 +604,9 @@ class Folder extends \GO\Base\Db\ActiveRecord {
 					$folder->setAttributes($autoCreateAttributes);
 					$folder->name = $folderName;
 					$folder->parent_id = $parent_id;
-					$folder->save();
+					if(!$folder->save()){
+						throw new \Exception('Could not create folder: '.implode('<br>',$folder->getValidationErrors()));
+					}
 				}elseif(!empty($autoCreateAttributes))
 				{
 					//should not apply it to existing folders. this leads to unexpected results.
@@ -759,6 +761,10 @@ class Folder extends \GO\Base\Db\ActiveRecord {
 
 		if(\GO::config()->debug)
 			\GO::debug("syncFilesystem ".$this->path);
+		
+		if(\GO::environment()->isCli()){
+			echo $this->path."\n";
+		}
 
 		$oldIgnoreAcl = \GO::setIgnoreAclPermissions(true);
 
@@ -1295,8 +1301,7 @@ class Folder extends \GO\Base\Db\ActiveRecord {
 		if(!isset($this->_folderCache['Shared/'.$folderName])){
 			$findParams = \GO\Base\Db\FindParams::newInstance();
 
-			$findParams->joinRelation('sharedRootFolders')
-				->ignoreAcl()
+			$findParams->joinRelation('sharedRootFolders')							
 				->order('name','ASC')
 				->single();
 
@@ -1306,6 +1311,10 @@ class Folder extends \GO\Base\Db\ActiveRecord {
 						->addRawCondition('BINARY t.name', ':name'); //use utf8_bin for case sensivitiy and special characters.
 
 			$folder=$this->find($findParams);
+			
+			if(!$folder->checkPermissionLevel(\GO\Base\Model\Acl::READ_PERMISSION)) {
+				$folder = false;
+			}
 
 			$this->_folderCache['Shared/'.$folderName]=$folder;
 
@@ -1331,9 +1340,9 @@ class Folder extends \GO\Base\Db\ActiveRecord {
 			$findParams = new \GO\Base\Db\FindParams();
 
 		$findParams->joinRelation('sharedRootFolders')
-			->ignoreAcl()
+			//->ignoreAcl()
 			->order('name','ASC')
-			->limit(200);
+			->limit(500);
 
 		$findParams->getCriteria()
 					->addCondition('user_id', \GO::user()->id,'=','sharedRootFolders');

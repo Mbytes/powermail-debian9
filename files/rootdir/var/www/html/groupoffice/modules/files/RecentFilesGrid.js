@@ -6,14 +6,14 @@ GO.files.RecentFilesGrid = Ext.extend(GO.grid.GridPanel,{
 		config.store = new GO.data.JsonStore({
 			url:GO.url("files/file/recent"),
 			id: 'id',
-			fields:["id","path"],
+			fields:["id","path","name"],
 			remoteSort:true
 		});
 		
 		var reader = new Ext.data.JsonReader({
 			root: 'results',
 			totalProperty: 'total',
-			fields:["id","path","weekday","mtime","extension"],
+			fields:["id","path","name","weekday","mtime","extension"],
 			id: 'id'
 		});
 		
@@ -33,11 +33,11 @@ GO.files.RecentFilesGrid = Ext.extend(GO.grid.GridPanel,{
 			emptyText: GO.lang.noItems
 		})
 		
-		config.autoExpandColumn='name';
+		config.autoExpandColumn='path';
 		config.columns = [{
-			id:'name',
+			id:'path',
 			dataIndex:'path',
-			header:GO.lang.strName,
+			header:GO.files.lang.path,
 			renderer:function(v, meta, r){
 				var cls = 'filetype filetype-'+r.get('extension');
 				if(r.get('locked_user_id')>0)
@@ -45,6 +45,18 @@ GO.files.RecentFilesGrid = Ext.extend(GO.grid.GridPanel,{
 
 				return '<div class="go-grid-icon '+cls+'" style="float:left;">'+v+'</div>';
 			}
+		},{
+			id:'name',
+			dataIndex:'name',
+			width:180,
+			header:GO.lang.strName
+//			renderer:function(v, meta, r){
+//				var cls = 'filetype filetype-'+r.get('extension');
+//				if(r.get('locked_user_id')>0)
+//					v = '<div class="fs-grid-locked">'+v+'</div>';
+//
+//				return '<div class="go-grid-icon '+cls+'" style="float:left;">'+v+'</div>';
+//			}
 		},{
 			header:GO.lang.strMtime,
 			dataIndex:'mtime',

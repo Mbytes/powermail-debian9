@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: AccountPanel.js 14816 2013-05-21 08:31:20Z mschering $
+ * @version $Id: AccountPanel.js 21480 2017-09-28 06:46:58Z mschering $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -64,6 +64,13 @@ GO.users.AccountPanel = function(config)
 		checked: true,
 		hideLabel:true
 	});
+	
+	this.forcePasswordChange = new Ext.ux.form.XCheckbox({
+		boxLabel: GO.users.lang.forcePasswordChange,
+		name: 'force_password_change',
+		checked: false,
+		hideLabel:true
+	});
 
 	this.invitationField = new Ext.form.Checkbox({
 		boxLabel: GO.users.lang.sendInvitation,
@@ -79,6 +86,22 @@ GO.users.AccountPanel = function(config)
 		{
 			fieldLabel: GO.lang['strEmail'],
 			name: 'email',
+			allowBlank: false,
+			vtype:'emailAddress',
+			listeners: {
+				change: function(field, newValue, oldValue) {
+					if(this.items.item('recovery_email').getValue() == "") {
+						this.items.item('recovery_email').setValue(newValue);
+					}
+				},
+				scope: this
+			}
+		},
+		{
+			
+			itemId: 'recovery_email',
+			fieldLabel: GO.lang.strRecoveryEmail,
+			name: 'recovery_email',
 			allowBlank: false,
 			vtype:'emailAddress'
 		},
@@ -97,7 +120,8 @@ GO.users.AccountPanel = function(config)
 			},{
 				items:this.invitationField
 			}]
-		}		
+		},
+		this.forcePasswordChange
 	];
 
 	GO.users.AccountPanel.superclass.constructor.call(this, config);		

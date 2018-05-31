@@ -1,6 +1,11 @@
 GO.customfields.disableTabs = function(tabPanel, responseResult, root) {	
 	if(!root)
 		root='customfields';
+		
+	if(typeof(tabPanel)=='undefined') {
+		return false;
+	}
+	
 	for (var i=0; i<tabPanel.items.items.length; i++) {
 		
 		var panel = tabPanel.items.items[i];

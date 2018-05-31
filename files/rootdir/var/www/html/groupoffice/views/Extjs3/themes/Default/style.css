@@ -12,7 +12,25 @@
 .x-grid3-row-selected .editorgrid-editablecell {
 	background:url('images/16x16/celledit.png') no-repeat top right !important;
 }
-
+.x-grid3-hd-row .x-grid3-td-icon {
+	text-indent: -9999px;
+}
+.x-grid3-row td.go-grid-col-icon > div > div { 
+	width:16px;
+	height:16px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: cover;
+	box-sizing: border-box;
+}
+button {
+	border:0;
+	outline:0;
+	background: none;
+	color:inherit;
+	cursor: pointer;
+	font-size:inherit;
+}
 #beta {
     
     font-size: 9px;
@@ -318,8 +336,11 @@ a.normal-link:hover{
 	background-image:url('images/16x16/filetypes/xmind.png') !important;
 }
 
+.filetype-csv {
+	background-image:url('images/16x16/filetypes/csv.png') !important;
+}
 
-.filetype-eml {
+.filetype-eml, .filetype-msg {
 	background-image:url('images/16x16/filetypes/mail.png') !important;
 }
 
@@ -342,7 +363,7 @@ a.normal-link:hover{
 	background-image:url('images/16x16/filetypes/gnupg.png') !important;
 }
 
-.filetype-docx,.filetype-doc, .filetype-sxw, .filetype-odt {
+.filetype-docx,.filetype-doc, .filetype-sxw, .filetype-odt, .filetype-dotx {
 	background-image:url('images/16x16/filetypes/document.png') !important;
 }
 
@@ -369,8 +390,16 @@ a.normal-link:hover{
 	background-image:url('images/16x16/filetypes/html.png') !important;
 }
 
-.filetype-ods, .filetype-xls, .filetype-xlsx  {
+.filetype-ods, .filetype-xls, .filetype-xlsx, .filetype-xltx  {
 	background-image:url('images/16x16/filetypes/spreadsheet.png') !important;
+}
+
+.filetype-rvt {
+	background-image:url('images/16x16/filetypes/rvt.png') !important;
+}
+
+.filetype-dwg {
+	background-image:url('images/16x16/filetypes/dwg.png') !important;
 }
 
 .filetype-php  {
@@ -2265,4 +2294,16 @@ box-sizing: border-box;
 
 .go-row-body{
 	font-size:11px;
+}
+
+.btn-menu{
+	background-image:url('images/menu.png') !important;
+}
+
+.btn-more-vert{
+	background-image:url('images/more_vert.png') !important;
+}
+
+.btn-expand-more{
+	background-image:url('images/expand_more.png') !important;
 }

@@ -40,33 +40,139 @@ class Http {
 	/**
 	 * Get information about the browser currently using Group-Office.
 	 * 
-	 * @return array('name','version')
+	 * @return array('userAgent','name','version','platform','pattern')
 	 */
 	public static function getBrowser() {
-		if(!isset($_SERVER['HTTP_USER_AGENT']))
-			return array('version'=>0, 'name'=>'OTHER');
-		
-		if (preg_match("'msie ([0-9]+.[0-9]{1,2})'i", $_SERVER['HTTP_USER_AGENT'], $log_version)) {
-			$browser['version'] = $log_version[1];
-			$browser['name'] = 'MSIE';
-		} elseif (preg_match("'opera/([0-9].[0-9]{1,2})'i", $_SERVER['HTTP_USER_AGENT'], $log_version)) {
-			$browser['version'] = $log_version[1];
-			$browser['name'] = 'OPERA';
-		} elseif (preg_match("'mozilla/([0-9].[0-9]{1,2}).*gecko/([0-9]+)'i", $_SERVER['HTTP_USER_AGENT'], $log_version)) {
-			$browser['version'] = $log_version[1];
-			$browser['name'] = 'MOZILLA';
-			$browser['subversion'] = $log_version[2];
-		} elseif (preg_match("'netscape/([0-9].[0-9]{1,2})'i", $_SERVER['HTTP_USER_AGENT'], $log_version)) {
-			$browser['version'] = $log_version[1];
-			$browser['name'] = 'NETSCAPE';
-		} elseif (preg_match("'safari/([0-9]+.[0-9]+)'i", $_SERVER['HTTP_USER_AGENT'], $log_version)) {
-			$browser['version'] = $log_version[1];
-			$browser['name'] = 'SAFARI';
-		} else {
-			$browser['version'] = 0;
-			$browser['name'] = 'OTHER';
+
+		if (!isset($_SERVER['HTTP_USER_AGENT'])) {
+			return array(
+					'userAgent' => '',
+					'name' => 'OTHER',
+					'version' => 0,
+					'platform' => 'Unknown',
+					'pattern' => ''
+			);
 		}
+
+		$u_agent = $_SERVER['HTTP_USER_AGENT'];
+		$bname = 'Unknown';
+		$platform = 'Unknown';
+		$version = "";
+		$ub = "";
+
+		//First get the platform?
+		if (preg_match('/linux/i', $u_agent)) {
+			$platform = 'Linux';
+		} elseif (preg_match('/macintosh|mac os x/i', $u_agent)) {
+			$platform = 'Mac';
+		} elseif (preg_match('/windows|win32/i', $u_agent)) {
+			$platform = 'Windows';
+		}
+
+		// Next get the name of the useragent yes seperately and for good reason
+		if (preg_match('/MSIE/i', $u_agent) && !preg_match('/Opera/i', $u_agent)) {
+			$bname = 'Internet Explorer';
+			$ub = "MSIE";
+		} elseif (preg_match('/Trident/i', $u_agent)) { // this condition is for IE11
+			$bname = 'Internet Explorer';
+			$ub = "rv";
+		} elseif (preg_match('/Firefox/i', $u_agent)) {
+			$bname = 'Mozilla Firefox';
+			$ub = "Firefox";
+		} elseif (preg_match('/Chrome/i', $u_agent)) {
+			$bname = 'Google Chrome';
+			$ub = "Chrome";
+		} elseif (preg_match('/Safari/i', $u_agent)) {
+			$bname = 'Apple Safari';
+			$ub = "Safari";
+		} elseif (preg_match('/Opera/i', $u_agent)) {
+			$bname = 'Opera';
+			$ub = "Opera";
+		} elseif (preg_match('/Netscape/i', $u_agent)) {
+			$bname = 'Netscape';
+			$ub = "Netscape";
+		}
+
+		// finally get the correct version number
+		// Added "|:"
+		$known = array('Version', $ub, 'other');
+		$pattern = '#(?<browser>' . join('|', $known) .
+						')[/|: ]+(?<version>[0-9.|a-zA-Z.]*)#';
+		if (!preg_match_all($pattern, $u_agent, $matches)) {
+			// we have no matching number just continue
+		}
+
+		// see how many we have
+		$i = count($matches['browser']);
+		
+		if ($i != 1 && !empty($ub)) {
+			//we will have two since we are not using 'other' argument yet
+			//see if version is before or after the name
+			if (strripos($u_agent, "Version") < strripos($u_agent, $ub)) {
+				$version = isset($matches['version'][0])?$matches['version'][0]:null;
+			} else {
+				$version =  isset($matches['version'][1])?$matches['version'][1]:null;
+			}
+		} else {
+			$version = isset($matches['version'][0])?$matches['version'][0]:null;
+		}
+
+		// check if we have a number
+		if ($version == null || $version == "") {
+			$version = "?";
+		}
+
+		$browser = array(
+				'userAgent' => $u_agent,
+				'name' => $bname,
+				'version' => $version,
+				'platform' => $platform,
+				'pattern' => $pattern
+		);
+
 		return $browser;
+	}
+
+	
+	/**
+	 * CAUTION: EXPERIMENTAL AND NOT RELIABLE
+	 * 
+	 * Returns geographical data of the connected client
+	 * 
+	 * @return array
+	 */
+	public static function getGeoData(){
+		$ip = self::getClientIp(); 
+		$json  = file_get_contents("https://freegeoip.net/json/$ip");
+		return json_decode($json ,true);
+	}
+	
+	/**
+	 * Get the ip-address of the client
+	 * 
+	 * @return string
+	 */
+	public static function getClientIp() {
+		
+    $ipaddress = '';
+
+		if (getenv('HTTP_CLIENT_IP')) {
+			$ipaddress = getenv('HTTP_CLIENT_IP');
+		} else if (getenv('HTTP_X_FORWARDED_FOR')) {
+			$ipaddress = getenv('HTTP_X_FORWARDED_FOR');
+		} else if (getenv('HTTP_X_FORWARDED')) {
+			$ipaddress = getenv('HTTP_X_FORWARDED');
+		} else if (getenv('HTTP_FORWARDED_FOR')) {
+			$ipaddress = getenv('HTTP_FORWARDED_FOR');
+		} else if (getenv('HTTP_FORWARDED')) {
+			$ipaddress = getenv('HTTP_FORWARDED');
+		} else if (getenv('REMOTE_ADDR')) {
+			$ipaddress = getenv('REMOTE_ADDR');
+		} else {
+			$ipaddress = 'UNKNOWN';
+		}
+		
+		return $ipaddress;
 	}
 
 	/**
@@ -223,9 +329,19 @@ class Http {
 	 * @param StringHelper $expireTime Defaults to one month
 	 */
 	public static function setCookie($name, $value, $expireTime=2592000){
+		$_COOKIE[$name] = $value;
 		SetCookie($name,$value,time()+$expireTime,\GO::config()->host,"",!empty($_SERVER['HTTPS']),true);
 	}
 	
+	/**
+	 * Get cookie value, returns null when none found
+	 * 
+	 * @param string $name
+	 * @return string
+	 */
+	public static function getCookie($name){
+		return isset($_COOKIE[$name])?$_COOKIE[$name]:null;		
+	}
 	
 	/**
 	 * Add GET parameters to a URL

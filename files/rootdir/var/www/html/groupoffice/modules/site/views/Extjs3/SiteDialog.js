@@ -78,7 +78,6 @@ GO.site.SiteDialog = Ext.extend(GO.dialog.TabbedFormDialog, {
 					width: 300,
 					anchor: '100%',
 					maxLength: 100,
-					allowBlank: false,
 					fieldLabel: GO.site.lang.siteSsl
 				}, {
 					xtype: 'xcheckbox',
@@ -86,7 +85,6 @@ GO.site.SiteDialog = Ext.extend(GO.dialog.TabbedFormDialog, {
 					width: 300,
 					anchor: '100%',
 					maxLength: 100,
-					allowBlank: false,
 					fieldLabel: GO.site.lang.siteMod_rewrite
 				}, {
 					xtype: 'textfield',

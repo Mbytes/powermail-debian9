@@ -56,7 +56,7 @@ class File extends Base{
 		$folder = \GO::config()->getTempFolder();
 		
 		if(!empty($filename))
-			$p=$folder->path().'/'.$filename;
+			$p=$folder->path().'/'.self::stripInvalidChars($filename);
 		else
 			$p=$folder->path().'/'.uniqid(time());
 		

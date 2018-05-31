@@ -32,7 +32,13 @@ class TemplateController extends \GO\Base\Controller\AbstractModelController {
 			$fileWithName = new \GO\Base\Fs\File($_FILES['attachments']['name'][0]);
 			$model->content = $file->contents();
 			$model->extension = $fileWithName->extension();
+		} else {
+			$response['validationErrors'] = array('attachments'=> \GO::t('files','uploadFailed'));
+			$response['success'] = false;
+			$response['feedback'] = \GO::t('uploadFailed', 'files');
+			return false;
 		}
+		
 
 		return parent::beforeSubmit($response, $model, $params);
 	}

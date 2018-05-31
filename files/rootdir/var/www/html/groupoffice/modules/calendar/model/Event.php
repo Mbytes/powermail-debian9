@@ -136,16 +136,6 @@ class Event extends \GO\Base\Db\ActiveRecord {
 		return ($status==self::STATUS_CANCELLED || $status==self::STATUS_CONFIRMED || $status==self::STATUS_DELEGATED || $status==self::STATUS_TENTATIVE || $status==self::STATUS_NEEDS_ACTION);			
 	}
 
-	/**
-	 * Returns a static model of itself
-	 * 
-	 * @param StringHelper $className
-	 * @return Event 
-	 */
-	public static function model($className=__CLASS__) {
-		return parent::model($className);
-	}
-
 	public function aclField() {
 		return 'calendar.acl_id';
 	}
@@ -181,6 +171,7 @@ class Event extends \GO\Base\Db\ActiveRecord {
 		return !empty($stmt) ? $stmt->rowCount() : 0;
 		
 	}
+	
 	
 	public function defaultAttributes() {
 		
@@ -226,8 +217,22 @@ class Event extends \GO\Base\Db\ActiveRecord {
 				'resources' => array('type' => self::HAS_MANY, 'model' => 'GO\Calendar\Model\Event', 'field' => 'resource_event_id', 'delete' => true)
 		);
 	}
+	
+	protected function log($action, $save = true) {
+		if(!$this->updatingRelatedEvent) {
+			return parent::log($action, $save);
+		} else
+		{
+			return true;
+		}
+	}
 
 	protected function getCacheAttributes() {
+		
+		if(GO::router()->getControllerAction()!='buildsearchcache' && !$this->isModified(["calendarId", "description", "private", "start_time", "name"])) {
+			return false;
+		}
+		
 		$calendarName = empty($this->calendar) ? '' : ', '.$this->calendar->name;
 		return array(
 				'name' => $this->private ?  \GO::t('privateEvent','calendar') : $this->name.' ('.\GO\Base\Util\Date::get_timestamp($this->start_time, false).$calendarName.')',
@@ -426,7 +431,14 @@ class Event extends \GO\Base\Db\ActiveRecord {
 		
 		$resources = array();
 		
+		$freeBusyInstalled = \GO::modules()->isInstalled("freebusypermissions");
+		
 		foreach($stmt as $event){
+			
+			if($freeBusyInstalled && !$event->calendar->checkPermissionlevel(\GO\Base\Model\Acl::WRITE_PERMISSION) && !\GO\Freebusypermissions\FreebusypermissionsModule::hasFreebusyAccess(\GO::user()->id, $event->calendar->user_id)) {
+				//no permission to update
+				continue;
+			}
 			
 			//workaround for old events that don't have the exception ID set. In this case
 			//getRelatedParticipantEvents fails. This won't happen with new events
@@ -446,6 +458,11 @@ class Event extends \GO\Base\Db\ActiveRecord {
 			
 			$event->addException($exceptionDate, $exceptionEvent->id);
 
+			
+			
+			
+			
+			
 			$event->duplicateRelation('participants', $exceptionEvent, array('dontCreateEvent' => true));
 			
 			
@@ -488,7 +505,7 @@ class Event extends \GO\Base\Db\ActiveRecord {
 		//ignore reminders longer than 90 days.
 		if($this->reminder > 86400 * 90){
 			\GO::debug("WARNING: Ignoring reminder that is longer than 90 days before event start");
-			$this->reminder = 0;
+			$this->reminder = null;
 		}	
 		
 		
@@ -563,6 +580,8 @@ class Event extends \GO\Base\Db\ActiveRecord {
 	
 	protected function beforeSave() {
 		
+		GO::debug("#### EVENT BEFORE SAVE ####");
+		
 		if($this->rrule != ""){			
 			$rrule = new \GO\Base\Util\Icalendar\Rrule();
 			$rrule->readIcalendarRruleString($this->start_time, $this->rrule);						
@@ -635,8 +654,10 @@ class Event extends \GO\Base\Db\ActiveRecord {
 			$participants = $this->getParticipantsForUser();
 			
 			foreach($participants as $participant){
+				$participant->updateRelatedParticipants = false;
+				$participant->dontCreateEvent = true;
 				$participant->status=Participant::STATUS_DECLINED;
-				$participant->save();
+				$participant->save(true);
 			}
 		}
 		
@@ -644,7 +665,7 @@ class Event extends \GO\Base\Db\ActiveRecord {
 		if($this->isException()) {
 			if($this->_exceptionEvent) {
 				$this->_exceptionEvent->mtime = time();
-				$this->_exceptionEvent->save();
+				$this->_exceptionEvent->save(true);
 			}
 		}
 		
@@ -670,7 +691,7 @@ class Event extends \GO\Base\Db\ActiveRecord {
 	 */
 	public function getNextReminderTime($lastReminderTime = 0){
 		
-		if($this->reminder==0)
+		if($this->reminder===null)
 			return false;
 
 		if($this->isRecurring()){
@@ -683,10 +704,10 @@ class Event extends \GO\Base\Db\ActiveRecord {
 
 			$rRule = $this->getRecurrencePattern();
 			$rRule->fastForward(new \DateTime('@'.$lastReminderTime));
-			$nextTime = $rRule->nextRecurrence(0);
-
-			while($nextTime && $this->hasException($nextTime)){
-				$nextTime = $rRule->nextRecurrence(0);
+			$nextTime = $rRule->current();
+			while($nextTime && $this->hasException($nextTime->getTimeStamp())){
+				$rRule->next();
+				$nextTime = $rRule->current();
 			}
 			
 
@@ -719,11 +740,11 @@ class Event extends \GO\Base\Db\ActiveRecord {
 	 * @return boolean 
 	 */
 	public function isFullDay() {
-		return $this->all_day_event;
+		return !empty($this->all_day_event);
 	}
 	
 	public function hasReminders() {
-		return !empty($this->reminder);
+		return !is_null($this->reminder);
 	}
 	
 	public function isException() {
@@ -731,35 +752,7 @@ class Event extends \GO\Base\Db\ActiveRecord {
 	}
 	
 	protected function afterSave($wasNew) {
-		
-		//add exception model for the original recurring event
-//		if ($wasNew && $this->exception_for_event_id > 0 && !empty($this->exception_date)) {
-//			
-//			$newExeptionEvent = Event::model()->findByPk($this->exception_for_event_id);
-//			$newExeptionEvent->addException($this->exception_date, $this->id);
-//		}
-		
-//			
-//			//copy particpants to new \Exception
-//			$stmt = $newExeptionEvent->participants();
-//			while($participant = $stmt->fetch()){
-//				$newParticipant = new Participant();
-//				$newParticipant->setAttributes($participant->getAttributes());
-//				unset($newParticipant->id);
-//				$newParticipant->event_id=$this->id;
-//				if(!$newParticipant->is_organizer){
-//					$newParticipant->status=Participant::STATUS_PENDING;
-//				}
-//				$newParticipant->save();
-//			}
-//		}
-		
-		//if this event belongs to a recurring series we must touch the master event 
-		//too or it won't be synchronized with z-push or caldav
-		if($exceptionEvent = $this->_exceptionEvent){
-			$exceptionEvent->touch();
-		}
-		
+				
 		//move exceptions if this event was moved in time
 		if(!$wasNew && !empty($this->rrule) && $this->isModified('start_time')){
 			$diffSeconds = $this->start_time-$this->getOldAttributeValue('start_time');
@@ -782,7 +775,7 @@ class Event extends \GO\Base\Db\ActiveRecord {
 		}
 
 		$this->setReminder();
-		
+
 		//update events that belong to this organizer event
 		if($this->is_organizer && !$wasNew && !$this->isResource()){
 			$updateAttr = array(
@@ -799,15 +792,21 @@ class Event extends \GO\Base\Db\ActiveRecord {
 			if($this->isModified(array_keys($updateAttr))){
 
 				$events = $this->getRelatedParticipantEvents();
-
+				$freeBusyInstalled = \GO::modules()->isInstalled("freebusypermissions");
 				foreach($events as $event){
 					\GO::debug("updating related event: ".$event->id);
 
 					if($event->id!=$this->id && $this->is_organizer!=$event->is_organizer){ //this should never happen but to prevent an endless loop it's here.
+						
+						if($freeBusyInstalled && ! \GO\Freebusypermissions\FreebusypermissionsModule::hasFreebusyAccess(\GO::user()->id, $event->calendar->user_id)) {
+							//no permission to update
+							continue;
+						}
+						
 						$event->setAttributes($updateAttr, false);
 						$event->updatingRelatedEvent=true;
 						$event->save(true);
-
+						
 //						$stmt = $event->participants;
 //						$stmt->callOnEach('delete');
 //	
@@ -823,21 +822,24 @@ class Event extends \GO\Base\Db\ActiveRecord {
 		//for sync update master series
 		if($this->isException() && $this->_exceptionEvent) {
 			$this->_exceptionEvent->mtime = time();
-			$this->_exceptionEvent->save();
+			$this->_exceptionEvent->save(true);
+			
 		}
-		
 		return parent::afterSave($wasNew);
 	}
 	
 	public function setReminder(){
-		if($this->reminder>0){
+		
+		if($this->reminder !== null){
 			$remindTime = $this->getNextReminderTime();
-
+		
 			if($remindTime){
 				$this->deleteReminders();
 				$this->addReminder($this->name, $remindTime, $this->calendar->user_id, $remindTime+$this->reminder);
 			}
-		}	
+		} else {
+			$this->deleteReminders();
+		}
 	}
 	
 	/**
@@ -1072,6 +1074,14 @@ class Event extends \GO\Base\Db\ActiveRecord {
 		
 		$conflictEvents=array();
 		
+		
+		
+		
+		$settings = Settings::model()->getDefault(GO::user());
+		if(!$settings->check_conflict) {
+			return $conflictEvents;
+		}
+		
 		$findParams = \GO\Base\Db\FindParams::newInstance();
 		$findParams->getCriteria()->addCondition("calendar_id", $this->calendar_id);
 		if(!$this->isNew)
@@ -1140,7 +1150,7 @@ class Event extends \GO\Base\Db\ActiveRecord {
 		// Make regular events exportable.
 		$findParams->export('events');
 		
-		$findParams->order('start_time', 'ASC')->select("t.*");
+		$findParams->select("t.*");
 		
 //		if($periodEndTime)
 //			$findParams->getCriteria()->addCondition('start_time', $periodEndTime, '<');
@@ -1200,7 +1210,10 @@ class Event extends \GO\Base\Db\ActiveRecord {
 				$rrule = new \GO\Base\Util\Icalendar\RRuleIterator($localEvent->getEvent()->rrule, $startDateTime);
 				$rrule->fastForward(new \DateTime('@'.\GO\Base\Util\Date::date_add($periodStartTime,-ceil(( ($event->end_time-$event->start_time) /86400)))));
 			}catch(\Exception $e) {
-				trigger_error($e->getMessage()." Event ID:".$event->id);
+				
+				GO::debug($e->getMessage()." Event ID:".$event->id);
+					
+//					trigger_error($e->getMessage()." Event ID:".$event->id." Cleared rrule!");
 				return;
 			}
 			$origEventAttr = $localEvent->getEvent()->getAttributes('formatted');
@@ -1560,7 +1573,7 @@ class Event extends \GO\Base\Db\ActiveRecord {
 		}
 		
 		if($this->all_day_event){
-			$end_time = \GO\Base\Util\Date::clear_time($this->end_time);			
+			$end_time = \GO\Base\Util\Date::clear_time($this->end_time);						
 			$end_time = \GO\Base\Util\Date::date_add($end_time,1);			
 		}else{
 			$end_time = $this->end_time;
@@ -1578,11 +1591,12 @@ class Event extends \GO\Base\Db\ActiveRecord {
 		if(!empty($this->location))
 			$e->location=$this->location;
 
-		if(!empty($this->rrule)){
+		$rrule = str_replace('RRULE:','',$this->rrule);
+		if(!empty($rrule)){
 			
 //			$rRule = $this->getRecurrencePattern();
 //			$rRule->shiftDays(false);
-			$e->add('rrule',str_replace('RRULE:','',$this->rrule));
+			$e->add('rrule',$rrule);
 			
 			$findParams = \GO\Base\Db\FindParams::newInstance();
 			
@@ -1622,7 +1636,7 @@ class Event extends \GO\Base\Db\ActiveRecord {
 		
 				
 		
-		if($this->reminder>0){
+		if($this->reminder !== null){
 			
 			$a=$calendar->createComponent('VALARM');
 //			BEGIN:VALARM
@@ -1631,8 +1645,14 @@ class Event extends \GO\Base\Db\ActiveRecord {
 //DESCRIPTION:Default Mozilla Description
 //END:VALARM
 			
-			$a->action='DISPLAY';			
-			$a->add('trigger','-PT'.($this->reminder/60).'M', array('value'=>'DURATION'));			
+			$a->action='DISPLAY';
+			
+			if(empty($this->reminder)){
+				$a->add('trigger','P0D', array('value'=>'DURATION'));
+			} else {
+				$a->add('trigger','-PT'.($this->reminder/60).'M', array('value'=>'DURATION'));
+			}
+			
 			$a->description="Alarm";			
 		
 						
@@ -1733,7 +1753,7 @@ $sub = $offset>0;
 	 * @param boolean $importExternal This should be switched on if importing happens from external ICS calendar.
 	 * @return Event 
 	 */
-	public function importVObject(Sabre\VObject\Component $vobject, $attributes=array(), $dontSave=false, $makeSureUserParticipantExists=false, $importExternal=false){
+	public function importVObject(Sabre\VObject\Component $vobject, $attributes=array(), $dontSave=false, $makeSureUserParticipantExists=false, $importExternal=false, $withCategories = true){
 
 		$uid = (string) $vobject->uid;
 		if(!empty($uid))
@@ -1749,49 +1769,31 @@ $sub = $offset>0;
 		//turn DateTimeImmutable into DateTime
 		$dtstart = new \DateTime($dtstart->format('Y-m-d H:i'), $dtstart->getTimezone());
 		$dtend = new \DateTime($dtend->format('Y-m-d H:i'), $dtend->getTimezone());
-			
 		
-		$substractOnEnd=0;
-		
-		//funambol sends this special parameter
-//		if((string) $vobject->{"X-FUNAMBOL-ALLDAY"}=="1"){
-//			$this->all_day_event=1;
-//		}else
-//		{
-			$this->all_day_event = isset($vobject->dtstart['VALUE']) && $vobject->dtstart['VALUE']=='DATE' ? 1 : 0;
-			
-			//ios sends start and end date at 00:00 hour
-			//DTEND;TZID=Europe/Amsterdam:20140121T000000
-			//DTSTART;TZID=Europe/Amsterdam:20140120T000000
-			
-			if($dtstart->format('Hi') == "0000" && $dtend->format('Hi') == "0000" ){
-				$this->all_day_event=true;
-			}
-			
-			if($this->all_day_event) {
-				
-				$substractOnEnd=60;
-			}
+		$this->all_day_event = isset($vobject->dtstart['VALUE']) && $vobject->dtstart['VALUE']=='DATE' ? 1 : 0;
 
-//		}
+		//ios sends start and end date at 00:00 hour
+		//DTEND;TZID=Europe/Amsterdam:20140121T000000
+		//DTSTART;TZID=Europe/Amsterdam:20140120T000000
+
+		if($dtstart->format('Hi') == "0000" && $dtend->format('Hi') == "0000" ){
+			$this->all_day_event=true;
+		}
 		
 		if($this->all_day_event){
+// This broke all day events in thunderbird. It messed up the times.
+//			if($dtstart->getTimezone()->getName()=='UTC' || $dtend->getTimezone()->getName()=='UTC'){
+//				$this->timezone = 'UTC';
+//			}
 
-\GO::debug("Sabre: ".$dtstart->getTimezone()->getName().' '.$dtstart->format('c'));
+			$this->start_time = \GO\Base\Util\Date::clear_time($dtstart->format('U'));	
+			$this->end_time = \GO\Base\Util\Date::clear_time($dtend->format('U')) - 60;
 
-			if($dtstart->getTimezone()->getName()=='UTC'){
-				$this->_utcToLocal($dtstart);
-			}
-			if($dtend->getTimezone()->getName()=='UTC'){
-				$this->_utcToLocal($dtend);
-			}
+		}else
+		{
+			$this->start_time =intval($dtstart->format('U'));	
+			$this->end_time = intval($dtend->format('U'));
 		}
-
-\GO::debug($dtstart->format('c'));
-		
-		$this->start_time =intval($dtstart->format('U'));	
-		$this->end_time = intval($dtend->format('U'))-$substractOnEnd;
-		
 		
 		
 		if($vobject->duration){
@@ -1834,7 +1836,7 @@ $sub = $offset>0;
 			$this->private = strtoupper($vobject->class)!='PUBLIC';
 		}
 		
-		$this->reminder=0;
+		$this->reminder=null;
 		
 //		if($vobject->valarm && $vobject->valarm->trigger){
 //			
@@ -1939,23 +1941,25 @@ $sub = $offset>0;
 				$this->reminder=0;
 		}
 		
-		$cats = (string) $vobject->categories;
-		if(!empty($cats)){
-			//Group-Office only supports a single category.
-			$cats = explode(',',$cats);
-			$categoryName = array_shift($cats);
-			
-			$category = Category::model()->findByName($this->calendar_id, $categoryName);
-			if(!$category && !$dontSave && $this->calendar_id){
-				$category = new Category();
-				$category->name=$categoryName;
-				$category->calendar_id=$this->calendar_id;
-				$category->save(true);
-			}			
-			
-			if($category){
-				$this->category_id=$category->id;			
-				$this->background=$category->color;
+		if($withCategories) {
+			$cats = (string) $vobject->categories;
+			if(!empty($cats)){
+				//Group-Office only supports a single category.
+				$cats = explode(',',$cats);
+				$categoryName = array_shift($cats);
+
+				$category = Category::model()->findByName($this->calendar_id, $categoryName);
+				if(!$category && !$dontSave && $this->calendar_id){
+					$category = new Category();
+					$category->name=$categoryName;
+					$category->calendar_id=$this->calendar_id;
+					$category->save(true);
+				}			
+
+				if($category){
+					$this->category_id=$category->id;			
+					$this->background=$category->color;
+				}
 			}
 		}
 		
@@ -2073,8 +2077,14 @@ $sub = $offset>0;
 					if($dts === null) {
 						continue;
 					}
-					foreach($dts as $dt) {
-						$this->addException($dt->format('U'));
+					
+					//TODO this change must be done for every participant event
+					
+					foreach($dts as $dt) {					
+						$events = $this->getRelatedParticipantEvents(true);
+						foreach($events as $event) {
+							$event->addException($dt->format('U'));
+						}
 					}
 				} catch (Exception $e) {
 					trigger_error($e->getMessage(),E_USER_NOTICE);
@@ -2602,7 +2612,7 @@ $sub = $offset>0;
 		}
 
 			while ($participant = $stmt->fetch()) {
-				if (!$newParticipantsOnly || (isset(\GO::session()->values['new_participant_ids']) && in_array($participant->user_id,\GO::session()->values['new_participant_ids']))) {
+				if (!$newParticipantsOnly || (isset(\GO::session()->values['new_participant_ids']) && in_array($participant->id,\GO::session()->values['new_participant_ids']))) {
 					
 					//don't invite organizer
 					if($participant->is_organizer)
@@ -2611,7 +2621,7 @@ $sub = $offset>0;
 					// Set the language of the email to the language of the participant.
 					$language = false;
 					if(!empty($participant->user_id)){
-						$user = \GO\Base\Model\User::model()->findByPk($participant->user_id);
+						$user = \GO\Base\Model\User::model()->findByPk($participant->user_id, false, true);
 
 						if($user)
 							\GO::language()->setLanguage($user->language);

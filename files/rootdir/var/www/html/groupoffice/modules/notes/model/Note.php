@@ -144,7 +144,7 @@ class Note extends ActiveRecord {
 			$encrypted = Crypt::encrypt($this->content, $this->userInputPassword1);
 
 			if ($encrypted === false) {
-				throw new \Exception("Could not encrypt note. Is mcrypt for php installed?");
+				throw new \Exception("Could not encrypt note!");
 			}
 
 

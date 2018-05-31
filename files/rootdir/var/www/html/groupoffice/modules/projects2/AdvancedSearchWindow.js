@@ -18,7 +18,7 @@ GO.projects2.AdvancedSearchWindow = Ext.extend(GO.Window,{
 			buttons:[{
 				text:GO.lang.cmdOk,
 				handler:function(){
-					this.store.baseParams.advancedQueryData=Ext.encode(this.queryPanel.getGridData());
+					this.store.baseParams.advancedQueryData=Ext.encode(this.queryPanel.getData());
 					this.store.load();
 					this.hide();
 				},

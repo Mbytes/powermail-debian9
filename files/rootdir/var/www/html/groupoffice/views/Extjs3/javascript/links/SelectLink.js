@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: SelectLink.js 17828 2014-07-24 12:17:07Z wsmits $
+ * @version $Id: SelectLink.js 21503 2017-10-03 07:12:38Z mschering $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -15,29 +15,34 @@ GO.form.SelectLink = function(config){
 	
 	config = config || {};
 	
-	config.store = new GO.data.JsonStore({				
-		url: GO.url('search/store'),
-		fields:['model_id','model_name','name_and_type', 'model_name_and_id'],
-		remoteSort: true,
-		baseParams:{
-			start:0,
-			limit:20,
-			dont_calculate_total:1
-		}
+	if(!config.filter_model_type_ids)
+		config.filter_model_type_ids = [];
+	
+	Ext.apply(this,config);
+	
+	Ext.apply(this, {
+		store:new GO.data.JsonStore({				
+			url: GO.url('search/store'),
+			fields:['model_id','model_name','name_and_type', 'model_name_and_id'],
+			remoteSort: true,
+			baseParams:{
+				start:0,
+				limit:20,
+				dont_calculate_total:1
+			}
+		}),
+		minChars:100, //disable auto searching because it causes heavy load. Only enter key searches
+		forceSelection:true,
+		displayField:'name_and_type',
+		valueField:'model_name_and_id',
+		hiddenName:'link',
+		triggerAction:'all',
+		width:400,
+		selectOnFocus:false,
+		fieldLabel:GO.lang.cmdLink,
+		enableKeyEvents:true
 	});
-
-	config.minChars=100; //disable auto searching because it causes heavy load. Only enter key searches
-	config.forceSelection=true;
-	config.displayField='name_and_type';
-	config.valueField='model_name_and_id',
-	config.hiddenName='link';
-	config.triggerAction='all';
-	config.width=400;
-	config.selectOnFocus=false;
-	config.fieldLabel=GO.lang.cmdLink;
-	config.enableKeyEvents=true
-	
-	
+		
 //	config.pageSize=20;//parseInt(GO.settings['max_rows_list']);
 	GO.form.SelectLink.superclass.constructor.call(this, config);
 	
@@ -68,7 +73,8 @@ Ext.extend(GO.form.SelectLink, GO.form.ComboBoxReset,{
 	onTriggerClick : function(){
 
 		if(!GO.selectLinkDialog){
-			GO.selectLinkDialog = new GO.dialog.LinksDialog({				
+			GO.selectLinkDialog = new GO.dialog.LinksDialog({
+				filter_model_type_ids:this.filter_model_type_ids,
 				singleSelect:true,
 				selectLinkField:this,
 				linkItems : function()	{

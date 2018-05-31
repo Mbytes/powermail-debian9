@@ -18,3 +18,5 @@ $l['readMore']="Lees meer";
 $l['enableReadMore']="Gebruik \"Lees meer\" links";
 
 $l['actionDate']='Actiedatum';
+
+$l['emptyComment']='Geen opmerking';

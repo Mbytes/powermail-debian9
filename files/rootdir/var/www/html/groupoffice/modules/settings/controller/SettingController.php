@@ -46,12 +46,12 @@ class SettingController extends \GO\Base\Controller\AbstractController {
 		
 		if (!empty($params['task_name_template']))
 			\GO\Base\Model\AbstractUserDefaultModel::setNameTemplate("GO\Tasks\Model\Tasklist",$params['task_name_template']);
-		if (isset($params['GO\Tasks\Model\Tasklist_change_all_names']))
+		if (isset($params['GO_Tasks_Model_Tasklist_change_all_names']))
 			$this->_updateAllDefaultTasklists($reportFeedback);
 		
 		if (!empty($params['calendar_name_template']))
 			\GO\Base\Model\AbstractUserDefaultModel::setNameTemplate("GO\Calendar\Model\Calendar",$params['calendar_name_template']);
-		if (isset($params['GO\Calendar\Model\Calendar_change_all_names']))
+		if (isset($params['calendar_change_all_names']))
 			$this->_updateAllDefaultCalendars($reportFeedback);	
 		
 		$response['feedback'] = !empty($reportFeedback) ? $reportFeedback : '';

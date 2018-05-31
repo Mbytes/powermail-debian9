@@ -101,7 +101,7 @@ class LocalEvent extends \GO\Base\Model {
 		$this->_initials[] = $event->user ? $event->user->getShortName() : '??';
 		$this->_calendarNames[] = $this->_calendar->name;
 	}
-	
+
 	public function setBackgroundColor($color){
 		$this->_backgroundColor = $color;
 	}
@@ -169,7 +169,7 @@ class LocalEvent extends \GO\Base\Model {
 			$response['status'] = false;
 		} else {
 			$response['repeats'] = $this->isRepeating();
-			$response['has_reminder'] = $response['reminder']>0 ? 1 : 0;
+			$response['has_reminder'] = $this->_event->hasReminders()?1:0;
 			$response['link_count'] = $this->getLinkCount();
 			$response['status_color'] = $this->_event->getStatusColor();
 			
@@ -241,7 +241,7 @@ class LocalEvent extends \GO\Base\Model {
 		
 			
 		$this->_isMerged = true;
-		$this->_initials[] = $event->getEvent()->user->getShortName();
+		$this->_initials[] = $event->getCalendar()->user->getShortName();
 		$this->_calendarNames[] = $event->getCalendar()->name;
 		$this->_backgroundColor = 'FFFFFF';
 		
@@ -257,10 +257,10 @@ class LocalEvent extends \GO\Base\Model {
 	 * @return int Unix timestamp 
 	 */
 	public function getAlternateStartTime(){
-		if(empty($this->_alternateStartTime))
-			return $this->_event->start_time;
-		else
-			return $this->_alternateStartTime;
+		if(empty($this->_alternateStartTime)) {
+			$this->setAlternateStartTime($this->_event->start_time);
+		}
+		return $this->_alternateStartTime;
 	}
 	
 	/**
@@ -269,10 +269,10 @@ class LocalEvent extends \GO\Base\Model {
 	 * @return int Unix timestamp 
 	 */
 	public function getAlternateEndTime(){
-		if(empty($this->_alternateEndTime))
-			return $this->_event->end_time;
-		else
-			return $this->_alternateEndTime;
+		if(empty($this->_alternateEndTime)) {
+			$this->setAlternateEndTime($this->_event->end_time);
+		}
+		return $this->_alternateEndTime;
 	}
 	
 	/**
@@ -281,9 +281,22 @@ class LocalEvent extends \GO\Base\Model {
 	 * @param int $time  Unix timestamp
 	 */
 	public function setAlternateStartTime($time){
-
-		$this->_alternateStartTime = $time;
-		
+		// Convert timestamp to the zone of the user who has entered the event
+		// Timezone may set the date incorrect so setTimezone() is needed
+		if($this->_event->isFullDay()) {
+			try {
+				$eventTimezone =  new \DateTimeZone($this->_event->timezone);
+			} catch(\Exception $e) {
+				$eventTimezone = new \DateTimeZone(GO::config()->default_timezone);
+				trigger_error("The timezone ".$this->_event->timezone." is invalid in event: ".$this->_event->id, E_USER_WARNING);
+			}
+			$startTime = new \DateTime();
+			$startTime->setTimestamp($time);
+			$startTime->setTimezone($eventTimezone);
+			$this->_alternateStartTime = strtotime($startTime->format('Y-m-d 00:00:00'));
+		} else {
+			$this->_alternateStartTime = $time;
+		}
 	}
 	
 	/**
@@ -292,7 +305,21 @@ class LocalEvent extends \GO\Base\Model {
 	 * @param int $time  Unix timestamp
 	 */
 	public function setAlternateEndTime($time){
-		$this->_alternateEndTime = $time;
+
+		if($this->_event->isFullDay()) {
+			try {
+				$eventTimezone =  new \DateTimeZone($this->_event->timezone);
+			} catch(\Exception $e) {
+				$eventTimezone = new \DateTimeZone(GO::config()->default_timezone);
+				trigger_error("The timezone ".$this->_event->timezone." is invalid in event: ".$this->_event->id, E_USER_WARNING);
+			}
+			$endTime = new \DateTime();
+			$endTime->setTimestamp($time);
+			$endTime->setTimezone($eventTimezone);
+			$this->_alternateEndTime = strtotime($endTime->format('Y-m-d 23:59:59'));
+		} else {
+			$this->_alternateEndTime = $time;
+		}
 	}
 	
 	/**

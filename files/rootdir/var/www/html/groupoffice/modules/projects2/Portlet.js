@@ -136,6 +136,89 @@ GO.projects2.SimpleProjectsPanel = function(config)
 
 
 		GO.projects2.SimpleProjectsPanel.superclass.constructor.call(this, config);
+		
+		
+		this.portletConfigWindow = new GO.Window({
+			layout: 'border',
+			title:GO.projects2.lang.statuses,
+			modal:false,
+			height:400,
+			width:600,
+			closeAction:'hide',
+			items: [
+				this.multiselectPanel = new GO.base.model.multiselect.panel({
+					region: 'center',
+					url:'projects2/portlet',
+					columns:[{ header: GO.lang['strName'], dataIndex: 'name', sortable: true }],
+					fields:['id','name'],
+					model_id:GO.settings.user_id
+				}),
+				new Ext.form.FormPanel({
+					region: 'south',
+					height: 40,
+					items: [
+						this.showMineOnlyCheckbox = new Ext.ux.form.XCheckbox({
+							boxLabel: GO.projects2.lang.showMyOwn,
+							labelSeparator: '',
+							name: 'showMineOnly',
+//							allowBlank: true,
+							hideLabel: true,
+							handler:  function() {
+								GO.request({
+									url: 'projects2/portletConfig/saveShowMineOnly',
+									params:{
+										value: this.getValue()
+									}
+								})
+							}
+						}),
+						this.showMineWorkCheckbox = new Ext.ux.form.XCheckbox({
+							boxLabel: GO.projects2.lang.showMyWork,
+							labelSeparator: '',
+							name: 'showMineWork',
+//							allowBlank: true,
+							hideLabel: true,
+							handler:  function() {
+								GO.request({
+									url: 'projects2/portletConfig/saveShowMineWork',
+									params:{
+										value: this.getValue()
+									}
+								})
+							}
+
+						})
+					]
+				})
+			],
+			listeners:{
+				hide:function(){
+					this.store.reload();
+				},
+				show: function() {
+					this.multiselectPanel.store.load();
+					GO.request({
+						url: 'projects2/portletConfig/loadShowMineOnly',
+						params:{},
+						success: function(response, options, result){
+
+							this.showMineOnlyCheckbox.setValue(result['value'])
+						},
+						scope: this
+					});
+				},
+				scope:this
+			},
+			buttons: [		
+				{
+					text: GO.lang['cmdClose'],
+					handler: function(){
+						this.portletConfigWindow.hide();
+					},
+					scope: this
+				}
+			]
+		})
 
 	};
 
@@ -150,6 +233,28 @@ Ext.extend(GO.projects2.SimpleProjectsPanel, GO.grid.GridPanel, {
 		this.on("rowdblclick", function(grid, rowClicked, e){
 			GO.linkHandlers["GO\\Projects2\\Model\\Project"].call(this, grid.selModel.selections.keys[0]);
 		}, this);
+		
+		this.portletConfigWindow.on('show', function() {
+						this.multiselectPanel.store.load();
+						GO.request({
+							url: 'projects2/portletConfig/loadShowMineOnly',
+							params:{},
+							success: function(response, options, result){
+
+								this.showMineOnlyCheckbox.setValue(result['value'])
+							},
+							scope: this
+						});
+						GO.request({
+							url: 'projects2/portletConfig/loadShowMineWork',
+							params:{},
+							success: function(response, options, result){
+
+								this.showMineWorkCheckbox.setValue(result['value'])
+							},
+							scope: this
+						});
+					}, this);
 
 	}
 });
@@ -158,7 +263,7 @@ Ext.extend(GO.projects2.SimpleProjectsPanel, GO.grid.GridPanel, {
 GO.mainLayout.onReady(function(){
 	if(GO.summary)
 	{
-		var projectsGrid = new GO.projects2.SimpleProjectsPanel();
+		this.projectsGrid = new GO.projects2.SimpleProjectsPanel();
 
 		GO.summary.portlets['portlet-projects']=new GO.summary.Portlet({
 			id: 'portlet-projects',
@@ -166,120 +271,16 @@ GO.mainLayout.onReady(function(){
 			title: GO.projects2.lang.projects,
 			layout:'fit',
 			height:400,
-			items: projectsGrid,
+			items: this.projectsGrid,
 			tools: [{
 				id: 'gear',
 				
 				handler: function(){
-					if(!this.portletConfigWindow) {
-						this.portletConfigWindow = new GO.Window({
-							layout: 'border',
-							title:GO.projects2.lang.statuses,
-							modal:false,
-							height:400,
-							width:600,
-							closeAction:'hide',
-							items: [
-								this.multiselectPanel = new GO.base.model.multiselect.panel({
-									region: 'center',
-									url:'projects2/portlet',
-									columns:[{ header: GO.lang['strName'], dataIndex: 'name', sortable: true }],
-									fields:['id','name'],
-									model_id:GO.settings.user_id
-								}),
-								new Ext.form.FormPanel({
-									region: 'south',
-									height: 40,
-									items: [
-										this.showMineOnlyCheckbox = new Ext.ux.form.XCheckbox({
-											boxLabel: GO.projects2.lang.showMyOwn,
-											labelSeparator: '',
-											name: 'showMineOnly',
-											allowBlank: true,
-											hideLabel: true,
-											handler:  function() {
-												GO.request({
-													url: 'projects2/portletConfig/saveShowMineOnly',
-													params:{
-														value: this.getValue()
-													}
-												})
-											}
-										}),
-										this.showMineWorkCheckbox = new Ext.ux.form.XCheckbox({
-											boxLabel: GO.projects2.lang.showMyWork,
-											labelSeparator: '',
-											name: 'showMineWork',
-											allowBlank: true,
-											hideLabel: true,
-											handler:  function() {
-												GO.request({
-													url: 'projects2/portletConfig/saveShowMineWork',
-													params:{
-														value: this.getValue()
-													}
-												})
-											}
-										})
-									]
-								})
-							],
-							listeners:{
-								hide:function(){
-									projectsGrid.store.reload();
-								},
-								show: function() {
-									this.multiselectPanel.store.load();
-									GO.request({
-										url: 'projects2/portletConfig/loadShowMineOnly',
-										params:{},
-										success: function(response, options, result){
-											
-											this.showMineOnlyCheckbox.setValue(result['value'])
-										},
-										scope: this
-									});
-								},
-								scope:this
-							},
-							buttons: [		
-								{
-									text: GO.lang['cmdClose'],
-									handler: function(){
-										this.portletConfigWindow.hide();
-									},
-									scope: this
-								}
-							]
-						})
-						
-						this.portletConfigWindow.on('show', function() {
-							this.multiselectPanel.store.load();
-							GO.request({
-								url: 'projects2/portletConfig/loadShowMineOnly',
-								params:{},
-								success: function(response, options, result){
-									
-									this.showMineOnlyCheckbox.setValue(result['value'])
-								},
-								scope: this
-							});
-							GO.request({
-								url: 'projects2/portletConfig/loadShowMineWork',
-								params:{},
-								success: function(response, options, result){
-									
-									this.showMineWorkCheckbox.setValue(result['value'])
-								},
-								scope: this
-							});
-						}, this);
-						
-					}
 					
-					this.portletConfigWindow.show();
+					this.projectsGrid.portletConfigWindow.show();
 					
-				}
+				},
+				scope: this
 			},{
 				id:'close',
 				handler: function(e, target, panel){

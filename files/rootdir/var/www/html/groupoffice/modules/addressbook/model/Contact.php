@@ -160,7 +160,7 @@ class Contact extends \GO\Base\Db\ActiveRecord {
 	public function defaultAttributes() {
 		
 		$ab = false;
-		if(\GO::user()){
+		if(\GO::user() && \GO::user()->contact){
 			$ab = Addressbook::model()->getDefault(\GO::user());
 		}
 		
@@ -182,7 +182,7 @@ class Contact extends \GO\Base\Db\ActiveRecord {
 //		$this->columns['cellular']['gotype']='phone';
 //		$this->columns['cellular2']['gotype']='phone';
 //		$this->columns['fax']['gotype']='phone';
-//		$this->columns['work_fax']['gotype']='phone';
+		$this->columns['color']['gotype']='color';
 		
 		$this->columns['action_date']['gotype'] = 'unixtimestamp';
 		
@@ -344,7 +344,66 @@ class Contact extends \GO\Base\Db\ActiveRecord {
 		if (empty($this->color))
 			$this->color = "000000";
 		
+		if($this->getIsNew() && $this->addressbook->create_folder) {
+			
+			$c = new \GO\Files\Controller\FolderController();
+			$c->checkModelFolder($this, false, true);
+			
+		}
+		
+		
+		if($this->isModified('location') && !empty(\GO::config()->google_api_key)) {
+			$this->fetchCoords();
+		}
+		
 		return parent::beforeSave();
+	}
+	
+	/**
+	 * Override to check if any of the location attributes are modified
+	 * @param type $attributeName
+	 * @return type
+	 */
+	public function isModified($attributeName = false) {
+		if($attributeName === 'location') {
+			$addressAttrs = array('address','address_no','country','city');
+			$modified = false;
+			foreach($addressAttrs as $attr) {
+				if($this->isModified($attr)) {
+					$modified = true;
+					break;
+				}
+			}
+			return $modified;
+		}
+		return parent::isModified($attributeName);
+	}
+	
+	static function fetchGoogleCoords($query) {
+		$key = '';
+		if(!empty(\GO::config()->google_api_key)) {
+			$key = 'key='.\GO::config()->google_api_key.'&';
+		}
+		$lang = 'language='.\GO::user()->language.'&';
+		$url = "https://maps.google.com/maps/api/geocode/json?{$key}{$lang}address={$query}";
+		$resp_json = @file_get_contents($url);
+		return json_decode($resp_json, true);
+	}
+	
+	public function fetchCoords() {
+		$query = array();
+		$addressAttrs = array('address','address_no','country','city');
+		foreach($addressAttrs as $attr) {
+			$val = $this->getAttribute($attr);
+			if(!empty($val));
+			$query[] = urlencode($val);
+		}
+		$resp = self::fetchGoogleCoords(implode('+', $query));
+		if ($resp['status'] == 'OK') {
+			$this->latitude = $resp['results'][0]['geometry']['location']['lat'];
+			$this->longitude = $resp['results'][0]['geometry']['location']['lng'];
+		}
+		return $this;
 	}
 	
 	private function _prefixSocialMediaLinks() {
@@ -393,7 +452,7 @@ class Contact extends \GO\Base\Db\ActiveRecord {
 	
 	protected function afterSave($wasNew) {
 	
-		if(!$wasNew && $this->isModified('addressbook_id') && ($company=$this->company())){
+		if(!$wasNew && $this->isModified('addressbook_id') && ($company=$this->company)){
 			//make sure company is in the same addressbook.
 			$company->addressbook_id=$this->addressbook_id;
 			$company->save();
@@ -814,6 +873,10 @@ class Contact extends \GO\Base\Db\ActiveRecord {
 				case 'NOTE':
 					$attributes['comment'] = $vobjProp->getValue();
 					break;
+				
+				case 'GENDER':
+					$attributes['sex'] = $vobjProp->getValue() == 'F' ? 'F' : 'M';
+					break;
 				case 'VERSION':
 				case 'LAST-MODIFIED':
 					break;
@@ -1012,8 +1075,10 @@ class Contact extends \GO\Base\Db\ActiveRecord {
 			$card=new Sabre\VObject\Component\VCard();
 			//couldn't get photo to work in 4.0.
 			//see https://github.com/fruux/sabre-vobject/issues/294
-			$card->version = '3.0';
+			$card->version = '3.0'; // this is what is written to vCard file
 			
+		} else if((string) $card->version == '4.0') { //only convert v4 to v3
+			$card = $card->convert(\Sabre\VObject\Document::VCARD30);
 		}
 				
 		$card->prodid='-//Intermesh//NONSGML Group-Office '.\GO::config()->version.'//EN';		
@@ -1030,6 +1095,10 @@ class Contact extends \GO\Base\Db\ActiveRecord {
 		
 		$card->add('N',array($this->last_name,$this->first_name,$this->middle_name,$this->title,$this->suffix));
 		$card->add('FN',$this->name);
+		
+		
+		$card->remove('gender');
+		$card->add('gender',$this->sex);
 		
 		$card->remove('email');
 		if (!empty($this->email)) {
@@ -1137,7 +1206,7 @@ class Contact extends \GO\Base\Db\ActiveRecord {
 //				$this->company->post_city,$this->company->post_state,$this->company->post_zip,$this->company->post_country);
 //			$e->add($p);
 			$card->add('ADR',array('','',$this->company->post_address.' '.$this->company->post_address_no,
-				$this->company->post_city,$this->company->post_state,$this->company->post_zip,$this->company->post_country),array('type'=>'POSTAL'));
+				$this->company->post_city,$this->company->post_state,$this->company->post_zip,$this->company->post_country),array('type'=>'WORK,POSTAL'));
 			
 		}
 		
@@ -1162,16 +1231,13 @@ class Contact extends \GO\Base\Db\ActiveRecord {
 		
 		$card->rev=gmdate("Y-m-d\TH:m:s\Z", $this->mtime);
 		
-		
+		$card->remove('photo');
 		if($this->getPhotoFile()->exists()){
 			$card->add('photo', $this->getPhotoFile()->getContents(),array('type'=>'JPEG','encoding'=>'b'));	
 ////			$p = new \Sabre\VObject\Property\Uri($card, 'photo');
 ////			$p->setValue();
 //			$card->add('photo', base64_encode($this->getPhotoFile()->getContents()), array('value'=>'URI'));
 			
-		}else
-		{
-			$card->remove('photo');
 		}
 
 		

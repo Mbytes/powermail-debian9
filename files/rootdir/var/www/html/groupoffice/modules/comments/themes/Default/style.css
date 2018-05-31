@@ -11,3 +11,12 @@
 	height: 16px;
 }
 
+@media print {
+	.print-always{
+		display : block !important;
+	}
+	
+	.print-never {
+		display : none !important;
+	}
+}

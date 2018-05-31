@@ -24,6 +24,26 @@ GO.comments.SettingsPanel = function(config) {
 					name:'comments_enable_read_more'
 				})
 			]
+		},{
+			xtype:'fieldset',
+			title:GO.comments.lang.originalCommentTabs,
+			autoHeight:true,
+			items:[
+				this.disableOrigContact = new Ext.ux.form.XCheckbox({
+					boxLabel:GO.comments.lang.disableOriginalCommentsContact,
+					hideLabel:true,
+					checked:GO.comments.disableOriginalCommentsContact,
+					name:'comments_disable_orig_contact',
+					disabled:GO.comments.disabledOriginalCommentsContactInConfig
+				}),
+				this.disableOrigCompany = new Ext.ux.form.XCheckbox({
+					boxLabel:GO.comments.lang.disableOriginalCommentsCompany,
+					hideLabel:true,
+					checked:GO.comments.disableOriginalCommentsCompany,
+					name:'comments_disable_orig_company',
+					disabled:GO.comments.disabledOriginalCommentsCompanyInConfig
+				})
+			]
 		}
 		
 	];
@@ -34,6 +54,8 @@ GO.comments.SettingsPanel = function(config) {
 Ext.extend(GO.comments.SettingsPanel, Ext.Panel, {
 	onLoadSettings : function(action) {		
 		this.useReadmore.setValue(action.result.data.comments_enable_read_more);
+		this.disableOrigContact.setValue(action.result.data.comments_disable_orig_contact);
+		this.disableOrigCompany.setValue(action.result.data.comments_disable_orig_company);
 	}
 });
 
@@ -46,3 +68,23 @@ GO.linkPreviewPanels["GO\\Comments\\Model\\Comment"]=function(config){
 	config = config || {};
 	return new GO.comments.CommentPanel(config);
 }
+
+/**
+ * Returns if the original tab needs to be hidden or not.
+ * True = hide, False = show
+ * 
+ * @param string panelId
+ * @returns {Boolean}
+ */
+GO.comments.hideOriginalTab = function(panelId){
+
+	if(panelId == 'contact' && GO.comments.disableOriginalCommentsContact && GO.comments.disableOriginalCommentsContact == "1"){
+		 return true;
+	}
+
+	if(panelId == 'company' &&  GO.comments.disableOriginalCommentsCompany && GO.comments.disableOriginalCommentsCompany == "1"){
+		 return true;
+	}
+
+	return false;
+};

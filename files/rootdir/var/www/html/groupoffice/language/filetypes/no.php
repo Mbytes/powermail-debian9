@@ -2,7 +2,7 @@
 
 
 $ft_title = "Filtyper";
-$ft_text = "Filtyper blir automatisk lagt til av Group-Office. Du kan endre ikoner og navn her.";
+$ft_text = "Filtyper blir automatisk lagt til av {product_name}. Du kan endre ikoner og navn her.";
 $ft_icon = "Ikon";
 $ft_extension = "Type";
 $ft_friendly = "Beskrivelse";

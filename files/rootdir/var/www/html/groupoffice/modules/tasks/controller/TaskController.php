@@ -194,10 +194,9 @@ class TaskController extends \GO\Base\Controller\AbstractModelController{
 		$columnModel->formatColumn('late','$model->isLate();');
 		$columnModel->formatColumn('user_name','$model->user->name');
 		
-		if (\GO::modules()->projects2)
-			$columnModel->formatColumn('project_name','$model->project2->name');
-		elseif (\GO::modules()->projects)
-			$columnModel->formatColumn('project_name','$model->project->name');
+		if (\GO::modules()->projects2) {
+			$columnModel->formatColumn('project_name','$model->getProjectName()');
+		}
 		
 		return parent::formatColumns($columnModel);
 	}

@@ -118,7 +118,20 @@ class FilesModule extends \GO\Base\Module{
 				}
 				\GO::cache()->set('files-file-handlers', self::$fileHandlers);
 			}
-		}
+			
+			// Check if the found filehandlers are in modules that are enabled for the current user.
+			// If not, then delete them from the array
+			foreach(self::$fileHandlers as $key=>$handler){
+				// $handler->name holds the namespace path of the handler. Based on that we can determine if the module is enabled.
+				$nsArr = explode('\\',$handler->name);
+				$moduleName = strtolower($nsArr[1]);
+				
+				if(!\GO::modules()->$moduleName){
+					// Remove if the module is not enabled for this user
+					unset(self::$fileHandlers[$key]);
+				}
+			}
+		}		
 		return self::$fileHandlers;
 	}
 	
@@ -142,7 +155,7 @@ class FilesModule extends \GO\Base\Module{
 	}
 	
 	
-	public static function afterBatchEditStore(&$this, &$response, &$tmpModel, &$params) {
+	public static function afterBatchEditStore(&$controller, &$response, &$tmpModel, &$params) {
 		$countCustomfield = 0;
 		$countCustomfieldCategory = array();
 		

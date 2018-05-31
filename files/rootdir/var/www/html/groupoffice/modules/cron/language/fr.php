@@ -1,6 +1,6 @@
 <?php
 $l['name'] = 'Planificateur de tâches';
-$l['description'] = '<i style="color: green">*** Module Admin *** </i>Module de gestion des tâches plannifiés de Group-Office.';
+$l['description'] = '<i style="color: green">*** Module Admin *** </i>Module de gestion des tâches plannifiés de {product_name}.';
 
 $l['cronManager'] = 'Système de gestion des tâches';
 

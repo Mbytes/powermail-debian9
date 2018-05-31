@@ -1,3 +1,3 @@
 <?php
 $l['name']='Chat';
-$l['description']='Connects to an XMPP server that shares the same users as Group-Office. For example Prosody with Group-Office auth or a shared LDAP backend.';
+$l['description']='Connects to an XMPP server that shares the same users as {product_name}. For example Prosody with {product_name} auth or a shared LDAP backend.';

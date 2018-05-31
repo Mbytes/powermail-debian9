@@ -53,3 +53,6 @@ $l['maxAliases']= 'Max Aliase';
 $l['maxMailboxes']= 'Max Mailboxen';
 $l['aliasHelp']="Für mehrere Empfänger verwenden Sie eine CSV Liste zB. alias1@domain.com, alias2 @ domain.com";
 $l['usedQuota']='Benutzte Quota';
+
+$l['aliasAddresHelp']= "Verwenden Sie '*' für einen Catchall Alias (nicht empfohlen).";
+

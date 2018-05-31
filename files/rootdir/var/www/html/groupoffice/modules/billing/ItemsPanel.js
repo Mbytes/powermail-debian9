@@ -7,7 +7,7 @@
  * If you have questions write an e-mail to info@intermesh.nl
  * 
  * @copyright Copyright Intermesh
- * @version $Id: ItemsPanel.js 15897 2013-05-21 09:02:45Z mschering $
+ * @version $Id: ItemsPanel.js 22311 2017-05-16 10:08:18Z johan $
  * @author Merijn Schering <mschering@intermesh.nl>
  */
 
@@ -21,20 +21,13 @@ GO.billing.ItemsPanel = function(config){
 	}
 	
 	
-	/*this.addItemPanel = new GO.billing.AddItemPanel({
-		region:'north',
-		height:200,		
-		split:true,
-		border:true
-	});
-	
-	this.addItemPanel.on('save', function(){this.itemsGrid.store.reload();}, this);*/
-	
 	this.itemsGrid = new GO.billing.ItemsGrid({
 		orderDialog:config.orderDialog,
 		region:'center',
 		border:true
 	});
+	
+	
 	
 	GO.billing.itemsTotalField=new GO.form.PlainField({
 		fieldLabel: GO.billing.lang.total,
@@ -79,7 +72,10 @@ GO.billing.ItemsPanel = function(config){
 		layout:'column',
 		cls:'go-form-panel',waitMsgTarget:true,
 		items:[{
-			columnWidth: .5,
+			defaults:{
+				style: "text-align:right"
+			},
+			columnWidth: .3,
 			layout:'form',
 			border:false,
 			items:[
@@ -88,7 +84,12 @@ GO.billing.ItemsPanel = function(config){
 				GO.billing.itemsMarginField				
 			]
 		},{
-			columnWidth: .5,
+							columnWidth: .4
+		},{
+			defaults:{
+				style: "text-align:right"
+			},
+			columnWidth: .3,
 			layout:'form',
 			border:false,
 			items:[
@@ -106,7 +107,6 @@ GO.billing.ItemsPanel = function(config){
 	config.title=GO.billing.lang.items;
 	config.layout='border';
 	config.items=[this.itemsGrid, this.totalsGrid ];
-	//config.disabled=true;
 	config.border=false;
 	GO.billing.ItemsPanel.superclass.constructor.call(this, config);	
 }

@@ -7,7 +7,7 @@
  * If you have questions write an e-mail to info@intermesh.nl
  * 
  * @copyright Copyright Intermesh
- * @version $Id: StatusPanel.js 18345 2014-02-21 14:43:13Z mschering $
+ * @version $Id: StatusPanel.js 22438 2017-07-31 08:18:31Z johan $
  * @author Merijn Schering <mschering@intermesh.nl>
  */
 
@@ -40,7 +40,7 @@ GO.billing.StatusPanel = function(config){
 				boxLabel: GO.billing.lang.notifyCustomer,
 				labelSeparator: '',
 				name: 'notify_customer',		
-				allowBlank: true,
+//				allowBlank: true,
 				hideLabel:true
 			})
 		]

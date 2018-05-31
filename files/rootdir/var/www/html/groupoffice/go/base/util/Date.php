@@ -14,7 +14,7 @@
  * preferences into account.
  *
  * @copyright Copyright Intermesh
- * @version $Id: Date.php 19784 2016-01-26 13:56:16Z michaelhart86 $
+ * @version $Id: Date.php 21422 2017-09-08 10:14:11Z wsmits $
  * @package GO.base.util
  * @since Group-Office 3.0
  */
@@ -336,6 +336,27 @@ class Date {
 		$date_format = $with_time ?  $completeDateFormat.' '.$timeFormat : $completeDateFormat;
 
 		return date($date_format, strtotime($time));
+	}
+
+	/**
+	 * Convert a DB time column value to the user's preferred formatted time display
+	 * 
+	 * @param string $time A database time field value like '16:00:00' or '5:20:01'
+	 * @return Formatted time based on the user's time display preferences
+	 */
+	public static function formatTime($time){
+		$timeFormat = \GO::user() ? \GO::user()->time_format : \GO::config()->default_time_format;
+		return date($timeFormat, strtotime($time));
+	}
+	
+	/**
+	 * Make a time field ready to save in database time format
+	 * 
+	 * @param string $time  in the format like '11:59 PM','1:34 AM' OR '16:00'
+	 * @return DB time like: '16:00:00' or '5:20:01'
+	 */
+	public static function toDbTime($time){
+		return date('H:i:s', strtotime($time));
 	}
 
 	public static function get_timezone_offset($utime)

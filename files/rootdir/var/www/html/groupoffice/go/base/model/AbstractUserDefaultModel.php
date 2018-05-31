@@ -92,7 +92,7 @@ abstract class AbstractUserDefaultModel extends \GO\Base\Db\ActiveRecord {
 	 * @param User $user
 	 * @return AbstractUserDefaultModel 
 	 */
-	public function getDefault(User $user, &$createdNew=false) {	
+	public function getDefault(User $user, &$createdNew=false) {
 		
 			
 		if(!$user)
@@ -101,7 +101,7 @@ abstract class AbstractUserDefaultModel extends \GO\Base\Db\ActiveRecord {
 		$settingsModelName = $this->settingsModelName();
 		if ($settingsModelName) {
 			
-			$settingsModel = \GO::getModel($settingsModelName)->findByPk($user->id);
+			$settingsModel = \GO::getModel($settingsModelName)->findByPk($user->id, false, true);
 			if(!$settingsModel){
 				$settingsModel = new $settingsModelName;
 				$settingsModel->user_id=$user->id;

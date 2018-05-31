@@ -45,19 +45,24 @@ class AttendanceController extends AbstractController{
 		if(!$event)
 			throw new NotFound();
 		
-		// A reminder is set and given
-		if((isset($params['reminder_value']) && !empty($params['reminder_value'])) && 
-			 (isset($params['reminder_multiplier']) && !empty($params['reminder_multiplier']))){
-			
-			// Add the reminder to the event. 
-			$event->reminder = Number::unlocalize ($params['reminder_value']) * $params['reminder_multiplier'];
-			$event->save();
-		} else {
-			// Remove the reminders for this event when the reminder post values are empty
-			$event->reminder = 0;
-			$event->deleteReminders();
-			$event->save();
+		
+		// Reset the reminder value to NULL, processing will be done below
+		if(isset($params['enable_reminder'])){
+			$event->reminder = null;
 		}
+		
+		
+		// If enable_reminder is checked, then process it further
+		if(!empty($params['enable_reminder'])){
+			
+			$event->reminder = 0; // The reminder will be on the event start by default
+			
+			if(isset($params['reminder_value']) && !empty($params['reminder_value']) && isset($params['reminder_multiplier'])){
+				$event->reminder = \GO\Base\Util\Number::unlocalize ($params['reminder_value']) * $params['reminder_multiplier'];
+			}
+		}
+		
+		$event->save();
 		
 		if(!empty($params['exception_date'])){
 			$event = $event->createExceptionEvent($params['exception_date']);

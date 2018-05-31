@@ -28,3 +28,4 @@ $l["type"]='Typ';
 $l["summaryType"]='Přehled';
 $l["rssFeeds"]='RSS zprávy';
 $l["noRssFeeds"]='Žádné RSS zprávy nebyly přidány.<br />Pro přidání zpráv klikněte na tlačítko \'nastavení\' v pravém rohu okna.';
+$l['latestReadAnnouncementRecord'] = 'Záznam nejnovějších přečtených oznámení';

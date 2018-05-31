@@ -91,12 +91,14 @@ class RRuleIterator implements Iterator {
 				} else {
 
 					$bySetPositions = \GO::t('month_times');
+					
+					$bySetPos = !empty($this->bySetPos) ? $this->bySetPos : 1;
 
-					if (count($days) == 1) {
-						$daysStr = $bySetPositions[$this->bySetPos] . ' ' . $days[0];
+					if (count($days) == 1) {						
+						$daysStr = $bySetPositions[$bySetPos] . ' ' . $days[0];
 					} else {
 						$daysStr = ' ' . \GO::t('and') . ' ' . array_pop($days);
-						$daysStr = $bySetPositions[$this->bySetPos]. ' ' . implode(', ', $days) . $daysStr;
+						$daysStr = $bySetPositions[$bySetPos]. ' ' . implode(', ', $days) . $daysStr;
 					}
 
 					if ($this->interval > 1) {
@@ -809,12 +811,18 @@ class RRuleIterator implements Iterator {
             if (empty($part)) {
                 continue;
             }
-            list($partName, $partValue) = explode('=', $part);
+						$parts = explode('=', $part);
+						
+						if(count($parts) != 2) {
+							continue;
+						}
+						
+            list($partName, $partValue) = $parts;
             // The value itself had multiple values..
             if (strpos($partValue, ',') !== false) {
                 $partValue = explode(',', $partValue);
             }
-            $newValue[$partName] = $partValue;
+            $newValue[strtoupper($partName)] = $partValue;
         }
         return $newValue;
     }
@@ -834,10 +842,12 @@ class RRuleIterator implements Iterator {
         if (is_string($rrule)) {
             $rrule = self::stringToArray($rrule);
         }
+				
+				if(!isset($rrule['FREQ'])) {
+					throw new \InvalidArgumentException("Invalid rrule. There's no FREQ value");
+				}
 
         foreach ($rrule as $key => $value) {
-
-            $key = strtoupper($key);
             switch ($key) {
 
                 case 'FREQ' :

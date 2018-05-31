@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: SettingsTypesGrid.js 18509 2014-03-12 08:17:01Z mschering $
+ * @version $Id: SettingsTypesGrid.js 22837 2018-01-09 11:22:56Z wsmits $
  * @copyright Copyright Intermesh
  * @author Michiel Schmidt <michiel@intermesh.nl>
  * @author Merijn Schering <mschering@intermesh.nl>
@@ -72,6 +72,10 @@ GO.tickets.SettingsTypesGrid = function(config){
 		},
 		columns:[
 		{
+			header: 'ID',
+			dataIndex: 'id',
+			hidden:true
+		},{
 			header: GO.lang.strName,
 			dataIndex: 'name',
       renderer:function(value, p, record){

@@ -28,15 +28,9 @@ class ZpushadminModule extends \GO\Professional\Module {
 	public static function checkZPushVersion($versionToCompare) {
 		\GO::debug("Compare active z-push version with: " . $versionToCompare);
 
-		if (!defined('ZPUSH_VERSION')) {
-			$moduleFolder = self::getModuleFolder();
-
-			$versionFile = \GO::config()->root_path . 'modules/' . $moduleFolder . '/version.php';
-			if (!file_exists($versionFile))
-				throw new \Exception('Z-Push admin could not find Z-Push, is it installed?');
-
-			include_once($versionFile);
-		}
+//		if (!defined('ZPUSH_VERSION')) {
+			self::includeZpushFiles();
+//		}
 
 		$shortversion = false;
 		if (defined('ZPUSH_VERSION')) {
@@ -44,6 +38,9 @@ class ZpushadminModule extends \GO\Professional\Module {
 
 			$shortversion = substr(ZPUSH_VERSION, 0, 3);
 			\GO::debug("Short z-push version :" . $shortversion);
+		}else
+		{
+			throw new \Exception("Z-Push was not found. Is it installed?");
 		}
 
 		if ($versionToCompare === $shortversion) {
@@ -68,6 +65,10 @@ class ZpushadminModule extends \GO\Professional\Module {
 	}
 
 	public static function includeZpushFiles() {
+		
+		if (defined('ZPUSH_VERSION')) {
+			return;
+		}
 
 		$moduleFolder = self::getModuleFolder();
 
@@ -75,81 +76,8 @@ class ZpushadminModule extends \GO\Professional\Module {
 
 		if (self::zpushAdminFileExists($moduleFolder)) {
 
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/utils/zpushadmin.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/core/zpushdefs.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/core/zpush.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/core/stateobject.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/core/syncparameters.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/core/bodypreference.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/core/contentparameters.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/core/synccollections.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/core/statemanager.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/core/streamer.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/core/asdevice.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/core/interprocessdata.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/core/loopdetection.php');
-			if (!file_exists(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/exceptions/exceptions.php')) { //since 2.3
-				include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/exceptions/zpushexception.php');
-				include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/exceptions/fatalexception.php');
-				include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/exceptions/fatalmisconfigurationexception.php');
-				include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/exceptions/fatalnotimplementedexception.php');
-				include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/exceptions/httpreturncodeexception.php');
-				include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/exceptions/authenticationrequiredexception.php');
-				include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/exceptions/statusexception.php');
-				include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/exceptions/stateinvalidexception.php');
-				include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/exceptions/statenotfoundexception.php');
-				include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/exceptions/statenotyetavailableexception.php');
-				include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/exceptions/nohierarchycacheavailableexception.php');
-				include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/exceptions/nopostrequestexception.php');
-				include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/exceptions/notimplementedexception.php');
-				include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/exceptions/provisioningrequiredexception.php');
-				include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/exceptions/syncobjectbrokenexception.php');
-				include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/exceptions/wbxmlexception.php');
-
-				include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/interface/istatemachine.php');
-				include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/default/simplemutex.php');
-				include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/default/filestatemachine.php');
-			} else {
-				include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/exceptions/exceptions.php');
-			}
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/utils/utils.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/utils/zpushadmin.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/request/request.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/request/requestprocessor.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/interface/ibackend.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/interface/ichanges.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/interface/iexportchanges.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/interface/iimportchanges.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/interface/isearchprovider.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/interface/istatemachine.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncobject.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncbasebody.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncbaseattachment.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncmailflags.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncrecurrence.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncappointment.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncappointmentexception.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncattachment.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncattendee.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncmeetingrequestrecurrence.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncmeetingrequest.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncmail.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncnote.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/synccontact.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncfolder.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncprovisioning.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/synctaskrecurrence.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/synctask.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncoofmessage.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncoof.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncuserinformation.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncdeviceinformation.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncdevicepassword.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/syncobjects/syncitemoperationsattachment.php');
+			require_once \GO::config()->root_path . 'modules/' . $moduleFolder . '/vendor/autoload.php';
 			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/config.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/version.php');
-			include_once(\GO::config()->root_path . 'modules/' . $moduleFolder . '/lib/core/zlog.php');
-
 
 
 			set_include_path(get_include_path() . PATH_SEPARATOR . BASE_PATH);

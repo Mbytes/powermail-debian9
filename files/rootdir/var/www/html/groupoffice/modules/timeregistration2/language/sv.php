@@ -39,3 +39,24 @@ $l['weekNotClosed'] = 'Veckan är inte stängd ännu.';
 $l['printPage']='Sida %s av %s';
 $l['noDoubleCopy']= 'Vissa timmar kopierades inte eftersom de redan finns medtagna i den aktuella veckan.';
 $l['ErrorMultiGridMode']= 'Kan inte lägga till flera händelser i tidregistreringen om läget "Rutnät" är valt!';
+
+
+
+
+$l['entriesClosedTill']= "Tidsposter stängda till och med";
+$l["timeTracking"]= 'Tidredovisning';
+$l['timerSure']= "Är du säker på att du vill stoppa timern?";
+$l["project"]= 'Projekt';
+$l['task']='Jobb';
+$l['activity']= "Aktivit";
+$l['travelDistance']= 'Reseavstånd';
+$l['comments']= 'Kommentarer';
+
+
+
+
+
+
+
+
+

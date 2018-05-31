@@ -2,7 +2,7 @@
 
 
 $l['name']='Ustawienia';
-$l['description']='Moduł pozwale na zarządzanie różnymi ustawieniami Group-Office i jego modułów';
+$l['description']='Moduł pozwale na zarządzanie różnymi ustawieniami {product_name} i jego modułów';
 $l['mainTitle'] = 'Ustawienia';
 $l['loginScreenText']='Tekst na stronie logowania';
 $l['text']='Tekst';

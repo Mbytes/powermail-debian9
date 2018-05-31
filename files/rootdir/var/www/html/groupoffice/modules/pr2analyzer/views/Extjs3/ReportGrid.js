@@ -65,7 +65,7 @@ GO.pr2analyzer.ReportGrid = function(config) {
 			width: 70
 		}];
 
-	if (GO.projects2.has_finance_permission)
+	if(GO.settings.modules.projects2.permission_level >= GO.permissionLevels.manage)
 	{
 		config.columns.splice(config.columns.length, 0, {
 			header: GO.projects2.lang.internalFee,
@@ -307,11 +307,13 @@ Ext.extend(GO.pr2analyzer.ReportGrid, GO.grid.GridPanel, {
 		for (var paramName in this.store.baseParams) {
 			params[paramName] = this.store.baseParams[paramName];
 		}
-		if (this.store.sortInfo.field) {
-			params['sort'] = this.store.sortInfo.field
-		}
-		if (this.store.sortInfo.direction) {
-			params['dir'] = this.store.sortInfo.direction
+		if(this.store.sortInfo) {
+			if (this.store.sortInfo.field) {
+				params['sort'] = this.store.sortInfo.field
+			}
+			if (this.store.sortInfo.direction) {
+				params['dir'] = this.store.sortInfo.direction
+			}
 		}
 		params['export'] = 1;
 		delete params['limit'];

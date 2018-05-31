@@ -50,7 +50,6 @@ GO.addressbook.AdvancedSearchWindow = function(config){
 			layout:'border',
 			items:[this._companiesQueryPanel = new GO.query.QueryPanel({			
 					region:'center',
-					layout:'fit',
 					modelName:'GO\\Addressbook\\Model\\Company',
 					modelAttributesUrl:GO.url('addressbook/company/attributes')
 				}), this._companiesQueriesGrid = new GO.query.SavedQueryGrid({
@@ -150,9 +149,9 @@ Ext.extend(GO.addressbook.AdvancedSearchWindow, GO.Window, {
 		delete this.externalTargetGrid.store.baseParams.search_current_folder;
 		
 		if (this.getDatatype()=='contacts')
-			this.externalTargetGrid.store.baseParams['advancedQueryData'] = Ext.encode(this._contactsQueryPanel.getGridData());
+			this.externalTargetGrid.store.baseParams['advancedQueryData'] = Ext.encode(this._contactsQueryPanel.getData());
 		else
-			this.externalTargetGrid.store.baseParams['advancedQueryData'] = Ext.encode(this._companiesQueryPanel.getGridData());
+			this.externalTargetGrid.store.baseParams['advancedQueryData'] = Ext.encode(this._companiesQueryPanel.getData());
 		
 		this.externalTargetGrid.store.load();
 		this.externalTargetGrid.setDisabled(false);

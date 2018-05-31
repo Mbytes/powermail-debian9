@@ -82,7 +82,7 @@ $l["sendcopyto"]= 'Přepošli kopii na ';
 $l["forwardto"]= 'Přepošli na ';
 $l["vacsendevery"]= 'Odpovědět každé(ý)';
 $l["vacsendevery2"]= 'dny (den) ';
-$l["vacAlsoMailTo"]= 'Also email message to';
+$l["vacAlsoMailTo"]= 'Odeslat e-mail také na';
 $l["vacationmessage"]= 'Zpráva:';
 $l["refusewithmesssage"]= 'Odmítnout se zprávou:';
 $l["spamflag"]= 'značka SPAMu';
@@ -123,7 +123,7 @@ $l['stopEndError'] = 'Pro ukončení je potřebná akce Konec!';
 $l['body']='Tělo zprávy';
 $l['outOfOffice']='Mimo kancelář';
 $l['message']='Zpráva';
-$l['aliasses']='Aliasy';
+$l['aliasses']='Přezdívky';
 $l['schedule']='Plánování';
 
 $l['activateAt']='Aktivovat';
@@ -135,3 +135,11 @@ $l['aliassesText']='Vyplňte aliasy pro které má být zpráva také aktivní. 
 $l['activateText']='Aktivujte zprávu zatržítkem';
 
 $l['advancedOptions'] = 'Pokročilé volby';
+
+$l['bodycontainsnot']= 'Zpráva neobsahuje';
+$l['bodycontains']= 'Zpráva obsahuje';
+$l['standardvacationsubject']='Jsem nedostupný';
+$l['subjectText']='Vyplňte předmět odpovědi v poli níže.';
+$l['currentdate']= 'Aktuální datum';
+$l['before']= 'před';
+$l['after']= 'po';

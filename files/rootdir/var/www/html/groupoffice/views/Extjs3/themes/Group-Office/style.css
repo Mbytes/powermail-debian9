@@ -347,8 +347,12 @@ a.normal-link:hover{
 	background-image:url('images/16x16/filetypes/xmind.png') !important;
 }
 
+.filetype-csv {
+	background-image:url('images/16x16/filetypes/csv.png') !important;
+}
 
-.filetype-eml {
+
+.filetype-eml, .filetype-msg {
 	background-image:url('images/16x16/filetypes/mail.png') !important;
 }
 
@@ -371,7 +375,7 @@ a.normal-link:hover{
 	background-image:url('images/16x16/filetypes/gnupg.png') !important;
 }
 
-.filetype-docx,.filetype-doc, .filetype-sxw, .filetype-odt {
+.filetype-docx,.filetype-doc, .filetype-sxw, .filetype-odt , .filetype-dotx{
 	background-image:url('images/16x16/filetypes/document.png') !important;
 }
 
@@ -398,8 +402,16 @@ a.normal-link:hover{
 	background-image:url('images/16x16/filetypes/html.png') !important;
 }
 
-.filetype-ods, .filetype-xls, .filetype-xlsx  {
+.filetype-ods, .filetype-xls, .filetype-xlsx , .filetype-xltx {
 	background-image:url('images/16x16/filetypes/spreadsheet.png') !important;
+}
+
+.filetype-rvt {
+	background-image:url('images/16x16/filetypes/rvt.png') !important;
+}
+
+.filetype-dwg {
+	background-image:url('images/16x16/filetypes/dwg.png') !important;
 }
 
 .filetype-php  {
@@ -2387,4 +2399,16 @@ body.ext-ie6 .x-superboxselect-item {margin: 2px 1px 2px 1px; line-height: 1.2em
 .startmenu-submenu .x-menu-item span{
 	padding-left:20px;
 	cursor: pointer;
+}
+
+.btn-menu{
+	background-image:url('images/menu.png') !important;
+}
+
+.btn-more-vert{
+	background-image:url('images/more_vert.png') !important;
+}
+
+.btn-expand-more{
+	background-image:url('images/expand_more.png') !important;
 }

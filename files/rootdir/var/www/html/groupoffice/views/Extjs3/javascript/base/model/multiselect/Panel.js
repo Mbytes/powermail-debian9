@@ -27,7 +27,8 @@ GO.base.model.multiselect.panel = function(config){
 						success:function(){
 							this.store.commitChanges();
 						},
-						fail:function(){
+						fail: function(response, options, result) {
+							Ext.Msg.alert(GO.lang.strError, result.feedback);
 							this.store.rejectChanges();
 						},
 						scope: this

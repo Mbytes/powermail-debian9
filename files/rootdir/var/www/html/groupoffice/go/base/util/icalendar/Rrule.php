@@ -71,14 +71,16 @@ class Rrule extends \GO\Base\Util\Date\RecurrencePattern
 	{
 		$parameters = array();
 		
+		
 		$parameters['interval'] = \GO\Base\Util\Number::unlocalize($json['interval']);
 		$parameters['freq'] = strtoupper($json['freq']);
 		if($parameters['freq']=='MONTHLY_DATE')
 			$parameters['freq']='MONTHLY';
 		$parameters['eventstarttime'] = isset($json['eventstarttime'])?\GO\Base\Util\Date::to_unixtime($json['eventstarttime']):\GO\Base\Util\Date::to_unixtime($json['start_time']);
-		$parameters['until'] = empty($json['repeat_forever']) && isset($json['until']) ? \GO\Base\Util\Date::to_unixtime($json['until'].' 23:59') : 0; //date('G', $parameters['eventstarttime']).':'.date('i', $parameters['eventstarttime'])) : 0;
+		$parameters['until'] = !empty($json['repeat_UntilDate']) && isset($json['until']) ? \GO\Base\Util\Date::to_unixtime($json['until'].' 23:59') : 0; //date('G', $parameters['eventstarttime']).':'.date('i', $parameters['eventstarttime'])) : 0;
 		$parameters['bymonth'] = isset($json['bymonth'])?$json['bymonth']:'';
 		$parameters['bymonthday'] = isset($json['bymonthday'])?$json['bymonthday']:'';
+		$parameters['count'] = !empty($json['repeat_count']) && isset($json['count']) ? $json['count'] : 0;
 
 		//\GO::debug($parameters['bymonthday']);
 		
@@ -162,6 +164,8 @@ class Rrule extends \GO\Base\Util\Date\RecurrencePattern
 		{
 			//$rrule .= ";UNTIL=".gmdate('Ymd\\THis\\Z', $this->_until);
 			$rrule .= ";UNTIL=".date('Ymd\\THis', $this->_until);
+		}else if($this->_count > 0 && $this->_until == 0) {
+			$rrule .= ";COUNT=".$this->_count;
 		}
 		return $rrule;
 	}
@@ -387,18 +391,6 @@ class Rrule extends \GO\Base\Util\Date\RecurrencePattern
 //			throw new \Exception("Sorry, this recurrence pattern is not supported by Group-Office");
 //		}
 		
-		
-		
-		//figure out end time of event
-		if($this->_count>0 && empty($this->_until)){
-			$this->_until=$until=0;
-			for($i=0;$i<$this->_count;$i++) {
-				$until=$this->getNextRecurrence();
-				
-			}			
-			$this->_until=$until;
-		}
-		
 		return true;
 	}
 	
@@ -417,10 +409,19 @@ class Rrule extends \GO\Base\Util\Date\RecurrencePattern
 			if (!empty($this->_until)){
 				$response['until'] = \GO\Base\Util\Date::get_timestamp($this->_until, false);
 				$response['repeat_forever'] = 0;
-			}else
-			{
+				$response['repeat_UntilDate'] = 1;
+				$response['repeat_count'] = 0;
+			}else if (!empty ($this->_count)) {
+				$response['count'] = $this->_count;
+				$response['repeat_forever'] = 0;
+				$response['repeat_UntilDate'] = 0;
+				$response['repeat_count'] = 1;
+			} else {
 				$response['repeat_forever'] = 1;
+				$response['repeat_UntilDate'] = 0;
+				$response['repeat_count'] = 0;
 			}
+			
 			
 			$response['interval'] = $this->_interval;
 			$response['freq'] = $this->_freq;

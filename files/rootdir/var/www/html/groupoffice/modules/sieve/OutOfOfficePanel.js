@@ -114,7 +114,11 @@ GO.sieve.OutOfOfficePanel = Ext.extend(Ext.Panel,{
 			anchor:'100%',
 			height:130,
 			width: 300,
-			hideLabel: true
+			hideLabel: true,
+			setValue: function(v){
+//				this.messageField.superclass.setValue.call(this,v);
+				Ext.form.TextArea.prototype.setValue.call(this,GO.util.HtmlDecode(Ext.util.Format.htmlDecode(v)));
+			}
 		});
 		
 		this.messageFieldset = new Ext.form.FieldSet({

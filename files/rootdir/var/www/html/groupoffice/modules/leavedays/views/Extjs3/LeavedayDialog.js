@@ -13,7 +13,8 @@ GO.leavedays.LeavedayDialog = Ext.extend(GO.dialog.TabbedFormDialog , {
 			createAction: 'create',
 			goDialogId:'leaveday',
 			title:GO.leavedays.lang['leaveday'],
-			formControllerUrl: 'leavedays/leaveday'
+			formControllerUrl: 'leavedays/leaveday',
+			endDateRequired:true
 		});
 		
 		GO.leavedays.LeavedayDialog.superclass.initComponent.call(this);
@@ -78,7 +79,7 @@ GO.leavedays.LeavedayDialog = Ext.extend(GO.dialog.TabbedFormDialog , {
 					name : 'last_date',
 					width : 100,
 					format : GO.settings['date_format'],
-					allowBlank : false,			
+					allowBlank : !this.endDateRequired,			
 					listeners : {
 						change : {
 							fn : this._checkDateInput,
@@ -209,7 +210,7 @@ GO.leavedays.LeavedayDialog = Ext.extend(GO.dialog.TabbedFormDialog , {
 			this.lastDateField.reset();
 		}
 
-		if (!GO.util.empty(sD) && GO.util.empty(eD)) {
+		if (!GO.util.empty(sD) && GO.util.empty(eD) && this.endDateRequired) {
 			this.lastDateField.setValue(sD);
 		}
 
@@ -225,14 +226,22 @@ GO.leavedays.LeavedayDialog = Ext.extend(GO.dialog.TabbedFormDialog , {
 		
 		if(loading === true) return;
 		
-		GO.request({
-			url: 'leavedays/leaveday/defaultWorkingHours',
-			params: {
+		
+		var params = {
 				'leaveday_id' : this.remoteModelId,
 				'user_id': this.userIdField.getValue(),
-				'first_date' : sD.format(GO.settings.date_format),
-				'last_date' : eD.format(GO.settings.date_format)
-			},
+				'first_date' : sD.format(GO.settings.date_format)
+			};
+			
+		if(this.endDateRequired){
+			params.last_date = eD.format(GO.settings.date_format);
+		} else {
+			params.last_date = 0;
+		}
+		
+		GO.request({
+			url: 'leavedays/leaveday/defaultWorkingHours',
+			params: params,
 			success: function(options, response, result) {
 				if (!GO.util.empty(result.feedback))
 					Ext.MessageBox.alert('', result.feedback);

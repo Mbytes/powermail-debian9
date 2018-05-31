@@ -102,3 +102,12 @@ $l['hoursBillable']= "Stunden sind abrechenbar";
 $l['weekIsClosed']= 'Diese Woche ist geschlossen';
 $l['weekTotal']= 'Wöchentlich insgesamt registrierte Stunden';
 $l['monthTotal']= 'Monatlich insgesamt registrierte Stunden';
+
+$l['entriesClosedTill']= "Zeiteinträge geschlossen bis";
+$l['timeTracking']= 'Zeiterfassung';
+$l['timerSure']= "Sind Sie sicher den Timer zu stoppen?";
+$l['project']= 'Projekt';
+$l['task']='Aufgabe';
+$l['activity']= "Aktivität";
+$l['travelDistance']= 'Reisedistanz';
+$l['comments']= 'Kommentare';

@@ -18,7 +18,17 @@ GO.projects2.ContractIncomePanel = function(config) {
 			title:GO.projects2.lang.projectType,
 			loadMask:true,
 			autoLoadRelatedStore: false,
-			store: GO.projects2.typesStore,
+			store: new GO.data.JsonStore({
+				url: GO.url('projects2/type/store'),
+				baseParams: {
+					permission_level: GO.projects2.permissionLevelFinance
+				},
+				root: 'results',
+				id: 'id',
+				totalProperty:'total',
+				fields: ['id','name','acl_id','acl_book','checked'],
+				remoteSort: true
+			}),
 			split:true,
 			allowNoSelection:true,
 			relatedStore: this.contractIncomeGrid.store,
@@ -56,7 +66,7 @@ Ext.extend(GO.projects2.ContractIncomePanel, Ext.Panel, {
 	
 	
 	load: function () {
-		GO.projects2.typesStore.load();
+		this.typesMultiSelect.store.load();
 		
 		this.contractIncomeGrid.store.load();
 		

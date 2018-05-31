@@ -32,3 +32,4 @@ $l['connect'] = 'Verbinden';
 $l['productsId'] = 'Artikelen id';
 
 $l['exactonlineAPIDescription'] = 'Vul de velden hieronder in klik op "Verbinden". Log in op exactonline. <b>Herhaal dit in dient u de instellingen aanpast!</b> ';
+$l['journal'] = 'Dagboek';

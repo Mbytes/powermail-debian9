@@ -26,33 +26,28 @@ class SettingsController extends \GO\Base\Controller\AbstractController {
 //		$user = \GO\Base\Model\User::model()->findByPk($params['id']);
 		$user = GO::user();
 		
-					
-		if (!empty($params["password"]) || !empty($params["passwordConfirm"])) {
-			
-			if(!$user->checkPassword($params['current_password']))
-				throw new \GO\Base\Exception\BadPassword();
-			
-//			if ($params["password"] != $params["passwordConfirm"]) {
-//				throw new \Exception(\GO::t('error_match_pass', 'users'));
-//			}
-//			if (!empty($params["passwordConfirm"])) {
-//				$user->setAttribute('password', $_POST['passwordConfirm']);
-//			}
-		}else
-		{
+		
+		if(!empty($params['recovery_email'])) {
+			$user->setAttribute('recovery_email', $params['recovery_email']);
+		}
+		
+		$checkCurrentPassword = false;
+		
+		if($user->isModified('recovery_email')){
+			$checkCurrentPassword = true;
+		}
+		
+		if(!empty($params["password"]) || !empty($params["passwordConfirm"])){
+			$checkCurrentPassword = true;
+		} else {
 			unset($params['password']);
 		}
 		
-		$userParams = $params;
-	
-	
-		if(!empty($userParams['forgotPasswordEmail'])) {
-			$userParams['email2'] = $userParams['forgotPasswordEmail'];
-			
+		if ($checkCurrentPassword && !$user->checkPassword($params['current_password'])){
+			throw new \GO\Base\Exception\BadPassword();
 		}
-		
 
-		$user->setAttributes($userParams);
+		$user->setAttributes($params);
 		
 		\GO::$ignoreAclPermissions = true;
 		$contact = $user->createContact();
@@ -73,17 +68,9 @@ class SettingsController extends \GO\Base\Controller\AbstractController {
 			$response['validationErrors']=$user->getValidationErrors();
 		}else
 		{
-			\GO::modules()->callModuleMethod('submitSettings', array(&$this, &$params, &$response, $user), false);
+			\GO::modules()->callModuleMethod('submitSettings', array($this, &$params, &$response, $user), false);
 		}
-				
-		
-		
 
-//		\GO\Base\Session::setCompatibilitySessionVars();
-		
-	//DVD
-file_put_contents("/tmp/test.txt","settingHello World. Testing!");
-	
 		return $response;
 	}
 	
@@ -91,11 +78,7 @@ file_put_contents("/tmp/test.txt","settingHello World. Testing!");
 		
 		$user = \GO\Base\Model\User::model()->findByPk($params['id']);
 		
-		
-		
 		$response['data']=$user->getAttributes('formatted');
-		$response['data']['forgotPasswordEmail'] = $response['data']['email2'];
-		unset($response['data']['email2']);
 		unset($response['data']['password']);
 		
 		if($user->contact)
@@ -107,7 +90,7 @@ file_put_contents("/tmp/test.txt","settingHello World. Testing!");
 		
 		$response['success']=true;
 		
-		\GO::modules()->callModuleMethod('loadSettings', array(&$this, &$params, &$response, $user));
+		\GO::modules()->callModuleMethod('loadSettings', array($this, &$params, &$response, $user));
 		
 		return $response;
 	}

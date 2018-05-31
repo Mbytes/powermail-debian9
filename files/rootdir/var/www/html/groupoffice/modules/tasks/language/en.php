@@ -89,3 +89,4 @@ $l['savePhoneNr']='Save number to';
 $l['scheduleCallTaskName']='Call {name} at {number}';
 $l['overwritePhoneNumber']='Overwrite {field} ({number})';
 $l['addToPhoneNumber']='Add to {field}';
+$l["id"]= 'ID';

@@ -208,7 +208,7 @@ $l["pauseMailing"]='Pozastavit odesílání';
 $l["resumeMailing"]='Pokračovat v odesílání';
 
 $l["companyId"] = "ID";
-$l["companyUser_id"] = "Uživatel";
+//$l["companyUser_id"] = "Uživatel";
 $l["companyAddressbook_id"] = "Adresář";
 $l["companyName"] = "Jméno";
 $l["companyName2"] = "Jméno 2";
@@ -239,7 +239,7 @@ $l["companyEmail_allowed"] = "Zprávy jsou povolené";
 $l["companyFiles_folder_id"] = "Složka";
 
 $l["contactId"] = "ID";
-$l["contactUser_id"] = "Uživatel";
+//$l["contactUser_id"] = "Uživatel";
 $l["contactAddressbook_id"] = "Adresář";
 $l["contactFirst_name"] = "Křestní jméno";
 $l["contactMiddle_name"] = "Prostřední jméno";
@@ -272,7 +272,7 @@ $l["contactMtime"] = "Změněno";
 $l["contactSalutation"] = "Oslovení";
 $l["contactEmail_allowed"] = "Zprávy jsou povolené";
 $l["contactFiles_folder_id"] = "Složka";
-$l["contactGo_user_id"] = "Uživatel";
+$l["contactGo_user_id"] = "{product_name} Uživatel";
 $l["contactSuffix"] = "Přípona";
 $l["contactHomepage"] = "WWW stránka";
 
@@ -337,3 +337,10 @@ $l['exportContactsWithCompanies'] = 'Kontakty se společnostmi';
 $l['mustBeSameAddressbook'] = 'Kontakt nemůže být uložen, protože společnost se musí nacházet ve stejném adresáři jako kontakt.';
 
 $l['privateAddress'] = 'Privátní adresa';
+
+$l['exportContacts']= 'Osobní informace';
+$l['exportContactsAsVcard']= 'Export kontaktů jako vcard';
+$l['addEmployee']= 'Vytvořit nový';
+$l['addExistingEmployee']= 'Přidat existujicí';
+$l['deleteWarningAdderessList']= 'VAROVÁNÍ!!! Skupina adres včetně odeslaných zpráv bude smazán!';
+$l['copyToPostAddress']= 'Kopírovat do poštovní adresy';

@@ -142,3 +142,13 @@ $l['deleteExpiredDescription']='Smazat odkazy pro stažení souborů, které ji�
 $l['deleteWhenExpired'] = 'Automaticky smazat soubor po expiraci odkazu pro stažení';
 $l['automaticallyDeleted'] = 'Soubor bude automaticky smazán po expiraci odkazu pro stažení';
 $l['emptyFile'] = 'Prázdný soubor';
+$l['downloadSelected'] = 'Stáhnout vybrané';
+
+$l['editSelection']= 'Upravit vybrané';
+$l['dontEditFolder']="Nejste oprávněn upravovat tuto složku";
+$l['contentExpiresAt']= 'Obsah ztratí platnost v';
+$l['clear']= 'Vyčistit';
+$l['expiredFilesPortlet']= 'Expirované soubory';
+$l['folderBrowserPortlet']= 'Zobrazit složku';
+$l['applyCFRecursively']= 'Použít nastavení tohoto uživatelského pole na současnou složku a podsložek';
+$l['uploadFailed']= 'Nahrávání dat selhalo! Kontaktuje správce serveru';

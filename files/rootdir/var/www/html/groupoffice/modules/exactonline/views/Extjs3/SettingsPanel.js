@@ -45,6 +45,13 @@ GO.exactonline.SettingsPanel = Ext.extend(Ext.Panel, {
 							anchor:'100%'
 						}),
 						
+						this.productsIdField = new Ext.form.TextField({
+							name : 'journal',
+							allowBlank : true,
+							fieldLabel : GO.exactonline.lang.journal,
+							anchor:'100%'
+						}),
+						
 						this.expiresInField = new Ext.form.DisplayField({
 //							name : 'expirationtoken',
 							name : 'expiresIn',

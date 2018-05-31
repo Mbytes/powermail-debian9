@@ -13,8 +13,8 @@ class PDO extends \PDO{
 
 		//todo needed for foundRows
 		$this->setAttribute(\PDO::MYSQL_ATTR_USE_BUFFERED_QUERY,true); 
-
-		$this->query("SET NAMES utf8mb4");
+		
+		$this->query("SET NAMES " . GO::config()->db_charset);
 		$this->query("SET sql_mode='TRADITIONAL'");
 	}
 }

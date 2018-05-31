@@ -160,18 +160,18 @@ class Account extends \GO\Base\Db\ActiveRecord {
 	
 	protected function beforeSave() {
 		if($this->isModified('password')){	
-			$decrypted = \GO\Base\Util\Crypt::decrypt($this->getOldAttributeValue('password'));
-			
-			if($decrypted==$this->password){
-				$this->resetAttribute('password');
-			}else
-			{
+//			$decrypted = \GO\Base\Util\Crypt::decrypt($this->getOldAttributeValue('password'));
+//			
+//			if($decrypted==$this->password){
+//				$this->resetAttribute('password');
+//			}else
+//			{
 				$encrypted = \GO\Base\Util\Crypt::encrypt($this->password);		
 				if($encrypted){
 					$this->password = $encrypted;
 					$this->password_encrypted=2;//deprecated. remove when email is mvc style.
 				}
-			}
+//			}
 			
 			unset(GO::session()->values['emailModule']['accountPasswords'][$this->id]);
 		}

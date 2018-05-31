@@ -19,6 +19,55 @@ GO.moduleManager.onModuleReady('projects2',function(){
 		
 	})
 	
-})
+	
+	
+	Ext.override(GO.projects2.IncomeGrid, {
+		
+		initComponent : GO.projects2.IncomeGrid.prototype.initComponent.createInterceptor(function(){
+			
+			
+			this.fields.push('add_to_exact');
+			
+			this.store = new GO.data.JsonStore({
+				url: this.store.url,
+				fields: this.fields,
+				baseParams: this.store.baseParams
+			});
+			
+			this.columns.push({
+				dataIndex: 'add_to_exact',
+				header: 'Exact',
+				width: 110,
+				sortable:false
+			});
+		})
+	});
+	
+	
+	Ext.override(GO.projects2.AllIncomeGrid, {
+		
+		initComponent : GO.projects2.AllIncomeGrid.prototype.initComponent.createInterceptor(function(){
+			
+			
+			this.fields.push('add_to_exact');
+			
+			
+			this.store = new GO.data.JsonStore({
+				url: this.store.url,
+				fields: this.fields,
+				baseParams: this.store.baseParams
+			});
+			
+			this.SearchField.store = this.store;
+			
+			this.columns.push({
+				dataIndex: 'add_to_exact',
+				header: 'Exact',
+				width: 110,
+				sortable:false
+			});
+		})
+	});
+});
 
 

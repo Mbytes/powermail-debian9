@@ -48,4 +48,6 @@ DROP TABLE IF EXISTS `pr2_mileage_registrations`;
 DROP TABLE IF EXISTS `pr2_portlet_statuses`;
 DROP TABLE IF EXISTS `pr2_resources`;
 
+DROP TABLE IF EXISTS `pr2_income_items`;
+
 DROP TABLE IF EXISTS `pr2_income`;

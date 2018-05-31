@@ -10,7 +10,7 @@ $l["repeatUntil"]='Bis zum';
 $l["busy"]='Als gebucht anzeigen';
 $l["allDay"]='Ganztägiger Termin';
 $l["navigation"]='Navigation';
-$l["oneDay"]='Tag';
+$l["oneDay"]='1 Tag';
 $l["fiveDays"]='5 Tage';
 $l["sevenDays"]='7 Tage';
 $l["month"]='Monat';
@@ -39,7 +39,6 @@ $l["reminder"]='Autom. erinnern';
 $l["participants"]='Teilnehmer';
 $l["checkAvailability"]='Verfügbarkeit prüfen';
 $l["sendInvitation"]='Einladung senden';
-$l["emailSendingNotConfigured"]='Das Versenden von E-Mails ist nicht konfiguriert.';
 $l["privateEvent"]='Privat';
 $l["noInformationAvailable"]='Keine Informationen verfügbar';
 $l["noParticipantsToDisplay"]='Keine Teilnehmer vorhanden';
@@ -103,7 +102,6 @@ $l["globalsettings_renameall"]= 'Sind Sie sicher, dass Sie alle Standard-Benutze
 $l["publishICS"]='Alle iCalendar Dateien des letzten Monats und zukünftige Termine veröffentlichen. Achtung! Der Kalender wird dadurch für jeden lesbar.';
 $l["addTimeRegistration"]='Import in Zeiterfassung';
 $l["showNotBusy"]='Zeige neue Buchungen nicht als belegt an';
-$l["sendEmailParticipants"]= 'Sende E-Mail an Teilnehmer';
 $l['name']='Kalender';
 $l['description']='Modul zum Verwalten von Terminen';
 $l['groupView']='Gruppenansicht';
@@ -262,8 +260,25 @@ $l['moveEventResourceError']= 'Konnte den Termin nicht verschieben, weil die fol
 $l['allTogetherForParticipants']= 'Alle Teilnehmer';
 $l['allTogetherForResources']= 'Alle Ressourcen';
 
-$l['resourceUsedIn']= 'Resource benutzt in';
-$l['exportAsIcs']= 'Export als ICS';
-$l['noDefaultCalendar']= "Sie haben keinen Standard-Kalender konfiguriert. Bitte wählen Sie einen unter Ihren Einstellungen.";
-$l['calNotDeletedDefault']= "Der Kalender kann nicht gelöscht werden, da es der Standard-Kalender des Nutzers :username ist.";
-$l['last']= 'Letzten';
+$l['resourceUsedIn']= 'Ressource benutzt in';
+$l['exportAsIcs']= 'Exportieren als ICS';
+$l['noDefaultCalendar']= "Sie haben keinen Standard-Kalender konfiguriert. Bitte wählen Sie einen in Ihren Einstellungen.";
+
+$l['rangeRecurrence']= 'Wiederholungsbereich';
+$l['repeatUntilDate']= 'wiederholen bis Datum';
+$l['repeatCount']= 'Anzahl der Wiederholungen';
+$l['calNotDeletedDefault']= "Nicht gelöscht!\nDies ist der Standardkalender des Benutzers :username";
+$l['last']= 'Letzter';
+
+$l['emailSendingNotConfigured']= 'E-Mail-Versand ist nicht konfiguriert.';
+$l['sendEmailParticipants']= 'E-Mail für Teilnehmer erstellen';
+
+$l['clearHolidayCache']= 'Feiertags-Cache löschen';
+$l['clearHolidayCacheDescription']= 'Löscht den Feiertags-Cache des Kalenders, damit er anhand der Feiertags-Daten neu gebaut wird. (Beim ersten Aufruf)';
+$l['useReminder']= 'Erinnerungen für diesen Termin aktivieren';
+$l['thisAndFuture']= 'Diesen und zukünftige';
+
+$l['check_for_conflict']= 'Auf Konflikte prüfen';
+
+$l['times']= 'Zeiten';
+

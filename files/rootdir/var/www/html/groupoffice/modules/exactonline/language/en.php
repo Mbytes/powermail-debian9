@@ -35,3 +35,4 @@ $l['connect'] = 'Connect';
 $l['productsId'] = 'Products id';
 
 $l['exactonlineAPIDescription'] = 'Fill out the form and click \'Connect\'.';
+$l['journal'] = 'Journal';

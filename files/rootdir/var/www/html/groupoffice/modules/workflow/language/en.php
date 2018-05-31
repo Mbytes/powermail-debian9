@@ -49,7 +49,7 @@ $l["modelModel_type_id"] = "Model type";
 $l["modelProcess_id"] = "Process";
 $l["modelStep_id"] = "Step";
 $l["modelCtime"] = "Created at";
-$l["modelDue_time"] = "Due untill";
+$l["modelDue_time"] = "Due until";
 $l["modelShift_due_time"] = "Shift due time (hours)";
 
 // Language for model: \GO\Workflow\Model\Process
@@ -97,8 +97,18 @@ $l["emailBody"] = "A new %s needs your approval.<br />
 									 <a href='%s'>Approve</a> | <a href='%s'>Decline</a>";
 $l["disapprovedBody"] = "%s has put %s into %s. It has recently been disapproved by %s.";
 
+$l["disapproveSubject"] = "Approved: %s"; // %s is the model name
+$l["approvedBody"] = "%s has put %s into %s. It has recently been approved by %s.";
+
+
+
+$l["workflowDoneSubject"] = "%s approved";
+$l["workflowDoneBody"] = " %s was approved by %s at %s";
+
+
 $l['reminderSubject'] = "Approval request!";
 $l['reminderDisapproved'] = "%s disapproved by %s.";
+$l['reminderApproved'] = "%s approved by %s.";
 
 $l['visualTemplateTitle'] = "Workflow process “{process_name}” on “{model_type}:{model_name}”";
 $l['visualTemplateStartDate'] = "Started at {start_time}";
@@ -120,7 +130,7 @@ $l['decline']= "Decline";
 
 $l['modelTypeNotSupported'] = 'In this workflow, model type "%m" is not supported by workflow step action "%wm".';
 $l['filesOnly'] = 'Applies only to files';
-$l['copyToFolder'] = 'Copy to this folder';
+$l['copyToFolder'] = 'Move to this folder';
 $l['keepOriginalCopy'] = 'Copy instead of move';
 
 $l['actionType'] = 'Action type';

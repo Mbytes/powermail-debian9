@@ -63,7 +63,8 @@ GO.email.CopyMailToDialog = Ext.extend(GO.Window, {
 //					account_id : node.attributes.account_id,
 //					mailbox : node.attributes.mailbox
 //				},
-//				fail:function(){
+//				fail: function(response, options, result) {
+//						Ext.Msg.alert(GO.lang.strError, result.feedback);
 //					this.foldersTree.getRootNode().reload();
 //				},
 //				scope : this

@@ -7,7 +7,7 @@
  * If you have questions write an e-mail to info@intermesh.nl
  * 
  * @copyright Copyright Intermesh
- * @version $Id: ProjectDialog.js 21385 2016-05-10 08:08:05Z mschering $
+ * @version $Id: ProjectDialog.js 23442 2018-02-21 08:36:45Z mdhart $
  * @author Merijn Schering <mschering@intermesh.nl>
  */
 
@@ -468,7 +468,7 @@ Ext.extend(GO.projects2.ProjectDialog, GO.Window,{
 			//showStatusDate=fields.indexOf('status_date')>-1;
 			showStatus=fields.indexOf('status')>-1;
 			showDate=fields.indexOf('date')>-1;
-			showBudgetFees=fields.indexOf('budget_fees')>-1;
+			showBudgetFees=fields.indexOf('budget_fees')>-1 && GO.timeregistration2;
 			showExpenses=fields.indexOf('expenses')>-1;
 //			showCalendar=fields.indexOf('calendar')>-1;
 //			showTasklist=fields.indexOf('tasklist')>-1;
@@ -764,7 +764,7 @@ Ext.extend(GO.projects2.ProjectDialog, GO.Window,{
 				name: 'start_time',
 				format: GO.settings['date_format'],
 //				allowBlank:false,
-				fieldLabel: GO.projects2.lang.startTime,
+				fieldLabel: GO.projects2.lang.startDate,
 				value: now.format(GO.settings.date_format)
 			},{
 				xtype:'datefield',
@@ -854,7 +854,8 @@ Ext.extend(GO.projects2.ProjectDialog, GO.Window,{
 		//if(GO.settings.modules.timeregistration){
 		this.feesPanel = new GO.projects2.ResourceGrid();
 		items.push(this.feesPanel);
-            
+          
+
 		this.timeEntryGrid = new GO.projects2.TimeEntryGrid();
 		items.push(this.timeEntryGrid);
             
@@ -863,14 +864,29 @@ Ext.extend(GO.projects2.ProjectDialog, GO.Window,{
 		this.expenseBudgetsGrid =  new GO.projects2.ExpenseBudgetsGrid();
 		items.push(this.expenseBudgetsGrid);
 		
-		this.incomePanel =  new GO.projects2.IncomeGrid();
+		this.incomePanel =  new GO.projects2.IncomeGrid({
+			stateId: 'project-income-grid'
+		});
 		items.push(this.incomePanel);
 
 		this.expensesPanel = new GO.projects2.ExpensesGrid();
 		items.push(this.expensesPanel);
 
 		//add
-		this.permissionsPanel = new GO.grid.PermissionsPanel({isOverwritable: true});
+		this.permissionsPanel = new GO.grid.PermissionsPanel({
+			isOverwritable: true,
+			levels: [
+				GO.permissionLevels.read,
+				GO.permissionLevels.create,
+				GO.permissionLevels.write,
+				GO.permissionLevels.writeAndDelete,
+				GO.projects2.permissionLevelFinance, //finance
+				GO.permissionLevels.manage
+			],
+			levelLabels : {
+				45: "Finance"
+			}
+		});
 		items.push(this.permissionsPanel);
 		
 		this.tabPanel = new Ext.TabPanel({

@@ -53,6 +53,7 @@ class SmimeMessage extends Message
     return new static($subject, $body, $contentType, $charset);
   }
 	
+	private $bcc;
 	/**
 	 * Call this function to sign a message with a pkcs12 certificate.
 	 * 
@@ -63,6 +64,12 @@ class SmimeMessage extends Message
 	public function setSignParams($pkcs12_data, $passphrase){		
 		$this->pkcs12_data=$pkcs12_data;
 		$this->passphrase=$passphrase;
+		
+		//store bcc as the smtp transeport will remove it on send. We want to put it in the sent item
+		$bccHeader = $this->getHeaders()->get('Bcc');
+		if($bccHeader){
+			$this->bcc = $bccHeader->getFieldBody();
+		}
 		//$this->extra_certs=$extra_certs;
 	}
 	
@@ -109,6 +116,10 @@ class SmimeMessage extends Message
 					$headers->removeAll($name);
 				}
 			}
+			
+			if(!empty($this->bcc)) {
+				$this->saved_headers['Bcc'] = $this->bcc;
+			}
 
 			/*
 			 * This class will stream the MIME structure to the tempin text file in 
@@ -143,7 +154,7 @@ class SmimeMessage extends Message
 			
 			if(!file_exists($this->tempin))
 				trigger_error('Failed to sign. Temp file disappeared', E_USER_ERROR);
-
+			
 			if(!isset($extraCertsFile)){
 				openssl_pkcs7_sign($this->tempin, $this->tempout,$certs['cert'], array($certs['pkey'], $this->passphrase), $this->saved_headers, PKCS7_DETACHED);
 			}else

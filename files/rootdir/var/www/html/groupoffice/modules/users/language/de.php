@@ -70,7 +70,7 @@ $l["group"]='Gruppe';
 $l["muteSound"]='Keine Sounds für Ereignisse nutzen';
 $l["mailReminders"]='E-Mail-Erinnerungen';
 $l["downloadSampleCSV"]='Beispiel-CSV herunterladen';
-$l["importText"]='Sie können Benutzer mittels einer CSV-Datei importieren. Um die nötige Formatierung dieser Datei einzuhalten, laden Sie sich zum Vergleich bitte die Beispieldatei herunter.<br />Die erste Zeile muss die Spaltenbezeichnungen enthalten und für jeden neuen Benutzer müssen die folgenden Daten angegeben werden:<br /><br />username, password, first_name, last_name, email';
+$l["importText"]='Sie können Benutzer mittels einer CSV-Datei importieren. Um die nötige Formatierung dieser Datei einzuhalten, laden Sie sich zum Vergleich bitte die Beispieldatei herunter.<br />Die erste Zeile muss die Spaltenbezeichnungen enthalten und für jeden neuen Benutzer müssen die folgenden Daten angegeben werden:<br /><br />username, password, first_name, last_name, E-Mail';
 $l["useModule"]='Benutzen';
 $l["manageModule"]='Verwalten';
 $l["numberFormat"]='Währungsformat';
@@ -93,18 +93,11 @@ $l['deletePrimaryAdmin']='Sie können den primären Administrator nicht löschen
 $l['deleteYourself']='Sie können sich nicht selbst löschen';
 $l['error_username']='Ihr Benutzername enthält ungültige Zeichen';
 $l['error_username_exists']='Der Benutzername ist bereits registriert';
-$l['error_email_exists']='Die E-Mail-Adresse ist bereits registriert.';
 $l['error_match_pass']='Die Passwörter sind nicht identisch';
-$l['error_email']='Sie haben eine ungültige E-Mail-Adresse angegeben';
 $l['error_user']='Benutzer konnte nicht angelegt werden';
 $l['imported']='%s Benutzer importiert';
 $l['failed']='Fehlgeschlagen';
 $l['incorrectFormat']='Datei hatte nicht das erforderliche CSV-Format';
-$l['register_email_subject']='Ihre GroupOffice-Kontodaten';
-$l['register_email_body']='Ein GroupOffice-Konto wurde für Sie auf {url} erstellt.
-Ihre Logindaten sind:
-Benutzername: {username};
-Kennwort: {password}';
 $l['max_users_reached']='Für dieses System wurde die maximale Benutzeranzahl erreicht.';
 
 $l['dashdmy']='Tag-Monat-Jahr';
@@ -123,7 +116,6 @@ $l['showProUsers']='Zeige Professional-Benutzer';
 $l['resetState']="Fenster und Spalten zurücksetzen";
 $l['resetStateConfirm']='Sind Sie sicher, dass Sie alle Spalten, Fenster- und Spaltengrößen etc. auf die Werkseinstellungen zurücksetzen wollen?';
 
-$l['registrationEmail']='E-Mail Registrierung';
 $l['enabledSettingtabs']='Aktiviere Einstellungs-Tabs';
 
 $l['explanation_cf_settingspanels']='Um den Tab für die Zusatzfelder in den Einstellung anzuzeigen, muss sichergestellt sein, dass der Nutzer mindestens Leserechte auf das Zusatzfelder-Modul hat.';
@@ -144,4 +136,11 @@ $l['desktopNotificationsActive']= 'Desktopbenachrichtigung aktiv';
 $l['id']= 'ID';
 
 $l['popupReminderNotification']= 'Zeige ein Popup-Fenster, wenn eine Erinnerung aktiv wird';
-$l['popupEmailNotification']= 'Zeige ein Popup-Fenster, wenn eine eMail ankommt';
+
+$l['popupEmailNotification']= 'Zeige ein Popup-Fenster, wenn eine E-Mail ankommt';
+$l['error_email_exists']='Diese E-Mail-Adresse ist bereits registriert.';
+$l['error_email']='Sie haben eine ungültige E-Mail-Adresse eingegeben';
+$l['register_email_subject']='Ihre {product_name} Kontodetails';
+$l['register_email_body']='Ein {product_name} Konto wurde für Sie auf {url} erstellt';
+$l['registrationEmail']='Registrierungs-E-Mail';
+$l['forcePasswordChange']= "Passwortänderung erzwingen beim nächsten Login";

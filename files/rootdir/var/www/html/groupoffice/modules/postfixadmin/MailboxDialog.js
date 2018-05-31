@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: MailboxDialog.js 14816 2013-05-21 08:31:20Z mschering $
+ * @version $Id: MailboxDialog.js 21340 2017-07-31 07:59:42Z devdevilnl $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -227,7 +227,7 @@ GO.postfixadmin.MailboxDialog = Ext.extend(GO.dialog.TabbedFormDialog,{
 				xtype: 'xcheckbox',
 			  name: 'active',
 				anchor: '-20',
-			  allowBlank:false,
+//			  allowBlank:false,
 			  boxLabel: GO.postfixadmin.lang.active,
 			  hideLabel: true,
 			  checked:true

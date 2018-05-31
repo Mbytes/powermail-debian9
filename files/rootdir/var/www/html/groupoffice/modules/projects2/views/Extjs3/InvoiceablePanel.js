@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: InvoiceablePanel.js 21849 2016-11-08 12:46:37Z mschering $
+ * @version $Id: InvoiceablePanel.js 23362 2018-02-02 13:15:56Z mschering $
  * @copyright Copyright Intermesh
  * @author Michael de Hart <mdhart@intermesh.nl>
  */
@@ -194,7 +194,17 @@ GO.projects2.InvoiceablePanel = Ext.extend(Ext.Panel,{
 			id:'pr2_invoicable_grid',
 			title:GO.projects2.lang.projectType,
 			loadMask:true,
-			store: GO.projects2.typesStore2,
+			store: new GO.data.JsonStore({
+				url: GO.url('projects2/type/store'),
+				baseParams: {
+					permission_level: GO.projects2.permissionLevelFinance
+				},
+				root: 'results',
+				id: 'id',
+				totalProperty:'total',
+				fields: ['id','name','acl_id','acl_book','checked'],
+				remoteSort: true
+			}),
 			split:true,
 			allowNoSelection:true,
 			relatedStore: this.grid.store,
@@ -257,7 +267,7 @@ GO.projects2.InvoiceablePanel = Ext.extend(Ext.Panel,{
 	},
 	
 	load: function () {
-		GO.projects2.typesStore2.load();
+		this.typesMultiSelect.store.load();
 			
 			GO.request({
 				url: 'projects2/income/getInvoiceableDateSettings',

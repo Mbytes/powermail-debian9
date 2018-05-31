@@ -7,7 +7,7 @@
  * If you have questions write an e-mail to info@intermesh.nl
  * 
  * @copyright Copyright Intermesh
- * @version $Id: SelectContactDialog.js 19784 2016-01-26 13:56:16Z michaelhart86 $
+ * @version $Id: SelectContactDialog.js 22238 2018-01-24 10:58:14Z michaelhart86 $
  * @author Merijn Schering <mschering@intermesh.nl>
  *
  * Params:
@@ -209,19 +209,26 @@ Ext.extend(GO.addressbook.SelectContactDialog, Ext.Window, {
 		//{
 		
 		this.mailingsFilterPanel.store.load();
-
 		
-		if(!this.addressbooksGrid.store.loaded)
+		
+		if(!this.addressbooksGrid.store.loaded) {
 			this.addressbooksGrid.store.load({
 				callback:function(){
+					if(this.addressbookId>0) {
+						this.addressbooksGrid.applyFilter([this.addressbookId]);
+					}
 					var books = this.addressbooksGrid.getSelected();
 					this.grid.store.baseParams.books=Ext.encode(books);
 					this.grid.store.load();
 				},
 				scope:this
 			});
-		else
+		} else {
 			this.grid.store.load();
+			if(this.addressbookId>0) {
+				this.addressbooksGrid.applyFilter([this.addressbookId]);
+			}
+		}
 		
 		//}
 	},

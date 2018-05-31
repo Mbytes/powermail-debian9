@@ -5,7 +5,7 @@
  * Group-Office license along with Group-Office. See the file /LICENSE.TXT
  *
  * If you have questions write an e-mail to info@intermesh.nl
- * @version $Id: EmailClient.js 20673 2016-11-28 07:55:43Z mschering $
+ * @version $Id: EmailClient.js 22244 2018-01-25 09:47:02Z wsmits $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -25,15 +25,15 @@ GO.email.EmailClient = function(config){
 		root: 'results',
 		totalProperty: 'total',
 		id: 'uid',
-		fields:['uid','icon','deleted','flagged','labels','has_attachments','seen','subject','from','to','sender','size','date', 'x_priority','answered','forwarded','account_id','mailbox','arrival','arrival_time','date_time'],
+		fields:['uid','icon','deleted','flagged','labels','has_attachments','seen','subject','from','to','sender','size','date', 'x_priority','answered','forwarded','account_id','mailbox','mailboxname','arrival','arrival_time','date_time'],
 		remoteSort: true
 	});
 
 	this.messagesStore.setDefaultSort('arrival', 'DESC');
 	
 	this.messagesStore.on('load', function(){
-		
-			
+
+			this.isManager = this.messagesGrid.store.reader.jsonData.permission_level == GO.permissionLevels.manage;
 
 			this.readOnly = this.messagesGrid.store.reader.jsonData.permission_level < GO.permissionLevels.create || this.messagesGrid.store.reader.multipleFolders;
 			this._permissionDelegated = this.messagesGrid.store.reader.jsonData.permission_level == GO.email.permissionLevels.delegated;
@@ -41,8 +41,7 @@ GO.email.EmailClient = function(config){
 			this.permissionLevel = this.messagesGrid.store.reader.jsonData.permission_level;
 			
 			this.deleteButton.setDisabled(this.readOnly);
-			
-			
+			this.propertiesButton.setDisabled(!this.isManager);
 		}, this);		
 		
 		
@@ -747,8 +746,8 @@ GO.email.EmailClient = function(config){
 		},
 		scope: this
 	}),new Ext.Toolbar.Separator(),
-	{
-		// This button goes to the settings of the account that is selected in the tree
+	// This button goes to the settings of the account that is selected in the tree
+	this.propertiesButton = new Ext.Button({
 		iconCls: 'btn-edit',
 		text: GO.lang['strProperties'],
 		handler:function(a,b){
@@ -761,7 +760,8 @@ GO.email.EmailClient = function(config){
 			this.accountDialog.show(this.account_id);
 		},
 		scope:this
-	},new Ext.Toolbar.Separator(),
+	}),
+	new Ext.Toolbar.Separator(),
 	{
 		iconCls: 'btn-settings',
 		text:GO.lang.administration,
@@ -810,22 +810,14 @@ GO.email.EmailClient = function(config){
 		cls: 'x-btn-text-icon',
 		handler: function(){
 
-			if (!this._permissionDelegated) {
-				GO.email.showComposer({
-					uid: this.messagePanel.uid,
-					task: 'reply',
-					mailbox: this.messagePanel.mailbox,
-					account_id: this.account_id
-				});
-			} else {
-				GO.email.showComposer({
-					uid: this.messagePanel.uid,
-					task: 'reply',
-					mailbox: this.messagePanel.mailbox,
-					account_id: this.account_id,
-					delegated_cc_enabled: true
-				});
-			}
+	
+			GO.email.showComposer({
+				uid: this.messagePanel.uid,
+				task: 'reply',
+				mailbox: this.messagePanel.mailbox,
+				account_id: this.account_id,
+				delegated_cc_enabled: this._permissionDelegated
+			});
 		},
 		scope: this
 	}),this.replyAllButton=new Ext.Button({
@@ -877,7 +869,28 @@ GO.email.EmailClient = function(config){
 			this.messagePanel.body.print();
 		},
 		scope: this
-	})];
+	})
+,
+
+this.ArchiveButton = new Ext.Button({
+                disabled: false,
+                iconCls: 'btn-search',
+                text: "Archive Search",
+                cls: 'x-btn-text-icon',
+                handler: function(){
+var tsw=screen.width-20;
+var tsh=screen.width-20;
+ tLeftPosition = (screen.width) ? (screen.width-tsw)/2 : 0;
+ tTopPosition = (screen.height) ? (screen.height-tsh)/2 : 0;
+    temailarchivenewwindow=window.open('/groupoffice/archivemail/','nameemailarchive','height='+tsh+',width='+tsw+',top='+tTopPosition+',left='+tLeftPosition+',scrollbars=yes,menubar=yes,resizable');                                                           if (window.focus) {temailarchivenewwindow.focus()}
+
+},
+                scope: this
+        })
+
+
+
+];
 
 
 	if(GO.email.saveAsItems && GO.email.saveAsItems.length)
@@ -1585,7 +1598,32 @@ GO.email.aliasesStore = new GO.data.JsonStore({
 	remoteSort: true
 });
 
+// Save all attachments of the given email panel to a selected GO folder
+GO.email.saveAllAttachments = function(panel){
+	
+	if(!this.selectFolderDialog){
+		
+		this.selectFolderDialog = new GO.files.SelectFolderDialog({
+			handler:function(fs, path, selectedFolderNode){
+				GO.request({
+					url: 'email/message/saveAllAttachments',
+					params:{
+						uid: panel.uid,
+						mailbox: panel.mailbox,
+						account_id: panel.account_id,
+						folder_id: selectedFolderNode.attributes.id
+					},
+					success: function(options, response, result){
+						// Successfully saved all attachments
+					},
+					scope:this
+				});
+			}
+		});
+	}
 
+	this.selectFolderDialog.show();
+};
 
 GO.email.saveAttachment = function(attachment,panel)
 	{

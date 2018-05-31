@@ -59,6 +59,16 @@ class BillingModule extends \GO\Professional\Module {
 		$invoiceBook->name=\GO::t('invoices','billing');
 		$invoiceBook->order_id_prefix="I%y";
 		$invoiceBook->save();
+		
+		
+		if (\GO::modules()->files) {
+	
+			$folder = \GO\Files\Model\Folder::model()->findByPath('billing/product_images',true);
+			if($folder->acl_id != \GO::modules()->billing->acl_id){
+				$folder->acl_id=\GO::modules()->billing->acl_id;
+				$folder->save(true);		
+			}
+		}
 
 		return true;
 	}
@@ -74,5 +84,20 @@ class BillingModule extends \GO\Professional\Module {
 			self::$_defaultLangId = $lang ? $lang->id : 1;
 		}
 		return self::$_defaultLangId;
+	}
+	
+	
+	public function checkDatabase(&$response) {
+		parent::checkDatabase($response);
+		
+		if (\GO::modules()->files) {
+	
+			$folder = \GO\Files\Model\Folder::model()->findByPath('billing/product_images',true);
+			if($folder->acl_id != \GO::modules()->billing->acl_id){
+				$folder->acl_id=\GO::modules()->billing->acl_id;
+				$folder->save(true);		
+			}
+		}
+		
 	}
 }

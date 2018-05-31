@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: TemplateDialog.js 21295 2016-04-07 13:50:31Z mschering $
+ * @version $Id: TemplateDialog.js 21998 2017-01-06 13:12:52Z johan $
  * @copyright Copyright Intermesh
  * @author Michiel Schmidt <michiel@intermesh.nl>
  * @author Merijn Schering <mschering@intermesh.nl>
@@ -98,6 +98,8 @@ Ext.extend(GO.tickets.TemplateDialog, GO.Window, {
 					} else {
 						this.formPanel.form.setValues(data.data);
 					}
+					
+					this.disableTemplateCategoriesPanel.setModel(this.template_id, "GO\\Tickets\\Model\\Ticket");
 				}
 			});			
 		}else
@@ -206,6 +208,12 @@ Ext.extend(GO.tickets.TemplateDialog, GO.Window, {
 //			}
 			]
 		});
+		
+		if(GO.customfields){
+			this.disableTemplateCategoriesPanel = new GO.customfields.DisableCategoriesPanel({
+				title:GO.customfields.lang.enabledCustomFields
+			});     
+		}
 
-	}	
+	}
 });

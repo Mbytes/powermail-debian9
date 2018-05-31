@@ -1,6 +1,6 @@
 <?php
 $l['name'] = 'Tittel';
-$l['description'] = 'Modul for å behandle cron-jobber innenfra Group-Office.';
+$l['description'] = 'Modul for å behandle cron-jobber innenfra {product_name}.';
 $l['cronManager'] = 'Cron-jobber';
 $l['cronName'] = 'Navn';
 $l['minutes'] = 'Minutt';

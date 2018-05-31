@@ -90,7 +90,7 @@ $l["reversalStatus"]="Stornierung";
 $l["costCode"]= "Kostenkürzel";
 $l["costCodes"]= "Kostenkürzel";
 $l["newCostCode"]= "Neues Kostenkürzel";
-$l["importPayments"]="Rechnungsimport";
+$l["importPayments"]="Kontoauszug importieren";
 $l["importPaymentsSelectFile"]="Wähle eine MT940 konforme Datei aus und klicke dann auf weiter. Im nächsten Bildschirm kannst du diese zu Rechnungen oder Bestellungen zuordnen. Das System versucht anhand des Zahlungsinhalts bereits eine automatische Vorauswahl zu treffen. Du musst jede korrekte Zuweisung mit \'speichern\' akzeptieren. Zuweisungen die auf IGNORE stehen werden nicht verändert und werden ignoriert.";
 $l["paidStatus"]="Standardstatus für Bezahlt";
 $l["copyStatus"]="Standardstatus für Kopien";
@@ -246,7 +246,7 @@ $l["cars"]="Autos";
 $l["internet"]="Internet";
 $l["other"]="Andere";
 $l["reference"]="Referenz";
-$l["status_email_template"]=" %customer_salutation%,<br />
+$l["status_email_template"]=" %Kunden Anrede%,<br />
 <br />Der Status Ihrer %type% wurde auf %status% gesetzt.<br />
 <br />;
 Mit freudlichen Grüssen,<br /><br />Beispiel Firma";
@@ -280,7 +280,7 @@ $l["reversalStatus"]="Stornierung";
 $l["costCode"]= "Kostenkürzel";
 $l["costCodes"]= "Kostenkürzel";
 $l["newCostCode"]= "Neues Kostenkürzel";
-$l["importPayments"]="Rechnungsimport";
+$l["importPayments"]="Kontoauszug importieren";
 $l["importPaymentsSelectFile"]="Wähle eine MT940 konforme Datei aus und klicke dann auf weiter.<br />
 <br />
 Im nächsten Bildschirm kannst du diese Daten Rechnungen oder Bestellungen zuordnen.<br />
@@ -307,7 +307,6 @@ $l["showTax"]="Zeige Steuer pro Zeile";
 $l["showGrossUnitPrice"]="Zeige Bruttopeinheitsreis pro Zeile";
 $l["showGrossTotalPrice"]="Zeige Bruttogesamtpreis pro Zeile";
 $l["callAfterDays"]= "Aufrufen nach Tagen";
-$l["emailBuyers"]="eMail Käufer";
 $l["logoText"]="Das Logo kann auch ein Hintergrundbild sein. Lassen Sie Breite und Höhe bei Null, damit das Bild über die gesamte Seite skaliert. Beachten Sie auch die Seiteneinstellungen. Für das beste Druckergebnis benutzen Sie ein Bild, das doppelt so gross ist, als hier angegeben.";
 $l["customerExtra"]="Extra";
 $l["demoMode"]="Demomodus";
@@ -316,10 +315,10 @@ $l["changeStatus"]="Änderungsstatus";
 $l["selectFiles"]= "Bitte zunächst ein Produkt oder eine Kategorie im rechten Panel auswählen.";
 $l["selectDestination"]= "Wählen Sie zuerst eine Zielkategorie.";
 $l["addPageBreak"]="Seitenumbruch hinzufügen";
-$l["notifyCustomerText"]="Möchten Sie eine eMail über die Statusänderung an den Kunden senden?";
+$l["notifyCustomerText"]="Möchten Sie eine E-Mail über die Statusänderung an den Kunden senden?";
 $l["selectBook"]="Bitte ein Buch auswählen...";
-$l["sender_email"]="eMail Adresse";
-$l["sender_name"]="eMail Name";
+$l["sender_email"]="E-Mail Adresse";
+$l["sender_name"]="E-Mail Name";
 $l["cmdExport"]="Export";
 $l["markup"]="Markup";
 $l["unitPriceIncVat"]="Einheitspreis (incl. USt)";
@@ -355,7 +354,6 @@ $l["htmlTable"]="HTML-Tabelle";
 $l["useAny"]= "Verwenden Sie";
 $l["fixedAddressbook"]= "Festes Adressbuch verwenden";
 $l["dontDeleteDefaultLang"]="Sie können die Standardsprache nicht löschen.";
-$lang["link_type"][7]=$l["orders"]="Bestellungen";
 $l["invoice_unit_cost"]= "Exkl. Kosten";
 $l["invoice_gross_unit_cost"]="Inkl. Kosten";
 $l["invoice_total_price"]= "Netto gesamt";
@@ -363,7 +361,7 @@ $l["invoice_total_cost"]= "Netto gesamt";
 $l["invoice_gross_total_cost"]= "Brutto gesamt";
 $l["invalid_status"]="Status ungültig. Haben Sie möglicherweise eine Sprache hinzugefügt, ohne den Status zu aktualisieren?";
 $l["cant_move_into_itself"]="Kann nicht in sich selbst verschoben werden";
-$l["no_email_found"]="Kann den Bestellstatus nicht aktualisieren. Habe keine eMail-Adresse in dieser Bestellung gefunden.";
+$l["no_email_found"]="Kann den Bestellstatus nicht aktualisieren. Habe keine E-Mail-Adresse in dieser Bestellung gefunden.";
 $l["template_already_exists"]="Die Vorlage, die Sie versuchen zu erstellen, existiert bereits";
 $l["status_required"]="Um diesen Status benutzen zu können, muss der Status \'%s\' im Bestellverlauf erscheinen.";
 $l["status_change_no_permission"]="Sie sind nicht berechtigt, diesen Status zu setzen.";
@@ -412,7 +410,7 @@ $l["enterOtherName"]= "Dieser Name existiert bereits in der gewählten Produktka
 $l["newCategory"]= "Neue Kategorie";
 $l["unknownLanguageExc1"]= "Ihre Importdatei enthält eine Sprache";
 $l["unknownLanguageExc2"]= "die im Faktura-Modul nicht verfügbar ist. Bitte fügen Sie diese Sprache dem Faktura-Modul hinzu, oder entfernen Sie die Spalten von Namen dieser Sprache, Kategorie, Beschreibung und Kurzbeschreibung aus der Importdatei, bevor Sie fortfahren.";
-$l["noLanguageInHeader"]= "Der Kopf der Importdatei sollte zumindest Beschreibungen wie \"name_en\" und \"name_de\" für Spalten der Produktnamen in Englisch oder Deutsch enthalten. RuhrMAIL muss wissen, in welcher Sprache die importierten Produktnamen gespeichert werden sollen. Ein solcher Kopf wurde in der Importdatei nicht gefunden.";
+$l["noLanguageInHeader"]= "Der Kopf der Importdatei sollte zumindest Beschreibungen wie \"name_en\" und \"name_de\" für Spalten der Produktnamen in Englisch oder Deutsch enthalten. Group-Office muss wissen, in welcher Sprache die importierten Produktnamen gespeichert werden sollen. Ein solcher Kopf wurde in der Importdatei nicht gefunden.";
 $l["mustUploadCSV"]="Für diese Aktion müssen Sie eine CSV-Datei hochladen.";
 $l["tooFewHeaders"]="Mit den aktuellen Importeinstellungen wurden weniger als 2 Spaltenköpfe gefunden. Bitte überprüfen Sie, ob die Trennzeichen in den Einstellungen und der Importdatei gleich sind.";
 $l["invalidChar"]="Ungültiges Zeichen";
@@ -467,7 +465,7 @@ $l["noLanguage"]= "Eine voreingestellte Sprache konnte nicht gefunden werden.";
 $l["noCostCode"]= "Keine Kostenkonten";
 $l["exportIncome"]= "Exporteinnahmen";
 $l["notifySupplier"]="Lieferant benachrichtigen?";
-$l["notifySupplierText"]="Soll der Lieferant über diese Statusänderung per eMail informiert werden?";
+$l["notifySupplierText"]="Soll der Lieferant über diese Statusänderung per E-Mail informiert werden?";
 $l["showReference"]= "Zeige Referenz";
 
 $l['stationeryPaper']='Firmenpapier';
@@ -505,4 +503,10 @@ $l['statusInWrongBook']= 'Bitte überprüfen Sie, ob der gewählte Status im kor
 $l['totalOutstanding']= 'Außenstände gesamt';
 $l['duplicateLinks']= 'Verknüpfungen duplizieren';
 $l['autoPaidStatus']= 'Automatisch o. g. Zahlstatus hinzufügen, wenn genug Zahlungseingang vorhanden ist';
+
+$l['extra_costs']= 'Zusatzkosten';
+$l['itemModelName']= 'Bestellartikel';
+
+$l['emailBuyers']='E-Mail Käufer';
+$lang['link_type'][7]=$l['orders']='Bestellungen';
 

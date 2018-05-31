@@ -7,621 +7,616 @@
  * If you have questions write an e-mail to info@intermesh.nl
  * 
  * @copyright Copyright Intermesh
- * @version $Id: ItemsGrid.js 21912 2016-11-28 07:50:29Z mschering $
+ * @version $Id: ItemsGrid.js 23367 2018-02-05 10:51:21Z mdhart $
  * @author Merijn Schering <mschering@intermesh.nl>
  */
 
 GO.billing.OrderItem = Ext.data.Record.create([
-{
-	name: 'item_group_id',
-	type: 'string'
-},{
-	name: 'item_group_name',
-	type: 'string',
-	hidden: true
-},{
-	name: 'id',
-	type: 'string'
-},{
-	name: 'amount',
-	type: 'string'
-},{
-	name: 'vat',
-	type: 'string'
-},{
-	name: 'vat_code',
-	type: 'string'
-},{
-	name: 'unit_price'
-},{
-	name: 'unit_list'
-},{
-	name: 'unit_cost'
-},{
-	name: 'markup'
-},{
-	name: 'discount',
-	type: 'string'
-},{
-	name: 'unit_total'
-	//type: 'string'
-},{
-	name: 'description',
-	type: 'string'
-},{
-	name: 'cost_code',
-	type: 'string'
-},{
-	name: 'tracking_code',
-	type: 'string'
-},{
-	name: 'order_at_supplier_company_id'
-},{
-	name:'allow_supplier_update'
-},{
-	name:'item_price'
-},{
-	name:'item_total'
-},{
-	name:'order_at_supplier'
-},{
-	name:'order_at_supplier_company_name',
-	type:'string'
-},{
-	name:'note',
-	type:'string'
-},{
-	name:'unit'
-}
+	{
+		name: 'item_group_id',
+		type: 'string'
+	}, {
+		name: 'item_group_name',
+		type: 'string',
+		hidden: true
+	}, {
+		name: 'id',
+		type: 'string'
+	}, {
+		name: 'amount',
+		type: 'string'
+	}, {
+		name: 'vat',
+		type: 'string'
+	}, {
+		name: 'vat_code',
+		type: 'string'
+	}, {
+		name: 'unit_price'
+	}, {
+		name: 'unit_list'
+	}, {
+		name: 'unit_cost'
+	}, {
+		name: 'markup'
+	}, {
+		name: 'discount',
+		type: 'string'
+	}, {
+		name: 'unit_total'
+						//type: 'string'
+	}, {
+		name: 'description',
+		type: 'string'
+	}, {
+		name: 'cost_code',
+		type: 'string'
+	}, {
+		name: 'tracking_code',
+		type: 'string'
+	}, {
+		name: 'order_at_supplier_company_id'
+	}, {
+		name: 'allow_supplier_update'
+	}, {
+		name: 'item_price'
+	}, {
+		name: 'item_total'
+	}, {
+		name: 'order_at_supplier'
+	}, {
+		name: 'order_at_supplier_company_name',
+		type: 'string'
+	}, {
+		name: 'note',
+		type: 'string'
+	}, {
+		name: 'unit'
+	}
 ]);
 
 
-GO.billing.ItemsGrid = function(config){
+
+GO.billing.ItemsGrid = Ext.extend(Ext.grid.EditorGridPanel, {
+
+	changed: false,
+	paging: true,
+	defaultCostCode: '',
+
+	supplier_id: 0,
+
+	book_id: 0,
+	enableDragDrop: true,
+	ddGroup: 'bsItemsDD',
+
+	stateId: 'bs-items-grid',
+
+	cls: 'bs-items-grid',
+	layout: 'fit',
+	autoScroll: true,
+	split: true,
 	
-	config = config || {};
+	storeFields : ['id', 'order_id', 'product_id', 'description', 'unit_cost', 'unit_price', 'unit_list', 'unit_total', 'amount', 'vat', 'vat_code', 'discount', 'sort_order', 'cost_code', 'tracking_code', 'markup', 'item_price', 'item_total', 'order_at_supplier', 'order_at_supplier_company_id', 'allow_supplier_update', 'order_at_supplier_company_name', 'note', 'unit', 'item_group_id', 'item_group_name', 'item_group_sort_order'],
+
+	view: new Ext.grid.GroupingView({
+		autoFill: true,
+		forceFit: true,
+		emptyText: GO.lang['strNoItems']
+	}),
+
+	sm: new Ext.grid.RowSelectionModel({
+		moveEditorOnEnter: false // <- enter will add a new line in textareas instead of finishing editing
+	}),
+
+	loadMask: true,
+	clicksToEdit: 2,
 	
-	config.book_id = 0;
-	config.enableDragDrop=true;
-	config.ddGroup='bsItemsDD';
-
-	config.stateId='bs-items-grid';
 	
-	config.cls='bs-items-grid';
-	config.layout='fit';
-	config.autoScroll=true;
-	config.split=true;
-	config.store = new Ext.data.GroupingStore({
-		baseParams: {
-			//task: 'items',
-			order_id: 0,
-			limit:0
-		},
-		reader: new Ext.data.JsonReader({
-			root: 'results',
-			id: 'id',
-			totalProperty:'total',
-			fields: ['id','order_id','product_id','description','unit_cost','unit_price','unit_list','unit_total','amount','vat','vat_code','discount','sort_order','cost_code','tracking_code','markup','item_price','item_total','order_at_supplier','order_at_supplier_company_id', 'allow_supplier_update', 'order_at_supplier_company_name','note','unit','item_group_id','item_group_name','item_group_sort_order']
-		}),
-		proxy: new Ext.data.HttpProxy({
-			url: GO.url('billing/item/store')
-		}),
-//		groupOnSort:false,
-//		remoteGroup:true,
-//		remoteSort: true,
-		groupField:'item_group_name'
-//    multiSortInfo:{ 
-//			sorters: [{field: 'item_group_sort_order', direction: "ASC"},{field: 'sort_order', direction: "ASC"}], 
-//			direction: 'ASC'
-//		}		
-	});
-
-	config.store.on('load', this.updateTotals, this);
-
-	this.orderAtSupplierCheckColumn = new GO.grid.CheckColumn({
-		dataIndex: 'order_at_supplier',
-		width: 120,
-		header: GO.billing.lang.orderAtSupplier,
-		sortable:false
-	});
-
-	this.orderAtSupplierCheckColumn.on('change', function(record, checked)
-	{
-		this.changed=true;
-	}, this);
-        
-
-	config.plugins=this.orderAtSupplierCheckColumn;
-
-	config.paging=true;
-	var columnModel =  new Ext.grid.ColumnModel({
-		defaults:{
-			sortable:false
-		},
-		columns:[{
-			id : 'item_group_name',
-			header: GO.billing.lang.itemGroupName,
-			dataIndex: 'item_group_name',
-//			align:"center",
-			width:100,
-			hidden: true,
-			groupRenderer:function(v){
-				var i = v.indexOf('|');
-				if(i){
-					i++;
-					return v.substr(i,v.length-i);
-				}else{
-					return GO.lang.none;
-				}
-			}
-		},{
-			id: 'amount',
-			header: GO.billing.lang.amount, 
-			dataIndex: 'amount',
-			align:"center",
-			width:50,
-			renderer:this.numberRenderer,
-			editor:this.amountField = new GO.form.NumberField({
-				width:80,
-				fieldLabel: GO.billing.lang.amount,
-				value: GO.util.numberFormat("1"),
-				name:'amount'
-			})
-		},{
-			id: 'unit',
-			header: GO.billing.lang.unit,
-			dataIndex: 'unit',
-			align:"center",
-			width:50,
-			editor:new Ext.form.TextField()
-		},{
-			id: 'description',
-			header: GO.lang.strDescription, 
-			dataIndex: 'description',
-			name:'description',
-			width:250,
-//			editor:new Ext.grid.GridEditor(
-//				this.descriptionField = new GO.form.ComboBox({
-//					width : 500,
-//					height:150,
-//					displayField : 'name_description',
-//					valueField : 'name_description',
-//					defaultAutoCreate: {
-//						tag: "textarea",
-//						autocomplete: "off",
-//						rows: 5
-//					},
-//					hideTrigger : true,
-//					minChars : 3,
-//					triggerAction : 'all',
-//					allowBlank:true,
-//					store : new GO.data.JsonStore({
-//						url : GO.url("billing/product/select"),
-//						fields : ['id','name', 'name_description']
-//					}),
-//					fieldLabel:GO.lang.strDescription
-//				}),{
-//					autoSize: false,
-//					completeOnEnter: false // <- enter will stop editing if not set
-//				}),
-				editor: new Ext.grid.GridEditor(
-								this.descriptionField = new GO.form.ComboBox({
-									width: 500,
-									autoSelect:false,
-									//height:150,
-									displayField: 'name',
-									valueField: 'name',
-									defaultAutoCreate: {
-										tag: "textarea",
-										autocomplete: "off",
-										//rows: 5
-									},
-									hideTrigger: true,
-									minChars: 3,
-									triggerAction: 'all',
-									allowBlank: true,
-									store: new GO.data.JsonStore({
-										url: GO.url("billing/product/store"),
-										fields: ['id', 'name']
-									}),
-									fieldLabel: GO.lang.strDescription,
-								}), {
-					autoSize: true,
-					completeOnEnter: false // <- enter will stop editing if not set
-					, grid: this
-					, listeners: {
-						beforeshow: function (editor) {
-							var rowHeight = Ext.fly(editor.grid.getView().getRow(editor.row)).getHeight();
-							if (rowHeight < 100) {
-								rowHeight = 100;
-							}
-							editor.field.el.setHeight(rowHeight);
-						}
-					}
-				}
-				),
-			renderer:GO.util.nl2br
-		},{
-			id: 'cost_code',
-			header: GO.billing.lang.costCode,
-			dataIndex: 'cost_code',
-			align:"left",
-			width:100,
-			editor:this.costCodeBox = new GO.billing.SelectCostCode({
-				id: 'costCodeBox-editor' // Checked in the onEditComplete function
-			}),
-			scope : this,
-			hidden:true
-		},{
-			id: 'tracking_code',
-			header: GO.billing.lang.trackingCode,
-			dataIndex: 'tracking_code',
-			align:"left",
-			width:100,
-			editor: this.trackingCodeBox = new GO.billing.SelectTrackingCode({
+	
+	constructor: function(config) {
+		
+		this.trackingCodeBox = new GO.billing.SelectTrackingCode({
 				id: 'trackingCodeBox-editor', // Checked in the onEditComplete function
-				listeners:{
-					select: function(combo,record, index){
+				listeners: {
+					select: function (combo, record, index) {
 
-						if(GO.util.empty(record)){
+						if (GO.util.empty(record)) {
 							this.selectedTrackingCodeRecord = "";
-						} else {						
+						} else {
 							this.selectedTrackingCodeRecord = record; // Used in the setCostCodeField function
 						}
 					},
-					scope:this
+					scope: this
 				}
 			}),
-			hidden:true
-		},{
+							
+							
+		this.orderAtSupplierCheckColumn = new GO.grid.CheckColumn({
+			dataIndex: 'order_at_supplier',
+			width: 120,
+			header: GO.billing.lang.orderAtSupplier,
+			sortable: false
+		});
+
+		this.orderAtSupplierCheckColumn.on('change', function (record, checked)
+		{
+			this.changed = true;
+		}, this);
+
+		this.plugins = this.orderAtSupplierCheckColumn;
+		
+							
+							
+		this.columnsArr = [{
+			id: 'item_group_name',
+			header: GO.billing.lang.itemGroupName,
+			dataIndex: 'item_group_name',
+//			align:"center",
+			width: 100,
+			hidden: true,
+			groupRenderer: function (v) {
+				var i = v.indexOf('|');
+				if (i) {
+					i++;
+					return v.substr(i, v.length - i);
+				} else {
+					return GO.lang.none;
+				}
+			}
+		}, {
+			id: 'amount',
+			header: GO.billing.lang.amount,
+			dataIndex: 'amount',
+			align: "center",
+			width: 50,
+			renderer: this.numberRenderer,
+			editor: this.amountField = new GO.form.NumberField({
+				width: 80,
+				fieldLabel: GO.billing.lang.amount,
+				value: GO.util.numberFormat("1"),
+				name: 'amount'
+			})
+		}, {
+			id: 'unit',
+			header: GO.billing.lang.unit,
+			dataIndex: 'unit',
+			align: "center",
+			width: 50,
+			editor: new Ext.form.TextField()
+		}, {
+			id: 'description',
+			header: GO.lang.strDescription,
+			dataIndex: 'description',
+			name: 'description',
+			width: 250,
+			editor: new Ext.grid.GridEditor(
+							this.descriptionField = new GO.form.ComboBox({
+								width: 500,
+								autoSelect: false,
+								//height:150,
+								displayField: 'name',
+								valueField: 'name',
+								defaultAutoCreate: {
+									tag: "textarea",
+									autocomplete: "off",
+									//rows: 5
+								},
+								hideTrigger: true,
+								minChars: 3,
+								triggerAction: 'all',
+								allowBlank: true,
+								store: new GO.data.JsonStore({
+									url: GO.url("billing/product/store"),
+									fields: ['id', 'name']
+								}),
+								fieldLabel: GO.lang.strDescription,
+							}), {
+				autoSize: true,
+				completeOnEnter: false // <- enter will stop editing if not set
+				, grid: this
+				, listeners: {
+					beforeshow: function (editor) {
+						var rowHeight = Ext.fly(editor.grid.getView().getRow(editor.row)).getHeight();
+						if (rowHeight < 100) {
+							rowHeight = 100;
+						}
+						editor.field.el.setHeight(rowHeight);
+					}
+				}
+			}
+			),
+			renderer: GO.util.nl2br
+		}, {
+			id: 'cost_code',
+			header: GO.billing.lang.costCode,
+			dataIndex: 'cost_code',
+			align: "left",
+			width: 100,
+			editor: new Ext.grid.GridEditor(
+							this.costCodeBox = new GO.billing.SelectCostCode({
+								id: 'costCodeBox-editor' // Checked in the onEditComplete function
+							}),
+							{
+								grid: this
+							}
+
+			),
+			scope: this,
+			hidden: true
+		}, {
+			id: 'tracking_code',
+			header: GO.billing.lang.trackingCode,
+			dataIndex: 'tracking_code',
+			align: "left",
+			width: 100,
+			editor: this.trackingCodeBox,
+			scope: this,
+			hidden: true
+		}, {
 			id: 'unit_cost',
-			header: GO.billing.lang.unitCost, 
+			header: GO.billing.lang.unitCost,
 			dataIndex: 'unit_cost',
-			align:"right",
-			width:80,
-			renderer:this.numberRenderer,
+			align: "right",
+			width: 80,
+			renderer: this.numberRenderer,
 			editor: this.costField = new GO.form.NumberField({
-				width:80,
+				width: 80,
 				fieldLabel: GO.billing.lang.unitCost,
 				value: GO.util.numberFormat("0"),
-				name:'unit_cost'
+				name: 'unit_cost'
 			}),
-			hidden:true
-		},{
+			hidden: true
+		}, {
 			id: 'unit_price',
-			header: GO.billing.lang.unitPrice, 
-			dataIndex: 'unit_price', 
-			align:"right",
-			width:80,
-			renderer:this.numberRenderer,
-			editor:this.priceField = new GO.form.NumberField({
-				width:80,
+			header: GO.billing.lang.unitPrice,
+			dataIndex: 'unit_price',
+			align: "right",
+			width: 80,
+			renderer: this.numberRenderer,
+			editor: this.priceField = new GO.form.NumberField({
+				width: 80,
 				fieldLabel: GO.billing.lang.unitPrice,
 				value: GO.util.numberFormat("0"),
-				name:'unit_price'
+				name: 'unit_price'
 			})
-		},{
+		}, {
 			id: 'unit_total',
 			header: GO.billing.lang.unitPriceIncVat,
 			dataIndex: 'unit_total',
-			align:"right",
-			width:80,
-			renderer:this.numberRenderer,
-			editor:this.totalField = new GO.form.NumberField({
-				width:80,
+			align: "right",
+			width: 80,
+			renderer: this.numberRenderer,
+			editor: this.totalField = new GO.form.NumberField({
+				width: 80,
 				fieldLabel: GO.billing.lang.unitPriceIncVat,
 				value: GO.util.numberFormat("0"),
-				name:'unit_total'
+				name: 'unit_total'
 			}),
-			hidden:true
-		},{
+			hidden: true
+		}, {
 			id: 'unit_list',
-			header: GO.billing.lang.unitList, 
+			header: GO.billing.lang.unitList,
 			dataIndex: 'unit_list',
-			align:"right",
-			width:80,
-			renderer:this.numberRenderer,
-			editor:this.listField = new GO.form.NumberField({
-				width:80,
+			align: "right",
+			width: 80,
+			renderer: this.numberRenderer,
+			editor: this.listField = new GO.form.NumberField({
+				width: 80,
 				fieldLabel: GO.billing.lang.unitList,
 				value: GO.util.numberFormat("0"),
-				name:'unit_list'
+				name: 'unit_list'
 			})
-		},{
-			id:'total-price',
+		}, {
+			id: 'total-price',
 			header: GO.billing.lang.totalPrice,
 			dataIndex: 'item_price',
-			align:"right",
-			width:100,
-			renderer:this.numberRenderer
-		},{
+			align: "right",
+			width: 100,
+			renderer: this.numberRenderer
+		}, {
 			id: 'item_total',
 			header: GO.billing.lang.totalPriceIncVat,
 			dataIndex: 'item_total',
-			align:"right",
-			width:100,
-			renderer:this.numberRenderer,
-			hidden:true
-		},{
+			align: "right",
+			width: 100,
+			renderer: this.numberRenderer,
+			hidden: true
+		}, {
 			id: 'vat',
-			header: GO.billing.lang.vat+' %', 
+			header: GO.billing.lang.vat + ' %',
 			dataIndex: 'vat',
-			align:"right",
-			width:100,
-			renderer:this.numberRenderer,
+			align: "right",
+			width: 100,
+			renderer: this.numberRenderer,
 			editor: this.taxRateBox = new GO.billing.SelectTaxRate({
-				name:'vat',
+				name: 'vat',
 				id: 'vat-editor' // Checked in the onEditComplete function
 			})
-		},{
+		}, {
 			id: 'vat_code',
-			header: GO.billing.lang.vat, 
+			header: GO.billing.lang.vat,
 			dataIndex: 'vat_code',
-			width:100,
-			hidden:true
-		},{
+			width: 100,
+			hidden: true
+		}, {
 			id: 'discount',
-			header: GO.billing.lang.discount, 
+			header: GO.billing.lang.discount,
 			dataIndex: 'discount',
-			align:"right",
-			width:50,
-			renderer:this.numberRenderer,
-			editor:this.discountField = new GO.form.NumberField({
-				width:80,
+			align: "right",
+			width: 50,
+			renderer: this.numberRenderer,
+			editor: this.discountField = new GO.form.NumberField({
+				width: 80,
 				fieldLabel: GO.billing.lang.discount,
 				value: GO.util.numberFormat("0"),
-				name:'discount'
+				name: 'discount'
 			})
-		},{
+		}, {
 			id: 'markup',
 			header: GO.billing.lang.markup,
 			dataIndex: 'markup',
-			align:"right",
-			width:80,
-			renderer:this.numberRenderer,
+			align: "right",
+			width: 80,
+			renderer: this.numberRenderer,
 			editor: this.markupField = new GO.form.NumberField({
 				fieldLabel: GO.billing.lang.markup,
 				value: 0,
-				name:'markup'
+				name: 'markup'
 			}),
-			hidden:true
+			hidden: true
 		},
-//		{
-//			header: GO.billing.lang.supplier,
-//			dataIndex: 'order_at_supplier_company_id',
-//			align:"left",                        
-//			width:250,
-//			renderer:this.comboRenderer,
-//			editor:this.selectSupplier = new GO.addressbook.SelectCompany ({
-//				hiddenName: 'order_at_supplier_company_id',
-//				anchor: '-20'
-//			}),
-//			scope : this,
-//			hidden:true
-//		},
-		this.orderAtSupplierCheckColumn,
+		this.orderAtSupplierCheckColumn,  
 		{
 			id: 'note',
 			header: GO.billing.lang.note,
 			dataIndex: 'note',
-			name:'note',
-			width:250,
-			editor:new Ext.grid.GridEditor(
-				this.noteField = new Ext.form.TextArea({
-					height:150,
-					width:500,
-					allowBlank:true,
-					fieldLabel:GO.billing.lang.note
-				}),{
-					autoSize: false
-				}),
-			renderer:GO.util.nl2br,
-			hidden:true
+			name: 'note',
+			width: 250,
+			editor: new Ext.grid.GridEditor(
+							this.noteField = new Ext.form.TextArea({
+								height: 150,
+								width: 500,
+								allowBlank: true,
+								fieldLabel: GO.billing.lang.note
+							}), {
+				autoSize: false
+			}),
+			renderer: GO.util.nl2br,
+			hidden: true
 		}
-	]
-	});
-	
-	config.cm=columnModel;
-	//config.autoExpandColumn='description';
-//	new Ext.grid.GroupingView({
-//	autoFill: true,
-//	forceFit:true
-//	    });
-	config.view=new Ext.grid.GroupingView({
-		autoFill: true,
-		forceFit:true,
-		emptyText: GO.lang['strNoItems']
-		//,
-		//groupTextTpl: '{text}',
+	]					
+							
 		
-		/*
-		 * Disabled because of problem with Chrome browsers for not being able to open the texeditor anymore
-		 * 
-		 * For scrolling with textarea's in editor grid
-		 * (when using Ext.getBody() the only drawback is that the editors won't be destroyed when destroying the grid)
-		 */
-//		getEditorParent: function(ed){
-//			//return Ext.getBody();
-//			return GO.billing.orderDialog.itemsPanel.el.dom;
+		this.tbar =  [{
+			iconCls: 'btn-add',
+			text: GO.lang['cmdAdd'],
+			cls: 'x-btn-text-icon',
+			handler: function () {
+				this.addBlankRow();
+			},
+			scope: this
+		}, {
+			iconCls: 'bs-btn-catalog',
+			text: GO.billing.lang.catalog,
+			cls: 'x-btn-text-icon',
+			handler: function () {
+				if (!this.selectProductDialog)
+				{
+					this.selectProductDialog = new GO.billing.SelectProductDialog();
+					//this.selectProductDialog.on('productselect', this.addProduct, this);
+					this.selectProductDialog.on('productsselected', this.addProducts, this);
+				}
+				this.selectProductDialog.show(this.supplier_id);
+			},
+			scope: this
+		}, {
+			iconCls: 'btn-add',
+			text: GO.billing.lang.addPageBreak,
+			cls: 'x-btn-text-icon',
+			handler: function () {
+				this.addPageBreak();
+			},
+			scope: this
+		}, '-', {
+			iconCls: 'btn-delete',
+			text: GO.lang['cmdDelete'],
+			cls: 'x-btn-text-icon',
+			handler: function () {
+				this.changed = true;
+				var selectedRows = this.selModel.getSelections();
+				for (var i = 0; i < selectedRows.length; i++)
+				{
+					selectedRows[i].commit();
+					this.store.remove(selectedRows[i]);
+				}
+
+				this.updateTotals();
+			},
+			scope: this
+		}, {
+			iconCls: 'btn-settings',
+			text: GO.billing.lang.itemGroups,
+			cls: 'x-btn-text-icon',
+			handler: function () {
+				this.showGroupManagementDialog();
+			},
+			scope: this
+		}, {
+			iconCls: 'btn-import',
+			text: GO.billing.lang['importItems'],
+			cls: 'x-btn-text-icon',
+			handler: function () {
+				if (!this.importItemsDialog) {
+					this.importItemsDialog = new GO.billing.ImportItemsWindow();
+					this.importItemsDialog.on('import', function () {
+						this.store.load();
+					}, this);
+				}
+				this.importItemsDialog.show(this.order_id);
+			},
+			scope: this
+		}
+	],
+		
+		
+		
+		
+		GO.billing.ItemsGrid.superclass.constructor.call(this, config);
+	},
+
+	initComponent: function () {
+//		
+//		if(GO.customfields)
+//		{
+//			GO.customfields.addColumns("GO\\Billing\\Model\\Item", {columns: this.columnsArr, fields: this.storeFields});
 //		}
-	});
-	config.sm=new Ext.grid.RowSelectionModel({
-		moveEditorOnEnter:false // <- enter will add a new line in textareas instead of finishing editing
-	});
-	config.loadMask=true;
-	config.clicksToEdit=2;	
+//		
+//		
+//		Ext.each(this.columnsArr , function(column) {
+//			
+//			if(column.datatype) {
+//				
+//				
+//				column.editor = GO.customfields.getFormField(column);
+//				column.editor.name = column.dataIndex;
+//				
+//				console.log(column.editor);
+//			}
+//			
+//		})
 
-	
-	config.tbar=[{
-		iconCls: 'btn-add',
-		text: GO.lang['cmdAdd'],
-		cls: 'x-btn-text-icon',
-		handler: this.addBlankRow,
-		scope: this
-	},{
-		iconCls: 'bs-btn-catalog',
-		text: GO.billing.lang.catalog,
-		cls: 'x-btn-text-icon',
-		handler: function(){
-			if(!this.selectProductDialog)
-			{
-				this.selectProductDialog = new GO.billing.SelectProductDialog();
-				//this.selectProductDialog.on('productselect', this.addProduct, this);
-				this.selectProductDialog.on('productsselected', this.addProducts, this);
-			}                                                                    
-			this.selectProductDialog.show(this.supplier_id);
+	this.store = new Ext.data.GroupingStore({
+		baseParams: {
+			order_id: 0,
+			limit: 0
 		},
-		scope: this
-	},{
-		iconCls: 'btn-add',
-		text: GO.billing.lang.addPageBreak,
-		cls: 'x-btn-text-icon',
-		handler: this.addPageBreak,
-		scope: this
-	},'-',{
-		iconCls: 'btn-delete',
-		text: GO.lang['cmdDelete'],
-		cls: 'x-btn-text-icon',
-		handler: function(){
-			this.changed=true;
-			var selectedRows = this.selModel.getSelections();
-			for(var i=0;i<selectedRows.length;i++)
-			{
-				selectedRows[i].commit();
-				this.store.remove(selectedRows[i]);
+		reader: new Ext.data.JsonReader({
+			root: 'results',
+			id: 'id',
+			totalProperty: 'total',
+			fields: this.storeFields
+		}),
+		proxy: new Ext.data.HttpProxy({
+			url: GO.url('billing/item/store')
+		}),
+		groupField: 'item_group_name'
+	});
+					
+
+		var columnModel = new Ext.grid.ColumnModel({
+			defaults: {
+				sortable: false
+			},
+			columns: this.columnsArr
+		});
+
+		this.cm = columnModel;
+
+
+
+
+
+		
+
+
+		this.store.on('load', this.updateTotals, this);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+		this.on('afteredit', this.afterEdit, this);
+		this.on('beforeedit', this.beforeEdit, this);
+
+		this.addEvents({
+			'afternoedit': true
+		});
+
+		this.on('afternoedit', this.afterNoEdit, this);
+
+		this.on('rowcontextmenu', function (grid, rowIndex, e) {
+			e.stopEvent();
+			var sm = this.getSelectionModel();
+			if (sm.isSelected(rowIndex) !== true) {
+				sm.clearSelections();
+				sm.selectRow(rowIndex);
 			}
-				
-			this.updateTotals();
-		},
-		scope: this
-	}
-	,{
-		iconCls: 'btn-settings',
-		text: GO.billing.lang.itemGroups,
-		cls: 'x-btn-text-icon',
-		handler: function(){
-			this.showGroupManagementDialog();
-		},
-		scope: this
-	},{
-		iconCls: 'btn-import',
-		text: GO.billing.lang['importItems'],
-		cls: 'x-btn-text-icon',
-		handler: function() {
-			if (!this.importItemsDialog) {
-				this.importItemsDialog = new GO.billing.ImportItemsWindow();
-				this.importItemsDialog.on('import',function(){
-					this.store.load();
-				}, this);
-			}
-			this.importItemsDialog.show(this.order_id);
-		},
-		scope: this
-	}
-	];
 
-	
-	
-	GO.billing.ItemsGrid.superclass.constructor.call(this, config);
-	
-	/*this.on('rowdblclick', function(grid, rowIndex){
-		var record = grid.getStore().getAt(rowIndex);	
-		
-		this.itemDialog.show(record.data.id);
-		
-		}, this);*/
-		
-		
-	this.on('afteredit', this.afterEdit, this);
-	this.on('beforeedit', this.beforeEdit, this);
-	
-	this.addEvents({
-		'afternoedit' : true
-	});
-	
-	this.on('afternoedit', this.afterNoEdit, this);
-	
-	this.on('rowcontextmenu', function(grid,rowIndex,e){	
-		e.stopEvent();
-		var sm =this.getSelectionModel();
-		if(sm.isSelected(rowIndex) !== true) {
-			sm.clearSelections();
-			sm.selectRow(rowIndex);
-		}
+			this.showContextMenu(e);
+		}, this);
 
-		this.showContextMenu(e);
-	},this);
-	
+		GO.billing.ItemsGrid.superclass.initComponent.call(this);
+	},
 
-	
-};
-
-Ext.extend(GO.billing.ItemsGrid, Ext.grid.EditorGridPanel,{
-	changed : false,
-
-	defaultCostCode : '',
-
-	supplier_id : 0,
-	
 	/**
 	 * 
 	 * Override the initEvets function because of lost focus problem on scroll
 	 * 
 	 * @returns {undefined}
 	 */
-	 initEvents : function(){
-			Ext.grid.EditorGridPanel.superclass.initEvents.call(this);
+	initEvents: function () {
+		Ext.grid.EditorGridPanel.superclass.initEvents.call(this);
 
 //			this.getGridEl().on('mousewheel', this.stopEditing.createDelegate(this, [true]), this); // <-- Commented out this because of scroll problem
-			this.on('columnresize', this.stopEditing, this, [true]);
+		this.on('columnresize', this.stopEditing, this, [true]);
 
-			if(this.clicksToEdit == 1){
-					this.on("cellclick", this.onCellDblClick, this);
-			}else {
-					var view = this.getView();
-					if(this.clicksToEdit == 'auto' && view.mainBody){
-							view.mainBody.on('mousedown', this.onAutoEditClick, this);
-					}
-					this.on('celldblclick', this.onCellDblClick, this);
+		if (this.clicksToEdit == 1) {
+			this.on("cellclick", this.onCellDblClick, this);
+		} else {
+			var view = this.getView();
+			if (this.clicksToEdit == 'auto' && view.mainBody) {
+				view.mainBody.on('mousedown', this.onAutoEditClick, this);
 			}
+			this.on('celldblclick', this.onCellDblClick, this);
+		}
 	},
 
-	
-	showContextMenu : function(e) {
-		
-		if(!this.contextMenu)
+	showContextMenu: function (e) {
+
+		if (!this.contextMenu)
 			this.contextMenu = new GO.billing.ItemContextMenu();
 
-		this.contextMenu.itemsGrid=this;
+		this.contextMenu.itemsGrid = this;
 		this.contextMenu.showAt(e.getXY());
 	},
-	
-	afterRender : function(){
-		
+
+	afterRender: function () {
+
 		GO.billing.ItemsGrid.superclass.afterRender.call(this);
 		//enable row sorting
-		var DDtarget = new Ext.dd.DropTarget(this.getView().mainBody, 
-		{
-			ddGroup : 'bsItemsDD',
-			copy:false,
-			notifyDrop : this.notifyDrop.createDelegate(this)
-		});
+		var DDtarget = new Ext.dd.DropTarget(this.getView().mainBody,
+						{
+							ddGroup: 'bsItemsDD',
+							copy: false,
+							notifyDrop: this.notifyDrop.createDelegate(this)
+						});
 
 		//this.selectSupplier.store.load();
 	},
-	
-	addBlankRow : function(){
+
+	addBlankRow: function () {
 		//this.itemDialog.show();
 		//this.itemDialog.formPanel.baseParams.order_id=this.store.baseParams.order_id;
-  	
+
 		var i = new GO.billing.OrderItem({
-			id:0,
+			id: 0,
 			amount: 1,
 			vat: GO.billing.defaultVAT,
 			unit_price: 0,
 			unit_list: 0,
 			unit_cost: 0,
-			item_price:0,
-			item_total:0,
+			item_price: 0,
+			item_total: 0,
 			discount: 0,
 			unit_total: 0,
 			product_id: 0,
@@ -631,21 +626,21 @@ Ext.extend(GO.billing.ItemsGrid, Ext.grid.EditorGridPanel,{
 			order_at_supplier_company_id: this.supplier_id,
 			order_at_supplier_company_name: this.supplier_name,
 			note: '',
-			item_group_id:0,
-			item_group_name:"",
-			order_at_supplier:GO.billing.isPurchaseOrderBook,
-			markup:0
+			item_group_id: 0,
+			item_group_name: "",
+			order_at_supplier: GO.billing.isPurchaseOrderBook,
+			markup: 0
 		});
 		this.stopEditing();
 		this.store.insert(this.store.getCount(), i);
-		this.startEditing(this.store.getCount()-1, 1);
+		this.startEditing(this.store.getCount() - 1, 1);
 
 	},
 
-	addPageBreak : function(){
+	addPageBreak: function () {
 
 		var i = new GO.billing.OrderItem({
-			id:0,
+			id: 0,
 			amount: '0',
 			vat: '0',
 			unit_price: '0',
@@ -659,75 +654,75 @@ Ext.extend(GO.billing.ItemsGrid, Ext.grid.EditorGridPanel,{
 			item_price: '0',
 			item_total: '0',
 			note: '',
-			item_group_id:0,
-			item_group_name:""
+			item_group_id: 0,
+			item_group_name: ""
 		});
 		this.stopEditing();
 		this.store.insert(this.store.getCount(), i);
 		//this.startEditing(this.store.getCount()-1, 1);
 
 	},
-	
-	addProducts: function(records)
+
+	addProducts: function (records)
 	{
-		if(records.length > 0)
+		if (records.length > 0)
 		{
 			var product_ids = new Array();
 			var product_amounts = new Array()
-			for(var i=0; i<records.length; i++)
+			for (var i = 0; i < records.length; i++)
 			{
 				//var id = records[i].id.substr(2);
 
 //				if(id)
 //				{
-					product_ids[i] = records[i].id;
-					product_amounts[i] = records[i].amount;
+				product_ids[i] = records[i].id;
+				product_amounts[i] = records[i].amount;
 //				}
 			}
 
-			this.changed=true;
-			
+			this.changed = true;
+
 			GO.request({
 				url: 'billing/product/loadAsItems',
 //				maskEl:this.body,
-				params: {					
+				params: {
 					product_ids: Ext.encode(product_ids),
 					order_id: this.order_id,
 					default_supplier_id: this.supplier_id
 				},
-				success: function(options, response, result)
+				success: function (options, response, result)
 				{
 					var results = result.results;
-					for(var i=0; i<results.length; i++)
+					for (var i = 0; i < results.length; i++)
 					{
 						var r = results[i];
 
 						var index = product_ids.indexOf(r.id);
 						var num_items_total = product_amounts[index];
-						if(!num_items_total)
+						if (!num_items_total)
 							num_items_total = 1;
 
-						var language_id=GO.billing.orderDialog.formPanel.form.findField('language_id').getValue();
+						var language_id = GO.billing.orderDialog.formPanel.form.findField('language_id').getValue();
 
 						var item;
 
 						var max_items_stock = (r.stock - r.stock_min);
-						if(max_items_stock < 0)
+						if (max_items_stock < 0)
 						{
 							max_items_stock = 0;
 						}
 
 						var num_items_stock = (num_items_total > max_items_stock) ? max_items_stock : num_items_total;
-							
-						var desc = r['name_'+language_id];
-							
-						if(!GO.util.empty(r['description_'+language_id]))
-							desc +="\n"+r['description_'+language_id]
-							
-						if(num_items_stock > 0)
+
+						var desc = r['name_' + language_id];
+
+						if (!GO.util.empty(r['description_' + language_id]))
+							desc += "\n" + r['description_' + language_id]
+
+						if (num_items_stock > 0)
 						{
 							item = new GO.billing.OrderItem({
-								id:0,
+								id: 0,
 								amount: num_items_stock,
 								vat: GO.util.unlocalizeNumber(r.vat),
 								unit_price: r.list_price,
@@ -739,29 +734,29 @@ Ext.extend(GO.billing.ItemsGrid, Ext.grid.EditorGridPanel,{
 								description: desc,
 								order_at_supplier_company_id: r.order_at_supplier_company_id,
 								allow_supplier_update: r.allow_supplier_update,
-								item_price:num_items_stock*r.list_price,
-								item_total:num_items_stock*r.total_price,
-								order_at_supplier:0,
-								order_at_supplier_company_name :r.order_at_supplier_company_name,
+								item_price: num_items_stock * r.list_price,
+								item_total: num_items_stock * r.total_price,
+								order_at_supplier: 0,
+								order_at_supplier_company_name: r.order_at_supplier_company_name,
 								note: '',
-								unit:r.unit,
-								item_group_id:0,
-								item_group_name:"",
-								markup:0,
+								unit: r.unit,
+								item_group_id: 0,
+								item_group_name: "",
+								markup: 0,
 								cost_code: r.cost_code,
 								tracking_code: r.tracking_code
 							});
 
 							this.stopEditing();
 							this.store.insert(this.store.getCount(), item);
-							this.startEditing(this.store.getCount()-1, 1);
+							this.startEditing(this.store.getCount() - 1, 1);
 						}
 
 						var num_items_supplier = num_items_total - num_items_stock;
-						if(num_items_supplier > 0)
+						if (num_items_supplier > 0)
 						{
 							item = new GO.billing.OrderItem({
-								id:0,
+								id: 0,
 								amount: num_items_supplier,
 								vat: GO.util.unlocalizeNumber(r.vat),
 								unit_price: r.list_price,
@@ -773,53 +768,53 @@ Ext.extend(GO.billing.ItemsGrid, Ext.grid.EditorGridPanel,{
 								description: desc,
 								order_at_supplier_company_id: r.order_at_supplier_company_id,
 								allow_supplier_update: r.allow_supplier_update,
-								item_price:num_items_supplier*r.list_price,
-								item_total:num_items_supplier*r.total_price,
-								order_at_supplier:1,
-								order_at_supplier_company_name :r.order_at_supplier_company_name,
+								item_price: num_items_supplier * r.list_price,
+								item_total: num_items_supplier * r.total_price,
+								order_at_supplier: 1,
+								order_at_supplier_company_name: r.order_at_supplier_company_name,
 								note: '',
-								unit:r.unit,
-								item_group_id:0,
-								item_group_name:"",
-								markup:0,
+								unit: r.unit,
+								item_group_id: 0,
+								item_group_name: "",
+								markup: 0,
 								cost_code: r.cost_code,
 								tracking_code: r.tracking_code
 							});
 
 							this.stopEditing();
 							this.store.insert(this.store.getCount(), item);
-							this.startEditing(this.store.getCount()-1, 1);
+							this.startEditing(this.store.getCount() - 1, 1);
 						}
 					}
 
 					this.updateTotals();
-					
+
 				},
 				scope: this
 			});
 		}
 	},
-        
-	getGridData : function(){
-		
+
+	getGridData: function () {
+
 		var data = {};
-		
-		for (var i = 0; i < this.store.data.items.length;  i++)
+
+		for (var i = 0; i < this.store.data.items.length; i++)
 		{
 			var r = this.store.data.items[i].data;
-			
-			data[i]={};
-			
-			for(var key in r)
+
+			data[i] = {};
+
+			for (var key in r)
 			{
-				data[i][key]=r[key];
-			}	
+				data[i][key] = r[key];
+			}
 		}
-		
-		return data;		
+
+		return data;
 	},
-	overrideParams : {},
-	
+	overrideParams: {},
+
 	/**
 	 * Set the costCode field based on the trackingCode field.
 	 * 
@@ -830,13 +825,13 @@ Ext.extend(GO.billing.ItemsGrid, Ext.grid.EditorGridPanel,{
 	 * @param {type} startValue
 	 * @returns {undefined}
 	 */
-	setCostCodeField : function(ed, value, startValue){
-		if (!GO.util.empty(this.selectedTrackingCodeRecord)){
-			ed.record.set('cost_code',this.selectedTrackingCodeRecord.data.costcode);
-			this.changed=true;
+	setCostCodeField: function (ed, value, startValue) {
+		if (!GO.util.empty(this.selectedTrackingCodeRecord)) {
+			ed.record.set('cost_code', this.selectedTrackingCodeRecord.data.costcode);
+			this.changed = true;
 		}
 	},
-	
+
 	/**
 	 * Set the trackingCode field based on the costCode field.
 	 * 
@@ -845,36 +840,36 @@ Ext.extend(GO.billing.ItemsGrid, Ext.grid.EditorGridPanel,{
 	 * @param {type} startValue
 	 * @returns {undefined}
 	 */
-	setTrackingCodeField : function(ed, value, startValue){
-		ed.record.set('tracking_code','');
-		this.changed=true;
+	setTrackingCodeField: function (ed, value, startValue) {
+		ed.record.set('tracking_code', '');
+		this.changed = true;
 	},
-	
+
 	/*
 	 * Overide ext method because there's no way to capture afteredit when there's no change.
 	 * We need this because we format /unformat numbers before and after edit.
 	 */
-	onEditComplete : function(ed, value, startValue){
+	onEditComplete: function (ed, value, startValue) {
 
 		// Check if the trackingcode field is edited
-		if(ed.field.id == 'trackingCodeBox-editor'){
+		if (ed.field.id == 'trackingCodeBox-editor') {
 			this.setCostCodeField(ed, value, startValue);
 		}
-		
+
 		// Check if the costcode field is edited
-		if(ed.field.id == 'costCodeBox-editor'){
-			if(value != startValue){ // Only change the value of the trackingcode field if this value is changed
+		if (ed.field.id == 'costCodeBox-editor') {
+			if (value != startValue) { // Only change the value of the trackingcode field if this value is changed
 				this.setTrackingCodeField(ed, value, startValue);
 			}
 		}
-  	
+
 		GO.billing.ItemsGrid.superclass.onEditComplete.call(this, ed, value, startValue);
-  	
-		if(startValue != 'undefined' && String(value) === String(startValue)){
+
+		if (startValue != 'undefined' && String(value) === String(startValue)) {
 			var r = ed.record;
 			var field = this.colModel.getDataIndex(ed.col);
 			value = this.postEditValue(value, startValue, r, field);
-		    
+
 			var e = {
 				grid: this,
 				record: r,
@@ -883,118 +878,137 @@ Ext.extend(GO.billing.ItemsGrid, Ext.grid.EditorGridPanel,{
 				value: value,
 				row: ed.row,
 				column: ed.col,
-				cancel:false
+				cancel: false
 			};
 			this.fireEvent('afternoedit', e);
 		}
-  	
+
 	},
-	
-	afterNoEdit : function (e)
+
+	afterNoEdit: function (e)
 	{
 		e.record.set(e.field, this.currentOriginalValue);
-		
-		if(e.field=='discount' && e.row==this.store.getCount()-1)
+
+		if (e.field == 'discount' && e.row == this.store.getCount() - 1)
 		{
 			this.addBlankRow.defer(100, this);
 		}
 	},
-	
-	afterEdit : function (e)
-	{
-		
-		this.changed=true;
-		
-		if(e.field!='description' && e.field!='cost_code' && e.field!='tracking_code' && e.field!='note' && e.field!='unit')
-			e.record.set(e.field, GO.util.unlocalizeNumber(e.value));
-		
-		var r = e.record.data;	
 
-		switch(e.field)
+	afterEdit: function (e)
+	{
+
+		this.changed = true;
+		
+		// skip text fields
+		if(e.grid.colModel.columns[e.column].isCustomField) {
+			return true;
+		}
+		
+		if (e.field != 'description' && e.field != 'cost_code' && e.field != 'tracking_code' && e.field != 'note' && e.field != 'unit')
+			e.record.set(e.field, GO.util.unlocalizeNumber(e.value));
+
+		var r = e.record.data;
+
+		switch (e.field)
 		{
 			case 'markup':
-				var unit_price = r.unit_cost*(1+(r.markup/100));
+				var unit_price = r.unit_cost * (1 + (r.markup / 100));
 				e.record.set('unit_price', unit_price);
-				var unit_total = r.unit_price*(1+(r.vat/100));
+				var unit_total = r.unit_price * (1 + (r.vat / 100));
 				e.record.set('unit_total', unit_total);
-				var item_price = r.unit_price*(r.amount);
+				var item_price = r.unit_price * (r.amount);
 				e.record.set('item_price', this._roundTotals(item_price));
-				var item_total = r.unit_total*(r.amount);
+				var item_total = r.unit_total * (r.amount);
 				e.record.set('item_total', this._roundTotals(item_total));
 				break;
 
 			case 'amount':
-				var item_price = r.unit_price*(r.amount);
+				var item_price = r.unit_price * (r.amount);
 				e.record.set('item_price', this._roundTotals(item_price));
-				var item_total = r.unit_total*(r.amount);
+				var item_total = r.unit_total * (r.amount);
 				e.record.set('item_total', this._roundTotals(item_total));
 				break;
-			
+
 			case 'description':
-				
+
 				var combo_record = this.descriptionField.getStore().getAt(this.descriptionField.selectedIndex);
-				if(combo_record){					
+				if (combo_record) {
 					e.record.set('unit_price', GO.util.unlocalizeNumber(combo_record.json.list_price));
 					e.record.set('unit_list', GO.util.unlocalizeNumber(combo_record.json.list_price));
 					e.record.set('unit_cost', GO.util.unlocalizeNumber(combo_record.json.cost_price));
 				}
-			
+
 			case 'vat':
-				
+
 				// Do extra things for VAT
-				if(GO.util.empty(this.taxRateBox.getValue())){
+				if (GO.util.empty(this.taxRateBox.getValue())) {
 					e.record.set('vat_code', '');
 				} else {
 					var combo_record = this.taxRateBox.getStore().getAt(this.taxRateBox.selectedIndex);
-					if(combo_record) {
+					if (combo_record) {
 						e.record.set('vat_code', combo_record.data.name);
 					}
 				}
-			
+
 				// break; // Commented out because 'vat' needs to do the things underneath the 'unit_price' case too.
 			case 'unit_price':
-				var unit_total = r.unit_price*(1+(r.vat/100));
+				var unit_total = r.unit_price * (1 + (r.vat / 100));
 				e.record.set('unit_total', unit_total);
-				var item_price = r.unit_price*(r.amount);
+				var item_price = r.unit_price * (r.amount);
 				e.record.set('item_price', this._roundTotals(item_price));
-				var item_total = r.unit_total*(r.amount);
+				var item_total = r.unit_total * (r.amount);
 				e.record.set('item_total', this._roundTotals(item_total));
+				if(r.unit_cost && r.unit_price) {
+					var markup = (100 / r.unit_cost * r.unit_price) - 100;
+					e.record.set('markup',this._roundTotals(markup));
+				}
 				break;
-			
+			case 'unit_cost':
+				if(r.unit_cost && r.unit_price) {
+					var markup = (100 / r.unit_cost * r.unit_price) - 100;
+					e.record.set('markup',this._roundTotals(markup));
+				}
+				break;
+				
 			case 'unit_total':
-				var unit_price = r.unit_total/ (1+(r.vat/100));
+				var unit_price = r.unit_total / (1 + (r.vat / 100));
 				e.record.set('unit_price', unit_price);
-				var item_price = r.unit_price*(r.amount);
+				var item_price = r.unit_price * (r.amount);
 				e.record.set('item_price', this._roundTotals(item_price));
-				var item_total = r.unit_total*(r.amount);
+				var item_total = r.unit_total * (r.amount);
 				e.record.set('item_total', this._roundTotals(item_total));
+				if(r.unit_cost && r.unit_price) {
+					var markup = (100 / r.unit_cost * r.unit_price) - 100;
+					e.record.set('markup',this._roundTotals(markup));
+				}
 				break;
-			
+
 			case 'discount':
-			
+
 				var number = parseFloat(r.unit_list);
-				if(number==0)
+				if (number == 0)
 				{
 					e.record.set('unit_list', r.unit_price);
 					number = parseFloat(r.unit_list);
 				}
 
-				e.record.set('unit_price', number*((100-r.discount)/100));
-				var unit_total = r.unit_price*(1+(r.vat/100));
+				e.record.set('unit_price', number * ((100 - r.discount) / 100));
+				var unit_total = r.unit_price * (1 + (r.vat / 100));
 				e.record.set('unit_total', unit_total);
-				var item_price = r.unit_price*(r.amount);
+				var item_price = r.unit_price * (r.amount);
 				e.record.set('item_price', this._roundTotals(item_price));
-				var item_total = r.unit_total*(r.amount);
+				var item_total = r.unit_total * (r.amount);
 				e.record.set('item_total', this._roundTotals(item_total));
 				break;
-		}		
-		
+		}
+
 		this.updateTotals();
 	},
 
-	beforeEdit : function(e)
+	beforeEdit: function (e)
 	{
-		if(e.record.get('description')=='PAGEBREAK'){
+		if (e.record.get('description') == 'PAGEBREAK') {
 			return false;
 		}
 
@@ -1002,131 +1016,128 @@ Ext.extend(GO.billing.ItemsGrid, Ext.grid.EditorGridPanel,{
 
 		var col = this.colModel.getColumnById(colId);
 
-		if(col.dataIndex == 'order_at_supplier_company_id' && !e.record.data.allow_supplier_update)
+		if (col.dataIndex == 'order_at_supplier_company_id' && !e.record.data.allow_supplier_update)
 		{
 			return false;
 		}
 
-		this.currentOriginalValue=e.value;
-		if(col && col.editor && col.editor.decimals)
+		this.currentOriginalValue = e.value;
+		if (col && col.editor && col.editor.decimals)
 		{
 			e.record.set(e.field, GO.util.numberFormat(e.value));
 		}
 	},
-	
-	
-	
-	setIds : function(ids)
+
+	setIds: function (ids)
 	{
-		for(var index in ids)
+		for (var index in ids)
 		{
-			if(index!="remove")
+			if (index != "remove")
 			{
 				this.store.data.items[index].set('id', ids[index]);
 			}
 		}
 	},
-	
-	notifyDrop : function(dd, e, data)
+
+	notifyDrop: function (dd, e, data)
 	{
-		if(this.editing)
+		if (this.editing)
 			return false;
-		
-		var sm=this.getSelectionModel();
-		var rows=sm.getSelections();
+
+		var sm = this.getSelectionModel();
+		var rows = sm.getSelections();
 		var dragData = dd.getDragData(e);
-		var cindex=dragData.rowIndex;
-		
-		if(typeof(cindex)=='undefined')
+		var cindex = dragData.rowIndex;
+
+		if (typeof (cindex) == 'undefined')
 			return false;
-		
+
 //		if(cindex=='undefined')
 //		{
 //			cindex=this.store.data.length-1;
 //		}	
-		
-		for(i = 0; i < rows.length; i++) 
-		{								
-			var rowData=this.store.getById(rows[i].id);
-			
+
+		for (i = 0; i < rows.length; i++)
+		{
+			var rowData = this.store.getById(rows[i].id);
+
 			var targetRow = this.store.getAt(cindex);
-			
-			if(!this.copy){
+
+			if (!this.copy) {
 				this.store.remove(this.store.getById(rows[i].id));
 			}
-			rowData.set('item_group_name',targetRow.get('item_group_name'));
-			rowData.set('item_group_id',targetRow.get('item_group_id'));			
-			
-			this.store.insert(cindex,rowData);
+			rowData.set('item_group_name', targetRow.get('item_group_name'));
+			rowData.set('item_group_id', targetRow.get('item_group_id'));
+
+			this.store.insert(cindex, rowData);
 		}
-		
+
 		//save sort order							
 		var records = [];
-		for (var i = 0; i < this.store.data.items.length;  i++)
+		for (var i = 0; i < this.store.data.items.length; i++)
 		{
 			records.push({
 				id: this.store.data.items[i].get('id'),
-				sort_order : i
+				sort_order: i
 			});
 		}
-  	
-		this.changed=true;
-	/*
-		
-		Ext.Ajax.request({
-			url: GO.settings.modules.billing.url+'action.php',
-			params: {
-				task: 'save_items_sort_order',
-				items: Ext.encode(records)
-			}
-		});*/					
-		
+
+		this.changed = true;
+		/*
+		 
+		 Ext.Ajax.request({
+		 url: GO.settings.modules.billing.url+'action.php',
+		 params: {
+		 task: 'save_items_sort_order',
+		 items: Ext.encode(records)
+		 }
+		 });*/
+
 	},
-	
-	numberRenderer : function(v, meta, record)
+
+	numberRenderer: function (v, meta, record)
 	{
-		if(record.get('description')=='PAGEBREAK'){
+		if (record.get('description') == 'PAGEBREAK') {
 			return '-';
 		}
 
 		//v = GO.util.unlocalizeNumber(v);
 		return GO.util.numberFormat(v);
 	},
-	
-	numberVATRenderer : function(v, meta, record)
+
+	numberVATRenderer: function (v, meta, record)
 	{
-		
+
 		var suffix = '';
-		
-		if(record.get('vat_code')){
-			suffix += '% - '+record.get('vat_code');
+
+		if (record.get('vat_code')) {
+			suffix += '% - ' + record.get('vat_code');
 		}
 
-		return GO.util.numberFormat(v)+suffix;
+		return GO.util.numberFormat(v) + suffix;
 	},
 
-	amountRenderer : function(v, meta, record)
+	amountRenderer: function (v, meta, record)
 	{
-		if(record.get('description')=='PAGEBREAK'){
+		if (record.get('description') == 'PAGEBREAK') {
 			return '-';
 		}
 
-		var unit = (record.data.unit) ? ' '+record.data.unit : '';
+		var unit = (record.data.unit) ? ' ' + record.data.unit : '';
 
 		//v = GO.util.unlocalizeNumber(v);
-		return GO.util.numberFormat(v)+unit;
+		return GO.util.numberFormat(v) + unit;
 	},
 
-
-	comboRenderer : function(v, meta, record)
+	comboRenderer: function (v, meta, record)
 	{
 		var name = (record.data) ? record.data.order_at_supplier_company_name : '';
 
 		return name;
 	},
 
-	updateTotals : function(){
-				
+	updateTotals: function () {
+
 		var records = this.store.getRange();
 		
 		var costs = 0;
@@ -1134,97 +1145,107 @@ Ext.extend(GO.billing.ItemsGrid, Ext.grid.EditorGridPanel,{
 		var total = 0;		
 		var amount = 0;
 
-		for(var i=0;i<records.length;i++)
+		for (var i = 0; i < records.length; i++)
 		{
 			amount = parseFloat(records[i].get("amount"));			
-			total += amount*parseFloat(records[i].get("unit_total"));
-			subtotal += amount*parseFloat(records[i].get("unit_price"));
-			costs += amount*parseFloat(records[i].get("unit_cost"));
+			total += amount * parseFloat(records[i].get("unit_total"));
+			subtotal += amount * parseFloat(records[i].get("unit_price"));
+			costs += amount * parseFloat(records[i].get("unit_cost"));
 		}
 		
 		total = this._roundTotals(total);
 		subtotal = this._roundTotals(subtotal);
 		costs = this._roundTotals(costs);
 		
-		var profit = (subtotal-costs);
-		var margin = profit/(costs/100);
+		var profit = (subtotal - costs);
+		
+		var margin = 0;
+		if(costs > 0){
+			margin = profit/(costs/100);
+		}
+	
 		var vat = total-subtotal;
 		
 		GO.billing.itemsCostsField.setValue(GO.util.numberFormat(costs.toString()));
 		GO.billing.itemsProfitField.setValue(GO.util.numberFormat(profit.toString()));
-		GO.billing.itemsMarginField.setValue(GO.util.numberFormat(margin.toString())+'%');
+		GO.billing.itemsMarginField.setValue(GO.util.numberFormat(margin.toString()) + '%');
 		GO.billing.itemsSubtotalField.setValue(GO.util.numberFormat(subtotal.toString()));
 		GO.billing.itemsVatField.setValue(GO.util.numberFormat(vat.toString()));
 		GO.billing.itemsTotalField.setValue(GO.util.numberFormat(total.toString()));
 		
-		this.store.loaded=true;
+		this.store.loaded = true;
 	},
-	
+
 	_roundTotals: function (amount) {
-		if(!GO.billing.billingRound)
-			return Math.round(amount*100)/100;
-		switch(GO.billing.billingRound) { // Javascript its floats are only 13 digits after the decimal (fix infinity problem with toPrecision)
-			case 'up' : return Math.ceil(amount.toPrecision(12)*100)/100;
-			case 'down' : return Math.floor(amount.toPrecision(12)*100)/100;
-			default : return Math.round(amount*100)/100;
+		if (!GO.billing.billingRound)
+			return Math.round(amount * 100) / 100;
+		switch (GO.billing.billingRound) { // Javascript its floats are only 13 digits after the decimal (fix infinity problem with toPrecision)
+			case 'up' :
+				return Math.ceil(amount.toPrecision(12) * 100) / 100;
+			case 'down' :
+				return Math.floor(amount.toPrecision(12) * 100) / 100;
+			default :
+				return Math.round(amount * 100) / 100;
 		}
 	},
-        
-	setSupplierId : function(book_id, supplier_id, supplier_name)
+
+	setSupplierId: function (book_id, supplier_id, supplier_name)
 	{
 		var book = GO.billing.readableBooksStore.getById(book_id);
-		if(!book)
+		if (!book)
 		{
 			book = GO.billing.orderDialog.selectBook.store.getById(book_id);
 		}
-		if(book)
+		if (book)
 		{
 			this.supplier_id = (book.json.is_purchase_orders_book == '1') ? supplier_id : 0;
 			this.supplier_name = (book.json.is_purchase_orders_book == '1') ? supplier_name : "";
 			this.setBookId(book_id);
-		}else
+		} else
 		{
 			this.supplier_id = 0;
-			this.supplier_name="";
+			this.supplier_name = "";
 		}
 	},
-	
-	showGroupManagementDialog : function() {
+
+	showGroupManagementDialog: function () {
 		if (!this.existingGroupsDialog) {
 			this.existingGroupsDialog = new GO.billing.ExistingGroupsDialog();
-			this.existingGroupsDialog.on('groupSelected', function(item_group_id){
+			this.existingGroupsDialog.on('groupSelected', function (item_group_id) {
 				if (this.existingGroupsDialog.isManageDialog)
 					this.changeGroup(item_group_id);
 			}, this);
-			this.existingGroupsDialog.on('hide', function(){
-				this.orderDialog.submitForm(false,{
-					scope:this,
-					callback:function(){
+			this.existingGroupsDialog.on('hide', function () {
+				this.orderDialog.submitForm(false, {
+					scope: this,
+					callback: function () {
 						this.store.load();
 					}
 				});
-				
-			},this);
+
+			}, this);
 		}
 		this.existingGroupsDialog.setManageDialog(true);
 		this.existingGroupsDialog.setOrderId(this.order_id);
 		this.existingGroupsDialog.show();
 	},
-	
-	setPurchaseOrderBook : function(isPOBook){
+
+	setPurchaseOrderBook: function (isPOBook) {
 		var cm = this.getColumnModel();
 		var index = cm.findColumnIndex('order_at_supplier');
-		cm.setHidden(index, !isPOBook);
+		if(index>0) {
+			cm.setHidden(index, !isPOBook);
+		}
 	},
-	
-	setOrderId : function(order_id, isPOBook) {		
-		this.store.baseParams.order_id=order_id;
-		this.store.loaded=false;
+
+	setOrderId: function (order_id, isPOBook) {
+		this.store.baseParams.order_id = order_id;
+		this.store.loaded = false;
 		this.order_id = order_id;
 	},
-	
-	setBookId : function(book_id){
-		if(this.book_id != book_id){
+
+	setBookId: function (book_id) {
+		if (this.book_id != book_id) {
 			this.book_id = book_id;
 			this.trackingCodeBox.store.baseParams.book_id = book_id;
 			this.trackingCodeBox.store.load();

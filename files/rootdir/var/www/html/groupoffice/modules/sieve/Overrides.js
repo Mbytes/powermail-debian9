@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: Overrides.js 20382 2016-08-29 10:17:29Z mschering $
+ * @version $Id: Overrides.js 20871 2017-02-21 10:53:37Z mschering $
  * @copyright Copyright Intermesh
  * @author Wesley Smits <wsmits@intermesh.nl>
  */
@@ -65,8 +65,8 @@ GO.moduleManager.onModuleReady('email',function(){
 							this.tabPanel.unhideTabStripItem(this.filterGrid);
 						}						
 					},
-					fail: function(response){
-						alert(GO.sieve.lang.checksieveerror);						
+					fail: function(response, options, result) {
+						Ext.Msg.alert(GO.sieve.lang.checksieveerror);			
 					},
 					params: {
 						account_id: this.account_id

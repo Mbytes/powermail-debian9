@@ -139,17 +139,21 @@ abstract class AbstractCustomFieldsRecord extends \GO\Base\Db\ActiveRecord{
 	 */
 	public function getDefaultFindSelectFields($single=false, $tableAlias='t'){
 		
-		if($single)
-			return $tableAlias.'.*';
+		// This is changed so that textarea fields are also returned.
+		// This was needed to make the external api be able to return all data
 		
-		$fields=array();
-		
-		foreach($this->columns as $name=>$attr){
-			if($attr['gotype']=='customfield' && !$attr['customfield']->exclude_from_grid && $attr['customfield']->customfieldtype->selectForGrid())
-				$fields[]=$name;
-		}		
-		
-		return count($fields) ? "`$tableAlias`.`".implode('`, `'.$tableAlias.'`.`', $fields)."`" : "";
+		return $tableAlias.'.*';
+//		if($single)
+//			return $tableAlias.'.*';
+//		
+//		$fields=array();
+//		
+//		foreach($this->columns as $name=>$attr){
+//			if($attr['gotype']=='customfield' && !$attr['customfield']->exclude_from_grid && $attr['customfield']->customfieldtype->selectForGrid())
+//				$fields[]=$name;
+//		}		
+//		
+//		return count($fields) ? "`$tableAlias`.`".implode('`, `'.$tableAlias.'`.`', $fields)."`" : "";
 	}
 	
 	public function validate() {
@@ -411,6 +415,21 @@ abstract class AbstractCustomFieldsRecord extends \GO\Base\Db\ActiveRecord{
 		else
 			return false;
 	}
+	
+	// Call an afterParentSave function on the Customfield type, so code can be
+	// executed after save. (Example usage in GO\Sonycustomhistory\Customfieldtype\Customhistory)
+	public function save($ignoreAcl=false){
+		
+		foreach($this->columns as $col=>$data){
+			
+			if(isset($data['customfield'])){
+				$field = $data['customfield'];
+				$field->customfieldtype->afterParentSave($col, $this->_rawPostedAttributes, $this->getModifiedAttributes(), $this);
+			}
+		}		
+		return parent::save($ignoreAcl);
+	}
+	
 	
 //	public function save($ignoreAcl=false) {
 //		

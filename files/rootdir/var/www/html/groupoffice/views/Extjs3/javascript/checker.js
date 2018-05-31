@@ -379,6 +379,9 @@ Ext.extend(GO.Checker, Ext.util.Observable, {
 		requests: {
 			reminders: {
 				r:"reminder/store"
+			},
+			loginstatus:{
+				r:"core/auth/checkclient"
 			}
 		}
 	},
@@ -444,7 +447,9 @@ Ext.extend(GO.Checker, Ext.util.Observable, {
 								popup:false,
 								getParams:{}
 							});
-						} else if (id!='success') {
+						} else if(id=="loginstatus") {
+							this.handleLoginstatusResponse(result[id]);
+						}	else if (id!='success') {
 							this.callbacks[id].callback.call(this.callbacks[id].scope, this, result[id],data);
 						}
 						if (id=="emails") {
@@ -580,5 +585,15 @@ Ext.extend(GO.Checker, Ext.util.Observable, {
 		}
 
 		
+	},
+	
+	handleLoginstatusResponse : function(data){
+		
+		// If the login is not valid anymore, then the user is logged out and the browser will be redirected to the login screen
+		if(!data.loginValid){
+			document.location.href=BaseHref;
+		}
+
 	}
+
 });

@@ -268,5 +268,47 @@ class DateTime extends \DateTime {
 
 		return rtrim($string,', ');
 	}
+	
+	/**
+	 * Get the start of the day of the given timestamp.
+	 * Optional: Give a time zone
+	 * 
+	 * @param unix timestamp $timestamp
+	 * @param string $timezone
+	 * @return \GO\Base\Util\Date\DateTime
+	 */
+	public static function getDayStart($timestamp,$timezone=false){
+		$dtNow = new DateTime();
+		
+		if(!empty($timezone)){
+			$dtNow->setTimezone(new DateTimeZone($timezone));
+		}
+		
+		$dtNow->setTimestamp($timestamp);
+
+		$beginOfDay = clone $dtNow;
+		$beginOfDay->modify('today');
+		
+		return $beginOfDay;
+	}
+	
+	/**
+	 * Get the end of the day of the given timestamp.
+	 * Optional: Give a time zone
+	 * 
+	 * @param unix timestamp $timestamp
+	 * @param string $timezone
+	 * @return \GO\Base\Util\Date\DateTime
+	 */
+	public static function getDayEnd($timestamp,$timezone=false){
+		
+		$endOfDay = self::getDayStart($timestamp,$timezone);
+	
+		$endOfDay->modify('tomorrow');
+		// adjust from the next day to the end of the day, per original question
+//		$endOfDay->modify('1 second ago');
+		
+		return $endOfDay;
+	}
 
 }

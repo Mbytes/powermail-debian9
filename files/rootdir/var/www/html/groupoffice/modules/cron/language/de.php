@@ -1,6 +1,6 @@
 <?php
 $l['name'] = 'Systemaufgabe';
-$l['description'] = 'Modul zur Verwaltung von Systemaufgaben innerhalb von Group-Office.';
+$l['description'] = 'Modul zur Verwaltung von Systemaufgaben innerhalb von {product_name}.';
 
 $l['cronManager'] = 'Systemaufgaben verwalten';
 

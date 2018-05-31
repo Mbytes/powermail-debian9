@@ -61,7 +61,11 @@ GO.addressbook.ManageAddressbooksGrid = function(config){
 				text: GO.lang.cmdDelete, 
 				cls: 'x-btn-text-icon', 
 				handler: function(){
-					this.deleteSelected();
+					this.deleteSelected({
+						success: function() {
+							GO.addressbook.readableAddressbooksStore.load();
+						}
+					});
 				}, 
 				disabled: !GO.settings.modules.addressbook.write_permission,
 				scope: this
@@ -82,9 +86,9 @@ GO.addressbook.ManageAddressbooksGrid = function(config){
 
 	// Moved here from Stores.js to let this event only fire from within the
 	// administration grid.
-	this.store.on('load', function(){
-		GO.addressbook.readableAddressbooksStore.load();
-	}, this);
+//	this.store.on('load', function(){
+//		GO.addressbook.readableAddressbooksStore.load();
+//	}, this);
 };
 
 

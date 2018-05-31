@@ -77,10 +77,10 @@ Ext.extend(GO.billing.StockDialog, Ext.Window,{
                                 
 		if(records.length > 0)
 		{
-			for(var i=0; i<records.length; i++)
-			{
-				records[i].id = records[i].id.substr(2);
-			}
+//			for(var i=0; i<records.length; i++)
+//			{
+//				records[i].id = records[i].id.substr(2);
+//			}
 
 			this.formPanel.form.submit(
 			{

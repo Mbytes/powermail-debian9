@@ -77,13 +77,21 @@ class Startums extends AbstractParser
     }
 	
 	protected function sender(array $lines){
-		\GO::debug($lines);
-		$name = explode('?32', $lines[1]);
-		return isset($name[1]) ? trim(str_replace(array("?21","?33"), array("", ""),$name[1])) : '';
+//		\GO::debug($lines);
+		
+		preg_match('/\?32([^\?]*)\?/', $lines[1], $matches);
+		
+		return isset($matches[1]) ? $matches[1] : '';
+//		
+//		$name = explode('?32', $lines[1]);
+//		return isset($name[1]) ? trim(str_replace(array("?21","?33"), array("", ""),$name[1])) : '';
 	}
 	
 	protected function description($description) {
-		$noname = explode('?32', $description);
-		return implode("\n",preg_split("/\?[0-9][0-9]/", str_replace(array("?21","?33"), array("", ""),$noname[0])));
+//		$noname = explode('?32', $description);
+//		return implode("\n",preg_split("/\?[0-9][0-9]/", str_replace(array("?21","?33"), array("", ""),$noname[0])));
+		preg_match('/\?20([^\?]*)\?/', $description, $matches);
+		
+		return isset($matches[1]) ? $matches[1] : '';
 	}
 }

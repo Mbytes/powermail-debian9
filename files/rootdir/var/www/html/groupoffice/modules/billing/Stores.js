@@ -76,7 +76,8 @@ GO.billing.languagesStore = new GO.data.JsonStore({
 GO.billing.expenseCategoriesStore = new GO.data.JsonStore({
 	    url: GO.url('billing/expenseCategory/store'),
 	    baseParams: {
-	    	expense_book_id: 0	    	
+	    	expense_book_id: 0	,
+				limit: 0
 	    },
 	    root: 'results',
 	    id: 'id',

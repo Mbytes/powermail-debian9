@@ -471,7 +471,7 @@ class Html2Text
 			$text = wordwrap($text, $this->width);
 		}
 
-		$this->text = $text;
+		$this->text = trim($text);
 
 		$this->_converted = true;
 	}

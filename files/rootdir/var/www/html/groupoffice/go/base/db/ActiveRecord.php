@@ -324,6 +324,15 @@ abstract class ActiveRecord extends \GO\Base\Model{
 	public function hasFiles(){
 		return isset($this->columns['files_folder_id']);
 	}
+	
+	/**
+	 * Set to true to always create a files folder. Note that you may not use an auto increment ID in the buildFilesFolder() function when this is set to true.
+	 * 
+	 * @return bool
+	 */
+	public function alwaysCreateFilesFolder() {
+		return (isset($this->acl_id) && !$this->aclOverwrite());
+	} 
 
 	/**
 	 * Set to true to enable links for this model. A table go_links_$this->tableName() must be created
@@ -841,8 +850,10 @@ abstract class ActiveRecord extends \GO\Base\Model{
 	 * @return int ACL id from go_acl_items table.
 	 */
 	public function findAclId() {
-		if (!$this->aclField())
-			return false;
+		if (!$this->aclField()) {
+			$moduleName = $this->getModule();
+			return \GO::modules()->{$moduleName}->acl_id;
+		}
 
 		//removed caching of _acl_id because the relation is cached already and when the relation changes the wrong acl_id is returned,
 		////this happened when moving contacts from one acl to another.
@@ -1079,6 +1090,8 @@ abstract class ActiveRecord extends \GO\Base\Model{
 	 */
 	public function getDefaultFindSelectFields($single=false, $tableAlias='t'){
 
+		$fields = array();
+		
 		//when upgrading we must refresh columns
 		if(Columns::$forceLoad)
 			$this->columns = Columns::getColumns ($this);
@@ -1091,6 +1104,10 @@ abstract class ActiveRecord extends \GO\Base\Model{
 				$fields[]=$name;
 		}
 
+		// This is added so we can see the class when this error occurs
+		if(empty($fields)){
+			throw new \Exception('Variable $fields is empty for class: '.self::className());
+		}
 
 		return "`$tableAlias`.`".implode('`, `'.$tableAlias.'`.`', $fields)."`";
 	}
@@ -2290,6 +2307,11 @@ ORDER BY `book`.`name` ASC ,`order`.`btime` DESC
 			}
 
 			switch($this->columns[$column]['gotype']){
+				
+				case 'time':
+					return \GO\Base\Util\Date::toDbTime($value);
+					break;
+				
 				case 'unixdate':
 				case 'unixtimestamp':
 					if($this->columns[$column]['null'] && ($value=="" || $value==null))
@@ -2369,6 +2391,10 @@ ORDER BY `book`.`name` ASC ,`order`.`btime` DESC
 
 		switch($this->columns[$attributeName]['gotype']){
 
+			case 'time':
+				return \GO\Base\Util\Date::formatTime($value);
+				break;
+			
 			case 'unixdate':
 				return \GO\Base\Util\Date::get_timestamp($value, false);
 				break;
@@ -2778,14 +2804,14 @@ ORDER BY `book`.`name` ASC ,`order`.`btime` DESC
 
 			$attributes=$this->columns[$field];
 
-			if(!empty($attributes['required']) && empty($this->_attributes[$field])){
+			if(!empty($attributes['required']) && empty($this->_attributes[$field]) && $this->_attributes[$field] !== '0'){
 				$this->setValidationError($field, sprintf(GO::t('attributeRequired'),$this->getAttributeLabel($field)));
 			}elseif(!empty($attributes['length']) && !empty($this->_attributes[$field]) && \GO\Base\Util\StringHelper::length($this->_attributes[$field])>$attributes['length'])
 			{
 				$this->setValidationError($field, sprintf(GO::t('attributeTooLong'),$this->getAttributeLabel($field),$attributes['length']));
 			}elseif(!empty($attributes['regex']) && !empty($this->_attributes[$field]) && !preg_match($attributes['regex'], $this->_attributes[$field]))
 			{
-				$this->setValidationError($field, sprintf(GO::t('attributeIncorrectFormat'),$this->getAttributeLabel($field)));
+				$this->setValidationError($field, sprintf(GO::t('attributeIncorrectFormat'),$this->getAttributeLabel($field)).' ('.$this->$field.')');
 			}elseif(!empty($attributes['greater']) && !empty($this->_attributes[$field])){
 				if($this->_attributes[$field]<=$this->_attributes[$attributes['greater']])
 					$this->setValidationError($field, sprintf(GO::t('attributeGreater'), $this->getAttributeLabel($field), $this->getAttributeLabel($attributes['greater'])));
@@ -2799,6 +2825,8 @@ ORDER BY `book`.`name` ASC ,`order`.`btime` DESC
 
 		$this->_validateUniqueColumns();
 
+		$this->fireEvent('validate',array(&$this));
+	
 		return !$this->hasValidationErrors();
 	}
 
@@ -3102,7 +3130,7 @@ ORDER BY `book`.`name` ASC ,`order`.`btime` DESC
 			return false;
 		}
 
-
+		
 		/*
 		 * Set some common column values
 		*/
@@ -3179,12 +3207,10 @@ ORDER BY `book`.`name` ASC ,`order`.`btime` DESC
 					$this->setNewAcl(GO::user() ? GO::user()->id : 1);
 			}
 
-			if ($this->hasFiles() && GO::modules()->isInstalled('files')) {
-				//ACL must be generated here.
-				$fc = new \GO\Files\Controller\FolderController();
-				$this->files_folder_id = $fc->checkModelFolder($this);
+			if ($this->hasFiles() && GO::modules()->isInstalled('files')) {		
+				$this->checkModelFolder();
 			}
-
+			
 			if(!$this->beforeSave()){
 				GO::debug("WARNING: ".$this->className()."::beforeSave returned false or no value");
 				return false;
@@ -3284,6 +3310,13 @@ ORDER BY `book`.`name` ASC ,`order`.`btime` DESC
 
 		return true;
 	}
+	
+	protected function checkModelFolder() {
+		//ACL must be generated here.
+		$fc = new \GO\Files\Controller\FolderController();
+		$this->files_folder_id = $fc->checkModelFolder($this);
+
+	}
 
 	/**
 	 * Get the message for the log module. Returns the contents of the first text column by default.
@@ -3303,6 +3336,45 @@ ORDER BY `book`.`name` ASC ,`order`.`btime` DESC
 	}
 
 	/**
+	 * Get the JSON data string for the given log action
+	 * 
+	 * @param string $action
+	 * @return array Data for the JSON string 
+	 */
+	public function getLogJSON($action){
+		
+		$cutoffString = ' ..Cut off at 500 chars.';
+		$cutoffLength = 500;
+		
+		switch($action){
+			case \GO\Log\Model\Log::ACTION_DELETE:
+				return $this->getAttributes();
+			case \GO\Log\Model\Log::ACTION_UPDATE:
+				$oldValues = $this->getModifiedAttributes();
+				
+				$modifications = array();
+				foreach($oldValues as  $key=>$oldVal){
+					
+					$newVal = $this->getAttribute($key);
+					if(strlen($newVal) > $cutoffLength){
+						$newVal = substr($newVal,0,$cutoffLength).$cutoffString;
+					}
+					
+					if(strlen($oldVal) > $cutoffLength){
+						$oldVal = substr($oldVal,0,$cutoffLength).$cutoffString;
+					}
+					
+					$modifications[$key]=array($oldVal,$newVal);	
+				}
+				return $modifications;
+			case \GO\Log\Model\Log::ACTION_ADD:
+				return $this->getAttributes();
+		}
+		
+		return array();
+	}
+	
+	/**
 	 * Will all a log record in go_log
 	 * Made protected to be used in \GO\Files\Model\File
 	 * @param StringHelper $action
@@ -3313,6 +3385,9 @@ ORDER BY `book`.`name` ASC ,`order`.`btime` DESC
 
 		$message = $this->getLogMessage($action);
 		if($message && GO::modules()->isInstalled('log')){
+			
+			$data = $this->getLogJSON($action);
+			
 			$log = new \GO\Log\Model\Log();
 
 			$pk = $this->pk;
@@ -3322,6 +3397,7 @@ ORDER BY `book`.`name` ASC ,`order`.`btime` DESC
 			$log->model=$this->className();
 			$log->message = $message;
 			$log->object=$this;
+			$log->jsonData = json_encode($data);
 			if($save)
 				return $log->save();
 			else
@@ -3533,7 +3609,7 @@ ORDER BY `book`.`name` ASC ,`order`.`btime` DESC
 				'name' => '',
 				'description'=>'',
 				'type'=>$this->localizedName, //deprecated, for backwards compatibilty
-				'keywords'=>$this->getSearchCacheKeywords($this->localizedName),
+				'keywords'=>$this->getSearchCacheKeywords($this->localizedName.','.implode(',', $attr)),
 				'mtime'=>$this->mtime,
 				'ctime'=>$this->ctime,
 				'acl_id'=>$acl_id
@@ -3632,7 +3708,13 @@ ORDER BY `book`.`name` ASC ,`order`.`btime` DESC
 		if($this->customfieldsRecord){
 			$keywords .= ','.$this->customfieldsRecord->getSearchCacheKeywords();
 		}
-		return $keywords;
+		
+		// Remove duplicate and empty entries
+		$arr = explode(',', $keywords);
+		$arr = array_filter(array_unique($arr), function($item){
+			return $item != '';
+		});
+		return implode(',', $arr);
 	}
 
 	protected function beforeSave(){
@@ -4998,7 +5080,15 @@ ORDER BY `book`.`name` ASC ,`order`.`btime` DESC
 	 * @param mixed $value
 	 */
 	public function deleteByAttribute($name, $value){
-		$stmt = $this->find(FindParams::newInstance()->ignoreAcl()->criteria(FindCriteria::newInstance()->addCondition($name, $value)));
+		$this->deleteByAttributes([$name => $value]);
+	}
+	
+	public function deleteByAttributes($attributes){
+		$criteria = FindCriteria::newInstance();
+		foreach($attributes as $name => $value) {
+			$criteria->addCondition($name, $value);
+		}
+		$stmt = $this->find(FindParams::newInstance()->ignoreAcl()->criteria($criteria));
 		$stmt->callOnEach('delete');
 	}
 

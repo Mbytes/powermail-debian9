@@ -1,6 +1,6 @@
 <?php
 $l['name'] = 'Plánování systémových úloh';
-$l['description'] = 'Modul, který umožňuje spravovat systémové úlohy v rámci Group-Office.';
+$l['description'] = 'Modul, který umožňuje spravovat systémové úlohy v rámci {product_name}.';
 
 $l['cronManager'] = 'Plánování systémových úloh';
 

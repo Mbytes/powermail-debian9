@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: AccountDialog.js 20673 2016-11-28 07:55:43Z mschering $
+ * @version $Id: AccountDialog.js 21672 2017-11-13 14:05:35Z mschering $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -41,7 +41,7 @@ GO.email.AccountDialog = function(config) {
 				boxLabel: GO.sieve.lang.useTLS,
 				checked:GO.sieve.sieveTls,
 				name: 'sieve_usetls',
-				allowBlank: true,
+//				allowBlank: true,
 				hideLabel:true
 			})
 		);
@@ -171,7 +171,7 @@ GO.email.AccountDialog = function(config) {
 			boxLabel: GO.email.lang.storePassword,
 			checked: true,
 			name: 'store_password',
-			allowBlank: true,
+//			allowBlank: true,
 			hideLabel:true,
 			hidden: true //this function only works with imap auth at the moment.
 		}),
@@ -280,7 +280,7 @@ GO.email.AccountDialog = function(config) {
 		fieldLabel: '',
 		checked:false,
 		name: 'do_not_mark_as_read',
-		allowBlank: true
+//		allowBlank: true
 	});
 	
 	this.fullReplyHeadersCbx = new Ext.ux.form.XCheckbox({
@@ -288,7 +288,7 @@ GO.email.AccountDialog = function(config) {
 		fieldLabel: '',
 		checked:false,
 		name: 'full_reply_headers',
-		allowBlank: true
+//		allowBlank: true
 	});
 	
 	this.placeSignatureBelowReplyCbx = new Ext.ux.form.XCheckbox({
@@ -296,7 +296,7 @@ GO.email.AccountDialog = function(config) {
 		fieldLabel: '',
 		checked:false,
 		name: 'signature_below_reply',
-		allowBlank: true
+//		allowBlank: true
 	});
 	
 	properties_items.push(this.placeSignatureBelowReplyCbx);
@@ -389,7 +389,7 @@ GO.email.AccountDialog = function(config) {
 		this.smtpPasswordStore = new Ext.ux.form.XCheckbox({
 			checked: true,
 			name: 'store_smtp_password',
-			allowBlank: true,
+//			allowBlank: true,
 			hideLabel:true,
 			hidden: true
 		}),
@@ -553,7 +553,8 @@ GO.email.AccountDialog = function(config) {
 	}, this);*/
 
 	this.encryptionField.on('select', function(combo, record, index) {
-		var value = record.data.value == '' ? '25' : '465';
+		var value = record.data.value == 'ssl' ? '465' : '587';
+		
 		this.propertiesPanel.form.findField('smtp_port')
 		.setValue(value);
 	}, this);
@@ -736,7 +737,11 @@ Ext.extend(GO.email.AccountDialog, GO.Window, {
 
 				this.foldersTab.setDisabled(false);
 
-				this.labelsTab.setDisabled(!action.result.data.email_enable_labels);
+				if(!action.result.data.email_enable_labels) {
+					this.tabPanel.hideTabStripItem(this.labelsTab);
+				} else {
+					this.tabPanel.unhideTabStripItem(this.labelsTab);
+				}
 
 				this.permissionsTab.setAcl(action.result.data.acl_id);
 				

@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: EmployeeGrid.js 17032 2013-10-13 09:20:48Z mschering $
+ * @version $Id: EmployeeGrid.js 22164 2017-03-20 07:57:03Z mschering $
  * @copyright Copyright Intermesh
  * @author Michael de Hart <mdhart@intermesh.nl>
  */
@@ -15,7 +15,7 @@ GO.timeregistration2.EmployeeGrid = Ext.extend(GO.grid.GridPanel,{
 	initComponent : function(){
 		
 		Ext.apply(this,{
-			title:GO.projects2.lang['employees'],
+			title:GO.timeregistration2.lang['employees'],
 			noDelete: true,
 			standardTbar:false,
 			store: new GO.data.JsonStore({
@@ -44,7 +44,7 @@ GO.timeregistration2.EmployeeGrid = Ext.extend(GO.grid.GridPanel,{
 					header: GO.lang.strName, 
 					dataIndex: 'name'
 				},{
-					header: GO.projects2.lang['entriesClosedTill'], 
+					header: GO.timeregistration2.lang['entriesClosedTill'], 
 					dataIndex: 'closed_entries_time'
 				}
 				]

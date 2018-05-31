@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `cal_events` (
   `description` text,
   `location` varchar(100) NOT NULL DEFAULT '',
   `repeat_end_time` int(11) NOT NULL DEFAULT '0',
-  `reminder` int(11) NOT NULL DEFAULT '0',
+  `reminder` int(11) NULL DEFAULT NULL,
   `ctime` int(11) NOT NULL DEFAULT '0',
   `mtime` int(11) NOT NULL DEFAULT '0',
 	`muser_id` int(11) NOT NULL DEFAULT '0',
@@ -197,6 +197,7 @@ CREATE TABLE IF NOT EXISTS `cal_settings` (
   `background` char(6) NOT NULL DEFAULT 'EBF1E2',
   `calendar_id` int(11) NOT NULL DEFAULT '0',
   `show_statuses` BOOLEAN NOT NULL DEFAULT TRUE,
+  `check_conflict` BOOLEAN NOT NULL DEFAULT TRUE,
   PRIMARY KEY (`user_id`),
   KEY `calendar_id` (`calendar_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

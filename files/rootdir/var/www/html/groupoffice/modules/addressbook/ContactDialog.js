@@ -7,7 +7,7 @@
  * If you have questions write an e-mail to info@intermesh.nl
  * 
  * @copyright Copyright Intermesh
- * @version $Id: ContactDialog.js 19784 2016-01-26 13:56:16Z michaelhart86 $
+ * @version $Id: ContactDialog.js 20952 2017-03-20 07:59:18Z mschering $
  * @author Merijn Schering <mschering@intermesh.nl>
  */
 
@@ -177,7 +177,12 @@ GO.addressbook.ContactDialog = function(config)
 		this.socialMediaPanel,
 		this.commentPanel
 	];
-	      
+	 
+	// Remove the original comment panel if it is set in the settings of the user.
+	if(GO.comments && GO.comments.hideOriginalTab('contact')){
+		items.pop();
+	}
+	
 	this.selectAddresslistsPanel = new GO.addressbook.SelectAddresslistsPanel();
 				
 	items.push(this.selectAddresslistsPanel);
@@ -217,6 +222,7 @@ GO.addressbook.ContactDialog = function(config)
 	//this.downloadDocumentButton = new Ext.Button();
 
 	this.collapsible=true;
+	this.id= 'addressbook-window-new-contact';
 	this.layout= 'fit';
 	this.modal=false;
 	this.shadow= false;

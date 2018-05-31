@@ -7,7 +7,7 @@
  * If you have questions write an e-mail to info@intermesh.nl
  * 
  * @copyright Copyright Intermesh
- * @version $Id: Calendar.js 20499 2016-10-06 11:38:46Z mschering $
+ * @version $Id: Calendar.js 21587 2017-10-24 09:22:23Z michaelhart86 $
  * @author Merijn Schering <mschering@intermesh.nl>
  */
 
@@ -652,6 +652,9 @@ GO.calendar.MainPanel = function(config){
 		scope: this
 	},
 	'-',
+	{
+            xtype:'buttongroup',
+            items: [
 	this.dayButton = new Ext.Button({
 		iconCls: 'btn-one-day',
 		text: GO.calendar.lang.oneDay,
@@ -724,7 +727,8 @@ GO.calendar.MainPanel = function(config){
 			        		
 		},
 		scope: this
-	}),
+	})]
+   },
 	'-',
 	this.printButton = new Ext.Button({
 		iconCls: 'btn-print',
@@ -831,7 +835,7 @@ GO.calendar.MainPanel = function(config){
 			titlebar: false,
 			autoScroll:false,
 			//closeOnTab: true,
-			width: 230,
+			width: dp(280),
 			split:true,
 			layout:'border',
 			border:false,
@@ -1221,13 +1225,20 @@ Ext.extend(GO.calendar.MainPanel, Ext.Panel, {
 						id: this.currentDeleteEvent.event_id
 					};
 
-//					if(event.has_other_participants)
-//					{
-//						params.send_cancellation = (confirm(GO.calendar.lang.sendCancellation)) ? 1 : 0;
-//					}
-					
 					this.sendDeleteRequest(params, this.currentDeleteCallback, this.currentDeleteEvent);
 
+					this.recurrenceDialog.hide();
+				},this)
+
+				this.recurrenceDialog.on('thisandfuture', function()
+				{
+					var params={
+						exception_date: this.currentDeleteEvent.startDate.format("U"),
+						thisAndFuture: true,
+						id: this.currentDeleteEvent.event_id
+					};
+
+					this.sendDeleteRequest(params, this.currentDeleteCallback, this.currentDeleteEvent);
 					this.recurrenceDialog.hide();
 				},this)
 
@@ -1237,11 +1248,6 @@ Ext.extend(GO.calendar.MainPanel, Ext.Panel, {
 						id: this.currentDeleteEvent.event_id
 					};
 
-//					if(event.has_other_participants)
-//					{
-//						params.send_cancellation = (confirm(GO.calendar.lang.sendCancellation)) ? 1 : 0;
-//					}
-					
 					this.sendDeleteRequest(params, this.currentDeleteCallback, this.currentDeleteEvent, true);
 
 					this.recurrenceDialog.hide();
@@ -1263,12 +1269,7 @@ Ext.extend(GO.calendar.MainPanel, Ext.Panel, {
 						//task: 'delete_event',
 						id: event.event_id
 					};
-					
-//					if(event.has_other_participants)
-//					{
-//						params.send_cancellation = (confirm(GO.calendar.lang.sendCancellation)) ? 1 : 0;
-//					}
-					
+
 					this.sendDeleteRequest(params, callback, event);
 				}
 			}, this);
@@ -1842,6 +1843,7 @@ Ext.extend(GO.calendar.MainPanel, Ext.Panel, {
 				{
 					GO.calendar.showEventDialog({
 						exception_date: event['startDate'].format("U"),
+						thisAndFuture: actionData.thisAndFuture || false,
 						event_id: event['event_id'],
 						oldDomId : event.domId
 					});
@@ -1872,6 +1874,7 @@ Ext.extend(GO.calendar.MainPanel, Ext.Panel, {
 		if(event.repeats && actionData.singleInstance)
 		{			
 			params['exception_date']=actionData.dragDate.format("U");
+			params['thisAndFuture'] = actionData.thisAndFuture || false,
 			params['exception_for_event_id']=event['event_id'];
 			params['repeats']=true;
 		}else
@@ -2386,6 +2389,7 @@ GO.calendar.openCalendar = function(displayConfig){
 
 
 GO.calendar.handleMeetingRequest=function(responseResult){
+	
 	if (responseResult.askForMeetingRequestForNewParticipants) {
 		Ext.Msg.show({
 			title:GO.calendar.lang.notifyParticipants,
@@ -2423,6 +2427,7 @@ GO.calendar.handleMeetingRequest=function(responseResult){
 			icon: Ext.MessageBox.QUESTION
 	 });
 	} else if (responseResult.askForMeetingRequest){
+		
 		Ext.Msg.show({
 			title:GO.calendar.lang.notifyParticipants,
 			msg: GO.calendar.lang.sendNotification,

@@ -20,3 +20,6 @@ $l["showAll"]='Zobrazit vše';
 $l["sharedCategory"]='Sdílená kategorie';
 $l["behaveAsModule"]='Zobrazit jako modul (Je potřebný restart prohlížeče)';
 $l["confirmDelete"]='Jste si opravdu jistý, že chcete smazat tuto záložku?';
+
+$l['toggle']='Přepnout pohled';
+$l['showCategoryInStartMenu']= 'Záložky v nabídce start (požadováno znovu načtení stránky)';

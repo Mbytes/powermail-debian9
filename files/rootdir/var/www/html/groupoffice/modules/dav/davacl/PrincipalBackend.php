@@ -28,8 +28,9 @@ class PrincipalBackend extends \Sabre\DAVACL\PrincipalBackend\AbstractBackend {
 			'uri'=>'principals/'.$user->username,
 			'{DAV:}displayname' => $user->username,
 			'{http://sabredav.org/ns}email-address'=>$user->email,
-//			'{urn:ietf:params:xml:ns:caldav}schedule-inbox-URL'=>new Sabre\DAV\Property\Href('principals/'.$user->username.'/inbox'),
-//			'{urn:ietf:params:xml:ns:caldav}schedule-outbox-URL'=>new Sabre\DAV\Property\Href('principals/'.$user->username.'/outbox')
+			'{urn:ietf:params:xml:ns:caldav}calendar-home-set' => new \Sabre\DAV\Xml\Property\Href('calendars/'.$user->username),
+			'{urn:ietf:params:xml:ns:caldav}schedule-inbox-URL'=>new \Sabre\DAV\Xml\Property\Href('principals/'.$user->username.'/inbox'),
+			'{urn:ietf:params:xml:ns:caldav}schedule-outbox-URL'=>new \Sabre\DAV\Xml\Property\Href('principals/'.$user->username.'/outbox')
 		);
 		
 		return $data;

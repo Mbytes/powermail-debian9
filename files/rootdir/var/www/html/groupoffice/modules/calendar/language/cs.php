@@ -274,3 +274,11 @@ $l['cannotHandleInvitation2']='Nelze aktualizovat stav události, protože nemá
 
 $l['tooltip'] = 'Text popisku';
 $l['moveEventResourceError'] = 'Událost nemohla být přesunuta, protože následující prostředky nejsou dostupné:';
+
+$l['allTogetherForParticipants']= 'Všichni účastníci dohromady';
+$l['allTogetherForResources']= 'Všechny prostředky dohromady';
+$l['resourceUsedIn']= 'Použité zdroje';
+$l['exportAsIcs']= 'Exportovat jako ICS';
+$l['noDefaultCalendar']= "Nemáte nastaven výchozí kalendář. Prosím vyberte jeden ve vašem nastavení.";
+$l['calNotDeletedDefault']= "Nesmazáno!\nToto je výchozí kalendář uživatele :username";
+$l['last']= 'Poslední';

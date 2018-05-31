@@ -25,7 +25,7 @@ GO.billing.OrderPanel = Ext.extend(GO.DisplayPanel,{
 			root: 'results',
 			id: 'id',
 			totalProperty:'total',
-			fields: ['id','name', 'status_with_count', 'checked'],
+			fields: ['id','name', 'status_with_count', 'checked', 'ask_to_notify_customer'],
 			remoteSort: true
 		});
 	
@@ -533,7 +533,7 @@ GO.billing.OrderPanel = Ext.extend(GO.DisplayPanel,{
 					},
 					scope:this
 				}),{
-					iconCls: 'bs-duplicate',
+					iconCls: 'bs-duplicate', //  <- NOT DUPLICATE  CHANGE STATUS!!!
 					text: GO.billing.lang.changeStatus,
 					cls: 'x-btn-text-icon',
 					menu: this.statusMenu = new Ext.menu.Menu({
@@ -651,30 +651,14 @@ GO.billing.OrderPanel = Ext.extend(GO.DisplayPanel,{
 							checked:this.data.status_id==r.data.id,
 							checkHandler:function(i){
 								if(!this.suppressCheck){
-									Ext.Msg.show({
-										modal:false,
-										title:GO.billing.lang.notifyCustomer,
-										msg: GO.billing.lang.notifyCustomerText,
-										buttons: Ext.Msg.YESNOCANCEL,
-										fn: function(btn){
-											if(btn=='cancel'){
-
-												//reset the checked item
-												this.suppressCheck=true;
-												this.statusMenu.items.each(function(i){
-													i.setChecked(i.status_id==this.data.status_id, true);
-												}, this);
-												this.suppressCheck=false;
-
-												return false;
-											}
-											GO.request({
+									var changeStatus = function(id, status, notify) {
+										GO.request({
 												maskEl:Ext.getBody(),
 												url:"billing/order/submit",
 												params:{                                                    
-													id: this.data.id,
-													status_id:i.status_id,
-													notify_customer: btn=='yes' ? 1 : 0
+													id: id,
+													status_id:status,
+													notify_customer: notify
 												},
 												success:function(options, response, data){
 
@@ -705,10 +689,34 @@ GO.billing.OrderPanel = Ext.extend(GO.DisplayPanel,{
 												},
 												scope:this
 											});
-										},
-										scope:this,
-										icon: Ext.MessageBox.QUESTION
-									});
+									}.createDelegate(this);
+									
+									if(r.data.ask_to_notify_customer) {
+										Ext.Msg.show({
+											modal:false,
+											title:GO.billing.lang.notifyCustomer,
+											msg: GO.billing.lang.notifyCustomerText,
+											buttons: Ext.Msg.YESNOCANCEL,
+											fn: function(btn){
+												if(btn=='cancel'){
+
+													//reset the checked item
+													this.suppressCheck=true;
+													this.statusMenu.items.each(function(i){
+														i.setChecked(i.status_id==this.data.status_id, true);
+													}, this);
+													this.suppressCheck=false;
+
+													return false;
+												}
+												changeStatus(this.data.id, i.status_id, btn=='yes' ? 1 : 0);
+											},
+											scope:this,
+											icon: Ext.MessageBox.QUESTION
+										});
+									} else {
+										changeStatus(this.data.id, i.status_id, 0);
+									}
 								}
 							},
 							scope:this

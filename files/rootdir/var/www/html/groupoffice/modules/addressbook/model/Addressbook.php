@@ -23,6 +23,7 @@
  * @property boolean $shared_acl
  * @property int $acl_id
  * @property int $user_id
+ * @property boolean $user_id
  */
 
 
@@ -43,6 +44,14 @@ namespace GO\Addressbook\Model;
 	}
 	public function aclField(){
 		return 'acl_id';	
+	}
+	
+	public function settingsModelName() {
+		return "GO\Addressbook\Model\Settings";
+	}
+	
+	public function settingsPkAttribute() {
+		return 'default_addressbook_id';
 	}
 	
 	public function tableName(){

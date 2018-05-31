@@ -33,17 +33,17 @@ class SearchController extends \GO\Base\Controller\AbstractModelController{
 				$response['deleteFeedback']=$e->getMessage();
 			}
 		}
-		
-		//search query is required
-		if(empty($params["query"])){
-			return false;
-		}else
-		{
-			//we'll do a full text search in getStoreParams			
-//			$params['match']=$params["query"];
-//			unset($params["query"]);
-		}
-	
+//		
+//		//search query is required
+//		if(empty($params["query"])){
+//			return false;
+//		}else
+//		{
+//			//we'll do a full text search in getStoreParams			
+////			$params['match']=$params["query"];
+////			unset($params["query"]);
+//		}
+//	
 		
 		return parent::beforeStore($response, $params, $store);
 	}
@@ -56,18 +56,15 @@ class SearchController extends \GO\Base\Controller\AbstractModelController{
 		}
 		
 		$forLinks = isset($params['for_links']) && ($params['for_links'] === "true" || $params['for_links'] === "1");
-		
+		$types = array();
 		$storeParams = FindParams::newInstance();
-		
 		if(isset($params['model_names'])){
 			$model_names = json_decode($params['model_names'], true);
-			$types = array();
+			
 			foreach($model_names as $model_name){
 				if(class_exists($model_name))
 					$types[]=\GO::getModel($model_name)->modelTypeId();
 			}
-			if(count($types))
-			$storeParams->getCriteria()->addInCondition('model_type_id', $types);
 		}
 		
 		if(!empty($params['type_filter'])) {
@@ -79,13 +76,12 @@ class SearchController extends \GO\Base\Controller\AbstractModelController{
 			}
 			
 			//only search for available types. eg. don't search for contacts if the user doesn't have access to the addressbook
-			if(empty($types))
+			if(!count($types))
 					$types=$this->_getAllModelTypes($filesupport, $forLinks);
 			
 			if(!isset($params['no_filter_save']) && isset($params['types']))
 				\GO::config()->save_setting ('link_type_filter', implode(',',$types), \GO::user()->id);
-		}else
-		{
+		}else if(!count($types)) {
 			$types=$this->_getAllModelTypes($filesupport, $forLinks);
 		}		
 		
@@ -145,8 +141,19 @@ class SearchController extends \GO\Base\Controller\AbstractModelController{
 		
 		$forLinks = isset($params['for_links']) && ($params['for_links'] === "true" || $params['for_links'] === "1");
 
+		$theseTypesOnly = false;
 		
-		$stmt = ModelType::model()->find();
+		if(isset($params['filter_model_type_ids'])){
+			$theseTypesOnly = json_decode($params['filter_model_type_ids']);
+		}
+	
+		$findParams = FindParams::newInstance();
+		
+		if(!empty($theseTypesOnly)){
+			$findParams->getCriteria()->addInCondition('id', $theseTypesOnly);
+		}
+
+		$stmt = ModelType::model()->find($findParams);
 		
 		$typesString = \GO::config()->get_setting('link_type_filter',\GO::user()->id);
 		$typesArr = explode(',',$typesString);

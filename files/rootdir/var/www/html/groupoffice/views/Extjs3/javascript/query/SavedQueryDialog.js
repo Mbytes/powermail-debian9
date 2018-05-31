@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: SavedQueryDialog.js 14816 2013-05-21 08:31:20Z mschering $
+ * @version $Id: SavedQueryDialog.js 21261 2017-06-27 11:53:13Z devdevilnl $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -26,12 +26,12 @@ GO.query.SavedQueryDialog = Ext.extend(GO.dialog.TabbedFormDialog , {
 	},
 	
 	beforeSubmit : function() {
-		this.formPanel.baseParams.data = Ext.encode(this.savedQueryGrid.queryPanel.getGridData());
+		this.formPanel.baseParams.data = Ext.encode(this.savedQueryGrid.queryPanel.getData());
 	},
 	
 	afterSubmit : function(){
 		this.savedQueryGrid.store.load();
-		this.savedQueryGrid.queryPanel.titleField.setValue('<b>'+this.formPanel.form.findField('name').getValue()+'</b>');
+		this.savedQueryGrid.queryPanel.setTitle('<b>'+this.formPanel.form.findField('name').getValue()+'</b>');
 	},
 	
 	buildForm : function () {
@@ -56,9 +56,6 @@ GO.query.SavedQueryDialog = Ext.extend(GO.dialog.TabbedFormDialog , {
 		this.addPermissionsPanel(new GO.grid.PermissionsPanel());
 	},
 	
-//	setAdvancedQueryData : function(gridData){
-//		this.formPanel.baseParams.data=Ext.encode(gridData);
-//	},
 	
 	beforeLoad : function(remoteModelId,config) {
 		

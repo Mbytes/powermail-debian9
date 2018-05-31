@@ -120,7 +120,7 @@ $l['decline']= "Rejeter";
 
 $l['modelTypeNotSupported'] = 'Dans ce workflow, le type de modèle "%m" n\'est pas supporté par l\'étape d\'action "%wm".';
 $l['filesOnly'] = 'Appliqué uniquement aux fichiers';
-$l['copyToFolder'] = 'Copier dans ce répertoire';
+$l['copyToFolder'] = 'Déplacer dans ce répertoire';
 $l['keepOriginalCopy'] = 'Copier plutôt que déplacer';
 
 $l['actionType'] = 'Type d\'action';

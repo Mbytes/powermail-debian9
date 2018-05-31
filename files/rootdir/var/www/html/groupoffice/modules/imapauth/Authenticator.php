@@ -157,6 +157,8 @@ class Authenticator {
 			$account['port'] = $config['port'];
 //			$account['use_ssl'] = empty($config['ssl']) ? 0 : 1;
 			
+			$account['imap_encryption'] = null;
+			
 			if(!empty($config['ssl'])){
 				$account['imap_encryption'] = 'ssl';
 			}

@@ -78,12 +78,13 @@ class Auth_SASL
                 $filename  = 'SASL/External.php';
                 $classname = 'Auth_SASL_External';
                 break;
-
+				case 'crammd5':
             case 'cram-md5':
                 $filename  = 'SASL/CramMD5.php';
                 $classname = 'Auth_SASL_CramMD5';
                 break;
-
+				case 'digestmd5':
+                // $msg = 'Deprecated mechanism name. Use IANA-registered name: DIGEST-MD5.';
             case 'digest-md5':
                 $filename  = 'SASL/DigestMD5.php';
                 $classname = 'Auth_SASL_DigestMD5';
@@ -99,5 +100,3 @@ class Auth_SASL
         return $obj;
     }
 }
-
-?>

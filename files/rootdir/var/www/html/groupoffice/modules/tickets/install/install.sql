@@ -106,6 +106,7 @@ CREATE TABLE IF NOT EXISTS `ti_settings` (
 	`notify_agent` BOOLEAN NOT NULL DEFAULT '0',
 	`notify_agent_msg` text,
 	`manager_reopen_ticket_only` tinyint(1) NOT NULL DEFAULT '0',
+	`show_close_confirm` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4;
 

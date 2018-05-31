@@ -27,7 +27,7 @@ GO.billing.ImportSettingsPanel = Ext.extend(Ext.Panel,{
 			boxLabel: GO.billing.lang.notifyCustomer,
 			labelSeparator: '',
 			name: 'import_notify_customer',		
-			allowBlank: true,
+//			allowBlank: true,
 			hideLabel:true
 		},this.newBookField = new GO.form.ComboBoxReset({
 			hiddenName: 'import_duplicate_to_book',
@@ -66,7 +66,7 @@ GO.billing.ImportSettingsPanel = Ext.extend(Ext.Panel,{
 			boxLabel: GO.billing.lang['autoPaidStatus'],
 			labelSeparator: '',
 			name: 'auto_paid_status',		
-			allowBlank: true,
+//			allowBlank: true,
 			hideLabel:true
 		}
 	];

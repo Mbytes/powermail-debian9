@@ -55,12 +55,6 @@ class ExportController extends AbstractController {
 	 */
 	protected function actionExport($class_name,$export_columns,$include_column_names,$orientation,$use_db_column_names,$view,$id=null) {
 		
-		// @todo this need to be implement in the interfase / GUI! row or display data
-		if($view === 'Html') {
-			if(\GO::modules()->customfields) {
-				\GO\Customfields\Model\AbstractCustomFieldsRecord::$formatForExport=true;
-			}
-		}
 		
 		// Fixes the problem that a string "false" is handled as a bool "true".
 		if($include_column_names === "false"){
@@ -69,6 +63,13 @@ class ExportController extends AbstractController {
 		
 		if($use_db_column_names === "false"){
 			$use_db_column_names=false;
+		}
+		
+		// @todo this need to be implement in the interfase / GUI! row or display data
+		if($view === 'Html' || !$use_db_column_names) {
+			if(\GO::modules()->customfields) {
+				\GO\Customfields\Model\AbstractCustomFieldsRecord::$formatForExport=true;
+			}
 		}
 				
 		$currentGrid = new $class_name();

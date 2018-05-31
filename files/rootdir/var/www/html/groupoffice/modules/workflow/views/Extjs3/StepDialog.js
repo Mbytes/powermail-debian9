@@ -68,7 +68,6 @@ GO.workflow.StepDialog = Ext.extend(GO.dialog.TabbedFormDialog , {
 					width:300,
 					anchor: '100%',
 					maxLength: 100,
-					allowBlank:false,
 					fieldLabel: GO.workflow.lang.stepEmail_alert
 				},{
 					xtype: 'xcheckbox',
@@ -76,7 +75,6 @@ GO.workflow.StepDialog = Ext.extend(GO.dialog.TabbedFormDialog , {
 					width:300,
 					anchor: '100%',
 					maxLength: 100,
-					allowBlank:false,
 					fieldLabel: GO.workflow.lang.stepPopup_alert
 				},{
 					xtype: 'xcheckbox',
@@ -84,7 +82,6 @@ GO.workflow.StepDialog = Ext.extend(GO.dialog.TabbedFormDialog , {
 					width:300,
 					anchor: '100%',
 					maxLength: 100,
-					allowBlank:false,
 					fieldLabel: GO.workflow.lang.stepAll_must_approve
 				},
 //				{
@@ -127,7 +124,7 @@ GO.workflow.StepDialog = Ext.extend(GO.dialog.TabbedFormDialog , {
 					width:300,
 					anchor: '100%',
 					maxLength: 100,
-					allowBlank:false,
+//					allowBlank:false,
 					fieldLabel: GO.workflow.lang['keepOriginalCopy']
 				})
 			]				

@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: CriteriumGrid.js 19355 2015-08-28 13:05:30Z wsmits $
+ * @version $Id: CriteriumGrid.js 21460 2017-09-20 09:21:26Z wsmits $
  * @copyright Copyright Intermesh
  * @author Wesley Smits <wsmits@intermesh.nl>
  * @author WilmarVB <wilmar@intermesh.nl>
@@ -49,8 +49,6 @@ GO.sieve.CriteriumGrid = function(config){
 			header:false,
 			dataIndex:'text',
 			renderer:function(value, metaData, record, rowIndex, colIndex, store){
-				
-				console.log(record);
 				
 				var txtToDisplay = '';
 

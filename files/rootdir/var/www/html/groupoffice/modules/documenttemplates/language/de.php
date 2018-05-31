@@ -8,7 +8,7 @@ $l["selectRelevantResources"]='Relevante Ressourcen wählen';
 
 $l['name']='Dokumentenvorlagen';
 $l['description']='Lädt OpenOffice oder Microsoft Word 2007+ Dokumentenvorlagen mit Datenfelder für das Adressbuch, Projekte, Notizen und Events hoch';
-$l["warnCompat"]="Keine Vorlage gefunden. Nur aufgrund der Kompatibilität mit RuhrMAIL 3.7 vorhanden.";
+$l["warnCompat"]="Keine Vorlage gefunden. Nur aufgrund der Kompatibilität mit Group-Office 3.7 vorhanden.";
 
-$l['emailFromTemplate']= 'eMail von Vorlage';
-$l['selectEmailTemplate']= 'eMail Vorlager auswählen';
+$l['emailFromTemplate']= 'E-Mail aus Vorlage';
+$l['selectEmailTemplate']= 'E-Mail-Vorlage wählen';

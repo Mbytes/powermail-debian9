@@ -41,7 +41,7 @@ GO.sieve.CriteriumCreatorDialog = function(config){
 	config.border=false;
 	config.layout= 'fit';
 	config.height=120;
-	config.width=640;
+	config.width=660;
 	config.baseParams={
 		task : 'addAction',
 		account_id : 0,
@@ -512,24 +512,18 @@ Ext.extend(GO.sieve.CriteriumCreatorDialog, GO.Window,{
 		});
 
 		this.rgSize = new Ext.form.RadioGroup({
-			columns: 4,
-			width:150,
+			layout:'hbox',
 			hidden: true,
-			items: [
-			{
-				items:{boxLabel: 'B', name: 'size', inputValue: 'B', style: 'margin-left: 4px; margin-right: -2px;'}
-			},
-			{
-				items:{boxLabel: 'KB', name: 'size', inputValue: 'K', style: 'margin-left: 4px; margin-right: -2px;', checked: true}
-			},
-			{
-				items:{boxLabel: 'MB', name: 'size', inputValue: 'M', style: 'margin-left: 4px; margin-right: -2px;'}
-			},
-			{
-				items:{boxLabel: 'GB', name: 'size', inputValue: 'G', style: 'margin-left: 4px; margin-right: -2px;'}
-			}],
+			width:160,
+			flex:1,
+			items:[
+				{boxLabel: 'B', name: 'size', inputValue: 'B'},
+				{boxLabel: 'KB', name: 'size', inputValue: 'K', checked: true},
+				{boxLabel: 'MB', name: 'size', inputValue: 'M'},
+				{boxLabel: 'GB', name: 'size', inputValue: 'G'}
+			],
 			hideLabel:true
-		})
+		});
 
 		this.cmbField.on('select', function(combo, record){
 			this._transForm(record.data.value);

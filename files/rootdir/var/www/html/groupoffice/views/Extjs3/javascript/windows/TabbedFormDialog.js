@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: TabbedFormDialog.js 20164 2016-06-23 13:31:47Z mschering $
+ * @version $Id: TabbedFormDialog.js 21749 2017-11-23 16:57:38Z mschering $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  *
@@ -461,7 +461,7 @@ GO.dialog.TabbedFormDialog = Ext.extend(GO.Window, {
 		return currentJSONlevel[keys[i]];
 	},
 	
-	jsonSubmit: function(params,hide) {
+	jsonSubmit: function(params,hide, config) {
 
 		GO.request({
 			method:'POST',
@@ -515,6 +515,10 @@ GO.dialog.TabbedFormDialog = Ext.extend(GO.Window, {
 					this.link_config.callback.call(this.link_config.scope);
 				}
 				this.updateTitle();
+				
+				if(config && config.callback) {
+					config.callback.call(config.scope || this, this);
+				}
 			},
 			fail: function(response, options, result) {
 				this.getFooterToolbar().setDisabled(false);
@@ -536,7 +540,7 @@ GO.dialog.TabbedFormDialog = Ext.extend(GO.Window, {
 		});
 	},
 	
-	submitForm : function(hide){
+	submitForm : function(hide, config){
 		
 		//for the fast double clickers
 		if(this.getFooterToolbar().disabled)
@@ -553,7 +557,7 @@ GO.dialog.TabbedFormDialog = Ext.extend(GO.Window, {
 		
 		if(this.jsonPost){
 			if(this.formPanel.form.isValid()) {
-				this.jsonSubmit(params, hide);
+				this.jsonSubmit(params, hide, config);
 			} else {
 				this.getFooterToolbar().setDisabled(false);
 			}
@@ -607,6 +611,11 @@ GO.dialog.TabbedFormDialog = Ext.extend(GO.Window, {
 						this.link_config.callback.call(this.link_config.scope);						
 					}
 					this.updateTitle();
+					
+					
+					if(config && config.callback) {
+						config.callback.call(config.scope || this, this);
+					}
 				},		
 				failure: function(form, action) {
 					this.getFooterToolbar().setDisabled(false);

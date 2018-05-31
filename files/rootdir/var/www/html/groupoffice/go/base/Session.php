@@ -34,7 +34,7 @@ class Session extends Observable{
 	public $values;
 	
 	private $_user;
-	
+
 	public function __construct(){
 		$this->start();
 	}
@@ -122,10 +122,14 @@ class Session extends Observable{
 	 */
 	public function loginWithCookies(){
 		if(empty(\GO::session()->values['user_id']) && !empty($_COOKIE['GO_UN']) && !empty($_COOKIE['GO_UN'])){
-			$username = Util\Crypt::decrypt($_COOKIE['GO_UN']);
-			$password = Util\Crypt::decrypt($_COOKIE['GO_PW']);
+			try {
+				$username = Util\Crypt::decrypt($_COOKIE['GO_UN']);
+				$password = Util\Crypt::decrypt($_COOKIE['GO_PW']);
+			} catch (\Exception $e) {
+				$this->_unsetRemindLoginCookies ();
+				return false;
+			}
 
-			//decryption might fail if mcrypt is not installed
 			if(!$username){
 				$username = $_COOKIE['GO_UN'];
 				$password = $_COOKIE['GO_PW'];
@@ -208,7 +212,7 @@ class Session extends Observable{
 	 */
 	public function user(){
 		if(empty($this->values['user_id'])){
-			return false;
+			return null;
 		}else{		
 			
 			//also check if the user_id matches because \GO::session()->runAsRoot() may haver changed it.
@@ -232,10 +236,36 @@ class Session extends Observable{
 	}
 	
 	/**
+	 * 
+	 * Check for a double login
+	 * 
+	 * @param User $user
+	 * 
+	 * @return boolean True if all is OK, False if double login is detected
+	 */
+	private function _checkClientFootPrint($user){
+
+		if(\GO::config()->use_single_login){
+
+			$client = \GO\Base\Model\Client::lookup($user->id);
+
+			if($client && !$client->checkLoggedInOnOtherLocation()){
+				return true;
+			}
+
+			return false;
+		}
+		
+		return true;
+	}
+	
+	/**
 	 * Logs a user in.
 	 * 
 	 * @param StringHelper $username
 	 * @param StringHelper $password
+	 * @param Boolean $countLogin
+	 * 
 	 * @return Model\User or false on failure.
 	 */
 	public function login($username, $password, $countLogin=true) {
@@ -244,7 +274,7 @@ class Session extends Observable{
 			return false;			
 		
 		$user = Model\User::model()->findSingleByAttribute('username', $username);
-		
+
 		$success=true;
 		
 		if (!$user){
@@ -256,6 +286,10 @@ class Session extends Observable{
 		}elseif(!$user->checkPassword($password)){
 			\GO::debug("LOGIN: Incorrect password for ".$username);
 			$success=false;
+		}elseif($countLogin && !$this->_checkClientFootPrint($user)){
+			throw new \GO\Base\Exception\OtherLoginLocation();
+		}elseif($countLogin && $user->checkPasswordChangeRequired()){
+			throw new \GO\Base\Exception\PasswordNeedsChange();
 		}
 		
 		$str = "LOGIN ";		
@@ -274,9 +308,7 @@ class Session extends Observable{
 		{			
 			$this->_user=$user;
 			$this->setCurrentUser($user->id);
-			
-			
-
+	
 			if($countLogin){
 				$user->lastlogin=time();
 				$user->logins++;
@@ -363,12 +395,16 @@ class Session extends Observable{
 	/**
 	 * Sets current user for the entire session. Use it wisely!
 	 * @param int/Model\User $user_id
+	 * @param int $originalUserId  Remember the original user
 	 */
-	public function setCurrentUser($user_id) {
-		
+	public function setCurrentUser($user_id, $originalUserId=false) {
+
 //		if(\GO::modules()->isInstalled("log"))
 //			\GO\Log\Model\Log::create ("setcurrentuser", "Set user ID to $user_id");
-	
+		if(!empty($originalUserId)){
+			$this->values['original_user_id'] = $originalUserId;
+		}
+		
 		if($user_id  instanceof Model\User){
 			$this->_user=$user_id;
 			$this->values['user_id']=$user_id->id;
@@ -389,5 +425,33 @@ class Session extends Observable{
 		
 		//for logging
 		\GO::session()->values['username']=\GO::user()->username;
+		
+		
+		if (!empty(\GO::config()->debug_usernames)) {
+			$usernames = explode(',',\GO::config()->debug_usernames);
+			if (in_array(\GO::user()->username,$usernames))
+				\GO::config()->debug=true;
+
+		}
 	}
+	
+		
+	public function isUserSwitched(){
+
+		$currentUserId = isset($this->values['user_id'])?$this->values['user_id']:null;
+		$originalUserId = isset($this->values['original_user_id'])?$this->values['original_user_id']:null;
+
+		if($currentUserId === null || $originalUserId === null){
+			return false;
+		}
+		
+		return $originalUserId != $currentUserId;
+	}
+	
+	public function clear(){
+		\GO::debug('CLEAR THE SESSION');
+		$this->values=array(); //clear session
+	}
+	
+
 }

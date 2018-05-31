@@ -54,23 +54,25 @@ GO.email.LinkedMessagePanel = Ext.extend(GO.email.MessagePanel,{
 						});
 					},
 					scope: this
-				},{
-					iconCls: 'btn-edit',
-					text: GO.lang.cmdEdit,
-					handler: function(){
-						var composer = GO.email.showComposer({
-							task:'opendraft',
-							loadParams : {
-								is_tmp_file:this.data.is_tmp_file,
-								path:this.data.path
-							},
-							saveToPath:this.data.path
-						});
-						
-						composer.on('hide', this.reload, this, {single:true});
-					},
-					scope: this
-				},this.linkButton = new Ext.Button({
+				},
+//				{
+//					iconCls: 'btn-edit',
+//					text: GO.lang.cmdEdit,
+//					handler: function(){
+//						var composer = GO.email.showComposer({
+//							task:'opendraft',
+//							loadParams : {
+//								is_tmp_file:this.data.is_tmp_file,
+//								path:this.data.path
+//							},
+//							saveToPath:this.data.path
+//						});
+//						
+//						composer.on('hide', this.reload, this, {single:true});
+//					},
+//					scope: this
+//				},
+				this.linkButton = new Ext.Button({
 					iconCls: 'btn-link',
 					text: GO.lang.cmdLink,
 					hidden:true,

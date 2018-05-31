@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: UsersGrid.js 19784 2016-01-26 13:56:16Z michaelhart86 $
+ * @version $Id: UsersGrid.js 22395 2018-02-19 14:18:35Z wsmits $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  * @author Boy Wijnmaalen <bwijnmaalen@intermesh.nl>
@@ -22,7 +22,7 @@ GO.users.UsersGrid = function(config)
 	
 		var fields = {
 		fields:['id', 'username', 'name','logins','lastlogin','disk_quota','disk_usage', 'ctime','address','address_no','zip','city','state','country','home_phone','email',
-	    	'waddress','waddress_no','wzip','wcity','wstate','wcountry','wphone','enabled'],
+	    	'waddress','waddress_no','wzip','wcity','wstate','wcountry','wphone','enabled','force_password_change', 'mtime'],
 		columns:[
 				{header: GO.users.lang.id, dataIndex: 'id', width: 40},
         {header: GO.lang['strUsername'], dataIndex: 'username', width: 200},
@@ -56,7 +56,9 @@ GO.users.UsersGrid = function(config)
                     return mb_used+' MB';
             }
         },
-	{header: GO.users.lang['cmdBoxLabelEnabled'], dataIndex: 'enabled',  hidden: false, width: 100} 
+	{header: GO.users.lang['cmdBoxLabelEnabled'], dataIndex: 'enabled',  hidden: false, width: 100},
+	{header: GO.users.lang['changePassword'], dataIndex: 'force_password_change',  hidden: false, width: 170, renderer: GO.grid.ColumnRenderers.yesNo}
+	,{header: GO.lang.strMtime, dataIndex: 'mtime',  hidden: true, width: 170}
     ]
 	};
 

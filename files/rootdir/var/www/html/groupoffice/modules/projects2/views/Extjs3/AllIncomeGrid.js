@@ -6,31 +6,15 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: AllIncomeGrid.js 21849 2016-11-08 12:46:37Z mschering $
+ * @version $Id: AllIncomeGrid.js 22053 2017-01-31 10:17:44Z mschering $
  * @copyright Copyright Intermesh
  * @author Michael de Hart <mdhart@intermesh.nl>
  */
 
 
 GO.projects2.AllIncomeGrid = Ext.extend(GO.grid.GridPanel,{
-
-	initComponent : function(){
-		
-		
-		var today = new Date();
-
-		this.end = new Date(today.setMonth(today.getMonth()+1));
-		
-		
-		this.summary = new Ext.grid.JsonSummary();
-
-		this.store = new GO.data.JsonStore({
-			url:GO.url("projects2/income/store"),
-			fields:['id','project_id', 'project_path','project_name', 'description','reference_no', 'amount','is_invoiced','invoiceable','period_start','period_end','invoice_at','invoice_number', 'type','hide_print', 'comments']
-		});
-		
-		
-		var action = new Ext.ux.grid.RowActions({
+	
+	rowActionsPrint: new Ext.ux.grid.RowActions({
 			header:'',
 			hideMode:'display',
 			keepSelection:true,
@@ -43,21 +27,10 @@ GO.projects2.AllIncomeGrid = Ext.extend(GO.grid.GridPanel,{
 			summaryRenderer:function(){
 				return '&nbsp;';
 			}
-		});
-
-		action.on({
-			action:function(grid, record, action, row, col) {
-
-				switch(action){
-					case 'btn-print':
-						this.exportFile(record,action);
-						break;
-				}
-			},
-			scope: this
-		}, this);
-						
-		var action2 = new Ext.ux.grid.RowActions({
+		}),
+		
+		
+	rowActionsOpenFolder: new Ext.ux.grid.RowActions({
 			header:'',
 			hideMode:'display',
 			keepSelection:true,
@@ -68,9 +41,133 @@ GO.projects2.AllIncomeGrid = Ext.extend(GO.grid.GridPanel,{
 				tooltipType: 'title'
 			}],
 			width: 50
-		});
+		}),
+		
+		
+	columns:[{
+			dataIndex:'invoiceable',
+			header: GO.projects2.lang['invoiceable'],
+			renderer: function(v,m,r) { 
+				if(r.data.invoiceable){
+					return '<div title="'+GO.projects2.lang['invoiceable']+'" class="go-icon-exclamation"><div class="x-grid3-cell-inner" style="height:16px; width: 16px;"></div<</div>';
+				}
+			},
+			width: 10
+		},{
+			dataIndex: 'is_invoiced',
+			renderer: function(v,m,r) { 
+				if(r.data.is_invoiced){
+					return '<div title="'+GO.projects2.lang['invoiced']+'" class="tasks-complete-icon"></div>';
+				}
+			}
+			,summaryRenderer:function(v, meta, r){
+				return GO.lang['total'];
+			}
+			,width: 10
+		},{
+			header: GO.lang.strName,
+			dataIndex: 'project_name',
+			hidden:true
+		},{
+			header: GO.projects2.lang.path,
+			dataIndex: 'project_path'
+		},{
+			header: GO.lang.strDescription,
+			dataIndex: 'description'
+		},{
+			header: GO.projects2.lang['referenceNo'],
+			dataIndex: 'reference_no'
+		},{
+			header: GO.projects2.lang['amount'],
+			dataIndex: 'amount',
+			align: 'right',
+			renderer: GO.util.format.valuta
+		}/*,{
+			header: GO.projects2.lang['invoiced'],
+			dataIndex: 'is_invoiced',
+			renderer: GO.util.format.yesNo
+		}*/,{
+			header: GO.projects2.lang['invoiceAt'],
+			dataIndex: 'invoice_at',
+			renderer: function(value){
+				return !value.dateFormat ? value : value.dateFormat(GO.settings.date_format);
+			},
+			summaryRenderer:function(){
+				return '&nbsp;';
+			}
+		},{
+			header: GO.projects2.lang['invoiceNo'],
+			dataIndex: 'invoice_number'
+		},{
+			header: GO.lang.strType,
+			dataIndex: 'type',
+			renderer: function(v) {
+				if(v==1)
+					return GO.projects2.lang['contractPrice'];
+				else
+					return GO.projects2.lang['postCalculation'];
+			},
+			summaryRenderer:function(){
+				return '&nbsp;';
+			}
+		},{
+			header: GO.lang['strComment'],
+			dataIndex: 'comments',
+			sortable: true,
+			hidden: true
+		}
+		
 
-		action2.on({
+	],
+		
+	fields: ['id','project_id', 'project_path','project_name', 'description','reference_no', 'amount','is_invoiced','invoiceable','period_start','period_end','invoice_at','invoice_number', 'type','hide_print', 'comments'],
+	
+	
+	plugins: [],
+	
+	
+//	initComponent : GO.grid.GridPanel.prototype.initComponent.createInterceptor(function(){
+//			console.log('asd');
+//			
+////			this.plugins.push(this.rowActionsPrint)
+////			this.plugins.push(this.rowActionsOpenFolder)
+////			this.columns.push(this.rowActionsOpenFolder)
+//			
+//			
+//			
+//			
+//	}),
+	
+	constructor : function(config){
+		config = config ? config: {};
+		
+		var today = new Date();
+
+		this.end = new Date(today.setMonth(today.getMonth()+1));
+		
+		
+		this.summary = new Ext.grid.JsonSummary();
+		this.plugins.push(this.summary);
+		
+
+		this.store = new GO.data.JsonStore({
+			url:GO.url("projects2/income/store"),
+			fields:this.fields
+		});
+		
+		this.rowActionsPrint.on({
+			action:function(grid, record, action, row, col) {
+
+				switch(action){
+					case 'btn-print':
+						this.exportFile(record,action);
+						break;
+				}
+			},
+			scope: this
+		}, this);
+		
+		this.rowActionsOpenFolder.on({
 			action:function(grid, record, action, row, col) {
 
 				switch(action){
@@ -99,9 +196,17 @@ GO.projects2.AllIncomeGrid = Ext.extend(GO.grid.GridPanel,{
 			scope: this
 		}, this);
 		
-
-		Ext.apply(this,{
-			plugins: [action, action2,this.summary],
+		
+		
+		this.plugins.push(this.rowActionsPrint);
+		this.plugins.push(this.rowActionsOpenFolder);
+		this.columns.push(this.rowActionsPrint);
+		this.columns.push(this.rowActionsOpenFolder);
+		
+		
+		
+		Ext.apply(config,{
+			
 			standardTbar:false,
 			baseParams: {
 				end: Math.round(+this.end/1000)
@@ -148,8 +253,7 @@ GO.projects2.AllIncomeGrid = Ext.extend(GO.grid.GridPanel,{
 					scope: this
 				},
 				'-',				
-				new GO.form.SearchField({
-					store: this.store,
+				this.SearchField = new GO.form.SearchField({
 					width:150
 				}),
 				'-',
@@ -169,83 +273,14 @@ GO.projects2.AllIncomeGrid = Ext.extend(GO.grid.GridPanel,{
 				defaults:{
 					sortable:true
 				},
-				columns:[{
-					dataIndex:'invoiceable',
-					header: GO.projects2.lang['invoiceable'],
-					renderer: function(v,m,r) { 
-						if(r.data.invoiceable){
-							return '<div title="'+GO.projects2.lang['invoiceable']+'" class="go-icon-exclamation"><div class="x-grid3-cell-inner" style="height:16px; width: 16px;"></div<</div>';
-						}
-					},
-					width: 10
-				},{
-					dataIndex: 'is_invoiced',
-					renderer: function(v,m,r) { 
-						if(r.data.is_invoiced){
-							return '<div title="'+GO.projects2.lang['invoiced']+'" class="tasks-complete-icon"></div>';
-						}
-					}
-					,summaryRenderer:function(v, meta, r){
-						return GO.lang['total'];
-					}
-					,width: 10
-				},{
-					header: GO.lang.strName,
-					dataIndex: 'project_name',
-					hidden:true
-				},{
-					header: GO.projects2.lang.path,
-					dataIndex: 'project_path'
-				},{
-					header: GO.lang.strDescription,
-					dataIndex: 'description'
-				},{
-					header: GO.projects2.lang['referenceNo'],
-					dataIndex: 'reference_no'
-				},{
-					header: GO.projects2.lang['amount'],
-					dataIndex: 'amount',
-					align: 'right',
-					renderer: GO.util.format.valuta
-				}/*,{
-					header: GO.projects2.lang['invoiced'],
-					dataIndex: 'is_invoiced',
-					renderer: GO.util.format.yesNo
-				}*/,{
-					header: GO.projects2.lang['invoiceAt'],
-					dataIndex: 'invoice_at',
-					renderer: function(value){
-						return !value.dateFormat ? value : value.dateFormat(GO.settings.date_format);
-					},
-					summaryRenderer:function(){
-						return '&nbsp;';
-					}
-				},{
-					header: GO.projects2.lang['invoiceNo'],
-					dataIndex: 'invoice_number'
-				},{
-					header: GO.lang.strType,
-					dataIndex: 'type',
-					renderer: function(v) {
-						if(v==1)
-							return GO.projects2.lang['contractPrice'];
-						else
-							return GO.projects2.lang['postCalculation'];
-					},
-					summaryRenderer:function(){
-						return '&nbsp;';
-					}
-				},{
-					header: GO.lang['strComment'],
-					dataIndex: 'comments',
-					sortable: true,
-					hidden: true
-				},action,action2]
+				columns:this.columns
 			})
 		});
-		
-		GO.projects2.AllIncomeGrid.superclass.initComponent.call(this);		
+			
+		GO.projects2.AllIncomeGrid.superclass.constructor.call(this, config);	
 	},
+	
+	
 
 	
 	btnAdd : function(){

@@ -49,6 +49,15 @@ class Config extends Observable{
 #FRAMEWORK VARIABLES
 
 /**
+ * This can be set to clear the payment method field when an order is duplicated.
+ * By default it is set to true, so then the field will be cleared in the duplicate item.
+ * When set to false, the value of the original will be copied to the duplicated version.
+ * 
+ * @var boolean 
+ */
+var $billing_clear_payment_method_on_duplicate = true;	
+	
+/**
  * Enable this Group-Office installation?
  *
  * @var     StringHelper
@@ -83,6 +92,12 @@ class Config extends Observable{
 	 */
 	var $smtp_account_smime_password = "";
 
+	/**
+	 * @var Set the client side sort of imap to receive all messages with the DATE or R_DATE flag.
+	 * If set to false (Default) then it will use the sort key 'ARRIVAL'
+	 * Usually done when client_side_sort is used in combination with an Microsoft Exchange Server.
+	 */
+	var $imap_sort_on_date = false;
 
 	/**
 	 * The Group-Office server ID
@@ -119,12 +134,29 @@ class Config extends Observable{
 //	 */
 //	var $debug_log_remote_ip = "";
 
+	
 	/**
 	 * Just enable the debug log.
 	 * @var bool
 	 */
 	var $debug_log = false;
 
+	
+	/**
+	 * To show a message on the login page
+	 * @var String 
+	 */
+	var $login_message = false;
+	
+	/**
+	 *
+	 * Option to make sure all outgoing emails will be send to the given email address.
+	 * This is useful when debugging Group-Office and when you don't want to send unwanted emails to active customers.
+	 * 
+	 * @var string 
+	 */
+	var $debug_email = "";
+	
 
 	/**
 	 * Set the number of days the database log will contain until it will be dumped to a CSV file on disk.
@@ -263,6 +295,22 @@ class Config extends Observable{
 	 * @access  public
 	 */
 	var $default_thousands_separator='.';
+	
+	/**
+	 * Default list separator for import and export
+	 *
+	 * @var     StringHelper
+	 * @access  public
+	 */
+	var $default_list_separator=';';
+	
+	/**
+	 * Default text separator for import and export
+	 *
+	 * @var     StringHelper
+	 * @access  public
+	 */
+	var $default_text_separator='"';
 
 	/**
 	 * Default theme
@@ -561,7 +609,15 @@ class Config extends Observable{
 	 * @access  public
 	 */
 	var $db_socket = '';
-
+	
+	/**
+	 * Specifies the charset that needs to be used for the database.
+	 *
+	 * @var     StringHelper
+	 * @access  public
+	 */
+	var $db_charset = 'utf8mb4';
+	
 	/**
 	 *
 	 * Useful in clustering mode. Defaults to "1". Set to the number of clustered
@@ -913,12 +969,7 @@ class Config extends Observable{
 	
 	var $calendar_tasklist_show = 0;
 
-	/**
-	 * Will link the event to every participants except for the organizer
-	 * @var bool 
-	 */
-	var $calendar_autolink_participants = true;
-	
+
 //	/**
 //	 * Enable logging of slow requests
 //	 *
@@ -1008,7 +1059,7 @@ class Config extends Observable{
 	 * @var     StringHelper
 	 * @access  public
 	 */
-	var $version = '6.2.21';
+	var $version = '6.2.94';
 
 	/**
 	 * Modification date
@@ -1016,7 +1067,8 @@ class Config extends Observable{
 	 * @var     StringHelper
 	 * @access  public
 	 */
-	var $mtime = '20161216';
+	
+	var $mtime = '20180517';
 
 	#group configuration
 	/**
@@ -1112,6 +1164,16 @@ class Config extends Observable{
 	 */
 	var $support_link = false;
 
+	/**
+	 * The link or e-mail address in menu help -> report bug.
+	 *
+	 * No menu item is generated if left empty.
+	 *
+	 * @var     StringHelper
+	 * @access  public
+	 */
+	var $report_bug_link = 'http://sourceforge.net/tracker/?group_id=76359&atid=547651';
+	
 	/**
 	 * Relative path to the classes directory with no slash at start and end
 	 *
@@ -1279,6 +1341,73 @@ class Config extends Observable{
 	public $zip_max_file_size = 256000000;
 	
 	/**
+	 * Show the "remember login" checkbox on the login form
+	 * 
+	 * @var boolean 
+	 */
+	public $remember_login = true;	
+	
+	/**
+	 * The amount of days before a password change is forced to the user
+	 * When set to 0, this function is disabled
+	 * 
+	 * @var int 
+	 */
+	public $force_password_change = 0;	
+	
+	/**
+	 * Let Group-Office check if you are already logged in on an other location.
+	 * When enabled (true), you can only be logged in to one location. (sync will still work)
+	 * 
+	 * @var boolean 
+	 */
+	public $use_single_login = false;
+	
+	
+	/**
+	 * This set the swift email body to base64
+	 * 
+	 * //Override qupted-prinatble encdoding with base64 because it uses much less memory on larger bodies. See also:
+	 * //https://github.com/swiftmailer/swiftmailer/issues/356
+	 * 
+	 * @var bool 
+	 */
+	public $swift_email_body_force_to_base64 = false;
+	
+	
+	/**
+	 * Will link the event to every participants except for the organizer
+	 * 
+	 * WARNING: This caused major slowdown with lots of participants
+	 * @var bool 
+	 */
+	var $calendar_autolink_participants = false;
+
+	/**
+	 * Stores the original values that are stored in the config.php file.
+	 * So without the modifications that this class adds to it.
+	 * 
+	 * @var array 
+	 */
+	private $_original_config = array();
+	
+	/**
+	 * Get a value from the original config.php file.
+	 * These are the values that are set in the file and not processed by this class
+	 * 
+	 * @param string $key
+	 * @return string
+	 */
+	public function getOriginalValue($key){
+		
+		if(!isset($this->_original_config[$key])){
+			return null;
+		}
+		
+		return $this->_original_config[$key];
+	}
+	
+	/**
 	 * Constructor. Initialises all public variables.
 	 *
 	 * @access public
@@ -1299,6 +1428,8 @@ class Config extends Observable{
 		if($config_file)
 			include($config_file);
 
+		$this->_original_config = $config;
+		
 		foreach($config as $key=>$value) {
 			$this->$key=$value;
 		}
@@ -1457,7 +1588,7 @@ class Config extends Observable{
 	public function getCacheFolder($autoCreate=true){
 
 		if(empty($this->cachefolder)){
-			$this->cachefolder=$this->orig_tmpdir.'cache/';
+			$this->cachefolder=$this->file_storage_path.'cache/';
 		}
 
 		$folder = new Fs\Folder($this->cachefolder);

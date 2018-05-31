@@ -35,6 +35,8 @@ class Observable{
 	
 	public static $listeners;
 	
+	public static $listenersToWrite = array();
+	
 	/**
 	 * Will check if the event listeners have been cached and will 
 	 * cache them when necessary.
@@ -43,22 +45,32 @@ class Observable{
 	 * should be called at the new entry point of the application.
 	 */
 	public static function cacheListeners(){
-		
+
 		\GO::debug("GO\Base\Observable::cacheListeners");
+		\GO::modules()->callModuleMethod('initListeners');
+		self::writeListenersFile();
+	}
+	
+	public static function writeListenersFile(){
 		
 		$cacheFolder = \GO::config()->getCacheFolder();
 		$folder = $cacheFolder->createChild('listeners',false);
-		
-		if(\GO::config()->debug){
-			$folder->delete();			
-		}
-		
-		if(!$folder->exists()){
-			$folder->create();
+		$folder->delete();	
+		$folder->create();
+
+		foreach(self::$listenersToWrite as $listenerClass=>$listeners){
+			$file = $folder.'/'.str_replace('\\','-', $listenerClass.'.php');
+			$content = "<?php\n// Build date: ".date('d-m-Y H:i:s')."\n";
 			
-			\GO::modules()->callModuleMethod('initListeners');
+			foreach($listeners as $listener){
+				$content .= '$listeners["'.$listener[1].'"][]=array("'.$listener[0].'", "'.$listener[2].'");'."\n";
+			}	
+			
+			file_put_contents($file, $content);		
 		}
+		
 	}
+	
 	/**
 	 * Add a listener function to this object
 	 * 
@@ -67,51 +79,15 @@ class Observable{
 	 * @param StringHelper $staticListenerFunction Static listener function name.
 	 */
 	public function addListener($eventName,$listenerClass, $staticListenerFunction){
-		
-		\GO::debug("addListener($eventName,$listenerClass, $staticListenerFunction)");
-		
-		$line = '$listeners["'.$eventName.'"][]=array("'.$listenerClass.'", "'.$staticListenerFunction.'");'."\n";
-		
-		$dir = \GO::config()->orig_tmpdir.'cache/listeners/';
-		$file = $dir.str_replace('\\','-', get_class($this)).'.php';
-		
-		if(!file_exists($file))
-			file_put_contents($file, "<?php\n", FILE_APPEND);	
-		
-		file_put_contents($file, $line, FILE_APPEND);	
-		
-	
+		$currentClass = get_class($this);
+		\GO::debug("addListener($eventName,$listenerClass, $staticListenerFunction) => $currentClass");
+
+		if(!isset(self::$listenersToWrite[$currentClass])){
+			self::$listenersToWrite[$currentClass]=array();
+		}
+		self::$listenersToWrite[$currentClass][]=array($listenerClass,$eventName,$staticListenerFunction);
+
 	}	
-	
-//	/**
-//	 * Attach a listner
-//	 * TODO: Is this a better way????
-//	 
-//	 IN THE MODULE ADD THIS TO ATTACH A LISTENER:
-//	 
-//  public static function initListeners() {
-//		Controller\AbstractModelController::attachListener("display", "GO\Lists\ListsModule", "displayResponse");
-//	}
-//	 
-//	 * 
-//	 * @param type $eventName
-//	 * @param type $listenerClass
-//	 * @param type $staticListenerFunction
-//	 */	
-//	public static function attachListener($eventName,$listenerClass, $staticListenerFunction){
-//		\GO::debug("addListener($eventName,$listenerClass, $staticListenerFunction)");
-//		
-//		$line = '$listeners["'.$eventName.'"][]=array("'.$listenerClass.'", "'.$staticListenerFunction.'");'."\n";
-//		
-//		$dir = \GO::config()->orig_tmpdir.'cache/listeners/';
-//		$file = $dir.get_called_class().'.php';
-//		
-//		if(!file_exists($file))
-//			file_put_contents($file, "<?php\n", FILE_APPEND);	
-//		
-//		file_put_contents($file, $line, FILE_APPEND);	
-//	}
-	
 	
 	/**
 	 * Remove a listener function to this object
@@ -145,7 +121,7 @@ class Observable{
 			//listeners array will be loaded from a file. Because addListener is only called once when there is no cache.
 			$listeners=array();
 			
-			$cacheFile = \GO::config()->orig_tmpdir.'cache/listeners/'.$className.'.php';
+			$cacheFile = \GO::config()->getCacheFolder().'/listeners/'.$className.'.php';
 //			$cacheFile = \GO::config()->orig_tmpdir.'cache/listeners/'.$className.'.php';
 			if(file_exists($cacheFile))
 				require($cacheFile);

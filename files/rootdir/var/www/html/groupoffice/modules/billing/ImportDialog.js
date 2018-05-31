@@ -93,7 +93,7 @@ GO.billing.ImportDialog = Ext.extend(Ext.Window, {
 			text:GO.billing.lang.downloadSampleCSV,
 			handler: function()
 			{
-				window.open(GO.settings.modules.billing.url+'download_importsample.php');
+				window.open(GO.settings.modules.billing.url+'importsample.csv');
 			},
 			scope:this			
 		}];

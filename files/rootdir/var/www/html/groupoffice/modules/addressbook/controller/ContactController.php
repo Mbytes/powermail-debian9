@@ -224,7 +224,7 @@ class ContactController extends \GO\Base\Controller\AbstractModelController{
 		
 		$columnModel->formatColumn('name','$model->getName(\GO::user()->sort_name)', array(),$sortAlias, \GO::t('strName'));
 		$columnModel->formatColumn('company_name','$model->company_name', array(),'', \GO::t('company','addressbook'));
-		$columnModel->formatColumn('ab_name','$model->ab_name', array(),'', \GO::t('addressbook','addressbook'));
+		$columnModel->formatColumn('ab_name','$model->ab_name', array(),'ab_name', \GO::t('addressbook','addressbook'));
 		$columnModel->formatColumn('age', '$model->age', array(), 'birthday');
 		$columnModel->formatColumn('action_date', '$model->getActionDate()', array(), 'action_date');
 		
@@ -455,8 +455,17 @@ class ContactController extends \GO\Base\Controller\AbstractModelController{
 		
 		return $response;
 	}
+	
 
 	protected function beforeHandleAdvancedQuery ($advQueryRecord, \GO\Base\Db\FindCriteria &$criteriaGroup, \GO\Base\Db\FindParams &$storeParams) {
+		if($advQueryRecord['comparator'] == 'RADIUS') {
+			list($lat, $long) = json_decode($advQueryRecord['field'], true);
+			$defaultSelect = 't.*, "'.addslashes(\GO::t('strUser')).'" AS ab_name,c.name AS company_name';
+			$storeParams->debugSql()->select($defaultSelect.',( 6371 * acos( cos( radians('.$lat.') ) * cos( radians( t.latitude ) ) * cos( radians( t.longitude ) - radians('.$long.') ) + sin( radians('.$lat.') ) * sin( radians( t.latitude ) ) ) ) AS distance');
+			$storeParams->having('distance < '.floatval($advQueryRecord['value']));
+			return false;
+		}
+
 		switch ($advQueryRecord['field']) {
 			case 'companies.name':
 				$storeParams->join(
@@ -749,7 +758,7 @@ class ContactController extends \GO\Base\Controller\AbstractModelController{
 		
 		
 		$userContactIds=array();
-		if(empty($params['addressbook_id']) && empty($params['no_user_contacts']) && empty($params['customfield_id'])) {
+		if(empty($params['addressbook_id']) && (empty($params['addressbook_ids']) || $params['addressbook_ids'] == '[]') && empty($params['no_user_contacts']) && empty($params['customfield_id'])) {
 			$findParams = \GO\Base\Db\FindParams::newInstance()
 					->searchQuery($query,
 									array("CONCAT(t.first_name,' ',t.middle_name,' ',t.last_name)",'t.email','t.email2','t.email3'))
@@ -772,7 +781,7 @@ class ContactController extends \GO\Base\Controller\AbstractModelController{
 
 				$findParams->getCriteria()->mergeWith($criteria);
 			}
-			
+
 			$stmt = \GO\Addressbook\Model\Contact::model()->findUsers(\GO::user()->id, $findParams);
 			
 			$userContactIds=array();
@@ -789,15 +798,7 @@ class ContactController extends \GO\Base\Controller\AbstractModelController{
 			}
 					
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		if(count($response['results'])<10){
 		
 		
@@ -832,10 +833,19 @@ class ContactController extends \GO\Base\Controller\AbstractModelController{
 
 				));
 	//		}
-				
-				$findParams->getCriteria()->addInTemporaryTableCondition('usercontacts', 'id', $userContactIds,'t',true,true);
-		
-			if (!empty($params['addressbook_id'])){		
+			
+			$findParams->getCriteria()->addInTemporaryTableCondition('usercontacts', 'id', $userContactIds,'t',true,true);
+
+			if(!empty($params['addressbook_ids']) && $params['addressbook_ids'] != '[]'){
+
+				if(!empty($params['addressbook_id'])){
+					\GO::debug('Given addressbook_ids array and addressbook_id parameters. Truncate addressbook_id parameter');
+					$params['addressbook_id'] = false;
+				}
+
+				$abs = json_decode($params['addressbook_ids']);
+
+			}	else if (!empty($params['addressbook_id'])){		
 				$abs= array($params['addressbook_id']);
 			} else if (GO::modules()->customfields && !empty($params['customfield_id'])) {
 				$colId = preg_replace('/[\D]/','',$params['customfield_id']);
@@ -845,12 +855,15 @@ class ContactController extends \GO\Base\Controller\AbstractModelController{
 						? explode(',',$customfieldModel->addressbook_ids)
 						: \GO\Addressbook\Model\Addressbook::model()->getAllReadableAddressbookIds();
 				$readableAddressbookIds = \GO\Addressbook\Model\Addressbook::model()->getAllReadableAddressbookIds();
+				
+				// Remove duplicate id's from the array to prevent a SQL error (Duplicate key for ...)
+				$abs = array_unique($abs);
+				
 				foreach ($abs as $k => $abId) {
 					if (!in_array($abId,$readableAddressbookIds))
 						unset($abs[$k]);
 				}
-			} else
-			{
+			} else {
 				$abs = \GO\Addressbook\Model\Addressbook::model()->getAllReadableAddressbookIds();			
 			}
 

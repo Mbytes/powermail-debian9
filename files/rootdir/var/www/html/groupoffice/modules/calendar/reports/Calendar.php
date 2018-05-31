@@ -12,7 +12,7 @@ namespace GO\Calendar\Reports;
  * If you have questions write an e-mail to info@intermesh.nl
  *
  * @copyright Copyright Intermesh
- * @version $Id: Calendar.php 20267 2016-07-18 11:48:49Z mschering $
+ * @version $Id: Calendar.php 21701 2017-11-15 14:57:05Z wsmits $
  * @author Michael de Hart <mdhart@intermesh.nl>
  */
 abstract class Calendar extends \GO\Base\Util\Pdf {
@@ -94,6 +94,11 @@ abstract class Calendar extends \GO\Base\Util\Pdf {
 			$event = $evento->getEvent()->duplicate(array(), false);
 			$event->id = $evento->getEvent()->id.':'.$evento->getAlternateStartTime();
 			
+			$participant = $event->getParticipantOfCalendar();
+			if($participant && $participant->status == \GO\Calendar\Model\Participant::STATUS_DECLINED) {
+					continue;
+			}
+                        
 			if($event->isPrivate()){
 				$event->name = \GO::t('private','calendar');
 				$event->description = '';
@@ -114,7 +119,7 @@ abstract class Calendar extends \GO\Base\Util\Pdf {
 				if($type=='part' && date('Gi',$event->end_time) > 1900)
 					$type='late';
 				$result[$day][$type][] = $event; 
-				$day = \GO\Base\Util\Date::clear_time((new \Datetime('@'.$day))->add(new \DateInterval('P1D'))->getTimestamp());
+				$day = \GO\Base\Util\Date::date_add($day, 1); //\GO\Base\Util\Date::clear_time((new \Datetime('@'.$day))->add(new \DateInterval('P1D'))->getTimestamp());
 			} while($event->end_time >= $day && $day < $end);
 		}
 		return $result;

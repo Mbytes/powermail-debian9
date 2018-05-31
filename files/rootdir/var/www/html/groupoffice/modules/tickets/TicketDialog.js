@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: TicketDialog.js 20129 2015-01-13 10:22:06Z mschering $
+ * @version $Id: TicketDialog.js 22066 2017-02-07 09:09:22Z wsmits $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -234,6 +234,10 @@ GO.tickets.TicketDialog = Ext.extend(GO.dialog.TabbedFormDialog , {
 		{
 			this.setTypeAcl(record.data.acl_id);
 			this.setFormMode(record.data.permission_level<GO.permissionLevels.manage);
+			if(GO.customfields){
+				GO.customfields.disableTabs(this._tabPanel, record.data);
+			}
+			
 		}, this);
 		
 		this.selectAgent = new GO.tickets.SelectAgent();
@@ -565,6 +569,9 @@ GO.tickets.TicketDialog = Ext.extend(GO.dialog.TabbedFormDialog , {
 		this.setFormMode(action.result.data.permission_level<GO.permissionLevels.manage);
 		this.setCompanyId(action.result.data.company_id);
 		this.setTypeAcl(action.result.data.acl_id);
+		if(GO.customfields){
+			GO.customfields.disableTabs(this._tabPanel, action.result);
+		}
 		
 		//do focus again so it finds a field that's not disabled
 		this.focus();

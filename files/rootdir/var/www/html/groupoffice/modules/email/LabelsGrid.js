@@ -52,6 +52,12 @@ GO.email.LabelsGrid = Ext.extend(GO.grid.GridPanel, {
 
     setAccountId : function(id){
         this.store.baseParams.account_id=id;
+		  var tabPanel = this.findParentByType('tabpanel');
+		  if(!id) {
+				tabPanel.hideTabStripItem(this);
+			} else {
+				tabPanel.unhideTabStripItem(this);
+			}
         this.setDisabled(!id); 
         this.store.load();       
     },

@@ -7,12 +7,15 @@
  * If you have questions write an e-mail to info@intermesh.nl
  * 
  * @copyright Copyright Intermesh
- * @version $Id: SelectCompany.js 20726 2016-12-16 10:04:54Z mschering $
+ * @version $Id: SelectCompany.js 21235 2017-06-21 08:11:59Z wsmits $
  * @author Merijn Schering <mschering@intermesh.nl>
  */
 
 
 GO.addressbook.SelectCompany = function(config){
+	
+	if(!config.addressbook_ids)
+		config.addressbook_ids = [];
 	
 	if(!config.valueField)
 		config.valueField='id';
@@ -46,10 +49,11 @@ GO.addressbook.SelectCompany = function(config){
 	if (typeof(config.store)=='undefined') {
 		this.store = new GO.data.JsonStore({
 			url: GO.url("addressbook/company/selectCompany"),
-			baseParams: {				
-				addressbook_id : this.addressbook_id,		
+			baseParams: {
+				addressbook_id : this.addressbook_id,
 				noMultiSelectFilter:true,
-				customfield_id : customfieldId
+				customfield_id : customfieldId,
+				addressbook_ids : Ext.encode(config.addressbook_ids)
 			},
 			root: 'results',
 			id: 'id',

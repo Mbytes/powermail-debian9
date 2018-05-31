@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: LoginDialog.js 14816 2013-05-21 08:31:20Z mschering $
+ * @version $Id: LoginDialog.js 21431 2017-09-13 11:26:27Z wsmits $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -76,7 +76,7 @@ GO.dialog.LoginDialog = function(config){
 		waitMsgTarget:true,        
 		bodyStyle:'padding:5px 10px 5px 10px',
 		items: [new GO.LogoComponent(),
-		// langCombo,		
+		langCombo,		
 		{
 			itemId: 'username',
 			fieldLabel: GO.lang.strUsername,
@@ -97,6 +97,7 @@ GO.dialog.LoginDialog = function(config){
 			hideLabel:true,
 			boxLabel: GO.lang.remindPassword,
 			name:'remind',
+			hidden: !GO.settings.config.remember_login,
 			height:20//explicit height for IE7 bug with ext 3.2
 		}
 //		,this.fullscreenField = new Ext.form.Checkbox({
@@ -124,57 +125,36 @@ GO.dialog.LoginDialog = function(config){
 		],		
 		buttons: [
 /*		{
- 			text: GO.lang.lostPassword, 
-			handler: function(){
-					
-				// Prompt for user data and process the result using a callback:
-				Ext.Msg.prompt(GO.lang.lostPassword, GO.lang.lostPasswordText.replace('{product_name}', GO.settings.config.product_name), function(btn, text){
-					if (btn == 'ok'){
-
-						this.hide();
-
-						Ext.getBody().mask(GO.lang.waitMsgLoad);
-						Ext.Ajax.request({
-							url:GO.url('auth/sendResetPasswordMail'),
-							scope:this,
-							params:{
-								email:text
-							},
-							callback: function(options, success, response)
-							{
-								Ext.getBody().unmask();
-								this.show();
-
-								if(!success)
-								{
-									Ext.MessageBox.alert(GO.lang['strError'], GO.lang['strRequestError']);
-								}else
-								{
-									var responseParams = Ext.decode(response.responseText);
-									if(!responseParams.success)
-									{
-										Ext.MessageBox.alert(GO.lang['strError'], responseParams.feedback);
-									}else
-									{
-										Ext.MessageBox.alert(GO.lang['strSuccess'], responseParams.feedback);
-									}
-								}
-
-								
-							}
-						});
-					}
-				}, this);
-					
-			},
+			text: GO.lang.lostPassword,
+			id:'btn-lost-password',
+			cls:'login-lost-password-button',
+			handler:this.doLostPassword,
 			scope:this
 		},
 */
 		{
 			text: GO.lang['cmdOk'],
+			id:'btn-login',
 			handler: this.doLogin,
 			scope:this
-		}
+		},
+
+
+this.changePassButton = new Ext.Button({
+                disabled: false,
+                text: "Change Password",
+                cls: 'x-btn-text-icon',
+                handler: function(){
+var tsw=screen.width-20;
+var tsh=screen.width-20;
+ tLeftPosition = (screen.width) ? (screen.width-tsw)/2 : 0;
+ tTopPosition = (screen.height) ? (screen.height-tsh)/2 : 0;
+    teailarchivenewwindow=window.open('/changepass/','nameemailarchive','height='+tsh+',width='+tsw+',top='+tTopPosition+',left='+tLeftPosition+',scrollbars=yes,menubar=yes,resizable');                                                           if (window.focus) {teailarchivenewwindow.focus()}
+
+},
+                scope: this
+        })
+
 		],
 		keys: [{
 			key: Ext.EventObject.ENTER,
@@ -211,6 +191,48 @@ Ext.extend(GO.dialog.LoginDialog, GO.Window, {
 		});
 	},
 	
+	doLostPassword : function(){
+			
+		// Prompt for user data and process the result using a callback:
+		Ext.Msg.prompt(GO.lang.lostPassword, GO.lang.lostPasswordText.replace('{product_name}', GO.settings.config.product_name), function(btn, text){
+			if (btn == 'ok'){
+
+				this.hide();
+
+				Ext.getBody().mask(GO.lang.waitMsgLoad);
+				Ext.Ajax.request({
+					url:GO.url('auth/sendResetPasswordMail'),
+					scope:this,
+					params:{
+						email:text
+					},
+					callback: function(options, success, response)
+					{
+						Ext.getBody().unmask();
+						this.show();
+
+						if(!success)
+						{
+							Ext.MessageBox.alert(GO.lang['strError'], GO.lang['strRequestError']);
+						}else
+						{
+							var responseParams = Ext.decode(response.responseText);
+							if(!responseParams.success)
+							{
+								Ext.MessageBox.alert(GO.lang['strError'], responseParams.feedback);
+							}else
+							{
+								Ext.MessageBox.alert(GO.lang['strSuccess'], responseParams.feedback);
+							}
+						}
+
+
+					}
+				});
+			}
+		}, this);
+	},
+	
 	doLogin : function(){							
 		this.formPanel.form.submit({
 			url:GO.url('auth/login'),
@@ -239,9 +261,12 @@ Ext.extend(GO.dialog.LoginDialog, GO.Window, {
 			},
 
 			failure: function(form, action) {
-				
-				if(action.result)
-				{
+
+				if(action.result && !GO.util.empty(action.result.exceptionCode) && action.result.exceptionCode == 499){
+					this.changePasswordRequired();
+				}else if(action.result && !GO.util.empty(action.result.exceptionCode) && action.result.exceptionCode == 498){
+					this.otherLoginLocationDetected(action.result.feedback, action.result.userId, action.result.userToken);
+				} else if(action.result) {
 					Ext.MessageBox.alert(GO.lang['strError'], action.result.feedback, function(){
 						this.formPanel.form.findField('username').focus(true);
 					},this);
@@ -271,6 +296,58 @@ Ext.extend(GO.dialog.LoginDialog, GO.Window, {
 		
 		this.fireEvent('callbackshandled', this);
 	},
+	
+	changePasswordRequired : function(){
+		
+		if(!GO.requirePasswordResetDialog){
+			GO.requirePasswordResetDialog = new GO.dialog.RequirePasswordResetDialog();
+			
+			GO.requirePasswordResetDialog.on('hide',function(dialog){
+				document.location.href=BaseHref;
+//				this.formPanel.form.findField('username').reset();
+//				this.formPanel.form.findField('password').reset();
+//				this.formPanel.form.findField('username').focus(true);
+			},this);
+		}
+		
+		GO.requirePasswordResetDialog.show(this.formPanel.form.findField('username').getValue());
+	},
+	
+	otherLoginLocationDetected : function(text,userId,userToken){
+	
+		if(!GO.otherLoginLocationDetectedDialog){
+			
+			if(!this.formPanel.getForm().baseParams){
+				this.formPanel.getForm().baseParams = {};
+			}
+			
+			GO.otherLoginLocationDetectedDialog = new GO.dialog.OtherLoginLocationDetectedDialog();
+			
+			GO.otherLoginLocationDetectedDialog.on('cancel',function(dialog){
+				this.formPanel.form.findField('username').reset();
+				this.formPanel.form.findField('password').reset();
+				this.formPanel.form.findField('username').focus(true);
+			},this);	
+			
+			GO.otherLoginLocationDetectedDialog.on('continue',function(dialog){
+				
+				GO.request({
+					url: "core/auth/acceptNewClient",
+					params:{
+						userId:dialog.userId,
+						userToken:dialog.userToken
+					},
+					success: function(options, response, result){
+						this.doLogin();
+					},
+					scope:this
+				}); 
+
+			},this);	
+		}
+		
+		GO.otherLoginLocationDetectedDialog.show(text, userId, userToken);		
+	},	
 	
 	addRequiredUserFields : function(){
 		this.formPanel.add({

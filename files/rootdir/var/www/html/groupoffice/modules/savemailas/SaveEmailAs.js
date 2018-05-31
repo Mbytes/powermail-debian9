@@ -97,6 +97,7 @@ GO.mainLayout.onReady(function(){
 						success: function(options, response, values)
 						{
 							values.description=values.plainbody;
+							values.name=values.subject;
 
 							var config = {
 								values: values,
@@ -311,7 +312,10 @@ GO.mainLayout.onReady(function(){
 						GO.request({
 							url: "savemailas/linkedEmail/link",
 							params: params,
-							scope: this
+							scope: this,
+							success: function() {
+								GO.mainLayout.getModulePanel('email').messagePanel.reload();
+							}
 						});
 					}
 				}
@@ -468,6 +472,7 @@ GO.mainLayout.onReady(function(){
 													Ext.MessageBox.hide();
 													this.hide();
 													GO.mainLayout.getModulePanel('email').messagesGrid.focus();
+													GO.mainLayout.getModulePanel('email').messagePanel.reload();
 												}
 											}
 										},

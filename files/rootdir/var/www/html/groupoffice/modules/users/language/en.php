@@ -148,6 +148,5 @@ $l['desktopNotificationsActive'] = 'Desktop notifications active';
 
 $l["id"]= 'ID';
 
-
-$l["alternativeEmail"]= 'Alternative email';
-$l["alternativeEmailText"]= 'This email address is used as an alternative to send a forgotten password request to. Please use an email address that you can access from outside Group-Office.';
+$l["forcePasswordChange"] = "Force password change on next login";
+$l["changePassword"] = 'Change password';

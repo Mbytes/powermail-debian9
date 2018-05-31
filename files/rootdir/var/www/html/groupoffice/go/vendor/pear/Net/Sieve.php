@@ -206,7 +206,7 @@ class Net_Sieve
      *                            stream_context_create().
      * @param mixed   $handler    A callback handler for the debug output.
      */
-    function Net_Sieve($user = null, $pass  = null, $host = 'localhost',
+    function __construct($user = null, $pass  = null, $host = 'localhost',
                        $port = 2000, $logintype = '', $euser = '',
                        $debug = false, $bypassAuth = false, $useTLS = true,
                        $options = null, $handler = null)

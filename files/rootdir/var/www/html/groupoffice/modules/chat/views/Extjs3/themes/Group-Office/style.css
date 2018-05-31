@@ -1,4 +1,21 @@
+#conversejs {
+	
+}
+#conversejs .toggle-controlbox {
+	background-color: green;
+	transform: rotate(-90deg);
+	margin-right: -32px;
+	margin-top: -70px;
+	font-size: 12px;
+	line-height: 12px;
+	padding: 6px;
+}
 
+#conversejs #controlbox .controlbox-head {
+    background-color: #009CC5;
+}
+
+/*
 #conversejs .minimized-chats-flyout, #conversejs .box-flyout {
     border-radius: 0px;
 }
@@ -125,7 +142,7 @@
     height: 25px;
 }
 
-/*
+
 #conversejs .toggle-controlbox{
     -moz-border-bottom-colors: none;
     -moz-border-left-colors: none;
@@ -145,7 +162,7 @@
     padding: 1px 3px;
     position: fixed;
     right: 0;
-}*/
+}
 
 
 #conversejs .chat-head {
@@ -176,4 +193,4 @@
     position: relative;
 	background-color: #009CC5;
 }
-
+*/

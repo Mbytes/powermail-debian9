@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: Settings.js 15954 2013-10-17 12:04:36Z mschering $
+ * @version $Id: Settings.js 21411 2017-08-15 09:07:14Z michaelhart86 $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -16,9 +16,9 @@ GO.calendar.SettingsPanel = function(config) {
 		config = {};
 	}
 
-	var reminderValues = [['0', GO.calendar.lang.noReminder]];
+	var reminderValues = [[null, GO.calendar.lang.noReminder]];
 
-	for (var i = 1; i < 60; i++) {
+	for (var i = 0; i < 60; i++) {
 		reminderValues.push([i, i]);
 	}
 
@@ -257,7 +257,13 @@ GO.calendar.SettingsPanel = function(config) {
 							name:'show_statuses',
 							boxLabel: GO.calendar.lang.showStatuses,
 							hideLabel:true
+						},{
+							xtype:'xcheckbox',
+							name:'check_conflict',
+							boxLabel: GO.calendar.lang.check_for_conflict,
+							hideLabel:true
 						}		
+						
 					]
 	}];
 
@@ -282,7 +288,11 @@ Ext.extend(GO.calendar.SettingsPanel, Ext.Panel, {
 		}
 	},
 	//needed for override in freebusypermissions
-	onLoadSettings : function(action){}
+	onLoadSettings : function(action){
+		
+		console.log(action);
+		
+	}
 
 });
 

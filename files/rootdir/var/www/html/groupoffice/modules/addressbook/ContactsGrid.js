@@ -168,7 +168,8 @@ GO.addressbook.ContactsGrid = function(config){
 		{
 			header: GO.lang['strCountry'],
 			dataIndex: 'country',
-			hidden:true
+			hidden:true,
+			renderer: GO.grid.ColumnRenderers.countryCode
 		},
 		{
 			header: GO.lang['strFunction'],
@@ -188,7 +189,7 @@ GO.addressbook.ContactsGrid = function(config){
 			header: GO.addressbook.lang.addressbook,
 			dataIndex: 'ab_name',
 			hidden:true,
-			sortable:false
+			sortable:true
 		},
 		{
 			header: GO.lang.strMtime,

@@ -7,7 +7,7 @@
  * If you have questions write an e-mail to info@intermesh.nl
  *
  * @copyright Copyright Intermesh
- * @version $Id: MonthGrid.js 20164 2016-06-23 13:31:47Z mschering $
+ * @version $Id: MonthGrid.js 21238 2017-06-22 13:30:12Z michaelhart86 $
  * @author Merijn Schering <mschering@intermesh.nl>
  */
 
@@ -928,6 +928,15 @@ GO.grid.MonthGrid = Ext.extend(Ext.Panel, {
 
 				this.fireEvent(this.currentFireEvent, this, remoteEvent , this.currentActionData, domIds);
 
+				this.recurrenceDialog.hide();
+			},this)
+
+			this.recurrenceDialog.on('thisandfuture', function()
+			{
+				this.currentActionData.singleInstance= true;
+				this.currentActionData.thisAndFuture = true;
+
+				this.fireEvent(this.currentFireEvent, this, this.currentRecurringEvent, this.currentActionData);
 				this.recurrenceDialog.hide();
 			},this)
 

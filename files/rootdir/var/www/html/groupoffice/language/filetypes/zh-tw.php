@@ -2,7 +2,7 @@
 
 
 $ft_title = "檔案類型";
-$ft_text = "檔案類型是Group-Office自動新增的，你/妳可以在這裡變更圖示及名稱";
+$ft_text = "檔案類型是{product_name}自動新增的，你/妳可以在這裡變更圖示及名稱";
 $ft_icon = "圖示";
 $ft_extension = "副檔名";
 $ft_friendly = "類型名稱";

@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: MessagesGrid.js 20289 2016-07-25 13:35:05Z mschering $
+ * @version $Id: MessagesGrid.js 22244 2018-01-25 09:47:02Z wsmits $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -51,20 +51,29 @@ GO.email.MessagesGrid = function(config){
 			},{
 				header: GO.email.lang.from,
 				dataIndex: 'from',
-				renderer:this.renderNorthMessageRow,
+				renderer:{
+					fn: this.renderNorthMessageRow,
+					scope: this
+				},
 				id:'from',
 				width:200
 			},{
 				header: GO.email.lang.to,
 				dataIndex: 'to',
-				renderer:this.renderNorthMessageRow,
+				renderer:{
+					fn: this.renderNorthMessageRow,
+					scope: this
+				},
 				id:'to',
 				width:200,
 				hidden: true
 			},{
 				header: GO.email.lang.subject,
 				dataIndex: 'subject',
-				renderer:this.renderNorthMessageRow,
+				renderer:{
+					fn: this.renderNorthMessageRow,
+					scope: this
+				},
 				width:200
 			},{
 				header: GO.lang.strDate,
@@ -127,7 +136,10 @@ GO.email.MessagesGrid = function(config){
 		},{
 			header: GO.email.lang.message,
 			dataIndex: 'from',
-			renderer: this.renderMessage,
+			renderer:{ 
+				fn: this.renderMessage,
+				scope: this
+			},
 			css: 'white-space:normal;',
 			id:'message'
 
@@ -340,32 +352,41 @@ Ext.extend(GO.email.MessagesGrid, GO.grid.GridPanel,{
 
 	renderNorthMessageRow : function(value, p, record){
 		if(record.data['seen']=='0')
-			return String.format('<div id="sbj_'+record.data['uid']+'" class="ml-unseen-mail">{0}</div>', value);
+			return String.format('<div id="sbj_'+record.data['uid']+'" '+this.createQtipTemplate(record)+' class="ml-unseen-mail">{0}</div>', value);
 		else
-			return String.format('<div id="sbj_'+record.data['uid']+'" class="ml-seen-mail">{0}</div>', value);
+			return String.format('<div id="sbj_'+record.data['uid']+'" '+this.createQtipTemplate(record)+' class="ml-seen-mail">{0}</div>', value);
 	},
 
 	renderMessageSmallRes : function(value, p, record){
 
 		if(record.data['seen']=='0')
 		{
-			return String.format('<div id="sbj_'+record.data['uid']+'" class="ml-unseen-from">{0}</div><div class="ml-unseen-subject">{1}</div>', value, record.data['subject']);
+			return String.format('<div id="sbj_'+record.data['uid']+'" '+this.createQtipTemplate(record)+' class="ml-unseen-from">{0}</div><div class="ml-unseen-subject">{1}</div>', value, record.data['subject']);
 		}else
 		{
-			return String.format('<div id="sbj_'+record.data['uid']+'" class="ml-seen-from">{0}</div><div class="ml-seen-subject">{1}</div>', value, record.data['subject']);
+			return String.format('<div id="sbj_'+record.data['uid']+'" '+this.createQtipTemplate(record)+' class="ml-seen-from">{0}</div><div class="ml-seen-subject">{1}</div>', value, record.data['subject']);
 		}
+	},
+
+	createQtipTemplate: function(record){
+		var qtipTemplate = '';
+		
+		if(this.getStore().baseParams.query){
+			qtipTemplate = 'ext:qtitle="'+GO.email.lang.folder+'" ext:qtip="' + record.data['mailbox'] + '"';
+		}
+		
+		return qtipTemplate;
 	},
 
 	renderMessage : function(value, p, record){
 		
 		var deletedCls = record.data.deleted ? 'ml-deleted' : '';
 		
-		if(record.data['seen']=='0')
-		{
-			return String.format('<div id="sbj_'+record.data['uid']+'" class="ml-unseen-from '+deletedCls+'">{0}</div><div class="ml-unseen-subject '+deletedCls+'">{1}</div>', value, record.data['subject']);
+		if(record.data['seen']=='0'){
+			return String.format('<div id="sbj_'+record.data['uid']+'" '+this.createQtipTemplate(record)+' class="ml-unseen-from '+deletedCls+'">{0}</div><div class="ml-unseen-subject '+deletedCls+'">{1}</div>', value, record.data['subject']);
 		}else
 		{
-			return String.format('<div id="sbj_'+record.data['uid']+'" class="ml-seen-from '+deletedCls+'">{0}</div><div class="ml-seen-subject '+deletedCls+'">{1}</div>', value, record.data['subject']);
+			return String.format('<div id="sbj_'+record.data['uid']+'" '+this.createQtipTemplate(record)+' class="ml-seen-from '+deletedCls+'">{0}</div><div class="ml-seen-subject '+deletedCls+'">{1}</div>', value, record.data['subject']);
 		}
 	},
 

@@ -58,9 +58,22 @@ class ImapMessageAttachment extends MessageAttachment{
 		return $this->_tmpDir;
 	}
 	
-	public function saveToFile(\GO\Base\Fs\Folder $targetFolder){
+	/**
+	 * 
+	 * @param \GO\Base\Fs\Folder $targetFolder
+	 * @param string $filename Optional
+	 * @return type
+	 */
+	public function saveToFile(\GO\Base\Fs\Folder $targetFolder, $filename=null){
+		
+		if(!isset($filename)) {
+			$filename = $this->name;
+		} 
+		
+		$path =$targetFolder->createChild($filename)->path();
+		
 		$imap = $this->account->openImapConnection($this->mailbox);
-		return $imap->save_to_file($this->uid, $targetFolder->createChild($this->name)->path(),  $this->number, $this->encoding, true);
+		return $imap->save_to_file($this->uid, $path,  $this->number, $this->encoding, true);
 	}
 	
 	public function createTempFile() {
@@ -78,9 +91,18 @@ class ImapMessageAttachment extends MessageAttachment{
 				$imap->save_to_file($this->uid, $tmpFile->path(),  $this->number, $this->encoding, true);
 			}
 			$this->setTempFile($tmpFile);
+			$this->size = $tmpFile->size();
 		}
 		
 		return $this->getTempFile();
+	}
+	
+	public function getEstimatedSize() {
+		if($this->hasTempFile()) {
+			return $this->size;
+		}
+		
+		return parent::getEstimatedSize();
 	}
 	
 	public function getData() {		

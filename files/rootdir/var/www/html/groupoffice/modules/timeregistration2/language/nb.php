@@ -15,7 +15,6 @@ $l['weekNotClosed']= 'Uken er ikke lukket ennå!';
 $l['printPage']='Side %s av %s';
 $l['noDoubleCopy']= 'Noen timer ble ikke kopiert, fordi de allerede eksisterer i valgte uke.';
 $l['ErrorMultiGridMode']= 'Kan ikke legge flere avtaler av gangen til timeregistrering når "Rutenett"-modus er valgt!';
-
 $l["timeregistrationMode"]='Metode for timeregistrering';
 $l["gridMode"]='Tabell med alle prosjekter og en registrering pr prosjekt pr dag. Enkelt å bruke.';
 $l["multipleMode"]='Flere registreringer pr prosjekt pr dag. Mer komplisert å bruke.';
@@ -49,3 +48,47 @@ $l['globalSetSureMsg']= 'Dette vil gjøre valgte innstillinger aktive for alle b
 $l['enableGloballySetFilters']= 'Bruk samme timeregistreringsfiltere for alle brukere';
 $l['onlyShowOwn']= 'Filter: Bare vis individuelle brukeres egne prosjekter';
 $l['toggleWindowPosition']= 'Bytt vindusposisjon';
+$l["timeTracking"]= 'Tidsregistrering';
+$l['timerSure']= "Er du sikker på at du vil stoppe timeren?";
+$l["project"]= 'Prosjekt';
+$l['task']='Jobb';
+$l['activity']= "Aktivitet";
+$l['comments']= 'Kommentarer';
+$l['weekClosed']= 'Alle timeregistreringer i denne uken er lukket';
+$l['weekAlreadyClosed']= 'Denne uken er allerede lukket';
+$l['monthClosed']= "Alle timeregistreringer i denne måneden er lukket";
+$l['monthAlreadyClosed']= 'Denne måneden er allerede lukket';
+$l['amountOfHours']="Ukentlig arbeidstid";
+$l['workingHours']="Arbeidstid";
+$l['startTime']='Start';
+$l['addEntry']="Ny registrering";
+$l['endTime']="Slutt";
+$l['endDate']= "Sluttdato";
+$l['openWeek']='Åpne uke';
+$l['closeWeek']='Lukk uke';
+$l['openMonth']='Åpne måned';
+$l['closeMonth']='Lukk måned';
+$l['approve']= 'Godkjenn';
+$l['disapprove']= "Avvis";
+$l['aprovedAllClosed']= "Alle lukkede registreringer i dette tidstommet ble godkjent";
+$l['since']= "Siden";
+$l['employees']= "Ansatte";
+$l['employee']= "Ansatt";
+$l['hoursAbsence']= 'Fravær';
+$l['hoursTotal']= 'Totalt timer';
+$l['duration']= "Varighet";
+$l['absence']= 'Fravær';
+$l['days']= 'Dager';
+$l['day']='Dag';
+$l['hour']= "Timer";
+$l['from']="Fra";
+$l['till']="Til";
+$l['showAll']= "Vis alle";
+$l['hoursBillable']= "Fakturerbare timer";
+$l['weekIsClosed']= 'Denne uken er lukket';
+$l['travelDistance']= 'Antall KM (bil)';
+
+
+
+
+

@@ -7,7 +7,7 @@
  * If you have questions write an e-mail to info@intermesh.nl
  * 
  * @copyright Copyright Intermesh
- * @version $Id: BookDialog.js 21269 2016-03-22 16:01:21Z mschering $
+ * @version $Id: BookDialog.js 22435 2017-07-31 08:16:21Z johan $
  * @author Merijn Schering <mschering@intermesh.nl>
  */
 
@@ -311,7 +311,7 @@ Ext.extend(GO.billing.BookDialog, GO.Window,{
 			boxLabel : GO.billing.lang.purchaseOrdersBook,
 			labelSeparator : '',
 			name : 'is_purchase_orders_book',
-			allowBlank : true,
+//			allowBlank : true,
 			hideLabel : true
 		});
 		
@@ -320,7 +320,7 @@ Ext.extend(GO.billing.BookDialog, GO.Window,{
 			boxLabel : GO.billing.lang.allowDelete,
 			labelSeparator : '',
 			name : 'allow_delete',
-			allowBlank : true,
+//			allowBlank : true,
 			hideLabel : true
 		});
 
@@ -355,7 +355,7 @@ Ext.extend(GO.billing.BookDialog, GO.Window,{
 			boxLabel : GO.billing.lang.showSalesAgents,
 			labelSeparator : '',
 			name : 'show_sales_agents',
-			allowBlank : true,
+//			allowBlank : true,
 			hideLabel : true
 		});
 		

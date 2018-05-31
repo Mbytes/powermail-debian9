@@ -157,3 +157,8 @@ $l['menuitemSort_order']= "Objednávka";
 $l['menuitemTarget']= "Cíl";
 $l['sureCreateContentMenuItemTitle']= "Vytvořte položku z obsahu";
 $l['sureCreateContentMenuItem']= "Jste si jisti, že chcete vytvořit položku v menu z této položky obsahu?";
+
+$l['lostPassword']= 'Ztracené heslo';
+$l['rememberMe']= 'Zapamatovat si mě';
+$l['createNewPassword']= 'Vytvořit nové heslo pomocí vaší e-mailové adresy';
+$l['linkToOriginal']='Připojení k originálu';

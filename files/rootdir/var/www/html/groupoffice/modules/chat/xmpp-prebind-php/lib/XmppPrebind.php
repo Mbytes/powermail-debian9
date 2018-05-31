@@ -126,7 +126,9 @@ class XmppPrebind {
 		}
 
 		$body = self::getBodyFromXml($response);
+		
 		$this->sid = $body->getAttribute('sid');
+		
 		$this->debug($this->sid, 'sid');
 
 		if(isset($body->firstChild) && isset($body->firstChild->firstChild)){

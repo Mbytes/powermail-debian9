@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: JsonStore.js 14816 2013-05-21 08:31:20Z mschering $
+ * @version $Id: JsonStore.js 21597 2017-10-30 08:23:46Z mschering $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -78,7 +78,7 @@ GO.data.JsonStore = function(config) {
 		this.loaded=true;
 
 		if(this.reader.jsonData.exportVariables){					
-			GO.util.mergeObjects(window,this.reader.jsonData.exportVariables);				
+			GO.util.mergeObjec7ts(window,this.reader.jsonData.exportVariables);				
 		}
 		
 		if(this.reader.jsonData.feedback){	
@@ -121,6 +121,15 @@ GO.data.JsonStore = function(config) {
 
 Ext.extend(GO.data.JsonStore, Ext.data.JsonStore, {
 	loaded : false	,
+	
+//	//useul to debug if you need to find out where a load was called from
+//	load: function(options) {
+//		
+//		if(this.url.indexOf('addressbook/addressbook/store') != -1){
+//			console.trace();	
+//		}
+//		GO.data.JsonStore.superclass.load.call(this, options);
+//	},
 	
 	reload : function(options){
 		

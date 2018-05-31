@@ -90,3 +90,9 @@ GO.projects2.templatesStore =  new GO.data.JsonStore({
 				forEditing:true
 			}
 	});
+	
+GO.projects2.standardTaskStore = new GO.data.JsonStore({
+	url:GO.url("projects2/standardTask/store"),
+	fields:['id','code','name', 'description', 'units', 'disabled','is_billable'],
+	remoteSort:true
+});

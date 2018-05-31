@@ -263,3 +263,8 @@ $l['allTogetherForResources']= 'Alle ressurser samlet';
 $l['resourceUsedIn']= 'Ressursen brukes i ';
 $l['exportAsIcs']= 'Eksporter som ICS';
 $l['noDefaultCalendar']= "Du har ikke valgt noen standardkalender. Du må gjøre dette ved å gå til Innstillinger.";
+
+$l['rangeRecurrence']= 'Gjentagelse';
+$l['repeatUntilDate']= 'gjenta til og med';
+$l['repeatCount']= 'gjenta antall';
+$l['calNotDeletedDefault']= "Ikke slettet!\nDette er standardkalender for bruker :username";

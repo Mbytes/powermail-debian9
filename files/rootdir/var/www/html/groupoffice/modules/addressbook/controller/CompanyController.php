@@ -87,6 +87,13 @@ class CompanyController extends \GO\Base\Controller\AbstractModelController {
 
 		return parent::afterDisplay($response, $model, $params);
 	}
+	
+	protected function formatColumns(\GO\Base\Data\ColumnModel $columnModel) {
+		
+		$columnModel->formatColumn('ab_name','$model->addressbook_name', array(),'addressbook_name', \GO::t('addressbook','addressbook'));
+
+		return parent::formatColumns($columnModel);
+	}
 
 	public function formatStoreRecord($record, $model, $store) {
 
@@ -95,7 +102,7 @@ class CompanyController extends \GO\Base\Controller\AbstractModelController {
 		if (!empty($model->name2))
 			$record['name_and_name2'] .= ' - ' . $model->name2;
 
-		$record['ab_name'] = $model->addressbook->name;
+		//$record['ab_name'] = $model->addressbook->name;
 		
 		$record['cf'] = $model->id.":".$model->name;//special field used by custom fields. They need an id an value in one.)
 
@@ -329,7 +336,14 @@ class CompanyController extends \GO\Base\Controller\AbstractModelController {
 	}
 
 	protected function beforeHandleAdvancedQuery($advQueryRecord, \GO\Base\Db\FindCriteria &$criteriaGroup, \GO\Base\Db\FindParams &$storeParams) {
-		$storeParams->debugSql();
+
+		if($advQueryRecord['comparator'] == 'RADIUS') {
+			list($lat, $long) = json_decode($advQueryRecord['field'], true);
+			$defaultSelect = 't.*, addressbook.name AS ab_name';
+			$storeParams->debugSql()->select($defaultSelect.',( 6371 * acos( cos( radians('.$lat.') ) * cos( radians( t.latitude ) ) * cos( radians( t.longitude ) - radians('.$long.') ) + sin( radians('.$lat.') ) * sin( radians( t.latitude ) ) ) ) AS distance');
+			$storeParams->having('distance < '.floatval($advQueryRecord['value']));
+			return false;
+		}
 		switch ($advQueryRecord['field']) {
 			case 'employees.name':
 				$storeParams->join(
@@ -403,13 +417,16 @@ class CompanyController extends \GO\Base\Controller\AbstractModelController {
 		
 				$response = array('total'=>0, 'results'=>array());
 			$query = !empty($params['query']) ? $params['query'] : '';
+			$params['start'] = !empty($params['start']) ? $params['start'] : 0;
+			$params['limit'] = !empty($params['limit']) ? $params['limit'] : 10;
+			
 				
 		$query = '%'.preg_replace ('/[\s*]+/','%', $query).'%'; 
 				
 		
 		$findParams = \GO\Base\Db\FindParams::newInstance()
 			->ignoreAcl()
-			->select('t.*, a.name AS ab_name')
+			->select('t.*, a.name AS ab_name')->calcFoundRows()
 			->searchQuery($query,
 							array(
 									"CONCAT(t.name,' ',t.name2,' ',' ',a.name)",
@@ -423,12 +440,20 @@ class CompanyController extends \GO\Base\Controller\AbstractModelController {
 				'type'=>'INNER' //defaults to INNER,
 
 			))			
-			->limit(10)->order('t.name');
+			->start($params['start'])
+			->limit($params['limit'])
+			->order('t.name');
 
-//		}
+		if(!empty($params['addressbook_ids']) && $params['addressbook_ids'] != '[]'){
 
+			if(!empty($params['addressbook_id'])){
+				\GO::debug('Given addressbook_ids array and addressbook_id parameters. Truncate addressbook_id parameter');
+				$params['addressbook_id'] = false;
+			}
 
-		if(!empty($params['addressbook_id'])){		
+			$abs = json_decode($params['addressbook_ids']);
+
+		}	else if(!empty($params['addressbook_id'])){		
 			$abs= array($params['addressbook_id']);
 		}else if (GO::modules()->customfields && !empty($params['customfield_id'])) {
 			
@@ -439,12 +464,17 @@ class CompanyController extends \GO\Base\Controller\AbstractModelController {
 					? explode(',',$customfieldModel->addressbook_ids)
 					: \GO\Addressbook\Model\Addressbook::model()->getAllReadableAddressbookIds();
 			$readableAddressbookIds = \GO\Addressbook\Model\Addressbook::model()->getAllReadableAddressbookIds();
+			
+			// Remove duplicate id's from the array to prevent a SQL error (Duplicate key for ...)
+			$abs = array_unique($abs);
+				
 			foreach ($abs as $k => $abId) {
 				if (!in_array($abId,$readableAddressbookIds))
 					unset($abs[$k]);
 			}
-		} else 
-		{
+		} 
+		
+		if(empty($abs)){
 			$abs = \GO\Addressbook\Model\Addressbook::model()->getAllReadableAddressbookIds();			
 		}
 
@@ -463,12 +493,13 @@ class CompanyController extends \GO\Base\Controller\AbstractModelController {
 				//$record['name']=$contact->name;
 				$record['cf']=$company->id.":".$company->name;
 
-				$response['results'][]=$record;
-				$response['total']++;			
+				$response['results'][]=$record;	
 
 //					if($contact->go_user_id)
 //						$user_ids[]=$contact->go_user_id;
 			}
+			$response['total']= $stmt->foundRows;
+			
 		}
 		
 		

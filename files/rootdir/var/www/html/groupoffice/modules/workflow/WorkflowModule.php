@@ -12,7 +12,7 @@
  * The WorkflowModule class
 
  * @package GO.modules.Scanbox
- * @version $Id: WorkflowModule.php 21849 2016-11-08 12:46:37Z mschering $
+ * @version $Id: WorkflowModule.php 22580 2017-10-23 08:06:26Z mschering $
  * @copyright Copyright Intermesh BV.
  * @author Wesley Smits wsmits@intermesh.nl
  *
@@ -52,7 +52,7 @@ class WorkflowModule extends \GO\Professional\Module{
 	 * 
 	 * @param \GO\Base\Db\ActiveRecord $model 
 	 */
-	public static function save(&$model,$wasNew){
+	public static function save($model,$wasNew){
 	
 		if($wasNew || (!$wasNew && $model->className() == 'GO\Files\Model\File' && $model->isModified('folder_id'))){
 			// Check for a trigger for this model
@@ -82,7 +82,7 @@ class WorkflowModule extends \GO\Professional\Module{
 		}
 	}
 	
-	public static function loadFolderTrigger(&$self,&$response,&$model,&$params){
+	public static function loadFolderTrigger($self,&$response,$model,&$params){
 		
 		$trigger = Model\Trigger::model()->findSingleByAttributes(array(
 					'model_type_id'=>\GO\Files\Model\File::model()->modelTypeId(),
@@ -99,7 +99,7 @@ class WorkflowModule extends \GO\Professional\Module{
 		}
 	}
 	
-	public static function checkFolderTrigger(&$self,&$response,&$model,&$params,$modifiedAttributes){
+	public static function checkFolderTrigger($self,&$response,$model,&$params,$modifiedAttributes){
 
 		$trigger = Model\Trigger::model()->findSingleByAttributes(array(
 					'model_type_id'=>\GO\Files\Model\File::model()->modelTypeId(),
@@ -124,7 +124,7 @@ class WorkflowModule extends \GO\Professional\Module{
 	}
 	
 	
-	public static function delete(&$model){
+	public static function delete($model){
 		$wfModels = Model\Model::model()->findByAttributes(array('model_type_id'=>$model->modelTypeId(),'model_id'=>$model->id));
 		while($wfModel = $wfModels->fetch()){
 			$wfModel->delete();
@@ -141,5 +141,9 @@ class WorkflowModule extends \GO\Professional\Module{
 	
 	public function authorEmail() {
 		return 'wsmits@intermesh.nl';
+	}
+	
+	public function depends() {
+		return ['files'];
 	}
 }

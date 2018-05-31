@@ -211,15 +211,21 @@ class Column {
 		extract($this->_extraVars);
 
 		if (isset($this->_format)) {
-			$result = '';
-			if($this->_format!='')
-				eval('$result=' . $this->_format . ';');
 			
-			if($this->_modelFormatType == 'html'){
-				$result = \GO\Base\Util\StringHelper::encodeHtml($result);
+			if(is_string($this->_format)) {
+
+				$result = '';
+				if($this->_format!='')
+					eval('$result=' . $this->_format . ';');
+
+				if($this->_modelFormatType == 'html'){
+					$result = \GO\Base\Util\StringHelper::encodeHtml($result);
+				}
+
+				return $result;
+			} else {
+				return call_user_func_array($this->_format, [$model, $this->_extraVars]);
 			}
-			
-			return $result;
 		} elseif (isset($model->{$this->_dataindex})) {
 		  if($model instanceof \GO\Base\Db\ActiveRecord){
 				return $model->getAttribute($this->_dataindex,$this->_modelFormatType);

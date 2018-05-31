@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: StandardTaskGrid.js 19445 2014-08-06 08:16:15Z wvbeusekom $
+ * @version $Id: StandardTaskGrid.js 23403 2018-02-08 09:34:33Z mdhart $
  * @copyright Copyright Intermesh
  * @author Michael de Hart <mdhart@intermesh.nl>
  */
@@ -30,11 +30,7 @@ GO.projects2.StandardTaskGrid = Ext.extend(GO.grid.GridPanel,{
 //					} 
 //				}
 //			}),
-			store: new GO.data.JsonStore({
-				url:GO.url("projects2/standardTask/store"),
-				fields:['id','code','name', 'description', 'units', 'disabled','is_billable'],
-				remoteSort:true
-			}),
+			store: GO.projects2.standardTaskStore,
 			editDialogClass: GO.projects2.StandardTaskDialog,
 			border: false,
 			paging:true,

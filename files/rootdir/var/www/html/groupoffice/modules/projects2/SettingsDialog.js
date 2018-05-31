@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: SettingsDialog.js 21429 2016-06-09 09:55:03Z mschering $
+ * @version $Id: SettingsDialog.js 23403 2018-02-08 09:34:33Z mdhart $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -19,8 +19,8 @@ GO.projects2.SettingsDialog = Ext.extend(GO.dialog.TabbedFormDialog, {
       goDialogId: 'pm-settings-dialog',
       layout: 'fit',
       title: GO.lang['administration'],
-      width: 700,
-      height: 500,
+      width: 900,
+      height: 600,
       resizable: false,
       formControllerUrl: 'projects2/settings'
     });
@@ -111,13 +111,6 @@ GO.projects2.SettingsDialog = Ext.extend(GO.dialog.TabbedFormDialog, {
 		this.addPanel(this.standardTaskGrid);
 		this.addPanel(this.employeesGrid);
 		
-		this.financePermissionsPanel = new GO.grid.PermissionsPanel({
-			title: GO.projects2.lang.financePermissions,
-			fieldName:'finance_acl',
-			hideLevel:true
-		});
-		
-		this.addPermissionsPanel(this.financePermissionsPanel);
 	},
 	
 	afterSubmit : function(action){

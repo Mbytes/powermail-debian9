@@ -564,7 +564,7 @@ $l['queryField']= "Fält";
 $l['queryComparator']= "Komparator";
 $l['queryValue']="Värde";
 $l['queryStartGroup']="Startgrupp";
-$l['cliOnly']= "Detta skript kan bara köras genom Group-Office Command Line Interface (CLI).";
+$l['cliOnly']= "Detta skript kan bara köras genom {product_name} Command Line Interface (CLI).";
 $l['unnamed']='Namnlös';
 
 $l['maxRowslistTooHigh']='Högsta antal rader i listor är för högt. (max 50)';

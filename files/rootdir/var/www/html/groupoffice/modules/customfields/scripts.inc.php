@@ -103,6 +103,7 @@ foreach($moduleObjects as $moduleObject)
 						$GO_SCRIPTS_JS .= 'GO.customfields.columns["'.StringHelper::escape_javascript($model->extendsModel()).'"].push({'.
 								'header: "'.\GO\Base\Util\StringHelper::escape_javascript($field['name']).'",'.
 								'dataIndex: "'.$field['dataname'].'" ,'.
+								'dataname: "'.$field['dataname'].'" ,'.
 								'datatype:"'.\GO\Base\Util\StringHelper::escape_javascript($field['datatype']).'", '.
 								'align:"'.$align.'", '.
 								'sortable:true,'.
@@ -111,6 +112,7 @@ foreach($moduleObjects as $moduleObject)
 								'nesting_level: "'.$field['nesting_level'].'",'.
 								'multiselect: "'.$field['multiselect'].'",'.
                 'exclude_from_grid: "'.$exclude_from_grid.'",'.
+								'isCustomField: true,'.
 								'hidden:true});'."\n".
 								'GO.customfields.columnMap["'.$field['dataname'].'"]=GO.customfields.columns["'.StringHelper::escape_javascript($model->extendsModel()).'"][GO.customfields.columns["'.StringHelper::escape_javascript($model->extendsModel()).'"].length-1];'."\n";
 					}

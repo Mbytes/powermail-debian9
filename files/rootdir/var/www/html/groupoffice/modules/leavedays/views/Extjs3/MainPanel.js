@@ -280,7 +280,7 @@ GO.leavedays.MainPanel = function (config) {
 		this.yearSummaryGrid.on('rowdblclick', function (grid, rowIndex, event) {
 			
 			var record = grid.store.getAt(rowIndex);
-			
+
 			// if you not the manager you cant edit it
 			if(record.get('manager_user_id') != GO.settings.user_id && !GO.settings.modules.leavedays.permission_level >= GO.permissionLevels.manage) {
 				return false;
@@ -383,6 +383,7 @@ Ext.extend(GO.leavedays.MainPanel, Ext.Panel, {
 				fields.push('id');
 				fields.push('user_id');
 				fields.push('user_name');
+				fields.push('company_name');
 				fields.push('need_approve');
 				fields.push('manager_user_name');
 				fields.push('manager_user_id');
@@ -404,6 +405,20 @@ Ext.extend(GO.leavedays.MainPanel, Ext.Panel, {
 					},
 					sortable: true,
 					hideable: false
+				});
+				
+				
+				columns.push({
+					header: GO.lang['company'],
+					dataIndex: 'company_name',
+					width: 200,
+					renderer: function (v, m, record) {
+						if (record.get('need_approve') && v)
+							return '<b>' + v + '</b>';
+						return v;
+					},
+					sortable: true,
+					hideable: true
 				});
 				
 				columns.push({

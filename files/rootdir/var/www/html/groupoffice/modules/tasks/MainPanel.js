@@ -461,6 +461,12 @@ Ext.extend(GO.tasks.MainPanel, Ext.Panel,{
 					scope:this
 				},
 				columns:[{
+					header:GO.tasks.lang.id,
+					dataIndex: 'id',
+					sortable:true,
+					hidden:true,
+					width:20
+				},{
 					header:GO.lang['strName'],
 					dataIndex: 'name',
 					sortable:true

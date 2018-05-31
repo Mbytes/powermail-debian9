@@ -12,3 +12,24 @@ $l['name']='Rejestracja czasu V2';
 $l['description']='Rejestracja czasu pracy dla modułu Projekty';
 $l['approvalRequiredSubject']='Wymagana akceptacja';
 $l['approvalRequiredBody']='%s zarejstrował czas pracy. Czas pracy można zaakceptować na %s';
+
+
+
+
+$l["timeTracking"]= 'Śledzenie czasu';
+$l["project"]= 'Projekt';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

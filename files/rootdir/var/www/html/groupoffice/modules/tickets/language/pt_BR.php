@@ -16,7 +16,7 @@ $l["claim"]='Assumir';
 $l["unclaim"]='Abandonar';
 $l["claimTooltip"]='Assumir ticket';
 $l["unclaimTooltip"]='Abandonar ticket';
-$l["closeTicket"]='Fechar ticket';
+$l["closeTicket"]='Resolvido';
 $l["ticketDetails"]='Resumo do Ticket';
 $l["agent"]='Responsável';
 $l["contact"]='Contato';
@@ -238,3 +238,6 @@ $l["ticketGroup_id"] = "Grupo";
 $l["ticketOrder_id"] = "Ordem";
 $l["showMineOnly"]='Mostrar apenas meus tickets';
 $l["invalid_agent"]= "A pessoa escolhida não pode ser responsável por este tipo de ticket";
+
+$l['showConfirmOnClose'] = 'Mostrar caixa de diálogo de confirmação quando o ticket de marca for resolvido';
+$l['confirmCloseText'] = 'Tem certeza de que deseja marcar este ticket como resolvido?';

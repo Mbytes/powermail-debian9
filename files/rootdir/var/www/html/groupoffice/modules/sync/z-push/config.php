@@ -6,29 +6,11 @@
 *
 * Created   :   01.10.2007
 *
-* Copyright 2007 - 2013 Zarafa Deutschland GmbH
+* Copyright 2007 - 2016 Zarafa Deutschland GmbH
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU Affero General Public License, version 3,
-* as published by the Free Software Foundation with the following additional
-* term according to sec. 7:
-*
-* According to sec. 7 of the GNU Affero General Public License, version 3,
-* the terms of the AGPL are supplemented with the following terms:
-*
-* "Zarafa" is a registered trademark of Zarafa B.V.
-* "Z-Push" is a registered trademark of Zarafa Deutschland GmbH
-* The licensing of the Program under the AGPL does not imply a trademark license.
-* Therefore any rights, title and interest in our trademarks remain entirely with us.
-*
-* However, if you propagate an unmodified version of the Program you are
-* allowed to use the term "Z-Push" to indicate that you distribute the Program.
-* Furthermore you may use our trademarks where it is necessary to indicate
-* the intended purpose of a product or service provided you use it in accordance
-* with honest practices in industrial or commercial matters.
-* If you want to propagate modified versions of the Program under the name "Z-Push",
-* you may only do so if you have a written permission by Zarafa Deutschland GmbH
-* (to acquire a permission please contact Zarafa at trademark@zarafa.com).
+* as published by the Free Software Foundation.
 *
 * This program is distributed in the hope that it will be useful,
 * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -45,7 +27,6 @@ define("GO_NO_SESSION", true);
 if(!class_exists('GO'))
 	require_once("../../GO.php");
 
-error_reporting(0);
 /**********************************************************************************
  *  Default settings
  */
@@ -59,16 +40,14 @@ error_reporting(0);
     // Try to set unlimited timeout
     define('SCRIPT_TIMEOUT', 0);
 
-    // Max size of attachments to display inline. Default is 2 MB
-    define('MAX_EMBEDDED_SIZE', 2097152);
-
     // When accessing through a proxy, the "X-Forwarded-For" header contains the original remote IP
     define('USE_X_FORWARDED_FOR_HEADER', false);
 
     // When using client certificates, we can check if the login sent matches the owner of the certificate.
     // This setting specifies the owner parameter in the certificate to look at.
     define("CERTIFICATE_OWNER_PARAMETER", "SSL_CLIENT_S_DN_CN");
-	/*
+
+    /*
      * Whether to use the complete email address as a login name
      * (e.g. user@company.com) or the username only (user).
      * This is required for Z-Push to work properly after autodiscover.
@@ -77,6 +56,7 @@ error_reporting(0);
      *   true  - string the mobile sends as username, e.g. full email address (default).
      */
     define('USE_FULLEMAIL_FOR_LOGIN', true);
+
 /**********************************************************************************
  * StateMachine setting
  *
@@ -98,8 +78,15 @@ error_reporting(0);
  *  If empty Z-Push will try to use available providers.
  */
     define('IPC_PROVIDER', '');
+
 /**********************************************************************************
  *  Logging settings
+ *
+ *  The LOGBACKEND specifies where the logs are sent to.
+ *  Either to file ("filelog") or to a "syslog" server or a custom log class in core/log/logclass.
+ *  filelog and syslog have several options that can be set below.
+ *  For more information about the syslog configuration, see https://wiki.z-hub.io/x/HIAT
+
  *  Possible LOGLEVEL and LOGUSERLEVEL values are:
  *  LOGLEVEL_OFF            - no logging
  *  LOGLEVEL_FATAL          - log only critical errors
@@ -114,22 +101,24 @@ error_reporting(0);
  *  The verbosity increases from top to bottom. More verbose levels include less verbose
  *  ones, e.g. setting to LOGLEVEL_DEBUG will also output LOGLEVEL_FATAL, LOGLEVEL_ERROR,
  *  LOGLEVEL_WARN and LOGLEVEL_INFO level entries.
+ *
+ *  LOGAUTHFAIL is logged to the LOGBACKEND.
  */
 	//note: you can't use z-push constants in the GO config file!
 	//use 16 for debug or 32 for wbxml
 	if(!isset(\GO::config()->zpush2_loglevel)){
 		\GO::config()->zpush2_loglevel=LOGLEVEL_OFF;
 	}
-	define('LOGBACKEND', 'filelog');
+    define('LOGBACKEND', 'filelog');
 	define('LOGLEVEL', \GO::config()->zpush2_loglevel);
-	define('LOGAUTHFAIL', false);
+    define('LOGAUTHFAIL', false);
 
-	// To save e.g. WBXML data only for selected users, add the usernames to the array
+    // To save e.g. WBXML data only for selected users, add the usernames to the array
     // The data will be saved into a dedicated file per user in the LOGFILEDIR
     // Users have to be encapusulated in quotes, several users are comma separated, like:
     //   $specialLogUsers = array('info@domain.com', 'myusername');
     define('LOGUSERLEVEL', LOGLEVEL_DEVICEID);
-    $specialLogUsers = isset(\GO::config()->zpush2_special_log_users) ?  \GO::config()->zpush2_special_log_users : array();
+    $GLOBALS['specialLogUsers'] = isset(\GO::config()->zpush2_special_log_users) ?  \GO::config()->zpush2_special_log_users : array();
 
 	$folder = new \GO\Base\Fs\Folder(\GO::config()->file_storage_path.'log/z-push/');
 	$folder->create();
@@ -138,7 +127,7 @@ error_reporting(0);
     define('LOGFILE', LOGFILEDIR . 'z-push.log');
     define('LOGERRORFILE', LOGFILEDIR . 'z-push-error.log');
 
-	// Syslog settings
+    // Syslog settings
     // false will log to local syslog, otherwise put the remote syslog IP here
     define('LOG_SYSLOG_HOST', false);
     // Syslog port
@@ -147,6 +136,10 @@ error_reporting(0);
     define('LOG_SYSLOG_PROGRAM', 'z-push');
     // Syslog facility - use LOG_USER when running on Windows
     define('LOG_SYSLOG_FACILITY', LOG_LOCAL0);
+
+    // Location of the trusted CA, e.g. '/etc/ssl/certs/EmailCA.pem'
+    // Uncomment and modify the following line if the validation of the certificates fails.
+    // define('CAINFO', '/etc/ssl/certs/EmailCA.pem');
 
 /**********************************************************************************
  *  Mobile settings
@@ -160,7 +153,7 @@ error_reporting(0);
     // true - allow older devices, but enforce policies on devices which support it
     define('LOOSE_PROVISIONING', isset(\GO::config()->zpush2_loose_provisioning)?\GO::config()->zpush2_loose_provisioning:false);
 
-	// The file containing the policies' settings.
+    // The file containing the policies' settings.
     // Set a full path or relative to the z-push main directory
     define('PROVISIONING_POLICYFILE', 'policies.ini');
 
@@ -204,11 +197,13 @@ error_reporting(0);
     // SYNC_FILEAS_LASTFIRST will be used
     define('FILEAS_ORDER', SYNC_FILEAS_LASTFIRST);
 
-    // Amount of items to be synchronized per request
+    // Maximum amount of items to be synchronized per request.
     // Normally this value is requested by the mobile. Common values are 5, 25, 50 or 100.
     // Exporting too much items can cause mobile timeout on busy systems.
-    // Z-Push will use the lowest value, either set here or by the mobile.
-    // default: 100 - value used if mobile does not limit amount of items
+    // Z-Push will use the lowest provided value, either set here or by the mobile.
+    // MS Outlook 2013+ request up to 512 items to accelerate the sync process.
+    // If you detect high load (also on subsystems) you could try a lower setting.
+    // max: 512 - value used if mobile does not limit amount of items
     define('SYNC_MAX_ITEMS', 100);
 
     // The devices usually send a list of supported properties for calendar and contact
@@ -218,7 +213,7 @@ error_reporting(0);
     // to tell if a property was deleted or it was not set at all if it does not appear in Sync.
     // This parameter defines Z-Push behaviour during Sync if a device does not issue a list with
     // supported properties.
-    // See also https://jira.zarafa.com/browse/ZP-302.
+    // See also https://jira.z-hub.io/browse/ZP-302.
     // Possible values:
     // false - do not unset properties which are not sent during Sync (default)
     // true  - unset properties which are not sent during Sync
@@ -272,17 +267,20 @@ error_reporting(0);
     define('SYNC_TIMEOUT_MEDIUM_DEVICETYPES', "SAMSUNGGTI");
     define('SYNC_TIMEOUT_LONG_DEVICETYPES',   "iPod, iPad, iPhone, WP, WindowsOutlook");
 
+    // Time in seconds the device should wait whenever the service is unavailable,
+    // e.g. when a backend service is unavailable.
+    // Z-Push sends a "Retry-After" header in the response with the here defined value.
+    // It is up to the device to respect or not this directive so even if this option is set,
+    // the device might not wait requested time frame.
+    // Number of seconds before retry, to disable set to: false
+    define('RETRY_AFTER_DELAY', 300);
+
 /**********************************************************************************
  *  Backend settings
  */
     // The data providers that we are using (see configuration below)
-    //define('BACKEND_PROVIDER', "BackendZarafa");
 		define('BACKEND_PROVIDER', "BackendGO");
-		
-		//Enable for Blackberry password devices. See:
-		//https://forums.zarafa.com/showthread.php?10884-BlackBerry-Passport-does-not-get-HTML-email
-		//define("BACKEND_GO_DEFAULT_BODY_PREFENCE", SYNC_BODYPREFERENCE_PLAIN);
-		
+
 /**********************************************************************************
  *  Search provider settings
  *
@@ -291,7 +289,7 @@ error_reporting(0);
  *  If set, the Search Provider will always be preferred.
  *  Use 'BackendSearchLDAP' to search in a LDAP directory (see backend/searchldap/config.php)
  */
-    define('SEARCH_PROVIDER', 'BackendGO');
+    define('SEARCH_PROVIDER', '');
     // Time in seconds for the server search. Setting it too high might result in timeout.
     // Setting it too low might not return all results. Default is 10.
     define('SEARCH_WAIT', 10);
@@ -320,6 +318,12 @@ error_reporting(0);
     define('KOE_CAPABILITY_NOTES', true);
     // Shared folder support
     define('KOE_CAPABILITY_SHAREDFOLDER', true);
+    // Send-As support for Outlook/KOE and mobiles
+    define('KOE_CAPABILITY_SENDAS', true);
+    // Secondary Contact folders (own and shared)
+    define('KOE_CAPABILITY_SECONDARYCONTACTS', true);
+    // Copy WebApp signature into KOE
+    define('KOE_CAPABILITY_SIGNATURES', true);
 
     // To synchronize the GAB KOE, the GAB store and folderid need to be specified.
     // Use the gab-sync script to generate this data. The name needs to
@@ -328,6 +332,7 @@ error_reporting(0);
     define('KOE_GAB_STORE', 'SYSTEM');
     define('KOE_GAB_FOLDERID', '');
     define('KOE_GAB_NAME', 'Z-Push-KOE-GAB');
+
 /**********************************************************************************
  *  Synchronize additional folders to all mobiles
  *
@@ -336,11 +341,11 @@ error_reporting(0);
  *
  *  This feature is supported only by certain devices, like iPhones.
  *  Check the compatibility list for supported devices:
- *      http://z-push.sf.net/compatibility
+ *      http://z-push.org/compatibility
  *
  *  To synchronize a folder, add a section setting all parameters as below:
  *      store:      the ressource where the folder is located.
- *                  Zarafa users use 'SYSTEM' for the 'Public Folder'
+ *                  Kopano users use 'SYSTEM' for the 'Public Folder'
  *      folderid:   folder id of the folder to be synchronized
  *      name:       name to be displayed on the mobile device
  *      type:       supported types are:
@@ -348,13 +353,14 @@ error_reporting(0);
  *                      SYNC_FOLDER_TYPE_USER_APPOINTMENT
  *                      SYNC_FOLDER_TYPE_USER_TASK
  *                      SYNC_FOLDER_TYPE_USER_MAIL
+ *                      SYNC_FOLDER_TYPE_USER_NOTE
  *
  *  Additional notes:
- *  - on Zarafa systems use backend/zarafa/listfolders.php script to get a list
+ *  - on Kopano systems use backend/kopano/listfolders.php script to get a list
  *    of available folders
  *
- *  - all Z-Push users must have full writing permissions (secretary rights) so
- *    the configured folders can be synchronized to the mobile
+ *  - all Z-Push users must have at least reading permissions so the configured
+ *    folders can be synchronized to the mobile. Else they are ignored.
  *
  *  - this feature is only partly suitable for multi-tenancy environments,
  *    as ALL users from ALL tenents need access to the configured store & folder.

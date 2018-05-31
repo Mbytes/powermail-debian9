@@ -91,30 +91,33 @@ GO.projects2.ProjectPanel = Ext.extend(GO.DisplayPanel,{
 
 			'<tpl if="!GO.util.empty(budget_sum)">'+
 				'<tr><td></td><th style="text-align:right;border-bottom:1px solid black;">\n\\n\
-				<div style="width:20%;float:left;">'+GO.projects2.lang['income']+'</div>\n\
+				<div style="width:15%;float:left;">'+GO.projects2.lang['income']+'</div>\n\
 				<div style="width:20%;float:left;">'+GO.projects2.lang['internalFees']+'</div>\n\
-				<div style="width:20%;float:left;">'+GO.projects2.lang.expenses+'</div>\n\
-				<div style="width:20%;float:left;">'+GO.projects2.lang.travel_costs+'</div>\n\
-				<div style="width:20%;float:left;font-weight:600;">'+GO.projects2.lang.total+'</div>\n\
+				<div style="width:15%;float:left;">'+GO.projects2.lang.expenses+'</div>\n\
+				<div style="width:15%;float:left;">'+GO.projects2.lang.travel_costs+'</div>\n\
+				<div style="width:20%;float:left;">'+GO.projects2.lang.totalPercentage+'</div>\n\
+				<div style="width:15%;float:left;font-weight:600;">'+GO.projects2.lang.total+'</div>\n\
 				</th></tr>'+
 				'<tr>'+
 					'<td>'+GO.projects2.lang.budget+':</td>'+
 					'<td style="text-align:right;">\n\
-						<div style="width:20%;float:left">{[GO.util.format.valuta(values.budget_sum.budget)]}</div>\n\
+						<div style="width:15%;float:left">{[GO.util.format.valuta(values.budget_sum.budget)]}</div>\n\
 						<div style="width:20%;float:left;">{[GO.util.format.valuta(values.budget_sum.internalFee)]}</div>\n\
-						<div style="width:20%;float:left">{[GO.util.format.valuta(values.budget_sum.expenses)]}</div>\n\
-						<div style="width:20%;float:left">-</div>\n\
-						<div style="width:20%;float:left;font-weight:600;color:{[values.budget_sum.sum<0?"red":"green"]}">{[GO.util.format.valuta(values.budget_sum.sum)]}</div>\n\
+						<div style="width:15%;float:left">{[GO.util.format.valuta(values.budget_sum.expenses)]}</div>\n\
+						<div style="width:15%;float:left">-</div>\n\
+						<div style="width:20%;float:left;">&nbsp;</div>\n\
+						<div style="width:15%;float:left;font-weight:600;color:{[values.budget_sum.sum<0?"red":"green"]}">{[GO.util.format.valuta(values.budget_sum.sum)]}</div>\n\
 					</td>'+
 				'</tr>'+
 				'<tr>'+
 					'<td>'+GO.projects2.lang.realization+':</td>'+
 					'<td style="text-align:right;">\n\
-						<div style="width:20%;float:left">{[GO.util.format.valuta(values.real_sum.budget)]}</div>\n\
+						<div style="width:15%;float:left">{[GO.util.format.valuta(values.real_sum.budget)]}</div>\n\
 						<div style="width:20%;float:left">{[GO.util.format.valuta(values.real_sum.internalFee)]}</div>\n\
-						<div style="width:20%;float:left">{[GO.util.format.valuta(values.real_sum.expenses)]}</div>\n\
-						<div style="width:20%;float:left">{[GO.util.format.valuta(values.real_sum.mileage)]}</div>\n\
-						<div style="width:20%;float:left;font-weight:600;color:{[values.real_sum.sum<0?"red":"green"]}">{[GO.util.format.valuta(values.real_sum.sum)]}</div>\n\
+						<div style="width:15%;float:left">{[GO.util.format.valuta(values.real_sum.expenses)]}</div>\n\
+						<div style="width:15%;float:left">{[GO.util.format.valuta(values.real_sum.mileage)]}</div>\n\
+						<div style="width:20%;float:left;color:{[values.real_sum.sum<values.budget_sum.sum?"red":"green"]}">{[values.budget_sum.sum > 0 ? GO.util.format.number((values.real_sum.sum / values.budget_sum.sum) * 100, 0) + "%" : "-"]}</div>\
+						<div style="width:15%;float:left;font-weight:600;color:{[values.real_sum.sum<0?"red":"green"]}">{[GO.util.format.valuta(values.real_sum.sum)]}</div>\n\
 					</td>'+
 				'</tr>'+
 
@@ -147,30 +150,33 @@ GO.projects2.ProjectPanel = Ext.extend(GO.DisplayPanel,{
 				
 				'<tpl if="!GO.util.empty(subprojects_budget_sum)">'+
 				'<tr><td></td><th style="text-align:right;border-bottom:1px solid black;">\n\\n\
-				<div style="width:20%;float:left;">'+GO.projects2.lang['income']+'</div>\n\
+				<div style="width:15%;float:left;">'+GO.projects2.lang['income']+'</div>\n\
 				<div style="width:20%;float:left;">'+GO.projects2.lang['internalFees']+'</div>\n\
-				<div style="width:20%;float:left;">'+GO.projects2.lang.expenses+'</div>\n\
-				<div style="width:20%;float:left;">'+GO.projects2.lang.travel_costs+'</div>\n\
-				<div style="width:20%;float:left;font-weight:600;">'+GO.projects2.lang.total+'</div>\n\
+				<div style="width:15%;float:left;">'+GO.projects2.lang.expenses+'</div>\n\
+				<div style="width:15%;float:left;">'+GO.projects2.lang.travel_costs+'</div>\n\
+				<div style="width:20%;float:left;">'+GO.projects2.lang.totalPercentage+'</div>\n\
+				<div style="width:15%;float:left;font-weight:600;">'+GO.projects2.lang.total+'</div>\n\
 				</th></tr>'+
 				'<tr>'+
 					'<td>'+GO.projects2.lang.subprojectsBudget+':</td>'+
 					'<td style="text-align:right;">\n\
-						<div style="width:20%;float:left">{[GO.util.format.valuta(values.subprojects_budget_sum.budget)]}</div>\n\
+						<div style="width:15%;float:left">{[GO.util.format.valuta(values.subprojects_budget_sum.budget)]}</div>\n\
 						<div style="width:20%;float:left;">{[GO.util.format.valuta(values.subprojects_budget_sum.internalFee)]}</div>\n\
-						<div style="width:20%;float:left">{[GO.util.format.valuta(values.subprojects_budget_sum.expenses)]}</div>\n\
-						<div style="width:20%;float:left">-</div>\n\
-						<div style="width:20%;float:left;font-weight:600;color:{[values.subprojects_budget_sum.sum<0?"red":"green"]}">{[GO.util.format.valuta(values.subprojects_budget_sum.sum)]}</div>\n\
+						<div style="width:15%;float:left">{[GO.util.format.valuta(values.subprojects_budget_sum.expenses)]}</div>\n\
+						<div style="width:15%;float:left">-</div>\n\
+						<div style="width:20%;float:left">&nbsp;</div>\n\
+						<div style="width:15%;float:left;font-weight:600;color:{[values.subprojects_budget_sum.sum<0?"red":"green"]}">{[GO.util.format.valuta(values.subprojects_budget_sum.sum)]}</div>\n\
 					</td>'+
 				'</tr>'+
 				'<tr>'+
 					'<td>'+GO.projects2.lang.subprojectsRealization+':</td>'+
 					'<td style="text-align:right;">\n\
-						<div style="width:20%;float:left">{[GO.util.format.valuta(values.subprojects_real_sum.budget)]}</div>\n\
+						<div style="width:15%;float:left">{[GO.util.format.valuta(values.subprojects_real_sum.budget)]}</div>\n\
 						<div style="width:20%;float:left">{[GO.util.format.valuta(values.subprojects_real_sum.internalFee)]}</div>\n\
-						<div style="width:20%;float:left">{[GO.util.format.valuta(values.subprojects_real_sum.expenses)]}</div>\n\
-						<div style="width:20%;float:left">{[GO.util.format.valuta(values.subprojects_real_sum.mileage)]}</div>\n\
-						<div style="width:20%;float:left;font-weight:600;color:{[values.subprojects_real_sum.sum<0?"red":"green"]}">{[GO.util.format.valuta(values.subprojects_real_sum.sum)]}</div>\n\
+						<div style="width:15%;float:left">{[GO.util.format.valuta(values.subprojects_real_sum.expenses)]}</div>\n\
+						<div style="width:15%;float:left">{[GO.util.format.valuta(values.subprojects_real_sum.mileage)]}</div>\n\
+\n\					<div style="width:20%;float:left;color:{[values.subprojects_real_sum.sum<values.subprojects_budget_sum.sum?"red":"green"]}">{[GO.util.format.number((values.subprojects_real_sum.sum / values.subprojects_budget_sum.sum) * 100, 0)]}%</div>\n\
+						<div style="width:15%;float:left;font-weight:600;color:{[values.subprojects_real_sum.sum<0?"red":"green"]}">{[GO.util.format.valuta(values.subprojects_real_sum.sum)]}</div>\n\
 					</td>'+
 				'</tr>'+
 				'</tpl>'+
@@ -207,6 +213,8 @@ GO.projects2.ProjectPanel = Ext.extend(GO.DisplayPanel,{
 		'<tr>'+
 		'<td class="table_header_links">' + GO.lang.strUsername + '</td>'+
 		'<td class="table_header_links" style="text-align:right" width="15%">' + GO.projects2.lang.unitsBooked + '</td>'+
+		'<td class="table_header_links" style="text-align:right" width="15%">' + GO.projects2.lang.unitsBilled + '</td>'+
+		'<td class="table_header_links" style="text-align:right" width="15%">' + GO.projects2.lang.unitsBillable + '</td>'+		
 		'<td class="table_header_links" style="text-align:right" width="15%">' + GO.projects2.lang.unitsBudget + '</td>'+
 		'<td class="table_header_links" style="text-align:right" width="15%">' + GO.projects2.lang.percentageTotal + '</td>'+
 		'<td class="table_header_links" style="text-align:right" width="15%">' + GO.lang.strMtime + '</td>'+
@@ -216,6 +224,8 @@ GO.projects2.ProjectPanel = Ext.extend(GO.DisplayPanel,{
 		'<tr class="{[this.getBudgetClass(values.status)]}">'+
 		'<td style="white-space:nowrap">{user_name}</td>'+
 		'<td style="white-space:nowrap;text-align:right" width="15%">{units}</td>'+
+		'<td style="white-space:nowrap;text-align:right" width="15%">{invoiced_units}</td>'+
+		'<td style="white-space:nowrap;text-align:right" width="15%">{billable_units}</td>'+		
 		'<td style="white-space:nowrap;text-align:right" width="15%">{budgeted_units}</td>'+
 		'<td style="white-space:nowrap;text-align:right" width="15%">{percentage_total}</td>'+
 		'<td style="white-space:nowrap;text-align:right" width="15%">{mtime}</td>'+
@@ -227,6 +237,8 @@ GO.projects2.ProjectPanel = Ext.extend(GO.DisplayPanel,{
 		'<tr class="{[this.getBudgetClass(values.timeentries_totals.status)]}" style="border-top:1px solid black">'+
 		'<td style="white-space:nowrap">' + GO.projects2.lang.totals + '</td>'+
 		'<td style="white-space:nowrap;text-align:right" width="15%">{values.timeentries_totals.units}</td>'+
+		'<td style="white-space:nowrap;text-align:right" width="15%">{values.timeentries_totals.invoiced_units}</td>'+
+		'<td style="white-space:nowrap;text-align:right" width="15%">{values.timeentries_totals.billable_units}</td>'+		
 		'<td style="white-space:nowrap;text-align:right" width="15%">{values.timeentries_totals.budgeted_units}</td>'+
 		'<td style="white-space:nowrap;text-align:right" width="15%">{values.timeentries_totals.percentage_total}</td>'+
 		'<td style="white-space:nowrap;text-align:right" width="15%">{values.timeentries_totals.mtime}</td>'+
@@ -298,6 +310,9 @@ expensesTemplate:
 		'<td class="table_header_links" style="text-align:right" width="15%">' + GO.projects2.lang.invoiceNo + '</td>'+
 		'<td class="table_header_links" style="text-align:right" width="15%">' + GO.projects2.lang.referenceNo + '</td>'+
 		'<td class="table_header_links" style="text-align:right" width="15%">' + GO.projects2.lang.invoiced + '</td>'+
+		'<tpl if="values.incomes[0].add_to_exact">'+
+			'<td class="table_header_links" style="text-align:right" width="15%">' + 'Exact' + '</td>'+
+		'</tpl>'+
 		'</tr>'+
 
 		'<tpl for="incomes">'+
@@ -312,6 +327,9 @@ expensesTemplate:
 		'<td style="white-space:nowrap;text-align:right" width="15%">{invoice_number}</td>'+
 		'<td style="white-space:nowrap;text-align:right" width="15%">{reference_no}</td>'+
 		'<td style="white-space:nowrap;text-align:right" width="15%">{is_invoiced}</td>'+
+		'<tpl if="values.add_to_exact">'+
+			'<td style="white-space:nowrap;text-align:right" width="15%">{add_to_exact}</td>'+
+		'</tpl>'+
 		'</tr>'+
 		'</tpl>'+
 
@@ -356,6 +374,30 @@ expensesTemplate:
 						duplicate_id: this.link_id
 					});
 				}
+			},
+			scope: this
+		}));
+		
+		tbar.splice(5,0,this.manrgeBtn = new Ext.Button({
+			iconCls: 'btn-copy',
+			text: GO.lang.merge,
+			cls: 'x-btn-text-icon',
+			handler: function(){
+				var curentProjectId = this.data.id;
+				
+				if(!this.projectMergeDialog) {
+					this.projectMergeDialog = new GO.projects2.MergeDialog({});
+					this.projectMergeDialog.on("hide", function() {
+						
+						this.fireEvent("fullReload",this);
+//						this.reload();
+					}, this);
+					
+				}
+				
+//				this.projectMergeDialog.toProjectId = curentProjectId;
+				
+				this.projectMergeDialog.show(curentProjectId);
 			},
 			scope: this
 		}));
@@ -613,13 +655,11 @@ expensesTemplate:
 
 
 
-		if(GO.projects2.has_finance_permission || GO.projects2.has_report_permission){
-			this.newMenuButton.menu.add('-');
-		}
-
+		this.newMenuButton.menu.add('-');
+		
 		this.newMenuButton.menu.add(this.reportBtn = new Ext.menu.Item({
 			iconCls: 'pm-btn-report',
-			hidden: !GO.projects2.has_finance_permission&& !GO.projects2.has_report_permission,
+//			hidden: GO.settings.modules.projects2.permission_level<GO.projects2.permissionLevelFinance,
 			text: GO.projects2.lang.report,
 			cls: 'x-btn-text-icon',
 			handler: function(){
@@ -661,8 +701,9 @@ expensesTemplate:
 
 		if(this.addTimeEntryBtn)
 			this.addTimeEntryBtn.setDisabled(data.enabled_fields.indexOf('budget_fees')==-1);
-
-		this.addExpenseBtn.setDisabled(data.enabled_fields.indexOf('expenses')==-1);
+		
+		if(this.addExpenseBtn)
+			this.addExpenseBtn.setDisabled(data.enabled_fields.indexOf('expenses')==-1);
 		//this.reportBtn.setDisabled(data.project_type==0);//not for container type
 		
 		// Disable the duplicate button if parent is not writable
@@ -671,6 +712,10 @@ expensesTemplate:
 		} else {
 			this.duplicateBtn.setDisabled(true);
 		}
+		
+		
+		this.reportBtn.setDisabled(data.permission_level < GO.projects2.permissionLevelFinance);
+		
 	}
 });
 

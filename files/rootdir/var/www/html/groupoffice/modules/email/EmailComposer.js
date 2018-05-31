@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: EmailComposer.js 20267 2016-07-18 11:48:49Z mschering $
+ * @version $Id: EmailComposer.js 21813 2017-12-04 09:09:12Z mschering $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -285,6 +285,7 @@ GO.email.EmailComposer = function(config) {
 			key: Ext.EventObject.ENTER,
 			ctrl:true,
 			fn: function(key, e){
+				e.preventDefault();
 				this.sendMail(false,false);
 			},
 			scope:this
@@ -359,53 +360,209 @@ GO.email.EmailComposer = function(config) {
 		});
 		
 		tbar.push(this.templatesBtn = new Ext.Button({
-
 			iconCls:'ml-btn-mailings',
-			text:GO.addressbook.lang.emailTemplate,
-			menu:this.templatesMenu = new GO.menu.JsonMenu({
-				store:this.templatesStore,
-				listeners:{
-					scope:this,
-					itemclick : function(item, e ) {
-						if(item.template_id=='default' || item.template_id=='default_for_account'){
-							this.templatesStore.baseParams.default_template_id=this.lastLoadParams.template_id;
-							this.templatesStore.baseParams.type = item.template_id;
-							if (item.template_id=='default_for_account') {
-								var fromAccountRecord = this.fromCombo.store.getById(this.fromCombo.getValue());
-								this.templatesStore.baseParams.account_id = fromAccountRecord['data']['account_id'];
+			text:GO.addressbook.lang.emailTemplate
+		}));
+		
+		
+		this.templatesStore.on("load", function( scope, records, options ) {
+			
+			this.templatesMenu = new GO.menu.JsonMenu({
+						store: new Ext.data.Store(),
+						listeners:{
+							scope:this,
+							itemclick : function(item, e ) {
+								if(item.template_id=='default' || item.template_id=='default_for_account'){
+									this.templatesStore.baseParams.default_template_id=this.lastLoadParams.template_id;
+									this.templatesStore.baseParams.type = item.template_id;
+									if (item.template_id=='default_for_account') {
+										var fromAccountRecord = this.fromCombo.store.getById(this.fromCombo.getValue());
+										this.templatesStore.baseParams.account_id = fromAccountRecord['data']['account_id'];
+									}
+									this.templatesStore.load();
+									delete this.templatesStore.baseParams.default_template_id;
+									delete this.templatesStore.baseParams.type;
+									delete this.templatesStore.baseParams.account_id;
+									var fromComboValue = this.fromCombo.getValue();
+									this.fromCombo.store.load();
+									this.fromCombo.setValue(fromComboValue);
+								}else if(!this.emailEditor.isDirty() || confirm(GO.email.lang.confirmLostChanges))
+								{							
+									this._changeTemplate(item.template_id);			
+								}else
+								{
+									return false;							
+								}
 							}
-							this.templatesStore.load();
-							delete this.templatesStore.baseParams.default_template_id;
-							delete this.templatesStore.baseParams.type;
-							delete this.templatesStore.baseParams.account_id;
-							var fromComboValue = this.fromCombo.getValue();
-							this.fromCombo.store.load();
-							this.fromCombo.setValue(fromComboValue);
-						}else if(!this.emailEditor.isDirty() || confirm(GO.email.lang.confirmLostChanges))
-						{							
-							this._changeTemplate(item.template_id);			
-						}else
-						{
-							return false;							
-						}
-					}
-				},
-				setChecked: function(template_id) {
-					this.store.each(function(record){
-						if (record.data['template_id']==template_id) {
-							this.store.getById(record.id).set('checked',true);
-							this.store.getById(record.id).json.checked = true;
-						} else if(record.data['template_id']>=0) {
-							this.store.getById(record.id).set('checked',false);
-							this.store.getById(record.id).json.checked = false;
+						},
+						setChecked: function(template_id) {
+							this.store.each(function(record){
+								if (record.data['template_id']==template_id) {
+									this.store.getById(record.id).set('checked',true);
+									this.store.getById(record.id).json.checked = true;
+								} else if(record.data['template_id']>=0) {
+									this.store.getById(record.id).set('checked',false);
+									this.store.getById(record.id).json.checked = false;
+								}
+							});
+							if (!this.rendered)
+								this.render();
+							this.updateMenuItems();
+						},
+						updateMenuItems: function() {
+							if(this.rendered){
+								this.removeAll();
+								this.el.sync();
+
+								var records = this.store.getRange();
+
+								for(var i=0, len=records.length; i<len; i++){
+									if (records[i].json.handler) {
+										eval("records[i].json.handler = "+records[i].json.handler);
+									}
+									if (records[i].json.menu) {
+										eval("records[i].json.menu = "+records[i].json.menu);
+									}
+
+									this.add(records[i].json);
+								}
+								
+								this.add(
+									'-'
+								) ;
+								this.add({
+									text: GO.addressbook.lang.setCurrentTemplateAsDefault,
+									template_id: "default"
+								}) ;
+								this.add({
+									text: GO.addressbook.lang.setCurrentTemplateAsDefaultEAccount,
+									template_id: "default_for_account"
+								});
+
+								
+								
+								this.fireEvent('load', this, records);
+								this.loaded = true;
+							}
 						}
 					});
-					if (!this.rendered)
-						this.render();
-					this.updateMenuItems();
-				}
-			})
-		}));
+			
+			
+			if(this.templatesStore.totalLength > 10 ) {
+				 
+			if(!this.templateSelectionDialog) {
+				this.templateSelectionDialog = new GO.email.TemplateSelectionDialog({
+					tbar: [
+						new Ext.Button({
+							text : GO.addressbook.lang.setCurrentTemplateAsDefault,
+							handler : function() {
+								var template_id = "default";
+								this.templatesStore.baseParams.default_template_id=this.lastLoadParams.template_id;
+								this.templatesStore.baseParams.type = template_id;
+								
+								this.templatesStore.load();
+								delete this.templatesStore.baseParams.default_template_id;
+								delete this.templatesStore.baseParams.type;
+								delete this.templatesStore.baseParams.account_id;
+								var fromComboValue = this.fromCombo.getValue();
+								this.fromCombo.store.load();
+								this.fromCombo.setValue(fromComboValue);
+								
+								
+								
+								
+								
+							},
+							scope : this
+						}),
+						new Ext.Button({
+							text : GO.addressbook.lang.setCurrentTemplateAsDefaultEAccount,
+							handler : function() {
+								
+								var template_id = "default_for_account";
+								this.templatesStore.baseParams.default_template_id=this.lastLoadParams.template_id;
+								this.templatesStore.baseParams.type = template_id;
+								
+								var fromAccountRecord = this.fromCombo.store.getById(this.fromCombo.getValue());
+								this.templatesStore.baseParams.account_id = fromAccountRecord['data']['account_id'];
+								
+								this.templatesStore.load();
+								delete this.templatesStore.baseParams.default_template_id;
+								delete this.templatesStore.baseParams.type;
+								delete this.templatesStore.baseParams.account_id;
+								var fromComboValue = this.fromCombo.getValue();
+								this.fromCombo.store.load();
+								this.fromCombo.setValue(fromComboValue);
+								
+							},
+							scope : this
+						})
+					],
+					grid: {
+						store: this.templatesStore
+					}
+				});
+				
+				this.templateSelectionDialog.grid.on("rowdblclick", function(grid, rowIndex){
+					var record = grid.getStore().getAt(rowIndex);
+//					console.log(record.template_id)
+//					this._changeTemplate(record.get('template_id'));
+					if (GO.addressbook) {
+						if (this.isVisible()) {
+							if(!this.emailEditor.isDirty() || confirm(GO.email.lang.confirmLostChanges)) {
+								this._changeTemplate(record.get('template_id'));
+							}
+						}
+					}
+					
+					
+//					if(record.get('template_id')=='default' || record.get('template_id')=='default_for_account'){
+//							this.templatesStore.baseParams.default_template_id=this.lastLoadParams.template_id;
+//							this.templatesStore.baseParams.type = record.get('template_id');
+//							if (record.get('template_id')=='default_for_account') {
+//								var fromAccountRecord = this.fromCombo.store.getById(this.fromCombo.getValue());
+//								this.templatesStore.baseParams.account_id = fromAccountRecord['data']['account_id'];
+//							}
+//							this.templatesStore.load();
+//							delete this.templatesStore.baseParams.default_template_id;
+//							delete this.templatesStore.baseParams.type;
+//							delete this.templatesStore.baseParams.account_id;
+//							var fromComboValue = this.fromCombo.getValue();
+//							this.fromCombo.store.load();
+//							this.fromCombo.setValue(fromComboValue);
+//						}else if(!this.emailEditor.isDirty() || confirm(GO.email.lang.confirmLostChanges))
+//						{							
+//							
+//						}else
+//						{
+//							return false;							
+//						}
+					
+					this._changeTemplate(record.get('template_id'));			
+					
+					this.templateSelectionDialog.close();
+				}, this);
+				
+				
+				this.templatesBtn.on('click', function() {
+					this.templateSelectionDialog.show();
+				}, this)
+			}
+			} else {
+				
+					this.templatesBtn.menu = this.templatesMenu;
+					
+					this.templatesMenu.store = this.templatesStore;
+					this.templatesMenu.updateMenuItems();
+			
+			
+			}
+			
+			
+			
+			
+		}, this);
+		
 	}
 
 	var focusFn = function() {
@@ -431,18 +588,15 @@ GO.email.EmailComposer = function(config) {
 	});
 
 	if (GO.addressbook) {
-		this.templatesStore.on('load',function(combo,records){
-			if (this.isVisible()) {
-				if(!this.emailEditor.isDirty() || confirm(GO.email.lang.confirmLostChanges))
-				{
-					var recordId = this.templatesStore.findBy( function(record,id){
-						return record.data['checked'];
-					}, this, 0);
-					var template_id = this.templatesStore.getAt(recordId).get('template_id');
-					this._changeTemplate(template_id);
-				}
-			}
-		}, this);
+//		this.templatesStore.on('load',function(combo,records){
+//			if (this.isVisible()) {
+//				if(!this.emailEditor.isDirty() || confirm(GO.email.lang.confirmLostChanges))
+//				{
+//					v
+//					this._changeTemplate(template_id);
+//				}
+//			}
+//		}, this);
 	}
 
 	this.addEvents({
@@ -491,7 +645,10 @@ Ext.extend(GO.email.EmailComposer, GO.Window, {
 //				{
 
 			var previousAccountRecord = cb.store.getById(cb.getValue());
-			if(newAccountRecord.get('template_id')!=previousAccountRecord.get('template_id')){
+			if (this.templatesBtn.disabled == true) {
+				//console.log('disable template changing');
+				// do not switch template when switching From addres
+			} else if (newAccountRecord.get('template_id')!=previousAccountRecord.get('template_id')){
 					this.templatesMenu.setChecked(newAccountRecord.get('template_id'));
 					if (!this.emailEditor.isDirty() || confirm(GO.email.lang['confirmLostChanges']))
 						this._changeTemplate(newAccountRecord.get('template_id'));
@@ -565,7 +722,9 @@ Ext.extend(GO.email.EmailComposer, GO.Window, {
 	fireSubmit : function(e) {
 		if (e.ctrlKey && Ext.EventObject.ENTER == e.getKey()) {
 			//e.stopEvent();
+			e.preventDefault();
 			this.sendMail(false, false);
+			return false;
 		}
 	},
 	
@@ -675,7 +834,7 @@ Ext.extend(GO.email.EmailComposer, GO.Window, {
 //		}
 
 		//check the right template menu item.
-		if(this.templatesStore && this.templatesMenu.items){
+		if(this.templatesStore && this.templatesMenu && this.templatesMenu.items){
 			var templateId = config.template_id || this.getDefaultTemplateId();
 			var item = this.templatesMenu.items.find(function(item){
 				return item.template_id==templateId;
@@ -730,7 +889,7 @@ Ext.extend(GO.email.EmailComposer, GO.Window, {
 		Ext.getBody().mask(GO.lang.waitMsgLoad);
 
 		delete this.link_config;
-
+		
 		this.showConfig=config;
 		
 		if (!this.rendered) {
@@ -874,6 +1033,9 @@ Ext.extend(GO.email.EmailComposer, GO.Window, {
 				params.company_id=config.company_id;
 
 			params.to = this.toCombo.getValue();		
+			params.cc = this.ccCombo.getValue();		
+			params.bcc = this.bccCombo.getValue();		
+			params.subject = this.subjectField.getValue();	
 			
 			if (config.addresslist_id > 0) {
 				// so that template loading won't replace fields
@@ -986,22 +1148,7 @@ Ext.extend(GO.email.EmailComposer, GO.Window, {
 				}
 			}
 			
-			if (!GO.util.empty(config['delegated_cc_enabled'])) {
-				
-				GO.request({
-					url: 'email/account/loadAddress',
-					params: {
-						id: config.account_id
-					},
-					success: function( options, response, result ) {
-						var name = result.data['name'];
-						var email = result.data['email'];
-						this.ccCombo.setValue('"'+name+'" <'+email+'>');
-					},
-					scope: this
-				});
-				
-			}
+			
 				
 		}
 	},
@@ -1086,6 +1233,26 @@ Ext.extend(GO.email.EmailComposer, GO.Window, {
 		if(this.selectLinkField){
 			this.replaceTemplateLinkTag();
 		}
+		
+		console.log(config);
+		
+		if (config['delegated_cc_enabled']) {
+				
+				GO.request({
+					url: 'email/account/loadAddress',
+					params: {
+						id: config.account_id
+					},
+					success: function( options, response, result ) {
+						console.log(result);
+						var name = result.data['name'];
+						var email = result.data['email'];
+						this.ccCombo.setValue('"'+name+'" <'+email+'>');
+					},
+					scope: this
+				});
+				
+			}
 	},
 	
 

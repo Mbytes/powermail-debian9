@@ -12,6 +12,12 @@
 	height:16px;
 }
 
+.go-model-icon-GO_Addressbook_Model_Addresslist{
+	background-image: url('images/16x16/templates.png') !important;
+	width:16px;
+	height:16px;
+}
+
 .go-module-icon-addressbook , .go-menu-icon-addressbook{
 	background-image:url('images/16x16/icon-addressbook.png') !important;	
 	

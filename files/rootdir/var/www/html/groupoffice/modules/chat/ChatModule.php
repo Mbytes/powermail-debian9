@@ -2,7 +2,10 @@
 
 namespace GO\Chat;
 
+use Exception;
 use GO;
+use GO\Base\Db\FindParams;
+use XmppPrebind;
 
 class ChatModule extends \GO\Base\Module {
 	
@@ -36,16 +39,23 @@ class ChatModule extends \GO\Base\Module {
 
 
 
-			$url = GO::config()->host . 'modules/chat/converse.js-0.8.6/';
-
+//			$url = GO::config()->host . 'modules/chat/converse.js-0.8.6/';
+			$url = GO::config()->host . 'modules/chat/converse.js-3.0.0/';
 			$head = '
+<link rel="stylesheet" type="text/css" media="screen" href="https://cdn.conversejs.org/3.0.0/css/converse.min.css">
+<script src="https://cdn.conversejs.org/3.0.0/dist/converse.min.js"></script>
 
-			<link rel="stylesheet" type="text/css" media="screen" href="' . $url . 'css/converse.css">
+			<!-- <link rel="stylesheet" type="text/css" media="screen" href="' . $url . 'css/converse.min.css">
+			<script src="' . $url . 'dist/converse.min.js"></script> -->
 			
-			<!--<script data-main="main" src="' . $url . 'components/requirejs/require.js"></script>-->
-			<script src="' . $url . 'builds/converse.website.min.js"></script>
 			';
-
+/*
+ * 
+ * <script src="' . $url . 'dist/converse.min.css"></script>
+			<script src="' . $url . 'src/converse.js"></script>
+ * 
+ * 
+ */
 			echo $head;
 		}
 	}
@@ -77,7 +87,7 @@ class ChatModule extends \GO\Base\Module {
 			try {
 
 
-				$xmppPrebind = new \XmppPrebind(
+				$xmppPrebind = new XmppPrebind(
 								self::getXmppHost(), self::getBoshUri(), GO::config()->product_name, strpos(self::getBoshUri(), 'https') !== false, false);
 
 				if ($xmppPrebind->connect(GO::user()->username, \GO\Base\Util\Crypt::decrypt(GO::session()->values['chat']['p']))) {
@@ -93,7 +103,7 @@ class ChatModule extends \GO\Base\Module {
 				} else {
 					GO::debug("CHAT: failed to connect");
 				}
-			} catch (\Exception $e) {
+			} catch (Exception $e) {
 				GO::debug("CHAT: Authentication failed: " . $e);
 			}
 		}else
@@ -147,21 +157,62 @@ class ChatModule extends \GO\Base\Module {
 
 	public static function generateGroupsFile() {
 
+		$showGroups = GO::config()->show_groups_in_chat;
+
 		$file = self::getGroupsFile();
 
 		$fp = fopen($file->path(), 'w');
-
-		fwrite($fp, "[" . GO::config()->product_name . " " . strtolower(GO::t('users')) . "]\n");
-
 		$xmppHost = self::getXmppHost();
 
-		\GO\Base\Model\Acl::getAuthorizedUsers(GO::modules()->chat->acl_id, \GO\Base\Model\Acl::READ_PERMISSION, function($user) use ($fp, $xmppHost) {
-			if($user->enabled){
-				$line = $user->username . '@' . $xmppHost . '=' . $user->name . "\n";
-				fwrite($fp, $line);
-			}
-		});
+		if(!$showGroups) {
+			fwrite($fp, "[" . GO::config()->product_name . " " . strtolower(GO::t('users')) . "]\n");
 
+			\GO\Base\Model\Acl::getAuthorizedUsers(GO::modules()->chat->acl_id, \GO\Base\Model\Acl::READ_PERMISSION, function($user) use ($fp, $xmppHost) {
+				if($user->enabled){
+					$line = $user->username . '@' . $xmppHost . '=' . $user->name . "\n";
+					fwrite($fp, $line);
+				}
+			});
+			fclose($fp);
+			return;
+		}
+		
+		$isRenderedUserList = array();
+		
+		$groupStmt = GO\Base\Model\Group::model()->find(FindParams::newInstance());
+		
+		foreach ($groupStmt as $groupModel) {
+			
+			foreach ($groupModel->users as $userModel) {
+		
+				if($userModel->enabled && \GO\Base\Model\Acl::getUserPermissionLevel(GO::modules()->chat->acl_id, $userModel->id)) {
+					$groupName = $groupModel->name;
+					if(!isset($$groupName)) {
+						fwrite($fp, "\n[" . $groupModel->name . " " . strtolower(GO::t('group')) . "]\n"); 
+						$$groupName = true;
+					}
+					
+					$isRenderedUserList[$userModel->id] = $userModel->id;
+					$line = $userModel->username . '@' . $xmppHost . '=' . $userModel->name . "\n";
+					fwrite($fp, $line);
+				}
+				
+			}
+		}
+		
+		$userStmt = GO\Base\Model\User::model()->find(FindParams::newInstance()->criteria(GO\Base\Db\FindCriteria::newInstance()->addInCondition('id', $isRenderedUserList, 't', true, true)));
+		
+		foreach ($userStmt as $userModel) {
+			if($userModel->enabled && \GO\Base\Model\Acl::getUserPermissionLevel(GO::modules()->chat->acl_id, $userModel->id)) {
+					if(!isset($rendereOthersLable)) {
+						fwrite($fp, "\n[" . strtolower(GO::t('others')) . " " . strtolower(GO::t('group')) . "]\n"); 
+						$RendereOthersLable = true;
+					}
+					$line = $userModel->username . '@' . $xmppHost . '=' . $userModel->name . "\n";
+					fwrite($fp, $line);
+			}
+		}
+		
 		fclose($fp);
 	}
 

@@ -80,6 +80,23 @@ class Alias extends \GO\Base\Db\ActiveRecord {
 		if ($this->isNew && !empty($this->domain->max_aliases))
 			if ($this->domain->getSumAliases() >= $this->domain->max_aliases)
 				throw new \Exception('The maximum number of aliases for this domain has been reached.');
+			
+		//chop off wildcard because in db it must be @domain.com but we use *@domain.com
+
+		if(substr($this->address, 0,2) == '*@') {
+			$this->address = substr($this->address, 1);
+		}
+			
 		return parent::beforeSave();
 	}
+	
+	protected function afterLoad() {
+		parent::afterLoad();
+		
+		//append wildcard
+		if(substr($this->address,0,1) == '@') {
+			$this->address = '*' . $this->address;
+		}
+	}
+	
 }

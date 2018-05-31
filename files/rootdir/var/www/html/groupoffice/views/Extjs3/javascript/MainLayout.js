@@ -7,7 +7,7 @@
  * If you have questions write an e-mail to info@intermesh.nl
  * 
  * @copyright Copyright Intermesh
- * @version $Id: MainLayout.js 19253 2015-07-27 08:25:41Z wsmits $
+ * @version $Id: MainLayout.js 21704 2017-11-16 08:50:47Z wsmits $
  * @author Merijn Schering <mschering@intermesh.nl>
  */
 
@@ -75,6 +75,12 @@ Ext.extend(GO.MainLayout, Ext.util.Observable, {
 		{
 			this.msg(GO.lang.debugModeDetected, GO.lang.debugModeWarning, 4, 400);
 		}
+		
+		if(GO.settings.config.login_message)
+		{
+			this.msg(GO.lang.warning, GO.settings.config.login_message, 4000, 400);
+		}
+		
 
 		this.fireEvent('login', this);
 	},
@@ -498,15 +504,30 @@ Ext.extend(GO.MainLayout, Ext.util.Observable, {
 	    			scope:this	    		
 	    		});
 			}
+			if (GO.settings.config.report_bug_link){
 				helpMenu.addItem({
 	    			iconCls:'btn-report-bug',
 	    			text:GO.lang.strReportBug,
 	    			handler:function(){
-	    				var win = window.open('http://sourceforge.net/tracker/?group_id=76359&atid=547651');
-	    				win.focus();			
+							
+							if(Ext.form.VTypes.email(GO.settings.config.report_bug_link))	{
+	    					if(GO.email && GO.settings.modules.email.read_permission)	{
+	    						GO.email.showComposer({
+										values : {to: GO.settings.config.report_bug_link}							
+									});
+	    					} else	{
+	    						document.location='mailto:'+GO.settings.config.report_bug_link;
+	    					}
+	    				} else	{
+								var win = window.open(GO.settings.config.report_bug_link);
+								win.focus();	
+	    				}
+							
+	    						
 	    			},
 	    			scope:this
 	    		});
+				}
 			}
 			
 			helpMenu.addItem('-');
@@ -534,11 +555,21 @@ Ext.extend(GO.MainLayout, Ext.util.Observable, {
 		
 		
 		var activeTab = this.tabPanel.getLayout().activeItem;
-   
-  	if(!activeTab)
-   		this.tabPanel.setActiveTab(0);				
+   	
+  	if(!activeTab){
+   		this.tabPanel.setActiveTab(0);
+			activeTab = this.tabPanel.getLayout().activeItem;
+		}
 		
-		
+		// When the bookmark module is set to display pages as module, then the 
+		// GO.settings.start_module was not respected anymore.
+		// The code below fixed that.
+		if(activeTab.id !== 'go-module-panel-'+GO.settings.start_module){
+			this.openModule(GO.settings.start_module);
+			//Set to start in tab
+			this.tabPanel.setActiveTab('go-module-panel-'+GO.settings.start_module);
+		}
+				
 		GO.checker.init.defer(2000,GO.checker);
 		GO.checker.on('alert', function(data){   		
    		if(data.notification_area)

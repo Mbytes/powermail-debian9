@@ -145,23 +145,30 @@ class Calendar extends \GO\Base\Model\AbstractUserDefaultModel {
 			return true;
 		}
 	}
+	
+	
 
 	protected function beforeDelete() {
 		$findParams = \GO\Base\Db\FindParams::newInstance()
-			->single()
+			->select('t.id, s.user_id')
 			->join("cal_settings", \GO\Base\Db\FindCriteria::newInstance()
 				->addCondition('id', 's.calendar_id','=','t',true,true)
-				,'s');
+				,'s', 'LEFT')
+				->group('s.user_id');
 		$findParams->getCriteria()
 				->addCondition('id', $this->id)
 				->addCondition('user_id', null,'IS NOT','s');
-
-		$default = $this->find($findParams);
-		if(!empty($default) && !empty($default->user)) {
+		
+		$defaultUserNames = array();
+		$defaultUsers = $this->find($findParams);
+		foreach($defaultUsers as $default) {
+			if(!empty($default->user)) {
+				$defaultUserNames[] = $default->user->username;
+			}
+		}
+		if(!empty($defaultUserNames)) {
 			// This is someones default calendar
-			throw new \Exception(strtr(\GO::t('calNotDeletedDefault', 'calendar'), array(':username'=>$default->user->username)));
-			
-
+			throw new \Exception(strtr(\GO::t('calNotDeletedDefault', 'calendar'), array(':username'=>"<br> - ".implode('<br> - ',$defaultUserNames))));
 		}
 		return parent::beforeDelete();
 	}

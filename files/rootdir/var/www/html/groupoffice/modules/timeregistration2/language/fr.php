@@ -121,3 +121,23 @@ $l['weekIsClosed'] = 'Cette semaine est fermée';
 
 $l['weekTotal'] = 'Total d\'heures enregistrées (Hebdomadaire)';
 $l['monthTotal'] = 'Total d\'heures enregistrées (Mensuel)';
+
+
+
+
+
+$l['entriesClosedTill'] = "Entrées de temps fermées jusqu\'au";
+$l["timeTracking"]='Suivi du temps';
+$l['timerSure'] = "Etes-vous sûr de vouloir arrêter le timer ?";
+$l["project"]= 'Projet';
+$l['task']='Tâche';
+$l['activity'] = "Activité";
+$l['travelDistance'] = 'Distance de trajet';
+$l['comments'] = 'Commentaires';
+
+
+
+
+
+
+

@@ -23,12 +23,14 @@ modules/addressbook/SelectAddressbook.js
 modules/addressbook/SelectAddresslistsPanel.js
 modules/addressbook/views/Extjs3/AddresslistsSettingspanel.js
 
+modules/addressbook/Settings.js
+
 modules/addressbook/GlobalSettings.js
 modules/addressbook/ContextMenu.js
 modules/addressbook/TemplatesGrid.js
 modules/addressbook/EmailTemplateDialog.js
 modules/addressbook/SentMailingsGrid.js
-modules/addressbook/MailingDialog.js
+modules/addressbook/AddresslistDialog.js
 modules/addressbook/AddresslistGrids.js
 modules/addressbook/AddresslistsGrid.js
 modules/addressbook/SelectAddresslistWindow.js
@@ -45,3 +47,8 @@ modules/addressbook/AddresslistsMultiSelectGrid.js
 modules/addressbook/views/Extjs3/Settings.js
 modules/addressbook/views/Extjs3/BirthdaysPortlet.js
 modules/addressbook/views/Extjs3/PhotoPanel.js
+modules/addressbook/views/Extjs3/AddresslistGroupGrid.js
+modules/addressbook/views/Extjs3/AddresslistGroupDialog.js
+modules/addressbook/views/Extjs3/AddresslistGroupGridDialog.js
+modules/addressbook/views/Extjs3/SelectAddresslistGroup.js
+modules/addressbook/views/Extjs3/AddresslistsGroupedMultiSelectGrid.js

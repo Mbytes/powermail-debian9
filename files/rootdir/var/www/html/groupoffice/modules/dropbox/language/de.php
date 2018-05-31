@@ -1,10 +1,10 @@
 <?php
 $l['name']="Dropbox Sync";
-$l['description']="Synchroniert Group-Office mit Dropbox";
+$l['description']="Synchroniert {product_name} mit Dropbox";
 
 
 $l['connect']="Verbinden";
-$l['instructions']='Auf den "Verbinden" Knopf klicken um Group-Office mit Ihrer Dropbox zu verknüpfen. Ein neuer Group-Office Ordner wird erstellt. Sie müssen sich nur einmal verbinden. Im Fehlerfalle wiederholen Sie die Verbindung einfach.';
+$l['instructions']='Auf den "Verbinden" Knopf klicken um {product_name} mit Ihrer Dropbox zu verknüpfen. Ein neuer {product_name} Ordner wird erstellt. Sie müssen sich nur einmal verbinden. Im Fehlerfalle wiederholen Sie die Verbindung einfach.';
 
 $l['syncFailed']="Dropbox Sync fehlgeschlagen";
 $l['syncFailedBody']="Bitte evrsuchen Sie es noch einmal über Einstellungen -> Dropbox";

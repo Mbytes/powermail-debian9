@@ -150,3 +150,5 @@ $l['clear'] = 'Leeg maken';
 
 $l['expiredFilesPortlet'] = 'Verlopen bestanden';
 $l['folderBrowserPortlet'] = 'Map weergeven';
+
+$l['uploadFailed'] = 'De upload mislukt! Vraag het aan de server manager voor wat er mis';

@@ -1,4 +1,5 @@
 <?php
+$languages['ar']='عربي (Arabic)';
 $languages['bn_BD']='বাংলা (Bangladesh)';
 $languages['ko']='한국어';
 $languages['ca']='Català';

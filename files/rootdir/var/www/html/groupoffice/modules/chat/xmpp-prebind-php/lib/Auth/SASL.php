@@ -83,7 +83,9 @@ class Auth_SASL
                 $filename  = 'SASL/CramMD5.php';
                 $classname = 'Auth_SASL_CramMD5';
                 break;
-
+				case 'digestmd5':
+                // $msg = 'Deprecated mechanism name. Use IANA-registered name: DIGEST-MD5.';
+                // trigger_error($msg, E_USER_DEPRECATED);
             case 'digest-md5':
                 $filename  = 'SASL/DigestMD5.php';
                 $classname = 'Auth_SASL_DigestMD5';

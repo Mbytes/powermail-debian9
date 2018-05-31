@@ -21,6 +21,8 @@ use PDO;
 
 
 class Projects2Module extends \GO\Professional\Module {
+	
+	const FINANCE_PERMISSIONS = 45;
 
 	public function appCenter(){
 		return true;
@@ -395,46 +397,6 @@ class Projects2Module extends \GO\Professional\Module {
 			return GO::user()->id;
 	}
 	
-	/**
-	 * Check if the acl for the finance does exist.
-	 * If not, then create a new acl and return it.
-	 * 
-	 * @return \GO\Base\Model\Acl
-	 */
-	public static function getFinanceAcl(){
-		
-		$financeAclID = \GO::config()->get_setting('projects2_finance_acl');
-		
-		if(!empty($financeAclID)){
-			$financeAcl = \GO\Base\Model\Acl::model()->findByPk($financeAclID);
-		}
-		if(empty($financeAcl)){
-			$financeAcl = new \GO\Base\Model\Acl();
-			$financeAcl->user_id=1;
-			$financeAcl->description = 'Finance access for Projects 2';
-			if($financeAcl->save()){
-				\GO::config()->save_setting('projects2_finance_acl',$financeAcl->id);
-			}
-		} 
-		
-		return $financeAcl;
-	}
-	
-	/**
-	 * Check if the current user has permission to see the finance data
-	 * 
-	 * @return boolean
-	 */
-	public static function hasFinancePermission(){
-		
-		$financeAcl = self::getFinanceAcl();
-
-		if($financeAcl->getUserLevel(GO::user()->id)){
-			return true;
-		} else {
-			return false;
-		}
-	}
 	
 	/**
 	 * Create the default notification cronjob for income contracts
@@ -462,5 +424,28 @@ class Projects2Module extends \GO\Professional\Module {
 		Model\Employee::model()->deleteByAttribute('user_id', $user->id);
 		Model\Resource::model()->deleteByAttribute('user_id', $user->id);
 		Model\DefaultResource::model()->deleteByAttribute('user_id', $user->id);
+	}
+	
+	public function checkDatabase(&$response) {
+		
+//		$sql = "update fs_folders set readonly = 0, acl_id = 0 where id in (
+//
+//			select id from (select id,parent_id from fs_folders order by parent_id, id) sort, (select @pv := '36') initialisation where find_in_set(parent_id, @pv) > 0 and @pv := concat(@pv, ',', id)
+//    
+//    )
+//    
+//    
+//    and
+//    
+//    id  not in (
+//        
+//        select files_folder_id from pr2_projects
+//        
+//        )
+//        
+//        and readonly = 1;";
+
+		
+		return parent::checkDatabase($response);
 	}
 }

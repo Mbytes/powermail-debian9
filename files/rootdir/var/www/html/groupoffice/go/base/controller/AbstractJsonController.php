@@ -205,6 +205,8 @@ abstract class AbstractJsonController extends AbstractController {
 //		if($summary = $store->getSummary())
 //			$response['summary'] = $summary;
 		
+		$this->fireEvent('renderStore', [$store]);
+		
 		$response=$store->getData();
 		if($summary = $store->getSummary())
 			$response['summary'] = $summary;
@@ -225,6 +227,8 @@ abstract class AbstractJsonController extends AbstractController {
 //					$response['buttonParams'] = $buttonParams;
 //			}
 //		}
+		
+		
 
 		return new \GO\Base\Data\JsonResponse($response);
 	}
@@ -437,6 +441,7 @@ abstract class AbstractJsonController extends AbstractController {
 		//fields for display.
 
 		$findParams = \GO\Base\Db\FindParams::newInstance()
+						->joinRelation('category')
 						->order(array('category.sort_index', 't.sort_index'), array('ASC', 'ASC'));
 		$findParams->getCriteria()
 						->addCondition('extends_model', $model->customfieldsRecord->extendsModel(), '=', 'category');
@@ -490,10 +495,19 @@ abstract class AbstractJsonController extends AbstractController {
 
 	private function _processFilesDisplay($model, $response) {
 		if (isset(\GO::modules()->files) && $model->hasFiles() && $response['data']['files_folder_id'] > 0) {
+			
+			$folder = \GO\Files\Model\Folder::model()->findByPk($response['data']['files_folder_id']);
+			
+			if(!$folder) {
+				$folder = $model->getFilesFolder();
+				$response['data']['files_folder_id'] = $folder->id;
+			}
 
-			$fc = new \GO\Files\Controller\FolderController();
-			$listResponse = $fc->run("list", array('skip_fs_sync'=>true, 'folder_id' => $response['data']['files_folder_id'], "limit" => 20, "sort" => 'name', "dir" => 'ASC'), false);
-			$response['data']['files'] = $listResponse['results'];
+			if($folder) {
+				$fc = new \GO\Files\Controller\FolderController();
+				$listResponse = $fc->run("list", array('skip_fs_sync'=>true, 'folder_id' => $response['data']['files_folder_id'], "limit" => 20, "sort" => 'name', "dir" => 'ASC'), false);
+				$response['data']['files'] = $listResponse['results'];
+			}
 		} else {
 			$response['data']['files'] = array();
 		}
@@ -545,6 +559,25 @@ abstract class AbstractJsonController extends AbstractController {
 
 		$data = $store->getData();
 		$response['data']['events'] = $data['results'];
+		
+		
+		// Process past events
+		$findParams = \GO\Base\Db\FindParams::newInstance()->order('start_time','DESC');
+		$findParams->getCriteria()->addCondition('start_time', $startOfDay, '<');						
+
+		$stmt = \GO\Calendar\Model\Event::model()->findLinks($model, $findParams);		
+
+		$store = \GO\Base\Data\Store::newInstance(\GO\Calendar\Model\Event::model());
+		$store->setStatement($stmt);
+
+		$columnModel = $store->getColumnModel();			
+		$columnModel->formatColumn('calendar_name','$model->calendar->name');
+		$columnModel->formatColumn('link_count','$model->countLinks()');
+		$columnModel->formatColumn('link_description','$model->link_description');
+		$columnModel->formatColumn('description','GO\Base\Util\StringHelper::cut_string($model->description,500)');
+
+		$data = $store->getData();
+		$response['data']['past_events']=$data['results'];
 
 		return $response;
 	}
@@ -586,25 +619,49 @@ abstract class AbstractJsonController extends AbstractController {
 	private function _processTasksDisplay($model, $response) {
 		//$startOfDay = \GO\Base\Util\Date::clear_time(time());
 
-		$findParams = \GO\Base\Db\FindParams::newInstance()->order('due_time', 'DESC');
+		$findParams = \GO\Base\Db\FindParams::newInstance()->order('due_time','DESC');
 		//$findParams->getCriteria()->addCondition('start_time', $startOfDay, '<=')->addCondition('status', \GO\Tasks\Model\Task::STATUS_COMPLETED, '!=');						
+		$findParams->getCriteria()->addCondition('status', \GO\Tasks\Model\Task::STATUS_COMPLETED, '!=');						
 
-		$stmt = \GO\Tasks\Model\Task::model()->findLinks($model, $findParams);
+		$stmt = \GO\Tasks\Model\Task::model()->findLinks($model, $findParams);		
 
 		$store = \GO\Base\Data\Store::newInstance(\GO\Tasks\Model\Task::model());
 		$store->setStatement($stmt);
 
 		$store->getColumnModel()
 						->setFormatRecordFunction(array($this, 'formatTaskLinkRecord'))
+						->formatColumn('late','$model->due_time<time() ? 1 : 0;')
 						->formatColumn('is_active','$model->isActive()')
-						->formatColumn('late', '$model->due_time<time() ? 1 : 0;')
 						->formatColumn('tasklist_name', '$model->tasklist->name')
-						->formatColumn('link_count', '$model->countLinks()')
-						->formatColumn('link_description', '$model->link_description');
+						->formatColumn('link_count','$model->countLinks()')
+						->formatColumn('description','GO\Base\Util\StringHelper::cut_string($model->description,500)')
+						->formatColumn('link_description','$model->link_description');		
 
 		$data = $store->getData();
-		$response['data']['tasks'] = $data['results'];
+		$response['data']['tasks']=$data['results'];
+		
+		// Process linked tasks that are completed.
+		$findParams = \GO\Base\Db\FindParams::newInstance()->order('due_time','DESC');
+		//$findParams->getCriteria()->addCondition('start_time', $startOfDay, '<=')->addCondition('status', \GO\Tasks\Model\Task::STATUS_COMPLETED, '!=');						
+		$findParams->getCriteria()->addCondition('status', \GO\Tasks\Model\Task::STATUS_COMPLETED, '=');						
 
+		$stmt = \GO\Tasks\Model\Task::model()->findLinks($model, $findParams);		
+
+		$store = \GO\Base\Data\Store::newInstance(\GO\Tasks\Model\Task::model());
+		$store->setStatement($stmt);
+
+		$store->getColumnModel()
+						->setFormatRecordFunction(array($this, 'formatTaskLinkRecord'))
+						->formatColumn('late','$model->due_time<time() ? 1 : 0;')
+						->formatColumn('tasklist_name', '$model->tasklist->name')
+						->formatColumn('link_count','$model->countLinks()')
+						->formatColumn('description','GO\Base\Util\StringHelper::cut_string($model->description,500)')
+						->formatColumn('link_description','$model->link_description');		
+		
+
+		$data = $store->getData();
+		$response['data']['completed_tasks']=$data['results'];
+		
 		return $response;
 	}
 

@@ -7,12 +7,15 @@
  * If you have questions write an e-mail to info@intermesh.nl
  * 
  * @copyright Copyright Intermesh
- * @version $Id: SelectContact.js 20726 2016-12-16 10:04:54Z mschering $
+ * @version $Id: SelectContact.js 21235 2017-06-21 08:11:59Z wsmits $
  * @author Merijn Schering <mschering@intermesh.nl>
  */
 
 
 GO.addressbook.SelectContact = function(config){
+
+	if(!config.addressbook_ids)
+		config.addressbook_ids = [];
 
 	if(!config.displayField)
 		config.displayField='name';
@@ -37,7 +40,8 @@ GO.addressbook.SelectContact = function(config){
 				addressbook_id : config.addressbook_id,
 				requireEmail: config.requireEmail ? '1' : '0',
 				no_user_contacts: config.noUserContacts ? '1' : '0',
-				customfield_id : customfieldId
+				customfield_id : customfieldId,
+				addressbook_ids : Ext.encode(config.addressbook_ids)
 			},
 	    totalProperty:'total',	    
       fields: fields.fields,

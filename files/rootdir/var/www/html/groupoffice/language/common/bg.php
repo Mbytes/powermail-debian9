@@ -585,7 +585,7 @@ $l['queryComparator'] = "Компаратор";
 $l['queryValue']="Стойност";
 $l['queryStartGroup']="Старт група";
 
-$l['cliOnly'] = "Този скрипт може да се стартира само в команден ред в Group-Office (CLI).";
+$l['cliOnly'] = "Този скрипт може да се стартира само в команден ред в {product_name} (CLI).";
 $l['unnamed']='Неименуван';
 
 $l['maxRowslistTooHigh']='Максималния брой редове е твърде голям (максимум 50)';

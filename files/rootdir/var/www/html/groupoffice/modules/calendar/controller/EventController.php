@@ -25,6 +25,8 @@ class EventController extends \GO\Base\Controller\AbstractModelController {
 
 	protected $model = 'GO\Calendar\Model\Event';
 	
+	private $newParticipants;
+	
 	private $_uuidEvents = array();
 	
 	
@@ -83,11 +85,21 @@ class EventController extends \GO\Base\Controller\AbstractModelController {
 			$model->rrule = "";
 		}
 
-		if (isset($params['reminder_value']) && isset($params['reminder_multiplier']))
-			$model->reminder = \GO\Base\Util\Number::unlocalize ($params['reminder_value']) * $params['reminder_multiplier'];
-//		else
-//			$model->reminder = 0;
-
+		// Reset the reminder value to NULL, processing will be done below
+		if(isset($params['enable_reminder'])){
+			$model->reminder = null;
+		}
+		
+		// If enable_reminder is checked, then process it further
+		if(!empty($params['enable_reminder'])){
+			
+			$model->reminder = 0; // The reminder will be on the event start by default
+			
+			if(isset($params['reminder_value']) && !empty($params['reminder_value']) && isset($params['reminder_multiplier'])){
+				$model->reminder = \GO\Base\Util\Number::unlocalize ($params['reminder_value']) * $params['reminder_multiplier'];
+			}
+		}
+		
 		$model->setAttributes($params);
 	}
 
@@ -121,21 +133,54 @@ class EventController extends \GO\Base\Controller\AbstractModelController {
 			return false;
 		}
 		
-		
-		if (!empty($params['exception_date'])) {
+		 if (!empty($params['exception_date'])) {
 			//reset the original attributes other wise create exception can fail
 			$model->resetAttributes();
 			//$params['recurrenceExceptionDate'] is a unixtimestamp. We should return this event with an empty id and the exception date.			
 			//this parameter is sent by the view when it wants to edit a single occurence of a repeating event.
 			$recurringEvent = \GO\Calendar\Model\Event::model()->findByPk($params['exception_for_event_id']);
-			$model = $recurringEvent->createExceptionEvent($params['exception_date'], array(), true);
-			unset($params['exception_date']);
-			unset($params['id']);
-			
-			if(!$model)
-				throw new \Exception("Could not create exception!");
-			
-			$this->_setEventAttributes($model, $params);
+			if(!empty($params['thisAndFuture']) && $params['thisAndFuture'] == 'true') {
+				// Save This and Future
+				$model = $recurringEvent->duplicate(array('uuid'=>null));
+				//$model = new \GO\Calendar\Model\Event();
+				unset($params['exception_for_event_id']);
+				unset($params['repeat_end_time']);
+				$duration = $model->end_time - $model->start_time;
+				$this->_setEventAttributes($model, $params);
+				
+				if (isset($params['offset'])) {
+					$d = date('Y-m-d', $params['exception_date']);
+					$t = date('G:i', $model->start_time);
+					$start_time = strtotime($d . ' ' . $t);
+					// not pretty, fix in v6.6
+					$model->start_time = \GO\Base\Util\Date::roundQuarters($start_time);
+					$model->end_time = \GO\Base\Util\Date::roundQuarters($model->start_time+ $duration);
+					$untilTime = $model->start_time - $params['offset'] - 1;
+				} else {
+					// exception_date comes incorrectly from client, fix in GO 6.6
+					$model->start_time = $params['exception_date']; 
+					$untilTime = $params['exception_date']-1;
+				}
+				
+				$rRule = new \GO\Base\Util\Icalendar\Rrule();
+				$rRule->readIcalendarRruleString($recurringEvent->start_time, $recurringEvent->rrule);
+				$model->rrule = $rRule->createRrule();
+
+				$rRule->setParams(array('until'=> $untilTime));
+				$recurringEvent->rrule = $rRule->createRrule();
+				$recurringEvent->repeat_end_time = $untilTime;
+				$recurringEvent->save(); // CLOSE Recurrence, forget about exceptions (this en future means everything)
+			} else {
+				$model = $recurringEvent->createExceptionEvent($params['exception_date'], array(), true);
+				unset($params['exception_date']);
+				unset($params['id']);
+
+				if(!$model)
+					throw new \Exception("Could not create exception!");
+
+				$this->_setEventAttributes($model, $params);
+				
+			}
 		}
 				
 		return parent::beforeSubmit($response, $model, $params);
@@ -262,10 +307,12 @@ class EventController extends \GO\Base\Controller\AbstractModelController {
 		foreach ($allParticipantsStmt as $participantModel)
 			$allParticipantIds[] = $participantModel->user_id;
 		
-		$newParticipantIds = !empty(\GO::session()->values['new_participant_ids']) ? \GO::session()->values['new_participant_ids'] : array();
-		$oldParticipantsIds = array_diff($allParticipantIds,$newParticipantIds);
-		if (!empty($newParticipantIds) && !empty($oldParticipantsIds))
+//		$newParticipantIds = !empty(\GO::session()->values['new_participant_ids']) ? \GO::session()->values['new_participant_ids'] : array();
+//		$oldParticipantsIds = array_diff($allParticipantIds,$newParticipantIds);
+//		if (!empty($newParticipantIds) && !empty($oldParticipantsIds))
+		if ($this->newParticipants && count($allParticipantIds) > 1) {
 			$response['askForMeetingRequestForNewParticipants'] = true;
+		}
 		
 		$response['permission_level'] = $model->calendar->permissionLevel;
 		
@@ -341,7 +388,8 @@ class EventController extends \GO\Base\Controller\AbstractModelController {
 	}
 
 	private function _saveParticipants($params, \GO\Calendar\Model\Event $event, &$response) {
-
+		\GO::session()->values['new_participant_ids'] = array();
+		$this->newParticipants = false;
 		$response['participants'] = array();
 		
 		$ids = array();
@@ -353,7 +401,9 @@ class EventController extends \GO\Base\Controller\AbstractModelController {
 			//don't save a single organizer participant
 			if(count($participants)>1){				
 				$hasOrganizer=false;
+				$participantsIsUpdate = false;
 				foreach ($participants as $p) {
+					$isNew = false;
 					$participant = \GO\Calendar\Model\Participant::model()->findSingleByAttributes(array(
 							'email'=> $p['email'],
 							'event_id'=>$event->id
@@ -362,11 +412,12 @@ class EventController extends \GO\Base\Controller\AbstractModelController {
 					if($participant && !empty($p['contact_id']) && $p['contact_id'] != $participant->contact_id){
 						$participant->delete();
 						$participant = false;
+						$participantsIsUpdate = true;
 					}
 					
 					if (!$participant){
 						$participant = new \GO\Calendar\Model\Participant();
-						
+						$isNew = true;
 						//ask for meeting request because there's a new participant
 						$response['askForMeetingRequest']=true;
 					}
@@ -376,6 +427,8 @@ class EventController extends \GO\Base\Controller\AbstractModelController {
 					$participant->event_id = $event->id;
 					if(!$participant->save()){
 						throw new \Exception("Could not save participant ".var_export($participant->getValidationErrors(), true));
+					} else {
+						$participantsIsUpdate = true;
 					}
 					
 					if(!$hasOrganizer){
@@ -385,6 +438,19 @@ class EventController extends \GO\Base\Controller\AbstractModelController {
 					$ids[] = $participant->id;
 
 					$response['participants'][]=$participant->toJsonArray($event->start_time, $event->end_time);
+					
+					if($isNew) {
+						$this->newParticipants = true;
+						if(!$participant->is_organizer) {
+							\GO::session()->values['new_participant_ids'][]= $participant->id;
+						}
+					}
+				}
+				
+				
+				if(!$event->isModified() && $participantsIsUpdate) {
+					$event->touch();
+					$event->save();
 				}
 			}
 
@@ -699,18 +765,28 @@ class EventController extends \GO\Base\Controller\AbstractModelController {
 		$multipliers[] = 86400;
 		$multipliers[] = 3600;
 		$multipliers[] = 60;
-
-		$response['data']['reminder_multiplier'] = 60;
-		$response['data']['reminder_value'] = "";
 		
-		if (!empty($response['data']['reminder'])) {
-			for ($i = 0; $i < count($multipliers); $i++) {
-				$devided = $response['data']['reminder'] / $multipliers[$i];
-				$match = (int) $devided;
-				if ($match == $devided) {
-					$response['data']['reminder_multiplier'] = $multipliers[$i];
-					$response['data']['reminder_value'] = $devided;
-					break;
+		$response['data']['reminder_multiplier'] = 60;
+		$response['data']['reminder_value'] = 0;
+		$response['data']['enable_reminder'] = false; // Default the reminder is not enabled
+
+		if ($response['data']['reminder'] !== null) { // Strict checking otherwise it will not work
+			
+			$response['data']['enable_reminder'] = true; // Enable reminder because it is set
+			
+			if(empty($response['data']['reminder'])){
+				$response['data']['reminder_multiplier'] = 60;
+				$response['data']['reminder_value'] = 0;
+			} else {
+			
+				for ($i = 0; $i < count($multipliers); $i++) {
+					$devided = $response['data']['reminder'] / $multipliers[$i];
+					$match = (int) $devided;
+					if ($match == $devided) {
+						$response['data']['reminder_multiplier'] = $multipliers[$i];
+						$response['data']['reminder_value'] = $devided;
+						break;
+					}
 				}
 			}
 		}
@@ -911,6 +987,10 @@ class EventController extends \GO\Base\Controller\AbstractModelController {
 				$response = $this->_getEventResponseForPeriod($response,$calendar,$startTime,$endTime, $categories);
 				
 			} catch(\GO\Base\Exception\AccessDenied $e){
+				
+				\GO::debug("Access denied for calendar ");
+				
+				\GO::debug($e);
 				//skip calendars without permission
 			} catch(\GO\Base\Exception\NotFound $e) {
 				\GO::debug('Calendar with ID: '. $calendarId . ' was not found');
@@ -1084,6 +1164,7 @@ class EventController extends \GO\Base\Controller\AbstractModelController {
 					'end_time'=>$endTime,
 					'all_day_event'=>1,
 					'model_name'=>'GO\Tasks\Model\Task',
+					'calendar_id'=>$calendar->id, // Must be present to be able to show tasks in the calendar Views
 					//'background'=>$calendar->displayColor,
 					'background'=>'EBF1E2',
 					'day'=>$dayValue,
@@ -1146,6 +1227,7 @@ class EventController extends \GO\Base\Controller\AbstractModelController {
 	/**
 	 * Fill the response array with the leave days between the start and end time
 	 * (must have Holidays (Leave days) module enabled.
+	 * This only returns the holidays to the default calendar of the user.
 	 * 
 	 * @param array $response
 	 * @param \GO\Calendar\Model\Calendar $calendar
@@ -1155,11 +1237,24 @@ class EventController extends \GO\Base\Controller\AbstractModelController {
 	 */
 	private function _getLeavedaysResponseForPeriod($response,$calendar,$startTime,$endTime){
 		$resultCount = 0;
-
 		
-		if(!$calendar->user)
+		// Ignore the display of leavedays when the calendar is not the default calendar of the current user
+//		$defaultCalendar = \GO\Calendar\CalendarModule::getDefaultCalendar(\GO::user()->id);
+//		if($defaultCalendar->id != $calendar->id){
+//			return $response;
+//		}
+		
+		// Ignore the display of leavedays when the calendar is not the default calendar of the user of the calendar you are currently viewing
+		$defaultCalendar = \GO\Calendar\CalendarModule::getDefaultCalendar($calendar->user->id);
+		if(!$defaultCalendar || ($defaultCalendar->id !=  $calendar->id)){
 			return $response;
-		
+		}
+		$background = isset($response['backgrounds'][$calendar->id]) ?  $response['backgrounds'][$calendar->id] : false;
+
+//		
+//		if(!$calendar->user)
+//			return $response;
+//		
 //		$leavedays = \GO\Leavedays\Model\Leaveday::model()
 		//$holidays = \GO\Base\Model\Holiday::model()->getHolidaysInPeriod($startTime, $endTime, $calendar->user->language);
 		$leavedaysStmt = \GO\Leavedays\Model\Leaveday::model()->getLeavedaysInPeriod($calendar->user->id,$startTime, $endTime);
@@ -1169,6 +1264,7 @@ class EventController extends \GO\Base\Controller\AbstractModelController {
 				$resultCount++;
 				$record = $leavedayModel->getJson($calendar);
 				$record['calendar_id']=$calendar->id;
+				$record['background'] = $background;
 				$record['id']=$response['count']++;
 				$index = $this->_getIndex($response['results'],$leavedayModel->first_date);
 				$response['results'][$index] = $record;
@@ -1344,8 +1440,20 @@ class EventController extends \GO\Base\Controller\AbstractModelController {
 					'success'=>true
 			);
 		}  else {			
-			if(!empty($params['exception_date']))
-				$event = $event->createExceptionEvent($params['exception_date']);
+			if(!empty($params['exception_date'])) {
+				if(!empty($params['thisAndFuture']) && $params['thisAndFuture'] == 'true') {
+					$event->repeat_end_time = $params['exception_date']-1;
+					$rRule = new \GO\Base\Util\Icalendar\Rrule();
+					$rRule->readIcalendarRruleString($event->start_time, $event->rrule);
+					$rRule->setParams(array('until'=> $params['exception_date']-1));
+					$event->rrule = $rRule->createRrule();
+					$response['thisAndFuture'] = true;
+					$response['success'] = $event->save();
+					return $response;
+				} else {
+					$event = $event->createExceptionEvent($params['exception_date']);
+				}
+			}
 			
 			if(!empty($params['send_cancel_notice'])){
 				if($event->is_organizer){
@@ -1482,7 +1590,7 @@ class EventController extends \GO\Base\Controller\AbstractModelController {
 		
 		//import it
 		$event = new \GO\Calendar\Model\Event();
-		$event->importVObject($vevent, $importAttributes,false,true);
+		$event->importVObject($vevent, $importAttributes,false,true, false, false);
 			
 		//notify orgnizer
 		$participant = $event->getParticipantOfCalendar();
@@ -1761,7 +1869,12 @@ class EventController extends \GO\Base\Controller\AbstractModelController {
 			$stmt = \GO\Calendar\Model\Event::model()->find($findParams);
 
 			foreach($stmt as $event){
-				$event->delete();
+				try {
+					$event->delete();
+				}
+				catch (\Exception $e) {
+					echo "Could not delete event with ID: ".$event->id.". Message: ".$e->getMessage()."\n";
+				}
 				echo '.';
 			}
 			echo "\n";

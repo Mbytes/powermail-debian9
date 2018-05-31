@@ -181,7 +181,7 @@ class DbStore extends AbstractStore {
 
 		if (isset($this->_requestParams['query']))
 			$this->query = $this->_requestParams['query'];
-
+		
 		if (isset($this->_requestParams['delete_keys']) && $this->allow_delete) { // will be deleted just before loading.
 			$this->_deleteRecords = json_decode($this->_requestParams['delete_keys'], true);
 			foreach ($this->_deleteRecords as $i => $modelPk) {

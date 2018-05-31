@@ -72,3 +72,14 @@ $l['contactformText']="Vul deze formulier in en klik op 'OK' om te registreren. 
 
 $l['addressbookNotFound']="Geen adresboek gevonden met naam '%s'.";
 $l['contactformDoneText']="Wij hebben uw registratie met succes ontvangen.";
+
+$l['currentPassword']="Huidige wachtwoord";
+$l['passwordExpired']="Uw wachtwoord is verlopen";
+$l['changePasswordRequiredText'] = 'U bent verplicht om uw wachtwoord te wijzigen.';
+
+$l['usernameIncorrect'] = 'De opgegeven gebruikersnaam is niet geldig';
+$l['pleaseFillInAllFields'] = 'Vul alle velden in';
+$l['passwordsDoNotMatch'] = 'Het wachtwoord en de bevestiging zijn niet hetzelfde';
+$l['passwordsMayNotBeTheSame'] = 'Het nieuwe wachtwoord mag niet hetzelfde zijn als het oude wachtwoord';
+$l['couldNotSaveNewPassword'] = 'Het nieuwe wachtwoord kan niet worden opgeslagen. Neem contact op met de beheerder van het systeem';
+$l['passwordIncorrect'] = 'Het opgegeven wachtwoord is niet geldig';

@@ -337,6 +337,7 @@ class CoreController extends \GO\Base\Controller\AbstractController {
 				case 'doc':
 				case 'htm':
 				case 'html':
+				case 'dotx':
 					$src = $dir . 'doc.png';
 
 					break;
@@ -345,6 +346,7 @@ class CoreController extends \GO\Base\Controller\AbstractController {
 				case 'ods':
 				case 'xls':
 				case 'xlsx':
+				case 'xltx':
 					$src = $dir . 'spreadsheet.png';
 					break;
 
@@ -355,6 +357,7 @@ class CoreController extends \GO\Base\Controller\AbstractController {
 					$src = $dir . 'pps.png';
 					break;
 				case 'eml':
+				case 'msg':
 					$src = $dir . 'message.png';
 					break;
 
@@ -363,8 +366,8 @@ class CoreController extends \GO\Base\Controller\AbstractController {
 					$src = $dir . 'txt.png';
 					break;
 				default:
-					if (file_exists($dir . $file->extension() . '.png')) {
-						$src = $dir . $file->extension() . '.png';
+					if (file_exists($dir . strtolower($file->extension()) . '.png')) {
+						$src = $dir . strtolower($file->extension()) . '.png';
 					} else {
 						$src = $dir . 'unknown.png';
 					}
@@ -993,5 +996,65 @@ class CoreController extends \GO\Base\Controller\AbstractController {
 		
 		echo $response;
 	}
+	
+	/**
+	 * Send an email
+	 * 
+	 * @param string $email
+	 * @param string $subject
+	 * @param string $body
+	 * @param array $attachments Array like this: (The given className needs to implement the GO\Base\Mail\SwiftAttachableInterface)
+	 *	array(
+	 *		array(
+	 *			'className'=>'GO\Files\Model\File',
+	 *			'pk'=>3',
+	 *			'altName'=>'New attachment name'
+	 *		),
+	 *		array(
+	 *			'className'=>'GO\Files\Model\File',
+	 *			'pk'=>4',
+	 *			'altName'=>'New attachment name2'
+	 *		)
+	 *	)
+	 */
+	public function actionSendSystemEmail($email, $subject, $body, $attachments=array()){
+		
+		$response = array('success'=>false);
+		
+		//Build system email and mail with the given files
+		$systemMessage = new GO\Base\Mail\SystemMessage($subject,$body);
+		
+		foreach($attachments as $attachmentSpec) {
+			
+			if(!empty($attachmentSpec['className']) &&  !empty($attachmentSpec['pk'])){
+				
+				$className = $attachmentSpec['className'];
+				$record = $className::model()->findByPk($attachmentSpec['pk']);
+				
+				if($record){
+					
+					$altName = null;
+					if(!empty($attachmentSpec['altName'])){
+						$altName = $attachmentSpec['altName'];
+					}
+
+					$swiftAttachment = $record->getAttachment($altName);
+					
+					if($swiftAttachment !== false){
+						$systemMessage->attach($swiftAttachment);
+					}
+				}
+			}			
+		}
+				
+		$response['success'] = $systemMessage->send()?true:false;
+		
+		if(!$response['success']){
+			$response['feedback'] = GO::t('Could not send email');
+		}
+
+		echo new \GO\Base\Data\JsonResponse($response);
+	}
+	
 	
 }

@@ -372,8 +372,8 @@ $l["productName"] = 'Productnaam';
 $l["enterOtherName"] = 'Deze naam bestaat al in de productcategorie die momenteel geselecteerd is. Geeft u a.u.b. een andere naam voor dit product op.';
 $l["newCategory"] = 'Nieuwe categorie';
 $l["unknownLanguageExc1"] = "Uw importbestand bevat de taal";
-$l["unknownLanguageExc2"] = "die niet voorkomt in de Group-Office boekhoudingsmodule. Voegt u deze taal a.u.b. toe in de boekhoudingsmodule of verwijder de kolommen name, category, description en short_description in deze taal uit het importbestand, voordat u het bestand opnieuw importeert.";
-$l["noLanguageInHeader"] = "De kolomnamen van het importbestand moet tenminste een woord bevatten in de vorm van 'name_en' en 'name_nl' voor kolommen met productnamen in de Engelse respectievelijk Nederlandse taal. Dit is nodig om aan Group-Office aan te geven als welke taal productnamen worden opgeslagen. In het huidige importbestand komt een dergelijke kolomnaam niet voor.";
+$l["unknownLanguageExc2"] = "die niet voorkomt in de {product_name} boekhoudingsmodule. Voegt u deze taal a.u.b. toe in de boekhoudingsmodule of verwijder de kolommen name, category, description en short_description in deze taal uit het importbestand, voordat u het bestand opnieuw importeert.";
+$l["noLanguageInHeader"] = "De kolomnamen van het importbestand moet tenminste een woord bevatten in de vorm van 'name_en' en 'name_nl' voor kolommen met productnamen in de Engelse respectievelijk Nederlandse taal. Dit is nodig om aan {product_name} aan te geven als welke taal productnamen worden opgeslagen. In het huidige importbestand komt een dergelijke kolomnaam niet voor.";
 $l['mustUploadCSV']='Voor deze actie is het nodig om een CSV bestand te uploaden.';
 $l['tooFewHeaders']='Met de huidige uploadinstellingen, zijn er minder dan 2 kolomnamen gevonden. Controleert u a.u.b. of de scheidingsteken in de uploadinstellingen overeenkomen met die in het geuploade CSV-bestand.';
 $l['invalidChar']='Ongeldige teken';
@@ -501,3 +501,5 @@ $l['totalOutstanding'] = 'Totaal tegoed';
 $l['duplicateLinks'] = 'Dupliceer koppelingen';
 
 $l['autoPaidStatus'] = 'Automatisch bovenstaande betaald status instellen wanneer je betalingen toevoegd';
+
+$l['extra_costs'] = 'Extra kosten';

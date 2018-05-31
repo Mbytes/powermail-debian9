@@ -18,6 +18,11 @@ GO.base.form.getFormFieldByType = function(gotype, colName, config){
 		case 'boolean':
 			editor = new Ext.form.Checkbox(config);
 			break;
+		case 'color':
+			
+			editor = new GO.form.ColorField(config);
+			break;
+			
 			
 		case 'customfield':
 			//colName might be cf.col_4. Change it into col_4.

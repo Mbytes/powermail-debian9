@@ -7,7 +7,7 @@ GO::router()->getController()->fireEvent('headstart');
 ?>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
 <meta name="robots" content="noindex" />
-<!--<meta http-equiv="x-ua-compatible" content="IE=8">-->
+<meta http-equiv="x-ua-compatible" content="IE=10">
 <?php
 $favicon = !empty(\GO::config()->favicon) ? \GO::config()->favicon : \GO::view()->getTheme()->getUrl()."images/groupoffice.ico?";
 ?>
@@ -15,6 +15,7 @@ $favicon = !empty(\GO::config()->favicon) ? \GO::config()->favicon : \GO::view()
 <title><?php echo \GO::config()->title; ?></title>
 <?php
 \GO::view()->addStylesheet(\GO::view()->getPath().'ext/resources/css/ext-all.css', \GO::view()->getUrl().'ext/resources/css/');
+\GO::view()->addStylesheet(\GO::view()->getPath().'javascript/calendar/resources/css/calendar.css', \GO::view()->getUrl().'javascript/calendar/resources/css/');
 \GO::view()->addStylesheet(\GO::view()->getPath().'themes/Default/xtheme-groupoffice.css', \GO::view()->getUrl().'themes/Default/');
 \GO::view()->addStylesheet(\GO::view()->getPath().'themes/Default/style.css', \GO::view()->getUrl().'themes/Default/');
 \GO::view()->loadModuleStylesheets();

@@ -37,6 +37,42 @@ GO.form.HtmlEditor = function(config){
 
 Ext.extend(GO.form.HtmlEditor,Ext.form.HtmlEditor, {
 
+	/**
+	 * Executes a Midas editor command directly on the editor document.
+	 * For visual commands, you should use {@link #relayCmd} instead.
+	 * <b>This should only be called after the editor is initialized.</b>
+	 * @param {String} cmd The Midas command
+	 * @param {String/Boolean} value (optional) The value to pass to the command (defaults to null)
+	 */
+	execCmd : function(cmd, value){
+		var doc = this.getDoc();
+
+		if(cmd === 'createlink' && Ext.isGecko){
+			// If firefox is used, then manually add the "a" tag to the text
+			var t = this.getSelectedText();
+			if(t.length < 1){
+				value = '<a href="'+value+'">'+value+"</a>";
+				this.insertAtCursor(value);
+			}			
+		} 
+		
+		doc.execCommand(cmd, false, value === undefined ? null : value);
+
+		this.syncValue();
+	},
+
+	getSelectedText : function() {
+		
+		var frame = this.iframe;
+    var frameWindow = frame.contentWindow;
+    var frameDocument = frameWindow.document;
+
+    if (frameDocument.getSelection) 
+        return frameDocument.getSelection().toString();
+    else if (frameDocument.selection)
+        return frameDocument.selection.createRange().text;
+	},
+	
 	setValue: function(value){
 		
 		if(this.win && Ext.isChrome){
@@ -326,7 +362,22 @@ Ext.extend(GO.form.HtmlEditor,Ext.form.HtmlEditor, {
 
 		
 	//this.syncValue();
-	}
+	},
+	
+	 createLink : function() {
+			
+			
+        var url = prompt(this.createLinkText, this.defaultLinkValue);
+        if(url && url != 'http:/'+'/'){
+					if(Ext.isSafari) {
+            this.execCmd("createlink", url);
+						this.updateToolbar();
+					} else
+					{
+						this.relayCmd("createlink", url);
+					}
+        }
+    }
 		
 });
 

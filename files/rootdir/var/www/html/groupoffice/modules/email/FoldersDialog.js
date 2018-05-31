@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: FoldersDialog.js 19949 2016-04-07 13:50:22Z mschering $
+ * @version $Id: FoldersDialog.js 20871 2017-02-21 10:53:37Z mschering $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -72,7 +72,8 @@ GO.email.FoldersDialog = function(config) {
 				account_id : this.account_id,
 				mailboxs : Ext.util.JSON.encode(mailboxs) 
 			},
-			fail:function(){
+			fail: function(response, options, result) {
+				Ext.Msg.alert(GO.lang.strError, result.feedback);
 				this.foldersTree.getRootNode().reload();
 			},
 			scope : this

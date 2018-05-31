@@ -715,8 +715,9 @@ $(function() {
 				if(($pos=strpos($attribute,'['))===false)
 					return $model->$attribute;
 			}
-			$name=substr($attribute,0,$pos);
-			$value = method_exists($model, 'getAttribute') ? $model->getAttribute($attribute,'formatted') : $model->$attribute;
+			$name=substr($attribute,0,$pos);			
+//			$value = method_exists($model, 'getAttribute') && $model->has ? $model->getAttribute($attribute,'formatted') : $model->$attribute;
+			$value = $model->$attribute;
 			foreach(explode('][',rtrim(substr($attribute,$pos+1),']')) as $id)
 			{
 				if(is_array($value) && isset($value[$id]))
@@ -727,7 +728,8 @@ $(function() {
 			return $value;
 		}
 		else {
-			$value = method_exists($model, 'getAttribute') ? $model->getAttribute($attribute,'formatted') : $model->$attribute;
+//			$value = method_exists($model, 'getAttribute') ? $model->getAttribute($attribute,'formatted') : $model->$attribute;
+			$value = $model->$attribute;
 			return $value;
 		}
 	}

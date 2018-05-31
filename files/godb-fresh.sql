@@ -1,13 +1,13 @@
--- MySQL dump 10.13  Distrib 5.5.53, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.16  Distrib 10.1.26-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: godb
 -- ------------------------------------------------------
--- Server version	5.5.53-0+deb8u1
+-- Server version	10.1.26-MariaDB-0+deb9u1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -30,6 +30,7 @@ CREATE TABLE `ab_addressbooks` (
   `default_salutation` varchar(255) NOT NULL,
   `files_folder_id` int(11) NOT NULL DEFAULT '0',
   `users` tinyint(1) NOT NULL DEFAULT '0',
+  `create_folder` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
@@ -41,7 +42,7 @@ CREATE TABLE `ab_addressbooks` (
 
 LOCK TABLES `ab_addressbooks` WRITE;
 /*!40000 ALTER TABLE `ab_addressbooks` DISABLE KEYS */;
-INSERT INTO `ab_addressbooks` VALUES (4,1,'Users',32,'Dear [Mr./Mrs.] {middle_name} {last_name}',2,1);
+INSERT INTO `ab_addressbooks` VALUES (1,1,'Prospects',5,'Dear {first_name}',0,0,0),(2,1,'Suppliers',6,'Dear {first_name}',0,0,0),(3,1,'Customers',7,'Dear {first_name}',0,0,0),(4,1,'Users',32,'Dear {first_name}',4,1,0);
 /*!40000 ALTER TABLE `ab_addressbooks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -92,6 +93,29 @@ LOCK TABLES `ab_addresslist_contacts` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `ab_addresslist_group`
+--
+
+DROP TABLE IF EXISTS `ab_addresslist_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ab_addresslist_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ab_addresslist_group`
+--
+
+LOCK TABLES `ab_addresslist_group` WRITE;
+/*!40000 ALTER TABLE `ab_addresslist_group` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ab_addresslist_group` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `ab_addresslists`
 --
 
@@ -100,10 +124,13 @@ DROP TABLE IF EXISTS `ab_addresslists`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ab_addresslists` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `addresslist_group_id` int(11) DEFAULT NULL,
   `user_id` int(11) NOT NULL DEFAULT '0',
   `acl_id` int(11) NOT NULL DEFAULT '0',
   `name` varchar(255) DEFAULT NULL,
   `default_salutation` varchar(50) DEFAULT NULL,
+  `ctime` int(11) NOT NULL DEFAULT '0',
+  `mtime` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -133,12 +160,16 @@ CREATE TABLE `ab_companies` (
   `name2` varchar(100) DEFAULT '',
   `address` varchar(100) DEFAULT '',
   `address_no` varchar(100) DEFAULT '',
+  `latitude` decimal(10,8) DEFAULT NULL,
+  `longitude` decimal(11,8) DEFAULT NULL,
   `zip` varchar(10) DEFAULT '',
   `city` varchar(50) DEFAULT '',
   `state` varchar(50) DEFAULT '',
   `country` varchar(50) DEFAULT '',
   `post_address` varchar(100) DEFAULT '',
   `post_address_no` varchar(100) DEFAULT '',
+  `post_latitude` decimal(10,8) DEFAULT NULL,
+  `post_longitude` decimal(11,8) DEFAULT NULL,
   `post_city` varchar(50) DEFAULT '',
   `post_state` varchar(50) DEFAULT '',
   `post_country` varchar(50) DEFAULT '',
@@ -218,6 +249,8 @@ CREATE TABLE `ab_contacts` (
   `zip` varchar(10) NOT NULL DEFAULT '',
   `address` varchar(100) NOT NULL DEFAULT '',
   `address_no` varchar(100) NOT NULL DEFAULT '',
+  `latitude` decimal(10,8) DEFAULT NULL,
+  `longitude` decimal(11,8) DEFAULT NULL,
   `comment` text,
   `ctime` int(11) NOT NULL DEFAULT '0',
   `mtime` int(11) NOT NULL DEFAULT '0',
@@ -250,7 +283,7 @@ CREATE TABLE `ab_contacts` (
 
 LOCK TABLES `ab_contacts` WRITE;
 /*!40000 ALTER TABLE `ab_contacts` DISABLE KEYS */;
-INSERT INTO `ab_contacts` VALUES (1,'af28c6e1-45c2-5581-949f-d601a29249bd',1,4,'System','','Administrator','','','','M',NULL,'support@technoinfotech.com','','',0,'','','','','','','','',NULL,'','','','','','',NULL,1482907222,1482907222,1,'Dear Mr. Administrator',1,0,1,'',0,NULL,NULL,NULL,NULL,'000000');
+INSERT INTO `ab_contacts` VALUES (1,'4679e1a4-3685-5feb-82a4-55358e8f7b84',1,4,'System','','Administrator','','','','M',NULL,'support@technoinfotech.com','','',0,'','','','','','','','',NULL,'','','','','','',NULL,NULL,NULL,1527753011,1527753011,1,'Dear System',1,0,1,'',0,NULL,NULL,NULL,NULL,'000000');
 /*!40000 ALTER TABLE `ab_contacts` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -354,6 +387,7 @@ CREATE TABLE `ab_email_templates` (
 
 LOCK TABLES `ab_email_templates` WRITE;
 /*!40000 ALTER TABLE `ab_email_templates` DISABLE KEYS */;
+INSERT INTO `ab_email_templates` VALUES (1,1,0,'Default',8,'Message-ID: <c13fd4082880bfce8ed2543affe3880f@demo.technomail.in>\r\nDate: Thu, 31 May 2018 13:19:51 +0530\r\nFrom: \r\nMIME-Version: 1.0\r\nContent-Type: multipart/alternative;\r\n boundary=\"_=_swift_v4_1527752991_8f15b78cbe75c207942b3bb2e196a907_=_\"\r\n\r\n\r\n--_=_swift_v4_1527752991_8f15b78cbe75c207942b3bb2e196a907_=_\r\nContent-Type: text/plain; charset=UTF-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n{salutation},\r\n\r\n{body}\r\n\r\nBest regards\r\n\r\n\r\n{user:name}\r\n{usercompany:name}\r\n\r\n--_=_swift_v4_1527752991_8f15b78cbe75c207942b3bb2e196a907_=_\r\nContent-Type: text/html; charset=UTF-8\r\nContent-Transfer-Encoding: quoted-printable\r\n\r\n{salutation},<br />\r\n<br />\r\n{body}<br />\r\n<br />\r\nBest regards<br />\r\n<br />\r\n<br />\r\n{user:name}<br />\r\n{usercompany:name}<br />\r\n\r\n--_=_swift_v4_1527752991_8f15b78cbe75c207942b3bb2e196a907_=_--\r\n',''),(2,1,1,'Letter',9,'PK\0\0 D¯B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0_rels/.rels­’MKA†ïıCîİl+ˆÈÎö\"Bo\"õ„™ìîĞÎ3i­ÿŞA\nºPŠ Ç¼yóğÒmÎş Nœ‹‹AÃªiAq0Ñº0jxÛ=/`Ó/ºW>ÔJ™\\*ªŞ„¢aIˆÅLì©41q¨›!fORÇ<b\"³§‘qİ¶÷˜2 Ÿ1ÕÖjÈ[»µûHü76z²$„&f^¦\\¯³8.NydÑ`£y©qùj4•x]hı{¡8ÎğS4GÏA®yñY8X¶·•(¥[Fwÿi4o|Ë¼ÇlÑ^â‹Í¢ÃÙôŸPKèĞ#Ù\0\0\0=\0\0PK\0\0 D¯B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/_rels/document.xml.rels­‘M\nÂ0…÷\"ÌŞ¦U‘¦nDp+õ\01¶Á6	É(z{ŠZ(âÂåü}ï1/__û]Ğm€,I¡Q¶Ò¦p(·Ó%¬‹I¾ÇNR\\	­vÅ´DnÅyP-ö2$Ö¡‰“Úú^R,}ÃT\'Ù Ÿ¥é‚ûO&ÛUü®Ê€•7‡¿°m]k…«Î=\Z\Z‘àn†H”¾Ağ¨“È>.?û§|m\r•òØáÛÁ«õÍÄü¯?@¢˜åç§…IÎáwPKù/0ÀÅ\0\0\0\0\0PK\0\0 D¯B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/settings.xmlEKÂ0D÷œ\"òXğ©H»ãÀBk RbG±¡Àé	+–£73zûî•¢yb‘‘ÉÃráÀ õ<Œtóp>æ[0¢†™ĞÃºv¶Ÿ\ZAÕÚSHšÉÃ]57ÖJÇdÁ©²+—´Ær³—!îQ¤NS´+çÖ6…‘ ­—æd¦&cé‘´ê8ö¼†GÔS¸•s­<Cô°q»¶—öPKvÕ­¥\0\0\0Ğ\0\0\0PK\0\0 D¯B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/fontTable.xmlÅÁNÃ0†ï<E”;KÙMÕÚiâÈÆx©»FJâ*-}{²¶;Q¤&qKìßÿ÷ÛÛİ§³¢ÃÀ†|!V™è5UÆŸ\nù~x¾ßHÁ|–<r@–»ònÛç5ùÈ\"{ÎC!›Û\\)Ö\r:àµèS¯¦à ¦o8)ªk£ñ‰ô‡CÕ:ËU@1¡¹1-ËÙ­¿Æ­§Pµ42§¬ÎN~Œ—åœNô¹—BŒC/Ø‹Wr0	tñ¬éÀ2Ë¤\ZçÀ;\\ªa”ÖDİ\\êG‹ç–š`ß oƒ;’]d­oÍÚ\'É2jq-î\róQWÜrsó[ş¸ß¿£~uÊùÁåPKÌI—Š\0\0w\0\0PK\0\0 D¯B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/styles.xml½V[oÚ0~ß¯ˆòŞæBËMM+Æ„@B¬İŞ‰!^Û²úëg‡„–Òd	cãÇÇ>ö÷›ÏİÃ6!Ö3\ZØŞµk[ˆ†,ÂtØ?&W}Û’\nh„QØ;$í‡û/wÙPªAÒÒúT³À•âCÇ‘aŒ×Œ#ª×ÖL$ ôTlœŒ‰ˆ\")õñ	q|×í:	`jß—ZÅ8‹;ÿĞ€²¡Úq}7<Î·SHÌî ı\r­!%ÊZ\Z\rÛÉ—ÑV•ËÅA¹œ?\n3d8bÙ˜Q%)·­ÈB[¦œs”*6İñQYîR\"-61m·5aÙcJCõqÙ9\\%Ša¢o3§€1ì‘À@¹P\Z¿àgj-J#B ÕHb8YˆGTts!#L”—»æ7*(¼–Rß-%ãÿf/#@7Z¶Â‘>öu»½:¾¾”ä:”\\-æ·œ”S8«Ú{^ïM˜x³¼=¤H}§GÎóº^õŞyõƒÉ›£ôÛ ôÏ@é_e§\rÊÎ(;—@éİ¾Ác3THœÀœQ-¥HYsLŸ«\\{»_(òç$ĞûEX§-M¼Lÿ6qOÚ…u·…/ª=áV1ïÕªg„øBïÙ\'1‡çÜ`­m¨k¶Ÿ—ÈÒ¥™ÄvËÂ m¼U)åAå¸Ìı¯õ®õ?©Dı–¶ï5±ı“±éWíşÚú2ø¹ænÁ¸ß„ñKU“ô½*¶ıê¬&æ,ÆÊšb\Zá–.4!0®tr†ÃÇ+Şn]ZĞ\"MVº¹i”9ÌùÄNÙïÿÇòc:ÜT=Ì-Ş®F\rÒŒFhÛŞ²¾ÛÀ²ÿ(hüF½ÃD˜‰iä¾óŒø÷k:ˆšŠX[åÜ–Lõ¦¢ÕğTñ«é=Zğ;eS~ÉûßPKTÌ“¤\0\0E\0\0PK\0\0 D¯B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/document.xmlíW[oÓ0~çWDy^—tE¢5P\r´©bã¹öIbğ%²Oš•iÿ;·¶¢š6n•`}ˆ{|>ûûÎ‰íøœİH¬ÀX®Õ,Ça\0ŠjÆU>?]Ÿ^†E¢ZÁ,\\ƒ\rÏÒg§uÂ4­$(ÜÊ&zVF%– ‰IN¶:ÃÕ2ÑYÆ)tMØ0³°@,“(êë”óeÚH‚Î4yÔ™w\\ÑIO#‚ Ók^Ú~¶Õ}ü+)z\\ıÖZV\ZMÁZ—)Z^I¸\Z¦ÇØÏ3Œ(ÂÌ©·(w…Ì[g˜ºô/5[û¶lÓ4W¸ÔÉŠˆYh½‡Qz\Z\rˆöÑş·ßzäIƒò=oín_4 1}M%5ı\n8Zè\Z°`a4«(Ú£à½¢Ç8µcÆî\\¸¼¹Ed\0ğGÄ9á&ã ØQpùa×5z£>ÆŸtÙ3\",´¡.7‘nõ>6%·î]—D­E$ÜíSÿk)æo—ûL3n5ôd¿+GQöÄùg7Úœ $ÃbB²ŒvÚô–9À!@s\Z,u…÷ªÌ¸€í}q(¥îŒútŸÖô¶ì|‡Öù¿pv‡šBâ’n‰¨°ù’ß=åşŸäô/õ\rXäÄ0ûôÿÒ«,˜ƒŸj%Y¥h³Ñ÷ª±îîğërP¢à$ï®fe~å™W¤L_N\\URû«üxü*ö€b1FÔÒ»&Ï=*Ó\ZÁÕ\Z±7ò\n7F„\r†€7ƒÏ‹-uÙÕe%¯[©™t8”K\"Z¯¿«¹oî¹_¢iÎ\r4¹èıÂ\\/[·+©ŞÎœƒÄ\\•„ºŠkròbÚ„+¸‚GêR0™6š}¶<yF*]âû\\F}‰mJµô;PKmˆÃ˜\0\0ï\r\0\0PK\0\0 D¯B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0docProps/app.xmlĞ=kÃ0à½¿Âˆ¬¶×˜d…–Ò)Ğnéféœ¨XHçàüûª-4™;ïñğŞñİb§â1ï:²®)À)¯;vä­.7¤H(–“wĞ‘$²wü5ú\0\r¤\".uä„¶”&u+S•c—“ÑG+1ñHı8\ZO^ÍÒš±–Â‚à4è2üäWÜñ¿¨öê»_zï/!{‚÷åÔb}_szùC“Qóùbo^~<ÚT¬ª«zµ7n^†M;´Mq³0ä¾Ÿ 6ŒY¶zœÍ¤ËLßzœ^¿$¾\0PKIßÇä\0\0\0j\0\0PK\0\0 D¯B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0docProps/core.xml}’ÑNÃ †ï}Š†û°ÎMÒv‰š]¹ÄÄw„mh¡pİŞ^Š[unñ®§çãã‡C1İª&Ù€u²Õ%¢A	hÑÖR¯Jô¼˜¥”8ÏuÍ›VC‰vàĞ´º(„a¢µğh[ÖKpIiÇ„)ÑÚ{Ã0vb\rŠ»,:4—­UÜ‡Ò®°áâƒ¯\0_rx^sÏq/LÍ`D{e-¥ù´MÔC\n´w˜fÿ°Jú³+Í_´«ÜY8vrëä@u]—uyäB~Š_çOñ¨©ÔıU	@U±W3a{¨“ `ßÁ—üî~1CUpLRr“ÒÑ‚NX>ft”òVà?ŠŞùıİÚjV¾ë¤ß×†QõğĞëgÓpççaŠK	õíî?E†ÄjÿïßÈ4OÉ(F&,¤¾\ZG>8bÙ?¯ŠÒ¸ñPÇêøU_PKtG\0\0‘\0\0PK\0\0 D¯B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0[Content_Types].xml½”1OÃ0…÷şŠÈ+JBI: 1B‡0#c_‹Ä¶|¦´ÿsh#¨´°X²üî}Ïç“‹åfè“5xÔÖ”ì<ËYFZ¥M[²‡ú6½bËjQÔ[˜Ö`ÉºÜ5ç(;fÖ¡“ÆúAÚú–;!ŸEü\"Ï/¹´&€	iˆ¬*î	çµ‚d%|¸”Œ?zè‘gqeÉÍ{Ad–L8×k)åãk£>ÑÒ)V\Zì´Ã30ş=éÕzµÃ)+_e$ÿ74BÔ\\ŒĞŸñlÓh	Sèèæ¼•€H~tƒ½ól„† µxêáô&ëù>„mÑ…ÑwÿñíO`:„6‡rpå­CNÀ£cÀ†*¨”²8ğAîÁÄ–Öÿbö£«¿ÿ‹ê\rPKcî¤a*\0\0^\0\0PK\0\0\0 D¯BèĞ#Ù\0\0\0=\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0_rels/.relsPK\0\0\0 D¯Bù/0ÀÅ\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/_rels/document.xml.relsPK\0\0\0 D¯BvÕ­¥\0\0\0Ğ\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0!\0\0word/settings.xmlPK\0\0\0 D¯BÌI—Š\0\0w\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/fontTable.xmlPK\0\0\0 D¯BTÌ“¤\0\0E\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0H\0\0word/styles.xmlPK\0\0\0 D¯BmˆÃ˜\0\0ï\r\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0)\0\0word/document.xmlPK\0\0\0 D¯BIßÇä\0\0\0j\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\n\0\0docProps/app.xmlPK\0\0\0 D¯BtG\0\0‘\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\"\0\0docProps/core.xmlPK\0\0\0 D¯Bcî¤a*\0\0^\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0¨\0\0[Content_Types].xmlPK\0\0\0\0	\0	\0<\0\0\0\0\0\0','docx');
 /*!40000 ALTER TABLE `ab_email_templates` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -499,6 +533,30 @@ LOCK TABLES `ab_sent_mailings` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `ab_settings`
+--
+
+DROP TABLE IF EXISTS `ab_settings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ab_settings` (
+  `user_id` int(11) NOT NULL,
+  `default_addressbook_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ab_settings`
+--
+
+LOCK TABLES `ab_settings` WRITE;
+/*!40000 ALTER TABLE `ab_settings` DISABLE KEYS */;
+INSERT INTO `ab_settings` VALUES (1,1);
+/*!40000 ALTER TABLE `ab_settings` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `bm_bookmarks`
 --
 
@@ -554,7 +612,7 @@ CREATE TABLE `bm_categories` (
 
 LOCK TABLES `bm_categories` WRITE;
 /*!40000 ALTER TABLE `bm_categories` DISABLE KEYS */;
-INSERT INTO `bm_categories` VALUES (1,1,12,'General',0);
+INSERT INTO `bm_categories` VALUES (1,1,11,'General',0);
 /*!40000 ALTER TABLE `bm_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -624,7 +682,7 @@ CREATE TABLE `cal_calendars` (
 
 LOCK TABLES `cal_calendars` WRITE;
 /*!40000 ALTER TABLE `cal_calendars` DISABLE KEYS */;
-INSERT INTO `cal_calendars` VALUES (1,1,1,34,'System Administrator',0,0,NULL,1800,0,0,0,1,'',0,0,6,1,0,'','',1);
+INSERT INTO `cal_calendars` VALUES (1,1,1,34,'System Administrator',0,0,NULL,1800,0,0,0,1,'',0,0,8,1,0,'','',1);
 /*!40000 ALTER TABLE `cal_calendars` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -675,7 +733,7 @@ CREATE TABLE `cal_events` (
   `description` text,
   `location` varchar(100) NOT NULL DEFAULT '',
   `repeat_end_time` int(11) NOT NULL DEFAULT '0',
-  `reminder` int(11) NOT NULL DEFAULT '0',
+  `reminder` int(11) DEFAULT NULL,
   `ctime` int(11) NOT NULL DEFAULT '0',
   `mtime` int(11) NOT NULL DEFAULT '0',
   `muser_id` int(11) NOT NULL DEFAULT '0',
@@ -863,6 +921,7 @@ CREATE TABLE `cal_settings` (
   `background` char(6) NOT NULL DEFAULT 'EBF1E2',
   `calendar_id` int(11) NOT NULL DEFAULT '0',
   `show_statuses` tinyint(1) NOT NULL DEFAULT '1',
+  `check_conflict` tinyint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`user_id`),
   KEY `calendar_id` (`calendar_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -874,7 +933,7 @@ CREATE TABLE `cal_settings` (
 
 LOCK TABLES `cal_settings` WRITE;
 /*!40000 ALTER TABLE `cal_settings` DISABLE KEYS */;
-INSERT INTO `cal_settings` VALUES (1,0,'EBF1E2',1,1);
+INSERT INTO `cal_settings` VALUES (1,0,'EBF1E2',1,1,1);
 /*!40000 ALTER TABLE `cal_settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1458,7 +1517,7 @@ CREATE TABLE `co_comments` (
   `user_id` int(11) NOT NULL,
   `ctime` int(11) NOT NULL,
   `mtime` int(11) NOT NULL,
-  `comments` text,
+  `comments` mediumtext,
   `category_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `link_id` (`model_id`,`model_type_id`)
@@ -1522,7 +1581,7 @@ CREATE TABLE `em_accounts` (
   `deprecated_use_ssl` tinyint(1) NOT NULL DEFAULT '0',
   `novalidate_cert` tinyint(1) NOT NULL DEFAULT '0',
   `username` varchar(50) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
+  `password` varchar(512) DEFAULT NULL,
   `imap_encryption` char(3) NOT NULL,
   `imap_allow_self_signed` tinyint(1) NOT NULL DEFAULT '1',
   `mbroot` varchar(30) NOT NULL DEFAULT '',
@@ -1535,7 +1594,7 @@ CREATE TABLE `em_accounts` (
   `smtp_encryption` char(3) NOT NULL,
   `smtp_allow_self_signed` tinyint(1) NOT NULL DEFAULT '0',
   `smtp_username` varchar(50) DEFAULT NULL,
-  `smtp_password` varchar(255) NOT NULL DEFAULT '',
+  `smtp_password` varchar(512) NOT NULL DEFAULT '',
   `password_encrypted` tinyint(4) NOT NULL DEFAULT '0',
   `ignore_sent_folder` tinyint(1) NOT NULL DEFAULT '0',
   `sieve_port` int(11) NOT NULL,
@@ -1790,7 +1849,7 @@ CREATE TABLE `em_links` (
   `mtime` int(11) NOT NULL DEFAULT '0',
   `muser_id` int(11) NOT NULL DEFAULT '0',
   `acl_id` int(11) NOT NULL,
-  `uid` varchar(190) NOT NULL DEFAULT '',
+  `uid` varchar(255) CHARACTER SET ascii COLLATE ascii_bin NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   KEY `account_id` (`user_id`),
   KEY `uid` (`uid`)
@@ -1893,75 +1952,6 @@ LOCK TABLES `emp_folders` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `fav_addressbook`
---
-
-DROP TABLE IF EXISTS `fav_addressbook`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `fav_addressbook` (
-  `user_id` int(11) NOT NULL,
-  `addressbook_id` int(11) NOT NULL,
-  `sort` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `fav_addressbook`
---
-
-LOCK TABLES `fav_addressbook` WRITE;
-/*!40000 ALTER TABLE `fav_addressbook` DISABLE KEYS */;
-/*!40000 ALTER TABLE `fav_addressbook` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `fav_calendar`
---
-
-DROP TABLE IF EXISTS `fav_calendar`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `fav_calendar` (
-  `user_id` int(11) NOT NULL,
-  `calendar_id` int(11) NOT NULL,
-  `sort` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `fav_calendar`
---
-
-LOCK TABLES `fav_calendar` WRITE;
-/*!40000 ALTER TABLE `fav_calendar` DISABLE KEYS */;
-/*!40000 ALTER TABLE `fav_calendar` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `fav_tasklist`
---
-
-DROP TABLE IF EXISTS `fav_tasklist`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `fav_tasklist` (
-  `user_id` int(11) NOT NULL,
-  `tasklist_id` int(11) NOT NULL,
-  `sort` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `fav_tasklist`
---
-
-LOCK TABLES `fav_tasklist` WRITE;
-/*!40000 ALTER TABLE `fav_tasklist` DISABLE KEYS */;
-/*!40000 ALTER TABLE `fav_tasklist` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `fb_acl`
 --
 
@@ -1981,7 +1971,6 @@ CREATE TABLE `fb_acl` (
 
 LOCK TABLES `fb_acl` WRITE;
 /*!40000 ALTER TABLE `fb_acl` DISABLE KEYS */;
-INSERT INTO `fb_acl` VALUES (1,44);
 /*!40000 ALTER TABLE `fb_acl` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2124,7 +2113,7 @@ CREATE TABLE `fs_folders` (
   KEY `parent_id` (`parent_id`),
   KEY `parent_id_2` (`parent_id`,`name`),
   KEY `visible` (`visible`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2133,7 +2122,7 @@ CREATE TABLE `fs_folders` (
 
 LOCK TABLES `fs_folders` WRITE;
 /*!40000 ALTER TABLE `fs_folders` DISABLE KEYS */;
-INSERT INTO `fs_folders` VALUES (1,1,0,'addressbook',0,32,NULL,1,1482907222,1482907222,1,1,1,NULL,0),(1,2,1,'Users',0,32,NULL,1,1482907222,1482907222,1,1,1,NULL,0),(1,3,0,'tasks',0,33,NULL,1,1482907222,1482907222,1,1,1,NULL,0),(1,4,3,'System Administrator',0,33,NULL,1,1482907222,1482907222,1,1,1,NULL,0),(1,5,0,'calendar',0,34,NULL,1,1482907222,1482907222,1,1,1,NULL,0),(1,6,5,'System Administrator',0,34,NULL,1,1482907222,1482907222,1,1,1,NULL,0),(1,7,0,'users',0,27,NULL,1,1482907222,1482907222,1,1,1,NULL,0),(1,8,7,'groupofficeadmin',0,0,NULL,1,1482907222,1482907222,1,1,0,NULL,0),(1,9,8,'Public',1,35,NULL,1,1482907222,1482907222,1,1,0,NULL,0);
+INSERT INTO `fs_folders` VALUES (1,1,0,'notes',0,24,NULL,1,1527753007,1527753007,1,1,1,NULL,0),(1,2,1,'General',0,24,NULL,1,1527753007,1527753007,1,1,1,NULL,0),(1,3,0,'addressbook',0,32,NULL,1,1527753011,1527753011,1,1,1,NULL,0),(1,4,3,'Users',0,32,NULL,1,1527753011,1527753011,1,1,1,NULL,0),(1,5,0,'users',0,18,NULL,1,1527753011,1527753011,1,1,1,NULL,0),(1,6,5,'groupofficeadmin',1,33,NULL,1,1527753011,1527753013,1,1,1,NULL,0),(1,7,0,'calendar',0,34,NULL,1,1527753012,1527753012,1,1,1,NULL,0),(1,8,7,'System Administrator',0,34,NULL,1,1527753012,1527753012,1,1,1,NULL,0),(1,9,0,'tasks',0,35,NULL,1,1527753012,1527753012,1,1,1,NULL,0),(1,10,9,'System Administrator',0,35,NULL,1,1527753012,1527753012,1,1,1,NULL,0),(1,11,6,'Public',1,36,NULL,1,1527753013,1527753013,1,1,0,NULL,0);
 /*!40000 ALTER TABLE `fs_folders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2337,7 +2326,7 @@ CREATE TABLE `fs_templates` (
 
 LOCK TABLES `fs_templates` WRITE;
 /*!40000 ALTER TABLE `fs_templates` DISABLE KEYS */;
-INSERT INTO `fs_templates` VALUES (1,1,'Microsoft Word document',28,'PK\0\0H°B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0_rels/.rels­’MKA†ïıCîİl+ˆÈÎö\"Bo\"õ„™ìîĞÎ3i­ÿŞA\nºPŠ Ç¼yóğÒmÎş Nœ‹‹AÃªiAq0Ñº0jxÛ=/`Ó/ºW>ÔJ™\\*ªŞ„¢aIˆÅLì©41q¨›!fORÇ<b\"³§‘qİ¶÷˜2 Ÿ1ÕÖjÈ[»µûHü76z²$„&f^¦\\¯³8.NydÑ`£y©qùj4•x]hı{¡8ÎğS4GÏA®yñY8X¶·•(¥[Fwÿi4o|Ë¼ÇlÑ^â‹Í¢ÃÙôŸPKèĞ#Ù\0\0\0=\0\0PK\0\0H°B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/_rels/document.xml.rels­‘M\nÂ0…÷\"ÌŞ¦U‘¦nDp+õ\01¶Á6	É(z{ŠZ(âÂåü}ï1/__û]Ğm€,I¡Q¶Ò¦p(·Ó%¬‹I¾ÇNR\\	­vÅ´DnÅyP-ö2$Ö¡‰“Úú^R,}ÃT\'Ù Ÿ¥é‚ûO&ÛUü®Ê€•7‡¿°m]k…«Î=\Z\Z‘àn†H”¾Ağ¨“È>.?û§|m\r•òØáÛÁ«õÍÄü¯?@¢˜åç§…IÎáwPKù/0ÀÅ\0\0\0\0\0PK\0\0H°B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/settings.xmlEKÂ0D÷œ\"ò’²àS‘²ãÀBk RbG±¡Àé	+–£73z»ı+EóÄ\"#“‡fáÀ õ<Œtóp>æ0¢†™ĞÃöİl7µ‚ªµ%¦>´“‡»jn­•ş)È‚3ReW.)håf\'.C.Ü£H¦h—Î­l\n#AW/?ÌÉLmÆÒ#iÕiØğ\ZQOárTÎµòÑÃÚmØş]º/PKeúÖ\"¥\0\0\0Ğ\0\0\0PK\0\0H°B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/fontTable.xml­ÁNÃ0†ï<E”;KÙMÕº		qä\0ã¼Ô]#%q‡†¾=YÛ(Ò@»%öïÿûííşËYÑc`C¾’«B\nôšjãO•ü8¼Üo¤à¾K+9 Ëıîn›Ê†|d‘Ç=—¡’mŒ]©ëğŠ:ô¹×Ppó7œ5ÑøLúÓ¡j]* …˜ÑÜšåì–®qKê.FæœÕÙÉÏñr7§©ôàrèƒqÈâ“x#“@·Ïšl%‹Bªqœ±Ã¥\ZFùØèLÔí¥ŞC0p´xn©	öú>¸#ÙEÖúÖ¬§,YF-®ÅÉ0ÿuÅ-77¿å¯û-£ş´ßüàİ7PK‘ˆZ]\0\0\0\0PK\0\0H°B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/styles.xml¥TQoÚ0~ß¯ˆüNh£5TŒ©	±©Ğ½ÉA¼9¶ås\Zè¯Ÿ’j´ x‰íóİå¾ï;ßıÃ6Á\ZâJF¬sÓfÊX%\\n\"ö¼|lõY@dBIŒØ‰=¿Ü²;¸xIƒ\"b©µz†§˜İ(Òİ­•ÉÀº£Ù„…2‰6*F\"—>a·İî…pÉ†uÂ Z§IÄÊ+¨ØvÿÖ``c@§¥»„Ì{¿€ˆØ\\C.l°ğ,,¯qkëë*Qi×¿Œ_\n¨b¬¤5JÔnkTES®µqur«&;¢¤ÚËš¼t\nßr™jyté¼PÌyÄ–<süÌ±TÒãˆ)b3•rL¸L¸7!âüÎƒHòéHÒ‘,ey±ÊÔ«±ªúµ¶u¿Ö–1½·	g[ñÄ¥Oyk:?¬ã5mKS…²õ¼¨ğ–@ÃJ¡Ó’u¾5Ñl‚à»l_Ó\n“Ÿò˜`„ìô”ü‹¨çÎgWCÌKx°¶h\\GwËZ¡kDô´k¥uA9ˆÅ[Èa|ªïÈpªº}/Zÿˆhı3¹ï5á~é9ı®’İÕìFø¥tŸø¶	â\'{\Zl\rê#ÚÛÿĞîˆ÷pdı&\0Æ ­›ÑÖ?¬šl3.qg+7ú½¼úåá©ğıwLgØÜŞ5áv*Ü^Àì]f¯lšzGÃPKÕ”qè\0\0«\0\0PK\0\0H°B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/document.xmlRËnÂ0¼÷+\"ßÁ¡TˆF.¨·VHĞ0Î&±d{#{!Ğ¯¯MĞKÅÅ›ÑÌ¾&»Ú\\ŒNÎà¼B›³Ù4e	X‰…²UÎ¾“%K<	[rvÏ6ë—U›(O,%¡‚õæìälæe\rFø‰QÒ¡Ç’&M†e©$ôõ.g5Q“qŞ\'M±¸ «x—²í{ñ×4]pZP˜××ªñCµóıÏFºö™®-º¢q(Áû`„Ñ]_#”ËÌÒ\'uÆŒæ™Î…íCË¿ƒl;’­ƒıG,®16·gçnaOW\rI›…Î™ e|½â£¢{â7ˆ\"R$uJº6c%Ú‰\nb­ ¬ö?©Ã¹,–ópm4u6{OƒàS¸$H„&Ró·¨*	Â_O#¨Nt5ˆb\ZJº\'9UÕ°éAßêëdİ¨¥	º¤2Bwl4vç†=J¡}¿…•¶Ê…uÃ!\r¼v‡cï×`œæ÷‹_ÿPK—úly\0\06\0\0PK\0\0H°B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0docProps/app.xmlĞ=kÃ0à½¿Âˆ¬¶TcL²BCéh·t3ŠtN¬¤spş}ÕšÌ÷xxïøv±Sq˜Œwy¬)À)¯;vä½)×¤H(–“wĞ‘+$²ü-ú\0\r¤\".uä„6”&u+S•c—“ÑG+1ñHı8\ZÏ^ÍÒš±–Â‚à4è2üäWÜ\\ğ¿¨öê»_úè¯!{‚÷åÔ‚qzøS“Qóñbo^4ÚT¬ª«zµ7n^†Ïu;´Mq·0ä¶gPHÆ,[íf3é²æôŞãôö#ñPK(ë›â\0\0\0h\0\0PK\0\0H°B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0docProps/core.xmlm‘[OÂ0†ïıKï·¶ D›m\\h¸’ÄDŒ†»¦ûÕõ¶2ø÷¶&\Zîúå}úôğ–‹½ê²8/®-Ê@ÓHİVèu½ÌïPæ×\rïŒ†\nÀ£E}S\nË„qğìŒ$ø,Š´gÂVh‚e{±Å}	Ããqt-¶\\|ñğ„9VxÃÇI˜ÛÑˆNÊFŒJûíºAĞ(ĞÁcZPüË*®î8‡t\0§üUxHFrïåHõ}_ôÓ‹÷§ø}õô2<5—:}•\0T—\'5x€&‹v¼Ø9y›><®—¨:ÍÉ,§ó5%lvÏncdSâŠä<®«Wàä§ÎÒ¹.V•à1Kİ8ØÉTiMJ|9ÓßâêPK¿Âi\0\0\0\0PK\0\0H°B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0[Content_Types].xml½”1OÃ0…÷şŠÈ+JBI: 1B‡0#c_‹Ä¶|¦´ÿsh#¨´°X²üî}Ïç“‹åfè“5xÔÖ”ì<ËYFZ¥M[²‡ú6½bËjQÔ[˜Ö`ÉºÜ5ç(;fÖ¡“ÆúAÚú–;!ŸEü\"Ï/¹´&€	iˆ¬*î	çµ‚d%|¸”Œ?zè‘gqeÉÍ{Ad–L8×k)åãk£>ÑÒ)V\Zì´Ã30ş=éÕzµÃ)+_e$ÿ74BÔ\\ŒĞŸñlÓh	Sèèæ¼•€H~tƒ½ól„† µxêáô&ëù>„mÑ…ÑwÿñíO`:„6‡rpå­CNÀ£cÀ†*¨”²8ğAîÁÄ–Öÿbö£«¿ÿ‹ê\rPKcî¤a*\0\0^\0\0PK\0\0\0H°BèĞ#Ù\0\0\0=\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0_rels/.relsPK\0\0\0H°Bù/0ÀÅ\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/_rels/document.xml.relsPK\0\0\0H°BeúÖ\"¥\0\0\0Ğ\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0!\0\0word/settings.xmlPK\0\0\0H°B‘ˆZ]\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/fontTable.xmlPK\0\0\0H°BÕ”qè\0\0«\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0F\0\0word/styles.xmlPK\0\0\0H°B—úly\0\06\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0›\0\0word/document.xmlPK\0\0\0H°B(ë›â\0\0\0h\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0S\0\0docProps/app.xmlPK\0\0\0H°B¿Âi\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0s	\0\0docProps/core.xmlPK\0\0\0H°Bcî¤a*\0\0^\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0Ñ\n\0\0[Content_Types].xmlPK\0\0\0\0	\0	\0<\0\0<\0\0\0\0','docx'),(2,1,'Open-Office Text document',29,'PK\0\0\0\0\0K;\Z9^Æ2\'\0\0\0\'\0\0\0\0\0\0mimetypeapplication/vnd.oasis.opendocument.textPK\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\Z\0\0\0Configurations2/statusbar/PK\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\'\0\0\0Configurations2/accelerator/current.xml\0PK\0\0\0\0\0\0\0\0\0\0\0PK\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0Configurations2/floater/PK\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\Z\0\0\0Configurations2/popupmenu/PK\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0Configurations2/progressbar/PK\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0Configurations2/menubar/PK\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0Configurations2/toolbar/PK\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0Configurations2/images/Bitmaps/PK\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0content.xml¥VËn!İ÷+F,ºc\']$S£JQ¥JIMZuK€±iyLñØ_1N2	’7¶¹œs¹œs/ov‚[ª\rS²‹ÙTbE˜\\×àçã×ò\nÜ¬>,UÓ0L+¢p\'¨´%VÒºïÂ±¥©âl\r:-+…3•D‚šÊâJµT¬*EWa­1vÏ³éœ²-İÙ\\²ÇpÑSşÊœ²‰F}.Ùc¨)½Q¹äáe£œê¢E–=«bÇ™ü[ƒµmaß÷³şr¦ô\Z.®¯¯a˜Æ#®í4(‚!åÔ/fàb¶€VP‹rëóØ´$Ù‰\'ª³¥A½pÕl×Ù±]OHƒ7Hg÷F\0ŸÚ{Iòí½$)W »™ğä\nŞ»Éğqwì-r×òØ©°fmö6#:å+¥ÆR=!ĞPîÅ|ş	Æq‚îß„÷šYª8~Ç£âJ¼&šÃ- C”tëÛtl|/„™ \\À8=‚\r™Lıûşîo¨@G0{\\2i,’Ge\ZFùĞ0ãF^Ğ]K5ó6 î4ñ›Q¤q)œTª­’Ñ™9¹™`5\\ÃÑBÇ@ã®ã²A˜–„bnVËxœÆpÇ¾”\Z<º2LñöÅ%…;?T0¾¯ÁGÔ*óù.Aq’ÚãË5•noÎe}ÈwD´Ìbw¶H3yøvi_Œ¿RĞŸ^ÚôÌ˜s–¾¥Ğ¯®x@ÒL*’`2Ô0{c©x¯&8eá!:ëTµ—!Obú“\"ûqà¶Õ2<o†şëÜ>&z,Bˆ0Ór´/UgİAKîN¯k¾0eùÆyg¬v(éË=+Ùã°éó²¸Ÿg\'¹Ïqp`Zµ6R‚òe$>¸#O&©wQ|xâœøË´úPKÕ\0=@\0\0s	\0\0PK\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\n\0\0\0styles.xmlÍYKÛ6¾÷W*ÚmË»›®İìE‹¢’š´×€–h‹	E\n$eÙùõ’¢DË’WûHá=, Îpæã<Éñë7ûœMvD**ø]OçÑ„ğD¤”oï¢?ş‰n£7÷?¼›\rMÈ*I™®‘ÒFÔ6sµrÄ»¨”|%°¢jÅqNÔJ\'+Qî7­Bî•UåV¬°±Û-s¸[“½»ÙğíÅëñš-s¸;•¸\Z»Ùğ‚MÃí1vó^1´(y5í Ø3Ê¿ÜE™ÖÅj6«ªjZ]M…ÜÎâår9³ÔpÒğ¥d–+Mf„£LÍâi<ó¼9Ñx,>ÃBâe¾&r´i°Æ\'^U»íèˆØmL“dX\rË|ìŞ«t¼{¯Òpou6à“ÛÙ; ÚïŞ¶± ó±ºï‘©I‹ÑÇtÜá~!DÕlp	já.æóë™û¸«³ì•¤šÈ€=9Ë`–4yŸÑ€/\";¦Ñ¤.!AÙŠ£{_£6êÓ\'¥$aêşµ‹­fyâ¾î¢,5yOªÉ?\"Ç<š@0yÖœ²Ã]ô3.„úµÃç£É‘hÃ¶„IáÈ²–×rT\';,©©$Ñì<´ß€õ\0òëÃªUE•zê?Ègü_9ù€¹\Z´HÀ3Â\Zê 4ÉÂ4ra½îºÇ’\r.Yİ‹¼ä\ZãVâ\"£IäyëoTHˆA©)8ÓTä•Êp**òÑhÍ§W	àì!:D\råAu%H8Ú2!éW€™a]ÜeŞÉ)+$ìX©\'¬=2k³08GEu†\\·Ü`¦‚((°ÄÖB¡}Éğ#\\jat@hĞ”ÇŠY‘a¯ÀÂXK‚¡)\r.×bÊÁ–‹¶3‰ôú((O‰©RæVÆƒô¡û‚§E¡LœÃnØ\rî“Ó”Š€¸ñªU& OiYB}Û‡HÑ¯€4^Ú®1Ì·%ŞÂgv!%×ÂáıÛæøDCÍC_ˆäºœÒÈDP›±©VóéMÑØÇ‹÷Ô¯û½\'ÕŠ<…Ş#Ôt>FöpGhCíÛĞ¬àÖ¬Gy5&Ù\Z?Dg\nL—ŠŒphÔ‚#†ÓlfÑàıœ6\'wEÉ]:¡}ÀÑÁ¦(”RHOn”ÄÓÅMÜfÍqè`Ï6e_çšÏ÷Œ@£ÒGÒq}ÿÎQj7±vVõKÅrjÄ’nüI’cÊ‘¹öù \\œ0¥Ê:,ÏHû‚+\Z#a¹ÆZH“&è C1\\(ÑÏUŒ¤¨:Êa¥“¡_)[¢3sƒ7øâP¡ìO)–i4X(¼ûV\nàA2µ©u*ï/‚Ó §ÅÁBó8EıP¸ÉÛá#,|ZÌ?­EzèƒõPIË±„z&+L×½^Ø®Û®¯…ÖæV\r9^Ô$kcÛ¹íÆ˜Uø ª-Aá¨¯€rqİæÌÓ2¾WÀc3×iæ@é3>”ã‚áCàIH~óŸì×ó>}Ü·Ğir31ÊŒÈsäèÅc|ô;.L)|AûJ‰™Xmö%–í¸Éƒ½Hª¦ğ[Š½øÁÄ|8Ùz°[sƒ*\nwqx[œ5ïÑš¤¦mîí}Áö†^í¿¿án½AïQ+ï¬÷^È\n_+Y”Ú½!zÖÙVwGÃ,€¸¦5”92³%¹9ŸÉ¯zk÷€95—Ø5PÚ$¼oãº$i‰kq¡¸®.×õ…âº¹P\\¯.×/ŠëöBq-/W<ÿÿ“B´\\h¢ ‰ò\rİ–Ò>î&\rÕ­m#„6ß}Àãºy¹QŞ³Ò ªıF…\n¡¨¶Ci;/÷¸g\nFË›GHx:öôâEZ}jûµ€ÚçÍrÙGú¬Si­ÀÈF×4Êih251˜öZií×<9A&M\'ø›Æ¼àİ£ûM‘ÇQOçNg)MÍÏ2‹ùtéâ	¡ÛÌ¼î—ÓWgX+j$$…£àÚ×BÂ•–ê¨{q¸´v–‘Ne\rihÕ¥º\0D9Ş7§1Ï–vĞ_3(RxqÎ\Zóé<¾m•ø”Ck\'·ü†\'Ç=<xc†N},8ı\\*í¼íbÀ­KHVï†›ŸÚ1“ı8·Q8âís¨?TF°•ØYxÒ`ñTPy§¡Vr¬\Z¶zÑH:;í1·!\Z|Gú¬ÿÇõûoPKê„EÑ}\0\0œ\0\0PK\0\0\0\0\0K;\Z9‘gŠ²\0\0\0\0\0\0\0meta.xml<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<office:document-meta xmlns:office=\"urn:oasis:names:tc:opendocument:xmlns:office:1.0\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:meta=\"urn:oasis:names:tc:opendocument:xmlns:meta:1.0\" xmlns:ooo=\"http://openoffice.org/2004/office\" office:version=\"1.1\"><office:meta><meta:generator>OpenOffice.org/2.4$Linux OpenOffice.org_project/680m17$Build-9310</meta:generator><meta:initial-creator>Merijn Schering</meta:initial-creator><meta:creation-date>2008-08-26T09:26:02</meta:creation-date><meta:editing-cycles>0</meta:editing-cycles><meta:editing-duration>PT0S</meta:editing-duration><meta:user-defined meta:name=\"Info 1\"/><meta:user-defined meta:name=\"Info 2\"/><meta:user-defined meta:name=\"Info 3\"/><meta:user-defined meta:name=\"Info 4\"/><meta:document-statistic meta:table-count=\"0\" meta:image-count=\"0\" meta:object-count=\"0\" meta:page-count=\"1\" meta:paragraph-count=\"0\" meta:word-count=\"0\" meta:character-count=\"0\"/></office:meta></office:document-meta>PK\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0Thumbnails/thumbnail.pngëğsçå’âb``àõôp	Ò[8Ø€¬¯Êæ·˜ö{º8†TÌy{i#\'ƒÏ\r|?ÿ?ıÒétĞC¼âÃ›w“~Ê2¬Ÿ9K&xrrV‘oßÊ“†¦–ËÔ_y2cTpTpÀÅÏå²ı3\nÿ*LÑ®~.ëœš\0PK„×ƒ£|\0\0\0ø\0\0PK\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0settings.xmlµYQsâ8~¿_ÑÉ;JoïÊ´ìºì±¥…ºÛ7“ÈÕ±2¶SàßŸì„N¡K	~¢MlÉ’¥ï“”ë¯«˜Ÿ½€TŠ¯~^óÎ@Fb~ã=Nº•¿½¯­?®q6‹h†¤1]Q 5-Qg´]¨föúÆK¥h\"S‘j\nƒjê ‰	ˆÍ¶æÛÕM«,{²â‘x¾ñZ\'Íju¹\\/ç(çÕúÕÕUÕ¾İ,\rPÌ¢ù¡ª²ÕoU!â«\"³!;ŒUvQ«]V³ÿ½³üo\\S÷Z?lÌo]ç\n²ŸJ¤!6¾9Ë›£İx¤²ùÁòÕk^Ñ¾÷{~Òz_›`âmŞèuBo\"¡½Víºº+áp©}˜é\"±•z­^û«œì§(Ô‹\"á—‹ÆŸådÿÑ|Qxò‹zıêHáã.GRAgÁÄÔ–‚)\"&¼––)§£\'Ú—\nî1„}ÒgŒ«ƒÅWb–T\"Â\nÂ]_G˜İC¹!×‡y¼nUiIáëµL0_“û¢¯Q«•º\'SÊUÑ”ƒ›\\±¢OÜVèh_Š4\Zõ‹/¥D·QkŒ÷¥_ã8Ù¿ã	IÚµÊã}a„vY Q‹­×ÜScàh»’‘Ëß&æ¾×y®/ b9œŠ²©dšˆí3œä‡áI6a\nã„N”C‚=Ã»°?ÇAå{ùƒT¤ï“şo<Ti<ù1%´õ©ryLB¦‹‹%õ-NôzÈÜpÖ\\ „n$•&3 G(tO¸tñ¯¤¬ÙÁ8‘ Léurl°“~àt¯ãJ˜‘İxW°AœpúÛQYÒèƒN·¹ä–PÊ[œÌf.|eí0ë(ŠóÊn(QlS<İÁz[Sğå²	&×^õÀ#[tpŞü ]”ÛD{ªÓ~ª1QGaÙAâ2äN¼CâA†û\'o1ƒ7ºFå‹°Í™xVätƒtÆƒ”[ztğ¾¨­†ı¼p$¼õ‘…#`!\n¾è§ASäü?A›à.n›t}[ÑuÆûd‘“zÃO¾~T o™f§ß5%†Ë„³ø™\r)¢ÃQ¦¿ÜUòã”ñÛ|¾b\ntĞSwtß¾Š˜¦\"Ğ©«4ôy4¼cÉUô‘šão§Ã£ÄW¯e/ÊmŸ$-•]¾¶äêÂTJº&ÔÍïSì`MÖÒ€—·ø€ºÃJ¸•l9˜ş§Â°¶ƒã[TáòÀEY“ÓÈÃnw¸?¬Œ.[•BL©¢äVúI²d È­.ŠRæ–ß1pVÏÙ„«¶DõÙ^È§Lù¶øM£[Iß¶Ó¾k*ĞNï´W“6–¸±É‚Ä¨W0¦ùZKSTQËØE\'W•uAUB5³+ùßÉ_‹²¥DñÁ9.­êD;LÀpĞ{* Ö:f\",h«ËíÅÿH•fk“6ê)Ò‹{&RÆÛØ³P#0uúL0O8ÌfŠ±M©à&}rt6¶˜oY¦ÎbkL·ÍÚÌá³	\nyjÎT†\\NuòQÅÚ,xKLÅŞÁŞ©£¼»›2ÇÎFİô±ÔtÏĞ½XQÜğ$Rõ›şé“ój;o®î|­îûLÜúPKt‘‡ğÛ\0\0h\0\0PK\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0META-INF/manifest.xmlµ•KjÃ0@÷=…ÑŞVÛU1q-ôé&òØè‡f’ÛWäÓ6”¦X;	¤÷F#Íh±Ú[Sí0’ö®OÍ£¨Ğ)ßk7vâcı^¿ˆÕòaaÁé‰ÛÓ Êû§HÑµHSëÀ\"µ¬ZĞõ^%‹Û¯ëÛÉ´|¨.àA¬óÂx¨.2ì5Ô|Ø	Áhœã”;×7GWs­h÷,.»‡dL€·BŞ%»MyónĞcŠÇ èY\'Ú@,ƒ¥Ğ`ú(UŠq:bÎbqWÁ`<0‚RÈO ÂG?F¤r7=…^ÎŞ›bpmaD’¯š-*ê¸“ı½_PrSõ4I7êZğ·î”OHNµzıü¿bşK|0H³c-2ÌÖxÖÛd7´!É§aÜ87|ŞÄ\"sşÏ©]ÈÿáòPK5b×9>\0\0J\0\0PK\0\0\0\0\0\0K;\Z9^Æ2\'\0\0\0\'\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0mimetypePK\0\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\Z\0\0\0\0\0\0\0\0\0\0\0\0\0M\0\0\0Configurations2/statusbar/PK\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\'\0\0\0\0\0\0\0\0\0\0\0\0\0…\0\0\0Configurations2/accelerator/current.xmlPK\0\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0Ü\0\0\0Configurations2/floater/PK\0\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\Z\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0Configurations2/popupmenu/PK\0\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0J\0\0Configurations2/progressbar/PK\0\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0„\0\0Configurations2/menubar/PK\0\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0º\0\0Configurations2/toolbar/PK\0\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0ğ\0\0Configurations2/images/Bitmaps/PK\0\0\0\0K;\Z9Õ\0=@\0\0s	\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0-\0\0content.xmlPK\0\0\0\0K;\Z9ê„EÑ}\0\0œ\0\0\n\0\0\0\0\0\0\0\0\0\0\0\0\0ö\0\0styles.xmlPK\0\0\0\0\0\0K;\Z9‘gŠ²\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0«\0\0meta.xmlPK\0\0\0\0K;\Z9„×ƒ£|\0\0\0ø\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0ß\0\0Thumbnails/thumbnail.pngPK\0\0\0\0K;\Z9t‘‡ğÛ\0\0h\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0¡\0\0settings.xmlPK\0\0\0\0K;\Z95b×9>\0\0J\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0¶\0\0META-INF/manifest.xmlPK\0\0\0\0\0\0î\0\07\0\0\0\0','odt');
+INSERT INTO `fs_templates` VALUES (1,1,'Microsoft Word document',19,'PK\0\0H°B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0_rels/.rels­’MKA†ïıCîİl+ˆÈÎö\"Bo\"õ„™ìîĞÎ3i­ÿŞA\nºPŠ Ç¼yóğÒmÎş Nœ‹‹AÃªiAq0Ñº0jxÛ=/`Ó/ºW>ÔJ™\\*ªŞ„¢aIˆÅLì©41q¨›!fORÇ<b\"³§‘qİ¶÷˜2 Ÿ1ÕÖjÈ[»µûHü76z²$„&f^¦\\¯³8.NydÑ`£y©qùj4•x]hı{¡8ÎğS4GÏA®yñY8X¶·•(¥[Fwÿi4o|Ë¼ÇlÑ^â‹Í¢ÃÙôŸPKèĞ#Ù\0\0\0=\0\0PK\0\0H°B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/_rels/document.xml.rels­‘M\nÂ0…÷\"ÌŞ¦U‘¦nDp+õ\01¶Á6	É(z{ŠZ(âÂåü}ï1/__û]Ğm€,I¡Q¶Ò¦p(·Ó%¬‹I¾ÇNR\\	­vÅ´DnÅyP-ö2$Ö¡‰“Úú^R,}ÃT\'Ù Ÿ¥é‚ûO&ÛUü®Ê€•7‡¿°m]k…«Î=\Z\Z‘àn†H”¾Ağ¨“È>.?û§|m\r•òØáÛÁ«õÍÄü¯?@¢˜åç§…IÎáwPKù/0ÀÅ\0\0\0\0\0PK\0\0H°B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/settings.xmlEKÂ0D÷œ\"ò’²àS‘²ãÀBk RbG±¡Àé	+–£73z»ı+EóÄ\"#“‡fáÀ õ<Œtóp>æ0¢†™ĞÃöİl7µ‚ªµ%¦>´“‡»jn­•ş)È‚3ReW.)håf\'.C.Ü£H¦h—Î­l\n#AW/?ÌÉLmÆÒ#iÕiØğ\ZQOárTÎµòÑÃÚmØş]º/PKeúÖ\"¥\0\0\0Ğ\0\0\0PK\0\0H°B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/fontTable.xml­ÁNÃ0†ï<E”;KÙMÕº		qä\0ã¼Ô]#%q‡†¾=YÛ(Ò@»%öïÿûííşËYÑc`C¾’«B\nôšjãO•ü8¼Üo¤à¾K+9 Ëıîn›Ê†|d‘Ç=—¡’mŒ]©ëğŠ:ô¹×Ppó7œ5ÑøLúÓ¡j]* …˜ÑÜšåì–®qKê.FæœÕÙÉÏñr7§©ôàrèƒqÈâ“x#“@·Ïšl%‹Bªqœ±Ã¥\ZFùØèLÔí¥ŞC0p´xn©	öú>¸#ÙEÖúÖ¬§,YF-®ÅÉ0ÿuÅ-77¿å¯û-£ş´ßüàİ7PK‘ˆZ]\0\0\0\0PK\0\0H°B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/styles.xml¥TQoÚ0~ß¯ˆüNh£5TŒ©	±©Ğ½ÉA¼9¶ås\Zè¯Ÿ’j´ x‰íóİå¾ï;ßıÃ6Á\ZâJF¬sÓfÊX%\\n\"ö¼|lõY@dBIŒØ‰=¿Ü²;¸xIƒ\"b©µz†§˜İ(Òİ­•ÉÀº£Ù„…2‰6*F\"—>a·İî…pÉ†uÂ Z§IÄÊ+¨ØvÿÖ``c@§¥»„Ì{¿€ˆØ\\C.l°ğ,,¯qkëë*Qi×¿Œ_\n¨b¬¤5JÔnkTES®µqur«&;¢¤ÚËš¼t\nßr™jyté¼PÌyÄ–<süÌ±TÒãˆ)b3•rL¸L¸7!âüÎƒHòéHÒ‘,ey±ÊÔ«±ªúµ¶u¿Ö–1½·	g[ñÄ¥Oyk:?¬ã5mKS…²õ¼¨ğ–@ÃJ¡Ó’u¾5Ñl‚à»l_Ó\n“Ÿò˜`„ìô”ü‹¨çÎgWCÌKx°¶h\\GwËZ¡kDô´k¥uA9ˆÅ[Èa|ªïÈpªº}/Zÿˆhı3¹ï5á~é9ı®’İÕìFø¥tŸø¶	â\'{\Zl\rê#ÚÛÿĞîˆ÷pdı&\0Æ ­›ÑÖ?¬šl3.qg+7ú½¼úåá©ğıwLgØÜŞ5áv*Ü^Àì]f¯lšzGÃPKÕ”qè\0\0«\0\0PK\0\0H°B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/document.xmlRËnÂ0¼÷+\"ßÁ¡TˆF.¨·VHĞ0Î&±d{#{!Ğ¯¯MĞKÅÅ›ÑÌ¾&»Ú\\ŒNÎà¼B›³Ù4e	X‰…²UÎ¾“%K<	[rvÏ6ë—U›(O,%¡‚õæìälæe\rFø‰QÒ¡Ç’&M†e©$ôõ.g5Q“qŞ\'M±¸ «x—²í{ñ×4]pZP˜××ªñCµóıÏFºö™®-º¢q(Áû`„Ñ]_#”ËÌÒ\'uÆŒæ™Î…íCË¿ƒl;’­ƒıG,®16·gçnaOW\rI›…Î™ e|½â£¢{â7ˆ\"R$uJº6c%Ú‰\nb­ ¬ö?©Ã¹,–ópm4u6{OƒàS¸$H„&Ró·¨*	Â_O#¨Nt5ˆb\ZJº\'9UÕ°éAßêëdİ¨¥	º¤2Bwl4vç†=J¡}¿…•¶Ê…uÃ!\r¼v‡cï×`œæ÷‹_ÿPK—úly\0\06\0\0PK\0\0H°B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0docProps/app.xmlĞ=kÃ0à½¿Âˆ¬¶TcL²BCéh·t3ŠtN¬¤spş}ÕšÌ÷xxïøv±Sq˜Œwy¬)À)¯;vä½)×¤H(–“wĞ‘+$²ü-ú\0\r¤\".uä„6”&u+S•c—“ÑG+1ñHı8\ZÏ^ÍÒš±–Â‚à4è2üäWÜ\\ğ¿¨öê»_úè¯!{‚÷åÔ‚qzøS“Qóñbo^4ÚT¬ª«zµ7n^†Ïu;´Mq·0ä¶gPHÆ,[íf3é²æôŞãôö#ñPK(ë›â\0\0\0h\0\0PK\0\0H°B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0docProps/core.xmlm‘[OÂ0†ïıKï·¶ D›m\\h¸’ÄDŒ†»¦ûÕõ¶2ø÷¶&\Zîúå}úôğ–‹½ê²8/®-Ê@ÓHİVèu½ÌïPæ×\rïŒ†\nÀ£E}S\nË„qğìŒ$ø,Š´gÂVh‚e{±Å}	Ããqt-¶\\|ñğ„9VxÃÇI˜ÛÑˆNÊFŒJûíºAĞ(ĞÁcZPüË*®î8‡t\0§üUxHFrïåHõ}_ôÓ‹÷§ø}õô2<5—:}•\0T—\'5x€&‹v¼Ø9y›><®—¨:ÍÉ,§ó5%lvÏncdSâŠä<®«Wàä§ÎÒ¹.V•à1Kİ8ØÉTiMJ|9ÓßâêPK¿Âi\0\0\0\0PK\0\0H°B\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0[Content_Types].xml½”1OÃ0…÷şŠÈ+JBI: 1B‡0#c_‹Ä¶|¦´ÿsh#¨´°X²üî}Ïç“‹åfè“5xÔÖ”ì<ËYFZ¥M[²‡ú6½bËjQÔ[˜Ö`ÉºÜ5ç(;fÖ¡“ÆúAÚú–;!ŸEü\"Ï/¹´&€	iˆ¬*î	çµ‚d%|¸”Œ?zè‘gqeÉÍ{Ad–L8×k)åãk£>ÑÒ)V\Zì´Ã30ş=éÕzµÃ)+_e$ÿ74BÔ\\ŒĞŸñlÓh	Sèèæ¼•€H~tƒ½ól„† µxêáô&ëù>„mÑ…ÑwÿñíO`:„6‡rpå­CNÀ£cÀ†*¨”²8ğAîÁÄ–Öÿbö£«¿ÿ‹ê\rPKcî¤a*\0\0^\0\0PK\0\0\0H°BèĞ#Ù\0\0\0=\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0_rels/.relsPK\0\0\0H°Bù/0ÀÅ\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/_rels/document.xml.relsPK\0\0\0H°BeúÖ\"¥\0\0\0Ğ\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0!\0\0word/settings.xmlPK\0\0\0H°B‘ˆZ]\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0word/fontTable.xmlPK\0\0\0H°BÕ”qè\0\0«\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0F\0\0word/styles.xmlPK\0\0\0H°B—úly\0\06\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0›\0\0word/document.xmlPK\0\0\0H°B(ë›â\0\0\0h\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0S\0\0docProps/app.xmlPK\0\0\0H°B¿Âi\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0s	\0\0docProps/core.xmlPK\0\0\0H°Bcî¤a*\0\0^\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0Ñ\n\0\0[Content_Types].xmlPK\0\0\0\0	\0	\0<\0\0<\0\0\0\0','docx'),(2,1,'Open-Office Text document',20,'PK\0\0\0\0\0K;\Z9^Æ2\'\0\0\0\'\0\0\0\0\0\0mimetypeapplication/vnd.oasis.opendocument.textPK\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\Z\0\0\0Configurations2/statusbar/PK\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\'\0\0\0Configurations2/accelerator/current.xml\0PK\0\0\0\0\0\0\0\0\0\0\0PK\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0Configurations2/floater/PK\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\Z\0\0\0Configurations2/popupmenu/PK\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0Configurations2/progressbar/PK\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0Configurations2/menubar/PK\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0Configurations2/toolbar/PK\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0Configurations2/images/Bitmaps/PK\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0content.xml¥VËn!İ÷+F,ºc\']$S£JQ¥JIMZuK€±iyLñØ_1N2	’7¶¹œs¹œs/ov‚[ª\rS²‹ÙTbE˜\\×àçã×ò\nÜ¬>,UÓ0L+¢p\'¨´%VÒºïÂ±¥©âl\r:-+…3•D‚šÊâJµT¬*EWa­1vÏ³éœ²-İÙ\\²ÇpÑSşÊœ²‰F}.Ùc¨)½Q¹äáe£œê¢E–=«bÇ™ü[ƒµmaß÷³şr¦ô\Z.®¯¯a˜Æ#®í4(‚!åÔ/fàb¶€VP‹rëóØ´$Ù‰\'ª³¥A½pÕl×Ù±]OHƒ7Hg÷F\0ŸÚ{Iòí½$)W »™ğä\nŞ»Éğqwì-r×òØ©°fmö6#:å+¥ÆR=!ĞPîÅ|ş	Æq‚îß„÷šYª8~Ç£âJ¼&šÃ- C”tëÛtl|/„™ \\À8=‚\r™Lıûşîo¨@G0{\\2i,’Ge\ZFùĞ0ãF^Ğ]K5ó6 î4ñ›Q¤q)œTª­’Ñ™9¹™`5\\ÃÑBÇ@ã®ã²A˜–„bnVËxœÆpÇ¾”\Z<º2LñöÅ%…;?T0¾¯ÁGÔ*óù.Aq’ÚãË5•noÎe}ÈwD´Ìbw¶H3yøvi_Œ¿RĞŸ^ÚôÌ˜s–¾¥Ğ¯®x@ÒL*’`2Ô0{c©x¯&8eá!:ëTµ—!Obú“\"ûqà¶Õ2<o†şëÜ>&z,Bˆ0Ór´/UgİAKîN¯k¾0eùÆyg¬v(éË=+Ùã°éó²¸Ÿg\'¹Ïqp`Zµ6R‚òe$>¸#O&©wQ|xâœøË´úPKÕ\0=@\0\0s	\0\0PK\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\n\0\0\0styles.xmlÍYKÛ6¾÷W*ÚmË»›®İìE‹¢’š´×€–h‹	E\n$eÙùõ’¢DË’WûHá=, Îpæã<Éñë7ûœMvD**ø]OçÑ„ğD¤”oï¢?ş‰n£7÷?¼›\rMÈ*I™®‘ÒFÔ6sµrÄ»¨”|%°¢jÅqNÔJ\'+Qî7­Bî•UåV¬°±Û-s¸[“½»ÙğíÅëñš-s¸;•¸\Z»Ùğ‚MÃí1vó^1´(y5í Ø3Ê¿ÜE™ÖÅj6«ªjZ]M…ÜÎâår9³ÔpÒğ¥d–+Mf„£LÍâi<ó¼9Ñx,>ÃBâe¾&r´i°Æ\'^U»íèˆØmL“dX\rË|ìŞ«t¼{¯Òpou6à“ÛÙ; ÚïŞ¶± ó±ºï‘©I‹ÑÇtÜá~!DÕlp	já.æóë™û¸«³ì•¤šÈ€=9Ë`–4yŸÑ€/\";¦Ñ¤.!AÙŠ£{_£6êÓ\'¥$aêşµ‹­fyâ¾î¢,5yOªÉ?\"Ç<š@0yÖœ²Ã]ô3.„úµÃç£É‘hÃ¶„IáÈ²–×rT\';,©©$Ñì<´ß€õ\0òëÃªUE•zê?Ègü_9ù€¹\Z´HÀ3Â\Zê 4ÉÂ4ra½îºÇ’\r.Yİ‹¼ä\ZãVâ\"£IäyëoTHˆA©)8ÓTä•Êp**òÑhÍ§W	àì!:D\råAu%H8Ú2!éW€™a]ÜeŞÉ)+$ìX©\'¬=2k³08GEu†\\·Ü`¦‚((°ÄÖB¡}Éğ#\\jat@hĞ”ÇŠY‘a¯ÀÂXK‚¡)\r.×bÊÁ–‹¶3‰ôú((O‰©RæVÆƒô¡û‚§E¡LœÃnØ\rî“Ó”Š€¸ñªU& OiYB}Û‡HÑ¯€4^Ú®1Ì·%ŞÂgv!%×ÂáıÛæøDCÍC_ˆäºœÒÈDP›±©VóéMÑØÇ‹÷Ô¯û½\'ÕŠ<…Ş#Ôt>FöpGhCíÛĞ¬àÖ¬Gy5&Ù\Z?Dg\nL—ŠŒphÔ‚#†ÓlfÑàıœ6\'wEÉ]:¡}ÀÑÁ¦(”RHOn”ÄÓÅMÜfÍqè`Ï6e_çšÏ÷Œ@£ÒGÒq}ÿÎQj7±vVõKÅrjÄ’nüI’cÊ‘¹öù \\œ0¥Ê:,ÏHû‚+\Z#a¹ÆZH“&è C1\\(ÑÏUŒ¤¨:Êa¥“¡_)[¢3sƒ7øâP¡ìO)–i4X(¼ûV\nàA2µ©u*ï/‚Ó §ÅÁBó8EıP¸ÉÛá#,|ZÌ?­EzèƒõPIË±„z&+L×½^Ø®Û®¯…ÖæV\r9^Ô$kcÛ¹íÆ˜Uø ª-Aá¨¯€rqİæÌÓ2¾WÀc3×iæ@é3>”ã‚áCàIH~óŸì×ó>}Ü·Ğir31ÊŒÈsäèÅc|ô;.L)|AûJ‰™Xmö%–í¸Éƒ½Hª¦ğ[Š½øÁÄ|8Ùz°[sƒ*\nwqx[œ5ïÑš¤¦mîí}Áö†^í¿¿án½AïQ+ï¬÷^È\n_+Y”Ú½!zÖÙVwGÃ,€¸¦5”92³%¹9ŸÉ¯zk÷€95—Ø5PÚ$¼oãº$i‰kq¡¸®.×õ…âº¹P\\¯.×/ŠëöBq-/W<ÿÿ“B´\\h¢ ‰ò\rİ–Ò>î&\rÕ­m#„6ß}Àãºy¹QŞ³Ò ªıF…\n¡¨¶Ci;/÷¸g\nFË›GHx:öôâEZ}jûµ€ÚçÍrÙGú¬Si­ÀÈF×4Êih251˜öZií×<9A&M\'ø›Æ¼àİ£ûM‘ÇQOçNg)MÍÏ2‹ùtéâ	¡ÛÌ¼î—ÓWgX+j$$…£àÚ×BÂ•–ê¨{q¸´v–‘Ne\rihÕ¥º\0D9Ş7§1Ï–vĞ_3(RxqÎ\Zóé<¾m•ø”Ck\'·ü†\'Ç=<xc†N},8ı\\*í¼íbÀ­KHVï†›ŸÚ1“ı8·Q8âís¨?TF°•ØYxÒ`ñTPy§¡Vr¬\Z¶zÑH:;í1·!\Z|Gú¬ÿÇõûoPKê„EÑ}\0\0œ\0\0PK\0\0\0\0\0K;\Z9‘gŠ²\0\0\0\0\0\0\0meta.xml<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<office:document-meta xmlns:office=\"urn:oasis:names:tc:opendocument:xmlns:office:1.0\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:meta=\"urn:oasis:names:tc:opendocument:xmlns:meta:1.0\" xmlns:ooo=\"http://openoffice.org/2004/office\" office:version=\"1.1\"><office:meta><meta:generator>OpenOffice.org/2.4$Linux OpenOffice.org_project/680m17$Build-9310</meta:generator><meta:initial-creator>Merijn Schering</meta:initial-creator><meta:creation-date>2008-08-26T09:26:02</meta:creation-date><meta:editing-cycles>0</meta:editing-cycles><meta:editing-duration>PT0S</meta:editing-duration><meta:user-defined meta:name=\"Info 1\"/><meta:user-defined meta:name=\"Info 2\"/><meta:user-defined meta:name=\"Info 3\"/><meta:user-defined meta:name=\"Info 4\"/><meta:document-statistic meta:table-count=\"0\" meta:image-count=\"0\" meta:object-count=\"0\" meta:page-count=\"1\" meta:paragraph-count=\"0\" meta:word-count=\"0\" meta:character-count=\"0\"/></office:meta></office:document-meta>PK\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0Thumbnails/thumbnail.pngëğsçå’âb``àõôp	Ò[8Ø€¬¯Êæ·˜ö{º8†TÌy{i#\'ƒÏ\r|?ÿ?ıÒétĞC¼âÃ›w“~Ê2¬Ÿ9K&xrrV‘oßÊ“†¦–ËÔ_y2cTpTpÀÅÏå²ı3\nÿ*LÑ®~.ëœš\0PK„×ƒ£|\0\0\0ø\0\0PK\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0settings.xmlµYQsâ8~¿_ÑÉ;JoïÊ´ìºì±¥…ºÛ7“ÈÕ±2¶SàßŸì„N¡K	~¢MlÉ’¥ï“”ë¯«˜Ÿ½€TŠ¯~^óÎ@Fb~ã=Nº•¿½¯­?®q6‹h†¤1]Q 5-Qg´]¨föúÆK¥h\"S‘j\nƒjê ‰	ˆÍ¶æÛÕM«,{²â‘x¾ñZ\'Íju¹\\/ç(çÕúÕÕUÕ¾İ,\rPÌ¢ù¡ª²ÕoU!â«\"³!;ŒUvQ«]V³ÿ½³üo\\S÷Z?lÌo]ç\n²ŸJ¤!6¾9Ë›£İx¤²ùÁòÕk^Ñ¾÷{~Òz_›`âmŞèuBo\"¡½Víºº+áp©}˜é\"±•z­^û«œì§(Ô‹\"á—‹ÆŸådÿÑ|Qxò‹zıêHáã.GRAgÁÄÔ–‚)\"&¼––)§£\'Ú—\nî1„}ÒgŒ«ƒÅWb–T\"Â\nÂ]_G˜İC¹!×‡y¼nUiIáëµL0_“û¢¯Q«•º\'SÊUÑ”ƒ›\\±¢OÜVèh_Š4\Zõ‹/¥D·QkŒ÷¥_ã8Ù¿ã	IÚµÊã}a„vY Q‹­×ÜScàh»’‘Ëß&æ¾×y®/ b9œŠ²©dšˆí3œä‡áI6a\nã„N”C‚=Ã»°?ÇAå{ùƒT¤ï“şo<Ti<ù1%´õ©ryLB¦‹‹%õ-NôzÈÜpÖ\\ „n$•&3 G(tO¸tñ¯¤¬ÙÁ8‘ Léurl°“~àt¯ãJ˜‘İxW°AœpúÛQYÒèƒN·¹ä–PÊ[œÌf.|eí0ë(ŠóÊn(QlS<İÁz[Sğå²	&×^õÀ#[tpŞü ]”ÛD{ªÓ~ª1QGaÙAâ2äN¼CâA†û\'o1ƒ7ºFå‹°Í™xVätƒtÆƒ”[ztğ¾¨­†ı¼p$¼õ‘…#`!\n¾è§ASäü?A›à.n›t}[ÑuÆûd‘“zÃO¾~T o™f§ß5%†Ë„³ø™\r)¢ÃQ¦¿ÜUòã”ñÛ|¾b\ntĞSwtß¾Š˜¦\"Ğ©«4ôy4¼cÉUô‘šão§Ã£ÄW¯e/ÊmŸ$-•]¾¶äêÂTJº&ÔÍïSì`MÖÒ€—·ø€ºÃJ¸•l9˜ş§Â°¶ƒã[TáòÀEY“ÓÈÃnw¸?¬Œ.[•BL©¢äVúI²d È­.ŠRæ–ß1pVÏÙ„«¶DõÙ^È§Lù¶øM£[Iß¶Ó¾k*ĞNï´W“6–¸±É‚Ä¨W0¦ùZKSTQËØE\'W•uAUB5³+ùßÉ_‹²¥DñÁ9.­êD;LÀpĞ{* Ö:f\",h«ËíÅÿH•fk“6ê)Ò‹{&RÆÛØ³P#0uúL0O8ÌfŠ±M©à&}rt6¶˜oY¦ÎbkL·ÍÚÌá³	\nyjÎT†\\NuòQÅÚ,xKLÅŞÁŞ©£¼»›2ÇÎFİô±ÔtÏĞ½XQÜğ$Rõ›şé“ój;o®î|­îûLÜúPKt‘‡ğÛ\0\0h\0\0PK\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0META-INF/manifest.xmlµ•KjÃ0@÷=…ÑŞVÛU1q-ôé&òØè‡f’ÛWäÓ6”¦X;	¤÷F#Íh±Ú[Sí0’ö®OÍ£¨Ğ)ßk7vâcı^¿ˆÕòaaÁé‰ÛÓ Êû§HÑµHSëÀ\"µ¬ZĞõ^%‹Û¯ëÛÉ´|¨.àA¬óÂx¨.2ì5Ô|Ø	Áhœã”;×7GWs­h÷,.»‡dL€·BŞ%»MyónĞcŠÇ èY\'Ú@,ƒ¥Ğ`ú(UŠq:bÎbqWÁ`<0‚RÈO ÂG?F¤r7=…^ÎŞ›bpmaD’¯š-*ê¸“ı½_PrSõ4I7êZğ·î”OHNµzıü¿bşK|0H³c-2ÌÖxÖÛd7´!É§aÜ87|ŞÄ\"sşÏ©]ÈÿáòPK5b×9>\0\0J\0\0PK\0\0\0\0\0\0K;\Z9^Æ2\'\0\0\0\'\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0mimetypePK\0\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\Z\0\0\0\0\0\0\0\0\0\0\0\0\0M\0\0\0Configurations2/statusbar/PK\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\'\0\0\0\0\0\0\0\0\0\0\0\0\0…\0\0\0Configurations2/accelerator/current.xmlPK\0\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0Ü\0\0\0Configurations2/floater/PK\0\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\Z\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0Configurations2/popupmenu/PK\0\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0J\0\0Configurations2/progressbar/PK\0\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0„\0\0Configurations2/menubar/PK\0\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0º\0\0Configurations2/toolbar/PK\0\0\0\0\0\0K;\Z9\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0ğ\0\0Configurations2/images/Bitmaps/PK\0\0\0\0K;\Z9Õ\0=@\0\0s	\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0-\0\0content.xmlPK\0\0\0\0K;\Z9ê„EÑ}\0\0œ\0\0\n\0\0\0\0\0\0\0\0\0\0\0\0\0ö\0\0styles.xmlPK\0\0\0\0\0\0K;\Z9‘gŠ²\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0«\0\0meta.xmlPK\0\0\0\0K;\Z9„×ƒ£|\0\0\0ø\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0ß\0\0Thumbnails/thumbnail.pngPK\0\0\0\0K;\Z9t‘‡ğÛ\0\0h\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0¡\0\0settings.xmlPK\0\0\0\0K;\Z95b×9>\0\0J\0\0\0\0\0\0\0\0\0\0\0\0\0\0\0¶\0\0META-INF/manifest.xmlPK\0\0\0\0\0\0î\0\07\0\0\0\0','odt');
 /*!40000 ALTER TABLE `fs_templates` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2394,7 +2383,7 @@ CREATE TABLE `go_acl` (
 
 LOCK TABLES `go_acl` WRITE;
 /*!40000 ALTER TABLE `go_acl` DISABLE KEYS */;
-INSERT INTO `go_acl` VALUES (1,0,1,50),(1,1,0,50),(2,0,1,50),(2,0,2,10),(2,1,0,50),(3,0,1,50),(3,0,3,10),(3,1,0,50),(4,0,1,50),(4,1,0,50),(5,0,1,50),(5,0,3,10),(5,1,0,50),(6,0,1,50),(6,0,3,10),(6,1,0,50),(7,0,1,50),(7,0,2,10),(7,1,0,50),(9,0,1,50),(9,1,0,50),(10,0,1,50),(10,0,3,10),(10,1,0,50),(11,0,1,50),(11,0,3,10),(11,1,0,50),(12,0,1,50),(12,0,3,10),(12,1,0,50),(13,0,1,50),(13,1,0,50),(14,0,1,50),(14,0,3,10),(14,1,0,50),(15,0,1,50),(15,0,3,10),(15,1,0,50),(16,0,1,50),(16,0,3,10),(16,1,0,50),(17,0,1,50),(17,0,3,10),(17,1,0,50),(23,0,1,50),(23,0,3,10),(23,1,0,50),(24,0,1,50),(24,0,3,10),(24,1,0,50),(25,0,1,50),(25,1,0,50),(26,0,1,50),(26,1,0,50),(27,0,1,50),(27,0,3,10),(27,1,0,50),(28,0,1,50),(28,0,3,10),(28,1,0,50),(29,0,1,50),(29,0,3,10),(29,1,0,50),(30,0,1,50),(30,0,3,10),(30,1,0,50),(31,0,1,50),(31,0,3,50),(31,1,0,50),(32,0,1,50),(32,1,0,50),(33,0,1,50),(33,1,0,50),(34,0,1,50),(34,1,0,50),(35,0,1,50),(35,0,2,40),(35,1,0,50),(36,0,1,50),(36,1,0,50),(37,0,1,50),(37,0,3,10),(37,1,0,50),(38,0,1,50),(38,0,3,10),(38,1,0,50),(39,0,1,50),(39,0,3,10),(39,1,0,50),(40,0,1,50),(40,0,3,10),(40,1,0,50),(41,0,1,50),(41,1,0,50),(42,0,1,50),(42,0,3,10),(42,1,0,50),(43,0,1,50),(43,0,3,10),(43,1,0,50),(44,0,1,50),(44,1,0,50);
+INSERT INTO `go_acl` VALUES (1,0,1,50),(1,1,0,50),(2,0,1,50),(2,0,2,10),(2,1,0,50),(3,0,1,50),(3,0,3,10),(3,1,0,50),(4,0,1,50),(4,0,3,10),(4,1,0,50),(5,0,1,50),(5,0,3,30),(5,1,0,50),(6,0,1,50),(6,0,3,30),(6,1,0,50),(7,0,1,50),(7,0,3,30),(7,1,0,50),(8,0,1,50),(8,0,3,10),(8,1,0,50),(9,0,1,50),(9,0,3,10),(9,1,0,50),(10,0,1,50),(10,0,3,10),(10,1,0,50),(11,0,1,50),(11,0,3,10),(11,1,0,50),(12,0,1,50),(12,0,3,10),(12,1,0,50),(13,0,1,50),(13,0,3,10),(13,1,0,50),(14,0,1,50),(14,1,0,50),(15,0,1,50),(15,0,3,10),(15,1,0,50),(17,0,1,50),(17,0,3,10),(17,1,0,50),(18,0,1,50),(18,0,3,10),(18,1,0,50),(19,0,1,50),(19,0,3,10),(19,1,0,50),(20,0,1,50),(20,0,3,10),(20,1,0,50),(21,0,1,50),(21,1,0,50),(22,0,1,50),(22,1,0,50),(23,0,1,50),(23,0,3,10),(23,1,0,50),(24,0,1,50),(24,0,2,10),(24,1,0,50),(25,0,1,50),(25,0,3,10),(25,1,0,50),(26,0,1,50),(26,0,3,10),(26,1,0,50),(27,0,1,50),(27,0,3,10),(27,1,0,50),(28,0,1,50),(28,0,3,10),(28,1,0,50),(29,0,1,50),(29,1,0,50),(30,0,1,50),(30,1,0,50),(31,0,1,50),(31,0,3,50),(31,1,0,50),(32,0,1,50),(32,0,3,10),(32,1,0,50),(33,0,1,50),(33,1,0,50),(34,0,1,50),(34,1,0,50),(35,0,1,50),(35,1,0,50),(36,0,1,50),(36,0,2,40),(36,1,0,50),(37,0,1,50),(37,1,0,50),(38,0,1,50),(38,0,3,10),(38,1,0,50),(39,0,1,50),(39,1,0,50),(40,0,1,50),(40,0,3,10),(40,1,0,50),(41,0,1,50),(41,0,3,10),(41,1,0,50),(42,0,1,50),(42,1,0,50),(43,0,1,50),(43,0,3,10),(43,1,0,50),(44,0,1,50),(44,1,0,50),(45,0,1,50),(45,0,3,10),(45,1,0,50),(46,0,1,50),(46,1,0,50);
 /*!40000 ALTER TABLE `go_acl` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2411,7 +2400,7 @@ CREATE TABLE `go_acl_items` (
   `description` varchar(50) DEFAULT NULL,
   `mtime` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2420,7 +2409,7 @@ CREATE TABLE `go_acl_items` (
 
 LOCK TABLES `go_acl_items` WRITE;
 /*!40000 ALTER TABLE `go_acl_items` DISABLE KEYS */;
-INSERT INTO `go_acl_items` VALUES (1,1,'go_groups.acl_id',1482907222),(2,1,'go_groups.acl_id',1482907222),(3,1,'go_groups.acl_id',1482907222),(4,1,'go_modules.acl_id',1482907222),(5,1,'go_modules.acl_id',1482907222),(6,1,'go_modules.acl_id',1482907222),(7,1,'no_categories.acl_id',1482907222),(9,1,'go_modules.acl_id',1482907222),(10,1,'go_modules.acl_id',1482907222),(11,1,'go_modules.acl_id',1482907222),(12,1,'bm_categories.acl_id',1482907222),(13,1,'go_modules.acl_id',1482907222),(14,1,'go_modules.acl_id',1482907222),(15,1,'go_modules.acl_id',1482907222),(16,1,'go_modules.acl_id',1482907222),(17,1,'go_modules.acl_id',1482907222),(23,1,'go_modules.acl_id',1482907222),(24,1,'go_modules.acl_id',1482907222),(25,1,'go_modules.acl_id',1482907222),(26,1,'go_modules.acl_id',1482907222),(27,1,'go_modules.acl_id',1482907222),(28,1,'fs_templates.acl_id',1482907222),(29,1,'fs_templates.acl_id',1482907222),(30,1,'go_modules.acl_id',1482907222),(31,1,'go_users.acl_id',1482907222),(32,1,'ab_addressbooks.acl_id',1482907887),(33,1,'ta_tasklists.acl_id',1482907222),(34,1,'cal_calendars.acl_id',1482907222),(35,1,'fs_folders.acl_id',1482907222),(36,1,'addressbook_export',1482907270),(37,1,'go_modules.acl_id',1482907287),(38,1,'go_modules.acl_id',1482907303),(39,1,'go_modules.acl_id',1482907309),(40,1,'go_modules.acl_id',1482907319),(41,1,'go_modules.acl_id',1482907383),(42,1,'go_modules.acl_id',1482907417),(43,1,'go_modules.acl_id',1482907610),(44,1,'fb_acl',1482907811);
+INSERT INTO `go_acl_items` VALUES (1,1,'go_groups.acl_id',1527753012),(2,1,'go_groups.acl_id',1527753012),(3,1,'go_groups.acl_id',1527753012),(4,1,'go_modules.acl_id',1527753012),(5,1,'ab_addressbooks.acl_id',1527753012),(6,1,'ab_addressbooks.acl_id',1527753012),(7,1,'ab_addressbooks.acl_id',1527753012),(8,1,'ab_email_templates.acl_id',1527753012),(9,1,'ab_email_templates.acl_id',1527753012),(10,1,'go_modules.acl_id',1527753012),(11,1,'bm_categories.acl_id',1527753012),(12,1,'go_modules.acl_id',1527753012),(13,1,'go_modules.acl_id',1527753012),(14,1,'go_modules.acl_id',1527753012),(15,1,'go_modules.acl_id',1527753012),(17,1,'go_modules.acl_id',1527753012),(18,1,'go_modules.acl_id',1527753012),(19,1,'fs_templates.acl_id',1527753012),(20,1,'fs_templates.acl_id',1527753012),(21,1,'go_modules.acl_id',1527753012),(22,1,'go_modules.acl_id',1527753012),(23,1,'go_modules.acl_id',1527753012),(24,1,'no_categories.acl_id',1527753012),(25,1,'go_modules.acl_id',1527753012),(26,1,'go_modules.acl_id',1527753012),(27,1,'go_modules.acl_id',1527753012),(28,1,'go_modules.acl_id',1527753012),(29,1,'go_modules.acl_id',1527753012),(30,1,'go_modules.acl_id',1527753012),(31,1,'go_users.acl_id',1527753012),(32,1,'ab_addressbooks.acl_id',1527753012),(33,1,'fs_folders.acl_id',1527753012),(34,1,'cal_calendars.acl_id',1527753012),(35,1,'ta_tasklists.acl_id',1527753012),(36,1,'fs_folders.acl_id',1527753013),(37,1,'addressbook_export',1527753035),(38,1,'go_modules.acl_id',1527753060),(39,1,'go_modules.acl_id',1527753067),(40,1,'go_modules.acl_id',1527753077),(41,1,'go_modules.acl_id',1527753083),(42,1,'go_modules.acl_id',1527753091),(43,1,'go_modules.acl_id',1527753101),(44,1,'go_modules.acl_id',1527753111),(45,1,'go_modules.acl_id',1527753119),(46,1,'go_modules.acl_id',1527753135);
 /*!40000 ALTER TABLE `go_acl_items` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2523,6 +2512,36 @@ LOCK TABLES `go_cf_setting_tabs` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `go_clients`
+--
+
+DROP TABLE IF EXISTS `go_clients`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `go_clients` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `footprint` varchar(190) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `ip` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_agent` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ctime` int(11) NOT NULL,
+  `last_active` int(11) NOT NULL,
+  `in_use` tinyint(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_footprint` (`footprint`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `go_clients`
+--
+
+LOCK TABLES `go_clients` WRITE;
+/*!40000 ALTER TABLE `go_clients` DISABLE KEYS */;
+/*!40000 ALTER TABLE `go_clients` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `go_countries`
 --
 
@@ -2582,7 +2601,7 @@ CREATE TABLE `go_cron` (
 
 LOCK TABLES `go_cron` WRITE;
 /*!40000 ALTER TABLE `go_cron` DISABLE KEYS */;
-INSERT INTO `go_cron` VALUES (1,'Calendar publisher',1,'0','*','*','*','*','*','GO\\Calendar\\Cron\\CalendarPublisher',0,1482910200,0,0,NULL,0,'[]'),(2,'Email Reminders',1,'*/5','*','*','*','*','*','GO\\Base\\Cron\\EmailReminders',0,1482907500,0,0,NULL,0,'[]'),(3,'Calculate disk usage',1,'0','0','*','*','*','*','GO\\Base\\Cron\\CalculateDiskUsage',0,1482949800,0,0,NULL,0,'[]');
+INSERT INTO `go_cron` VALUES (1,'Calendar publisher',1,'0','*','*','*','*','*','GO\\Calendar\\Cron\\CalendarPublisher',0,1527755400,0,0,NULL,0,'[]'),(2,'Email Reminders',1,'*/5','*','*','*','*','*','GO\\Base\\Cron\\EmailReminders',0,1527753300,0,0,NULL,0,'[]'),(3,'Calculate disk usage',1,'0','0','*','*','*','*','GO\\Base\\Cron\\CalculateDiskUsage',0,1527791400,0,0,NULL,0,'[]');
 /*!40000 ALTER TABLE `go_cron` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2758,6 +2777,35 @@ CREATE TABLE `go_link_folders` (
 LOCK TABLES `go_link_folders` WRITE;
 /*!40000 ALTER TABLE `go_link_folders` DISABLE KEYS */;
 /*!40000 ALTER TABLE `go_link_folders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `go_links_ab_addresslists`
+--
+
+DROP TABLE IF EXISTS `go_links_ab_addresslists`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `go_links_ab_addresslists` (
+  `id` int(11) NOT NULL,
+  `folder_id` int(11) NOT NULL,
+  `model_id` int(11) NOT NULL,
+  `model_type_id` int(11) NOT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  `ctime` int(11) NOT NULL,
+  PRIMARY KEY (`id`,`model_id`,`model_type_id`),
+  KEY `id` (`id`,`folder_id`),
+  KEY `ctime` (`ctime`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `go_links_ab_addresslists`
+--
+
+LOCK TABLES `go_links_ab_addresslists` WRITE;
+/*!40000 ALTER TABLE `go_links_ab_addresslists` DISABLE KEYS */;
+/*!40000 ALTER TABLE `go_links_ab_addresslists` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -3040,6 +3088,7 @@ CREATE TABLE `go_log` (
   `controller_route` varchar(255) NOT NULL DEFAULT '',
   `action` varchar(20) NOT NULL DEFAULT '',
   `message` varchar(255) NOT NULL DEFAULT '',
+  `jsonData` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -3110,7 +3159,7 @@ DROP TABLE IF EXISTS `go_modules`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `go_modules` (
-  `id` varchar(20) NOT NULL DEFAULT '',
+  `id` varchar(50) NOT NULL DEFAULT '',
   `version` int(11) NOT NULL,
   `sort_order` int(11) NOT NULL DEFAULT '0',
   `admin_menu` tinyint(1) NOT NULL DEFAULT '0',
@@ -3126,7 +3175,7 @@ CREATE TABLE `go_modules` (
 
 LOCK TABLES `go_modules` WRITE;
 /*!40000 ALTER TABLE `go_modules` DISABLE KEYS */;
-INSERT INTO `go_modules` VALUES ('addressbook',295,11,0,17,1),('bookmarks',18,6,0,11,1),('calendar',163,8,0,14,1),('calendarexport',0,17,0,37,1),('comments',13,17,0,30,1),('cron',0,14,1,25,1),('customfields',99,9,0,15,1),('dav',1,22,0,42,1),('email',92,12,0,23,1),('favorites',8,23,0,43,1),('files',108,16,0,27,1),('freebusypermissions',4,18,0,38,1),('groups',0,15,1,26,1),('imapauth',0,19,0,39,1),('ipwhitelist',4,21,1,41,1),('modules',0,4,1,9,1),('notes',27,2,0,6,1),('reminders',0,20,0,40,1),('search',0,10,0,16,1),('sieve',0,1,0,5,1),('summary',17,13,0,24,1),('tasks',55,5,0,10,1),('tools',0,7,1,13,1),('users',0,0,1,4,1);
+INSERT INTO `go_modules` VALUES ('addressbook',306,0,0,4,1),('admin2userlogin',0,23,1,44,1),('bookmarks',18,1,0,10,1),('calendar',172,2,0,12,1),('calendarexport',0,17,0,38,1),('comments',14,3,0,13,1),('cron',0,4,1,14,1),('customcss',0,18,1,39,1),('customfields',99,5,0,15,1),('dav',1,24,0,45,1),('email',97,7,0,17,1),('files',109,8,0,18,1),('freebusypermissions',4,19,0,40,1),('groups',0,9,1,21,1),('imapauth',0,20,0,41,1),('ipwhitelist',4,21,1,42,1),('modules',0,10,1,22,1),('notes',27,11,0,23,1),('reminders',0,22,0,43,1),('search',0,12,0,25,1),('settings',4,25,1,46,1),('sieve',0,13,0,26,1),('summary',17,14,0,27,1),('tasks',55,15,0,28,1),('tools',0,16,1,29,1),('users',0,17,1,30,1);
 /*!40000 ALTER TABLE `go_modules` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3274,7 +3323,7 @@ CREATE TABLE `go_search_cache` (
 
 LOCK TABLES `go_search_cache` WRITE;
 /*!40000 ALTER TABLE `go_search_cache` DISABLE KEYS */;
-INSERT INTO `go_search_cache` VALUES (1,1,'files','addressbook','addressbook',1,'GO\\Files\\Model\\Folder','Folder,addressbook,,',1482907222,32,'Folder'),(1,1,'addressbook','System Administrator (Users)','',2,'GO\\Addressbook\\Model\\Contact','Contact,af28c6e1-45c2-5581-949f-d601a29249bd,System,Administrator,M,support@technoinfotech.com,Dear Mr. Administrator,000000,,',1482907222,32,'Contact'),(1,1,'base','Administrator, System','',3,'GO\\Base\\Model\\User','User,groupofficeadmin,$2y$10$LQKH4WavnkG1r/KV9BTlrOV4UD9/RAziUtRKjLanqUSR3CbA/3Ywi,cfa2436b0f6df9e9905009e3bfca6f51,System,Administrator,support@technoinfotech.com,dmY,-,H:i,,,.,Rs,Asia/Kolkata,summary,en,Group-Office,last_name,;,\",crypt,,',1482908027,31,'User'),(1,2,'files','Users','addressbook/Users',1,'GO\\Files\\Model\\Folder','Folder,Users,,',1482907222,32,'Folder'),(1,3,'files','tasks','tasks',1,'GO\\Files\\Model\\Folder','Folder,tasks,,',1482907222,33,'Folder'),(1,4,'files','System Administrator','tasks/System Administrator',1,'GO\\Files\\Model\\Folder','Folder,System Administrator,,',1482907222,33,'Folder'),(1,5,'files','calendar','calendar',1,'GO\\Files\\Model\\Folder','Folder,calendar,,',1482907222,34,'Folder'),(1,6,'files','System Administrator','calendar/System Administrator',1,'GO\\Files\\Model\\Folder','Folder,System Administrator,,',1482907222,34,'Folder'),(1,7,'files','users','users',1,'GO\\Files\\Model\\Folder','Folder,users,,',1482907222,27,'Folder'),(1,8,'files','groupofficeadmin','users/groupofficeadmin',1,'GO\\Files\\Model\\Folder','Folder,groupofficeadmin,,',1482907222,27,'Folder'),(1,9,'files','Public','users/groupofficeadmin/Public',1,'GO\\Files\\Model\\Folder','Folder,Public,,',1482907222,35,'Folder');
+INSERT INTO `go_search_cache` VALUES (1,1,'files','notes','notes',1,'GO\\Files\\Model\\Folder','Folder,notes',1527753007,24,'Folder'),(1,1,'addressbook','System Administrator (Users)','',2,'GO\\Addressbook\\Model\\Contact','Contact,System Administrator (Users),4679e1a4-3685-5feb-82a4-55358e8f7b84,System,Administrator,M,support@technoinfotech.com,Dear System',1527753011,32,'Contact'),(1,1,'base','Administrator, System','',3,'GO\\Base\\Model\\User','User,Administrator, System,groupofficeadmin,$2y$10$2YVVaVdomTu5xfwDGlbRtOxwaBRsI1wcEct5KZC2wM75Q0uFE65A.,5525d140a89fce3eb82201451a1eb0ca,System,support@technoinfotech.com,dmY,-,H:i,.,Rs.,Asia/Kolkata,summary,en,Group-Office,last_name,;,\",crypt',1527753034,31,'User'),(1,2,'files','General','notes/General',1,'GO\\Files\\Model\\Folder','Folder,General,notes/General',1527753007,24,'Folder'),(1,3,'files','addressbook','addressbook',1,'GO\\Files\\Model\\Folder','Folder,addressbook',1527753011,32,'Folder'),(1,4,'files','Users','addressbook/Users',1,'GO\\Files\\Model\\Folder','Folder,Users,addressbook/Users',1527753011,32,'Folder'),(1,5,'files','users','users',1,'GO\\Files\\Model\\Folder','Folder,users',1527753011,18,'Folder'),(1,6,'files','groupofficeadmin','users/groupofficeadmin',1,'GO\\Files\\Model\\Folder','Folder,groupofficeadmin,users/groupofficeadmin',1527753013,33,'Folder'),(1,7,'files','calendar','calendar',1,'GO\\Files\\Model\\Folder','Folder,calendar',1527753012,34,'Folder'),(1,8,'files','System Administrator','calendar/System Administrator',1,'GO\\Files\\Model\\Folder','Folder,System Administrator,calendar/System Administrator',1527753012,34,'Folder'),(1,9,'files','tasks','tasks',1,'GO\\Files\\Model\\Folder','Folder,tasks',1527753012,35,'Folder'),(1,10,'files','System Administrator','tasks/System Administrator',1,'GO\\Files\\Model\\Folder','Folder,System Administrator,tasks/System Administrator',1527753012,35,'Folder'),(1,11,'files','Public','users/groupofficeadmin/Public',1,'GO\\Files\\Model\\Folder','Folder,Public,users/groupofficeadmin/Public',1527753013,36,'Folder');
 /*!40000 ALTER TABLE `go_search_cache` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3323,7 +3372,7 @@ CREATE TABLE `go_settings` (
 
 LOCK TABLES `go_settings` WRITE;
 /*!40000 ALTER TABLE `go_settings` DISABLE KEYS */;
-INSERT INTO `go_settings` VALUES (0,'go_addressbook_export','36'),(0,'upgrade_mtime','20161216'),(0,'uuid_namespace','d4d431da-e698-4bc4-a15b-7cc40ea4d280'),(0,'version','268'),(1,'ms_books','4'),(1,'ms_calendars','1'),(1,'ms_ta-taskslists','1');
+INSERT INTO `go_settings` VALUES (0,'go_addressbook_export','37'),(0,'upgrade_mtime','20180517'),(0,'uuid_namespace','fa69463e-2bd1-47a9-a31b-26a1435db5e8'),(0,'version','278');
 /*!40000 ALTER TABLE `go_settings` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3348,7 +3397,7 @@ CREATE TABLE `go_state` (
 
 LOCK TABLES `go_state` WRITE;
 /*!40000 ALTER TABLE `go_state` DISABLE KEYS */;
-INSERT INTO `go_state` VALUES (1,'go-module-panel-modules','o%3Acolumns%3Da%253Ao%25253Aid%25253Ds%2525253Aname%25255Ewidth%25253Dn%2525253A1000%255Eo%25253Aid%25253Dn%2525253A1%25255Ewidth%25253Dn%2525253A100%255Eo%25253Aid%25253Ds%2525253Asort_order%25255Ewidth%25253Dn%2525253A100%255Eo%25253Aid%25253Ds%2525253Apackage%25255Ewidth%25253Dn%2525253A100%25255Ehidden%25253Db%2525253A1%5Esort%3Do%253Afield%253Ds%25253Aname%255Edirection%253Ds%25253AASC%5Egroup%3Ds%253Apackage'),(1,'open-modules','a%3As%253Anotes%5Es%253Atasks%5Es%253Amodules%5Es%253Abookmarks%5Es%253Acalendar%5Es%253Aaddressbook%5Es%253Aemail%5Es%253Asummary%5Es%253Afiles%5Es%253Agroups'),(1,'su-tasks-grid','o%3Acolumns%3Da%253Ao%25253Aid%25253Dn%2525253A0%25255Ewidth%25253Dn%2525253A30%255Eo%25253Aid%25253Ds%2525253Atask-portlet-name-col%25255Ewidth%25253Dn%2525253A772%255Eo%25253Aid%25253Dn%2525253A2%25255Ewidth%25253Dn%2525253A100%255Eo%25253Aid%25253Dn%2525253A3%25255Ewidth%25253Dn%2525253A150%25255Ehidden%25253Db%2525253A1%255Eo%25253Aid%25253Dn%2525253A4%25255Ewidth%25253Dn%2525253A50%25255Ehidden%25253Db%2525253A1%5Esort%3Do%253Afield%253Ds%25253Adue_time%255Edirection%253Ds%25253AASC%5Egroup%3Ds%253Atasklist_name');
+INSERT INTO `go_state` VALUES (1,'go-module-panel-modules','o%3Acolumns%3Da%253Ao%25253Aid%25253Ds%2525253Aname%25255Ewidth%25253Dn%2525253A1000%255Eo%25253Aid%25253Dn%2525253A1%25255Ewidth%25253Dn%2525253A100%255Eo%25253Aid%25253Ds%2525253Asort_order%25255Ewidth%25253Dn%2525253A100%255Eo%25253Aid%25253Ds%2525253Apackage%25255Ewidth%25253Dn%2525253A100%25255Ehidden%25253Db%2525253A1%5Esort%3Do%253Afield%253Ds%25253Aname%255Edirection%253Ds%25253AASC%5Egroup%3Ds%253Apackage'),(1,'open-modules','a%3As%253Aaddressbook%5Es%253Abookmarks%5Es%253Acalendar%5Es%253Aemail%5Es%253Afiles%5Es%253Anotes%5Es%253Asummary%5Es%253Atasks%5Es%253Amodules'),(1,'su-tasks-grid','o%3Acolumns%3Da%253Ao%25253Aid%25253Dn%2525253A0%25255Ewidth%25253Dn%2525253A30%255Eo%25253Aid%25253Ds%2525253Atask-portlet-name-col%25255Ewidth%25253Dn%2525253A772%255Eo%25253Aid%25253Dn%2525253A2%25255Ewidth%25253Dn%2525253A100%255Eo%25253Aid%25253Dn%2525253A3%25255Ewidth%25253Dn%2525253A150%25255Ehidden%25253Db%2525253A1%255Eo%25253Aid%25253Dn%2525253A4%25255Ewidth%25253Dn%2525253A50%25255Ehidden%25253Db%2525253A1%5Esort%3Do%253Afield%253Ds%25253Adue_time%255Edirection%253Ds%25253AASC%5Egroup%3Ds%253Atasklist_name');
 /*!40000 ALTER TABLE `go_state` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3369,7 +3418,7 @@ CREATE TABLE `go_users` (
   `middle_name` varchar(50) NOT NULL DEFAULT '',
   `last_name` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `email2` varchar(100) DEFAULT NULL,
+  `recovery_email` varchar(100) NOT NULL,
   `acl_id` int(11) NOT NULL DEFAULT '0',
   `date_format` varchar(20) NOT NULL DEFAULT 'dmY',
   `date_separator` char(1) NOT NULL DEFAULT '-',
@@ -3406,6 +3455,8 @@ CREATE TABLE `go_users` (
   `holidayset` varchar(10) DEFAULT NULL,
   `sort_email_addresses_by_time` tinyint(1) NOT NULL DEFAULT '0',
   `no_reminders` tinyint(1) NOT NULL DEFAULT '0',
+  `last_password_change` int(11) NOT NULL DEFAULT '0',
+  `force_password_change` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -3416,7 +3467,7 @@ CREATE TABLE `go_users` (
 
 LOCK TABLES `go_users` WRITE;
 /*!40000 ALTER TABLE `go_users` DISABLE KEYS */;
-INSERT INTO `go_users` VALUES (1,'groupofficeadmin','$2y$10$LQKH4WavnkG1r/KV9BTlrOV4UD9/RAziUtRKjLanqUSR3CbA/3Ywi','cfa2436b0f6df9e9905009e3bfca6f51',1,'System','','Administrator','support@technoinfotech.com',NULL,31,'dmY','-','H:i',',','.','Rs',3,1482908027,1482907222,30,'Asia/Kolkata','summary','en','Group-Office',1,'last_name',1482908027,1,0,0,0,1,0,';','\"',0,1000,0,0,0,0,'crypt','en',0,0);
+INSERT INTO `go_users` VALUES (1,'groupofficeadmin','$2y$10$2YVVaVdomTu5xfwDGlbRtOxwaBRsI1wcEct5KZC2wM75Q0uFE65A.','5525d140a89fce3eb82201451a1eb0ca',1,'System','','Administrator','support@technoinfotech.com','support@technoinfotech.com',31,'dmY','-','H:i',',','.','Rs.',1,1527753034,1527753010,30,'Asia/Kolkata','summary','en','Group-Office',1,'last_name',1527753034,1,0,0,0,1,0,';','\"',0,1000,0,0,0,0,'crypt','en',0,0,1527753011,0);
 /*!40000 ALTER TABLE `go_users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3496,7 +3547,7 @@ CREATE TABLE `no_categories` (
 
 LOCK TABLES `no_categories` WRITE;
 /*!40000 ALTER TABLE `no_categories` DISABLE KEYS */;
-INSERT INTO `no_categories` VALUES (1,1,7,'General',0);
+INSERT INTO `no_categories` VALUES (1,1,24,'General',2);
 /*!40000 ALTER TABLE `no_categories` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3785,7 +3836,7 @@ CREATE TABLE `ta_tasklists` (
 
 LOCK TABLES `ta_tasklists` WRITE;
 /*!40000 ALTER TABLE `ta_tasklists` DISABLE KEYS */;
-INSERT INTO `ta_tasklists` VALUES (1,'System Administrator',1,33,4,1);
+INSERT INTO `ta_tasklists` VALUES (1,'System Administrator',1,35,10,1);
 /*!40000 ALTER TABLE `ta_tasklists` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3897,4 +3948,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-12-28  6:54:33
+-- Dump completed on 2018-05-31 13:31:43

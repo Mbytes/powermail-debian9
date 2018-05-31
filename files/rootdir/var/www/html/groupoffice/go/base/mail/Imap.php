@@ -1191,6 +1191,19 @@ class Imap extends ImapBodyStruct {
 	/* use the FETCH command to manually sort the mailbox */
 	private function client_side_sort($sort, $reverse, $filter='ALL') {
 
+		// Check if the imap_sort_on_date flag is set. Usually this can be set when 
+		// the mailserver is a Microsoft Exchange server that 
+		// does NOT support Server Side Sort
+		
+		if (!\GO::config()->imap_sort_on_date) {
+			\GO::debug("imap::Config::imap_sort_on_date(false)");
+			if ($sort == 'DATE' || $sort == 'R_DATE') {
+				$sort = 'ARRIVAL';
+			}
+		} else {
+			\GO::debug("imap::Config::imap_sort_on_date(true)");
+		}
+
 		\GO::debug("imap::client_side_sort($sort, $reverse, $filter)");
 
 		$uid_string='1:*';
@@ -1207,13 +1220,16 @@ class Imap extends ImapBodyStruct {
 		$this->clean($sort, 'keyword');
 		$command1 = 'UID FETCH '.$uid_string.' ';
 		switch ($sort) {
-//			Doesn't work on some servers. Use internal date for these.
-//			case 'DATE':
-//			case 'R_DATE':
-//				$command2 = "BODY.PEEK[HEADER.FIELDS (DATE)]";
-//				$key = "BODY[HEADER.FIELDS";
-//				break;
-//			case 'SIZE':
+//		Doesn't work on some servers. Use internal date for these.
+//		Enabled because we have added GO::config()->imap_sort_on_date functionality
+			case 'DATE':
+			case 'R_DATE':
+				$command2 = "BODY.PEEK[HEADER.FIELDS (DATE)]";
+				$key = "BODY[HEADER.FIELDS";
+				break;
+			case 'SIZE':
+//		END				
+				
 			case 'R_SIZE':
 				$command2 = "RFC822.SIZE";
 				$key = "RFC822.SIZE";

@@ -131,7 +131,7 @@ class ColumnModel {
 	 *
 	 *
 	 * @param String $dataindex
-	 * @param String $format
+	 * @param String|callable $format
 	 * @param Array $extraVars Optional key value array with extra params that are needed for the $format.
 	 * @param String $sortAlias A string or array of columns to sort on if this column is sorted on.
 	 * @param StringHelper $label Label to use on exports.

@@ -1,6 +1,6 @@
 GO.email.LinkAttachmentDialog = Ext.extend(GO.dialog.LinksDialog,{
 
-	attachmentItem : null,
+	attachmentItem : null, // If this is set to null, then it saves all attachments of the message.
 	messagePanel : null,
 	
 	constructor : function(config){
@@ -29,7 +29,12 @@ GO.email.LinkAttachmentDialog = Ext.extend(GO.dialog.LinksDialog,{
 				id:record.data.model_id
 			},
 			success:function(response, options, result){
-				this.saveToItem(record, result.files_folder_id);
+				
+				if(GO.util.empty(this.attachmentItem)){
+					this.saveAllToItem(record, result.files_folder_id);
+				} else {
+					this.saveToItem(record, result.files_folder_id);
+				}
 			},
 			scope:this
 		});
@@ -78,6 +83,24 @@ GO.email.LinkAttachmentDialog = Ext.extend(GO.dialog.LinksDialog,{
 					},
 					scope:this
 				});
+			},
+			scope:this
+		});
+	},
+	
+	saveAllToItem: function(record,files_folder_id){
+
+		GO.request({
+			url: 'email/message/saveAllAttachments',
+			params:{
+				uid: this.messagePanel.uid,
+				mailbox: this.messagePanel.mailbox,
+				account_id: this.messagePanel.account_id,
+				folder_id: files_folder_id
+			},
+			success: function(options, response, result){
+				// Successfully saved all attachments
+				this.hide();
 			},
 			scope:this
 		});

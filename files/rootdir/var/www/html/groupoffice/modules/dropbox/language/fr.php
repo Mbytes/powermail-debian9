@@ -1,9 +1,9 @@
 <?php
 $l['name']="Synchronisation Dropbox";
-$l['description']="Synchroniser les fichiers Group-Office avec Dropbox.";
+$l['description']="Synchroniser les fichiers {product_name} avec Dropbox.";
 
 $l['connect']="Connecter";
-$l['instructions']="Cliquer sur le bouton 'Connecter' pour lier votre compte Group-Office avec votre compte Dropbox. Cette action va créer un nouveau dossier dans le module 'fichiers' de Group-Office pour faciliter la synchronisation avec le dossier 'Dropbox' dans Group-Office. Vous n\'avez qu\'à vous connecter qu\'une seule fois. Néanmoins, si vous rencontrez une erreur, vous pouvez utiliser ce bouton pour vous reconnecter.";
+$l['instructions']="Cliquer sur le bouton 'Connecter' pour lier votre compte {product_name} avec votre compte Dropbox. Cette action va créer un nouveau dossier dans le module 'fichiers' de {product_name} pour faciliter la synchronisation avec le dossier 'Dropbox' dans {product_name}. Vous n\'avez qu\'à vous connecter qu\'une seule fois. Néanmoins, si vous rencontrez une erreur, vous pouvez utiliser ce bouton pour vous reconnecter.";
 
 $l['syncFailed']="Synchronisation Dropbox echouée";
 $l['syncFailedBody']="Veuillez essayer de vous reconnecter en allant dans Paramètres -> Dropbox";

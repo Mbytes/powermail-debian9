@@ -4,7 +4,7 @@
 $l['success']='<h1>Modification du mot de passe</h1><p>Votre mot de passe a été changé avec succès. Vous pouvez maintenant aller sur la page de connexion.</p>';
 $l['send']='Envoyer';
 $l['login']='Connexion';
-$l['lost_password_subject']='Votre demande de nouveau mot de passe Group-Office';
+$l['lost_password_subject']='Votre demande de nouveau mot de passe {product_name}';
 $l['lost_password_body']='%s,
 Vous avez demandé un nouveau mot de passe pour %s. Votre nom d\'utilisateur est "%s".
 Cliquer sur le lien ci-dessous (ou copier le dans votre navigateur) pour changer votre mot de passe :

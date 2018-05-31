@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: MainPanel.js 19225 2015-06-22 15:07:34Z wsmits $
+ * @version $Id: MainPanel.js 21680 2017-11-14 08:16:38Z michaelhart86 $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  * @author Boy Wijnmaalen <bwijnmaalen@intermesh.nl>
@@ -53,13 +53,14 @@ GO.users.MainPanel = function(config)
 		  		text: GO.lang['cmdAdd'], 
 		  		cls: 'x-btn-text-icon', 
 		  		handler: function(){
-		  			if(GO.settings.config.max_users>0 && this.usersGridPanel.store.totalLength>=GO.settings.config.max_users)
-		  			{
-		  				Ext.Msg.alert(GO.lang.strError, GO.users.lang.maxUsersReached);
-		  			}else
-		  			{
+		  			//if(GO.settings.config.max_users > 0 && this.usersGridPanel.store.totalLength >= GO.settings.config.max_users)
+		  			//{
+					// THIS is now check serverside because we can only check the enabled users
+		  			//	Ext.Msg.alert(GO.lang.strError, GO.users.lang.maxUsersReached);
+		  			//}else
+		  			//{
 		  				GO.users.showUserDialog();
-		  			}
+		  			//}
 		  		}, 
 		  		scope: this
 		  	},

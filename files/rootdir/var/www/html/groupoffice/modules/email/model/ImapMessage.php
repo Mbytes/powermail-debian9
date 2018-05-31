@@ -108,7 +108,7 @@ class ImapMessage extends ComposerMessage {
 	 */
 	public function find(Account $account, $mailbox="INBOX", $start=0, $limit=50, $sortField=\GO\Base\Mail\Imap::SORT_DATE , $descending=true, $query='ALL', $searchIn='current'){
 		
-		$mailbox = trim($mailbox);
+//		$mailbox = trim($mailbox);
 		
 		if(empty($mailbox)) {
 			$mailbox="INBOX";

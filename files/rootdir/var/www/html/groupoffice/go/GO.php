@@ -208,6 +208,7 @@ class GO{
 	private static $_modules;
 	private static $_router;
 	private static $_request;
+	private static $_environment;
 	/**
 	 *
 	 * @var PDO
@@ -369,6 +370,18 @@ class GO{
 		return self::$_request;
 	}
 	
+	/**
+	 * Returns the environment object that has information about the current environment Group-Office is running on.
+	 *
+	 * @return \GO\Base\Environment
+	 */
+	public static function environment() {
+		if (!isset(self::$_environment)) {
+			self::$_environment=new \GO\Base\Environment();
+		}
+		return self::$_environment;
+	}
+	
 
 	/**
 	 * Returns a collection of Group-Office Module objects
@@ -428,7 +441,7 @@ class GO{
 							if(!isset(GO::session()->values['cacheDriver'])){
 								$cachePref = array(
 //										"\\GO\\Base\\Cache\\XCache",
-										"\\GO\\Base\\Cache\\Apc",
+//										"\\GO\\Base\\Cache\\Apc",
 										"\\GO\\Base\\Cache\\Disk"
 								);
 								foreach($cachePref as $cacheDriver){
@@ -651,6 +664,10 @@ class GO{
 		
 		if(\GO::config()->debug || \GO::config()->debug_log){
 			$log = '['.date('Y-m-d H:i').'] INIT';
+			
+			if(isset($_SERVER['REQUEST_METHOD'])) {
+				$log .= ' '.$_SERVER['REQUEST_METHOD'].' '.$_SERVER['REQUEST_URI'];
+			}
 			\GO::debug($log);
 		}
 
@@ -767,7 +784,7 @@ class GO{
 		self::$_lastReportedError = $errno.$errfile.$errline;
 		
 		//log only errors that are in error_reporting
-		$error_reporting = ini_get('error_reporting');
+		$error_reporting = (bool) ini_get('error_reporting');
 		if (!($error_reporting & $errno)) return;
 		
 		$type="Unknown error";
@@ -824,7 +841,7 @@ class GO{
 		$errorMsg .= "----------------";
 		
 		\GO::debug($errorMsg);
-		\GO::logError($errorMsg);	
+//		\GO::logError($errorMsg);	
 		
 		foreach(self::$_errorLogCallbacks as $callback){
 			call_user_func($callback, $errorMsg);
@@ -1048,7 +1065,7 @@ class GO{
 		//$modelName::model() does not work on php 5.2! That's why we use this function.
 		
 		//backwards compat
-		$modelName = str_replace('_','\\', $modelName);
+		//$modelName = str_replace('_','\\', $modelName);
 		
 		if(!class_exists($modelName))
 			throw new \Exception("Model class '$modelName' not found in \GO::getModel()");
@@ -1272,7 +1289,7 @@ class GO{
 			break;
 		
 //			default:
-//				throw new Exception("Unkonwn package ".$packagename);
+//				throw new Exception("Unknown package ".$packagename);
 		}
 
 		$path = GO::config()->root_path.'modules/professional/'.$className.'.php';
@@ -1285,7 +1302,7 @@ class GO{
 		//echo $path;
 
 		//check data for presence of ionCube in code.
-		$data=  file_get_contents($path, false, null, -1, 100);		
+		$data=  file_get_contents($path, false, null, 0, 100);		
 		if(strpos($data, 'ionCube')===false){							
 			return true;
 		}

@@ -37,6 +37,7 @@ class SentMailing extends \GO\Base\Db\ActiveRecord {
 	const STATUS_RUNNING=1;
 	const STATUS_FINISHED=2;
 	const STATUS_PAUSED=3;
+	const STATUS_WAIT_PAUSED=4;
 
 	/**
 	 * Returns a static model of itself

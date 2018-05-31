@@ -169,6 +169,7 @@ $l['PG'] = 'Papua-Nová Guinea';
 $l['PY'] = 'Paraguay';
 $l['PE'] = 'Peru';
 $l['PH'] = 'Filipíny';
+$l['PK'] = 'Pakistán';
 $l['PN'] = 'Pitcairn';
 $l['PL'] = 'Polsko';
 $l['PT'] = 'Portugalsko';

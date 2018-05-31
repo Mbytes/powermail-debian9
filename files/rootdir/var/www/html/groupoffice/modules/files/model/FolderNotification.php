@@ -103,9 +103,9 @@ class FolderNotification extends \GO\Base\Db\ActiveRecord {
 		}
 	}
 
-	public function notifyUser() {
+	public function notifyUser($user_id=null) {
 
-		$notifications = FolderNotificationMessage::getNotifications();
+		$notifications = FolderNotificationMessage::getNotifications($user_id);
 		if (empty($notifications))
 			return false;
 
@@ -212,9 +212,18 @@ class FolderNotification extends \GO\Base\Db\ActiveRecord {
 			}
 		}
 
+		$toUser = false;
+		if(!empty($user_id)){
+			$toUser = \GO::user()->findByPk($user_id);
+		} 
+		
+		if(!$toUser){
+			$toUser = \GO::user();
+		}
+		
 		$message = new \GO\Base\Mail\Message();
 		$message->setSubject(\GO::t('notificationEmailSubject', 'files'))
-				->setTo(array(\GO::user()->email=>\GO::user()->name))
+				->setTo(array($toUser->email=>$toUser->name))
 				->setFrom(array(\GO::config()->webmaster_email=>\GO::config()->title))
 				->setBody($emailBody);
 		\GO\Base\Mail\Mailer::newGoInstance()->send($message);

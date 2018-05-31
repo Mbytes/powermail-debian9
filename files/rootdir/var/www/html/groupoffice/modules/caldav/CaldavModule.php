@@ -13,70 +13,60 @@ class CaldavModule extends \GO\Professional\Module {
 	
 	public static function initListeners() {
 		
-		if(\GO::modules()->isInstalled('calendar')) {
-			\GO\Calendar\Model\Event::model()->addListener("save", "GO\Caldav\CaldavModule", "saveEvent");
-			\GO\Calendar\Model\Event::model()->addListener("delete", "GO\Caldav\CaldavModule", "deleteEvent");
-		}
+//		if(\GO::modules()->isInstalled('calendar')) {
+//			\GO\Calendar\Model\Event::model()->addListener("save", "GO\Caldav\CaldavModule", "saveEvent");
+//			\GO\Calendar\Model\Event::model()->addListener("delete", "GO\Caldav\CaldavModule", "deleteEvent");
+//		}
 		
-		if(\GO::modules()->isInstalled('tasks'))	{
-			\GO\Tasks\Model\Task::model()->addListener("save", "GO\Caldav\CaldavModule", "saveTask");
-			\GO\Tasks\Model\Task::model()->addListener("delete", "GO\Caldav\CaldavModule", "deleteTask");
-		}
+//		if(\GO::modules()->isInstalled('tasks'))	{
+//			\GO\Tasks\Model\Task::model()->addListener("save", "GO\Caldav\CaldavModule", "saveTask");
+//			\GO\Tasks\Model\Task::model()->addListener("delete", "GO\Caldav\CaldavModule", "deleteTask");
+//		}
 			
 		
 	}
 	
-	public static function saveEvent(\GO\Calendar\Model\Event $event, $wasNew) {
-		
+	public static function saveEvent(\GO\Calendar\Model\Event $event, $davEvent, $data = null) {
+//		return;
 		if($event->isException()) {
 			return;
 		}
 		
-		if($wasNew) {		
+		if(!$davEvent) {		
 			$davEvent = new DavEvent();
 			$davEvent->id = $event->id;	
 			$davEvent->mtime = $event->mtime;
 			$davEvent->calendarId = $event->calendar_id;
-			$davEvent->data = self::exportCalendarEvent($event);
-			$davEvent->uri = $event->getUri();			
-		} else {
-			$davEvent = DavEvent::model()->findByPk($event->id);
-			if(!$davEvent) {
-				$davEvent = new DavEvent();
-				$davEvent->id = $event->id;
-				$davEvent->uri = $event->getUri();
+			$davEvent->data = isset($data) ? $data : self::exportCalendarEvent($event);
+			$davEvent->uri = $event->getUri();
+			if($davEvent->save()){
+				return $davEvent;
 			}
-			$davEvent->data = self::exportCalendarEvent($event);			
-			$davEvent->mtime = $event->mtime;
-			$davEvent->calendarId = $event->calendar_id;
-		}
-		
-		if(!$davEvent->save()){
-			return false;
-		}			
 
-		return $davEvent;
+		} else  {			
+//			$davEvent->uri = $event->getUri();			
+			$davEvent->data = isset($data) ? $data : self::exportCalendarEvent($event);			
+			$davEvent->mtime = $event->mtime;
+//			$davEvent->calendarId = $event->calendar_id;
+			if($davEvent->save()){
+				return $davEvent;
+			}
+
+		}		
 	}
 	
-	public static function saveTask(\GO\Tasks\Model\Task $task, $wasNew) {
+	public static function saveTask(\GO\Tasks\Model\Task $task, $davTask, $data = null) {
 	
-		if($wasNew) {		
+		if(!$davTask) {		
 			$davTask = new DavTask();
 			$davTask->id = $task->id;	
 			$davTask->mtime = $task->mtime;
 			$davTask->tasklistId = $task->tasklist_id;
-			$davTask->data =$task->toICS();
+			$davTask->data = isset($data) ? $data : $task->toICS();
 			$davTask->uri = $task->getUri();
-		} else {
-			$davTask = DavTask::model()->findByPk($task->id);
-			if(!$davTask) {
-				$davTask = new DavTask();
-				$davTask->id = $task->id;
-				$davTask->uri = $task->getUri();
-			}
-			$davTask->data = $task->toICS();			
+		} else {			
+			$davTask->data = isset($data) ? $data : $task->toICS();			
 			$davTask->mtime = $task->mtime;
-			$davTask->tasklistId = $task->tasklist_id;
 		}
 		
 		if(!$davTask->save()){

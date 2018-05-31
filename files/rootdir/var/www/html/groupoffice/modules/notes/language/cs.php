@@ -5,7 +5,7 @@ $l['name']='Poznámky';
 $l['description']='Slouží k uchování rychlých zpráv.';
 $l['category']='Kategorie';
 $l['categories']='Kategorie';
-$lang['link_type'][4]=$l['note']='Poznámka';
+$l['note']='Poznámka';
 $l['notes']='Poznámky';
 $l['general'] = 'Obecné';
 $l['incomplete_delete']='Nemáte oprávnění pro smazání všech vybraných poznámek';
@@ -17,3 +17,5 @@ $l["notes"]="Poznámky";
 $l["category_id"]="Kategorie";
 $l["content"]="Obsah";
 $l["manageCategories"]="Správa kategorií";
+
+$l['encryptedContent']='Obsah je šifrován';

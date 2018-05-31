@@ -73,6 +73,12 @@ GO.addressbook.AddressbookDialog = Ext.extend(GO.dialog.TabbedFormDialog, {
 				}]
 			},
 			{
+				xtype: "xcheckbox",
+				fieldLabel: 'files_module',
+				boxLabel: GO.addressbook.lang['create_folder_contact_or_company'],
+				name: "create_folder"
+			},
+			{
 				xtype:'fieldset',
 				title:GO.addressbook.lang.explanationVariables,
 				border:true,

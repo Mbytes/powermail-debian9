@@ -24,20 +24,17 @@ GO.projects2.ProjectsTree = function(config){
 		if(el)
 			el.unmask();
 		
-		if(!this.project_id) {
-			
-		
-		this.getSelectionModel().select(this.getRootNode());
-			
-//			this.getSelectionModel().select(this.getRootNode());
-			this.fireEvent('click', this.getRootNode());
-		}
-		
-		
-		
+				
 		this.updateState();
 		
 	}, this);
+	
+	this.treeLoader.on('load', function(){
+		
+			this.getSelectionModel().select(this.getRootNode());
+			this.fireEvent('click', this.getRootNode());
+		
+	}, this, {single: true});
 
 	config.autoScroll=true;
 	config.animate=true;

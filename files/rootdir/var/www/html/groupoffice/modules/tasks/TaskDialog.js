@@ -7,7 +7,7 @@
  * If you have questions write an e-mail to info@intermesh.nl
  * 
  * @copyright Copyright Intermesh
- * @version $Id: TaskDialog.js 19784 2016-01-26 13:56:16Z michaelhart86 $
+ * @version $Id: TaskDialog.js 21609 2017-11-02 11:18:04Z mschering $
  * @author Merijn Schering <mschering@intermesh.nl>
  */
 
@@ -27,7 +27,7 @@ GO.tasks.TaskDialog = function() {
 		layout : 'fit',
 		modal : false,
 		resizable : true,
-		width : 560,
+		width : 580,
 		height : 400,
 		closeAction : 'hide',
 		collapsible: true,
@@ -41,13 +41,13 @@ GO.tasks.TaskDialog = function() {
 
 			},
 			scope : this
-		},/* {
+		}, {
 			text : GO.lang['cmdApply'],
 			handler : function() {
 				this.submitForm();
 			},
 			scope : this
-		}, */{
+		}, {
 			text : GO.lang['cmdClose'],
 			handler : function() {
 				this.win.hide();
@@ -262,6 +262,13 @@ Ext.extend(GO.tasks.TaskDialog, Ext.util.Observable, {
 				this.fireEvent('save', this, this.task_id);
 				
 				
+				if(GO.comments){	
+					this.commentsGrid.setLinkId(action.result.id, 'GO\\Tasks\\Model\\Task');
+					this.commentsGrid.store.load();
+					this.commentsGrid.setDisabled(false);
+				}
+				
+				
 				GO.dialog.TabbedFormDialog.prototype.refreshActiveDisplayPanels.call(this);
 
 				if (hide) {
@@ -304,7 +311,7 @@ Ext.extend(GO.tasks.TaskDialog, Ext.util.Observable, {
 
 			var remindDate = startDate.getValue().add(Date.DAY, -this.remind_before);
 			
-			formPanel.form.findField('remind_date').setValue(remindDate);
+			this.formPanel.form.findField('remind_date').setValue(remindDate);
 
 			if (this.repeatType.getValue() != '') {
 				if (this.repeatEndDate.getValue() == '') {
@@ -504,7 +511,7 @@ Ext.extend(GO.tasks.TaskDialog, Ext.util.Observable, {
 				name : days[day],
 				disabled : true,
 				checked : false,
-				width : 'auto',
+				//width : 'auto',
 				hideLabel : true,
 				labelSeperator : ''
 			});

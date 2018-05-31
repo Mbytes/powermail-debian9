@@ -20,7 +20,7 @@ class AddressbookModule extends \GO\Base\Module{
 	}
 	
 	// Load the settings for the "Addresslists" tab in the Settings panel
-	public static function loadSettings(&$settingsController, &$params, &$response, $user) {
+	public static function loadSettings($settingsController, &$params, &$response, $user) {
 
 		$findParams = \GO\Base\Db\FindParams::newInstance()
 						->joinCustomFields();
@@ -39,15 +39,25 @@ class AddressbookModule extends \GO\Base\Module{
 			foreach($addresslists as $addresslist){
 				$response['data']['addresslist_'.$addresslist->id]=1;
 			}
+			
+			self::_loadPhoto($response, $contact, $params);
+		}
+			
+		$settings = Model\Settings::model()->getDefault($user);
+		$response['data']=array_merge($response['data'], $settings->getAttributes());
+		
+		$addressbook = $settings->addressbook;
+		
+		if($addressbook) {
+			$response['data']['default_addressbook_id']=$addressbook->id;
+			$response['remoteComboTexts']['default_addressbook_id']=$addressbook->name;
 		}
 		
-		self::_loadPhoto($response, $contact, $params);
-			
 		return parent::loadSettings($settingsController, $params, $response, $user);
 	}
 	
 	// Save the settings for the "Addresslists" tab in the Settings panel
-	public static function submitSettings(&$settingsController, &$params, &$response, $user) {
+	public static function submitSettings($settingsController, &$params, &$response, $user) {
 		$contact = $user->contact;
 		// Only do this when the setting "globalsettings_show_tab_addresslist" is enabled.
 		$tabEnabled = GO::config()->get_setting('globalsettings_show_tab_addresslist');
@@ -75,6 +85,10 @@ class AddressbookModule extends \GO\Base\Module{
 			self::_savePhoto($response, $contact, $params);
 			GO::$ignoreAclPermissions = false;
 		}
+		
+		$settings = Model\Settings::model()->getDefault($user);		
+		$settings->default_addressbook_id=$params['default_addressbook_id'];
+		$settings->save();
 		
 		return parent::submitSettings($settingsController, $params, $response, $user);
 	}

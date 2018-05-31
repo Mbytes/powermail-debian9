@@ -128,7 +128,6 @@ class Task extends \GO\Base\Db\ActiveRecord {
 		return array(
 				'tasklist' => array('type' => self::BELONGS_TO, 'model' => 'GO\Tasks\Model\Tasklist', 'field' => 'tasklist_id', 'delete' => false),
 				'category' => array('type' => self::BELONGS_TO, 'model' => 'GO\Tasks\Model\Category', 'field' => 'category_id', 'delete' => false),
-				'project' => array('type' => self::BELONGS_TO, 'model' => 'GO\Projects\Model\Project', 'field' => 'project_id', 'delete' => false),
 				'project2' => array('type' => self::BELONGS_TO, 'model' => 'GO\Projects2\Model\Project', 'field' => 'project_id', 'delete' => false)
 				);
 	}
@@ -145,28 +144,23 @@ class Task extends \GO\Base\Db\ActiveRecord {
 	}
 	
 	public function afterSave($wasNew) {
-		// new remove or new task
-		if($this->isModified('reminder')) {
+		
+		// task is done
+		if($this->isModified('status') && $this->status == 'COMPLETED') {
+			$this->deleteReminders();
+		}elseif($this->isModified('reminder')) {
 			$this->deleteReminders();
 			if($this->reminder>0) {
 				if($this->reminder>time() && $this->status!='COMPLETED')
 					$this->addReminder($this->name, $this->reminder, $this->tasklist->user_id);
 			}	
-		}
-		
-		// task is done
-		if($this->isModified('status') && $this->status == 'COMPLETED') {
-			$this->deleteReminders();
-		}
-		
-		// other user id
-		if($this->isModified('user_id')) {
+		}elseif($this->isModified('user_id')) {
+			// other user id
 			$this->deleteReminders();
 			$this->addReminder($this->name, $this->reminder, $this->tasklist->user_id);
 		}
+			
 		
-		if($this->isModified('project_id') && $this->project)
-			$this->link($this->project);
 		if($this->isModified('project_id') && !empty($this->project2))
 			$this->link($this->project2);
 		
@@ -339,7 +333,7 @@ class Task extends \GO\Base\Db\ActiveRecord {
 			return 0;
 		}
 		
-		$tmp = \GO\Base\Util\Date::date_add($startTime, -$settings->reminder_days);
+		$tmp = \GO\Base\Util\Date::date_add($startTime, - $settings->reminder_days);
 		
 		// Set default to 8:00 when reminder_time is not set.
 		$rtime = empty($settings->reminder_time) ? "08:00" : $settings->reminder_time;
@@ -572,5 +566,18 @@ class Task extends \GO\Base\Db\ActiveRecord {
 	public function isActive() {
 		$today = date("Ymd");
 		return (date("Ymd",$this->start_time) <= $today && date("Ymd",$this->due_time) >= $today);
+	}
+	
+	public function getProjectName() {
+		if(!$this->project2) {
+			return null;
+		}
+		$parts = explode('/', $this->project2->path);
+		
+		$name = array_pop($parts);
+		
+		$next = array_pop($parts); 
+		
+		return $next ? $next . '/' . $name : $name;
 	}
 }

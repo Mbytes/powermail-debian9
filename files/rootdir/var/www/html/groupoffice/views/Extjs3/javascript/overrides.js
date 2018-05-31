@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: overrides.js 19784 2016-01-26 13:56:16Z michaelhart86 $
+ * @version $Id: overrides.js 21602 2017-10-31 13:05:55Z michaelhart86 $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -47,7 +47,35 @@ Ext.override(Ext.grid.Column,{
 			metaData.css='go-editable-col';
 		return value;
 	}	
-})
+});
+
+Ext.override(Ext.form.TriggerField,{
+	 onRender : function(ct, position){
+        this.doc = Ext.isIE ? Ext.getBody() : Ext.getDoc();
+        Ext.form.TriggerField.superclass.onRender.call(this, ct, position);
+
+        this.wrap = this.el.wrap({cls: 'x-form-field-wrap x-form-field-trigger-wrap'});
+        this.trigger = this.wrap.createChild(this.triggerConfig ||
+                {tag: "button", type: "button", cls: "x-form-trigger " + this.triggerClass});
+        this.initTrigger();
+        if(!this.width){
+            this.wrap.setWidth(this.el.getWidth()+this.trigger.getWidth());
+        }
+        this.resizeEl = this.positionEl = this.wrap;
+    }
+});
+
+Ext.override(Ext.form.TwinTriggerField, {
+	initComponent : function(){
+        Ext.form.TwinTriggerField.superclass.initComponent.call(this);
+
+        this.triggerConfig = {
+            tag:'span', cls:'x-form-twin-triggers', cn:[
+            {tag: "button", type: "button", cls: "x-form-trigger " + this.trigger1Class},
+            {tag: "button", type: "button", cls: "x-form-trigger " + this.trigger2Class}
+        ]};
+    }
+});
 
 Ext.override(Ext.data.GroupingStore,{
 	clearGrouping : function(){

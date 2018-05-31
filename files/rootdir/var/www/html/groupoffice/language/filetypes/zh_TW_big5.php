@@ -2,7 +2,7 @@
 
 
 $ft_title = "�ɮ�����";
-$ft_text = "�ɮ������OGroup-Office�۰ʷs�W���A�A/�p�i�H�b�o���ܧ�ϥܤΦW��";
+$ft_text = "�ɮ������O{product_name}�۰ʷs�W���A�A/�p�i�H�b�o���ܧ�ϥܤΦW��";
 $ft_icon = "�ϥ�";
 $ft_extension = "���ɦW";
 $ft_friendly = "�����W��";

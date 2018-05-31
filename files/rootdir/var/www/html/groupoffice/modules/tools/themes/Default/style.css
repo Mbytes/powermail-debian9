@@ -19,3 +19,14 @@ list-style-position:outside;
 list-style-type:disc;
 padding:10px;
 }
+
+.simple-list > div {
+	cursor: pointer !important;
+}
+
+.simple-list > div  span{
+	display:block;
+	color: #666;
+	font-size: 11px;
+	padding: 2px 0;
+}

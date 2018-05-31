@@ -10,9 +10,19 @@ GO.billing.ExpenseCategoriesGrid = function(config){
 	config.autoScroll=true;
 	config.split=true;
 	config.disabled=true;
-	config.store = GO.billing.expenseCategoriesStore;
+	config.store = new GO.data.JsonStore({
+	    url: GO.url('billing/expenseCategory/store'),
+	    baseParams: {
+	    	expense_book_id: 0				
+	    },
+	    root: 'results',
+	    id: 'id',
+	    totalProperty:'total',
+	    fields: ['id','expense_book_id','name'],
+	    remoteSort: true
+		});
 	
-	config.paging=false;
+	config.paging=true;
 	var columnModel =  new Ext.grid.ColumnModel({
 		defaults:{
 			sortable:true

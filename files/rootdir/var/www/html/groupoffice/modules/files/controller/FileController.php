@@ -228,7 +228,12 @@ class FileController extends \GO\Base\Controller\AbstractModelController {
 		
 		if(isset($params['name'])){		
 			$params['name'] = \GO\Base\Fs\File::stripInvalidChars($params['name']); // Strip invalid chars
-			$params['name'].='.'.$model->fsFile->extension();
+			if(isset($params['extension'])) {
+				$params['name'].='.'.$params['extension'];
+				$model->extension = $params['extension'];
+			} else if(!empty($model->fsFile->extension())) {
+				$params['name'].='.'.$model->fsFile->extension();
+			}
 		}
 		
 		if(isset($params['lock'])){
@@ -237,8 +242,10 @@ class FileController extends \GO\Base\Controller\AbstractModelController {
 		}
 		
 		
-		$fh = \GO\Files\Model\FileHandler::model()->findByPk(
-						array('extension'=>strtolower($model->extension), 'user_id'=>\GO::user()->id));
+		$fh = \GO\Files\Model\FileHandler::model()->findByPk(array(
+			'extension' => strtolower($model->extension), 
+			'user_id' => \GO::user()->id
+		));
 		
 		if(!$fh)
 			$fh = new \GO\Files\Model\FileHandler();
@@ -455,5 +462,60 @@ class FileController extends \GO\Base\Controller\AbstractModelController {
 		
 		return $response;
 	}
+	
+	public function actionCleanup() {
+		
+		$cleanupRoot = \GO::config()->file_storage_path.'cleanup/';
+		
+		\GO\Files\Model\File::$deleteInDatabaseOnly = true;
+						
+		
+		
+		$findParams = \GO\Base\Db\FindParams::newInstance();
+		
+		
+		$findCriteria = \GO\Base\Db\FindCriteria::newInstance()->addRawCondition("t.name REGEXP '^.+ \\\([0-9]+\\\)\\\..+'");
+		$findParams->criteria($findCriteria);
+		$stmt = \GO\Files\Model\File::model()->find($findParams);
+		
+		foreach ($stmt as $copySubfixFile) {
+			
+			
+			$name = preg_replace('/(\w+) (\\([0-9]+\)).(\w+)/i', '${1}.$3', $copySubfixFile->name);
+			
+			$findParams = \GO\Base\Db\FindParams::newInstance();
+			$findCriteria = \GO\Base\Db\FindCriteria::newInstance()->addCondition('name', $name)->addCondition('folder_id', $copySubfixFile->folder_id);
+			$findParams->criteria($findCriteria);
+			$stmt2 = \GO\Files\Model\File::model()->find($findParams);
+			
+			foreach ($stmt2 as $file) {
+				
+				if($file->fsFile->md5Hash() == $copySubfixFile->fsFile->md5Hash()) {
+					echo $copySubfixFile->path . ' ## ' . $copySubfixFile->folder_id. "<br/>";
+					
+					$cleanupPath = $cleanupRoot.$copySubfixFile->folder->getFullPath(); //projects2/Projectnaam/bestand (1).jpg
+					
+					$folderTo = new \GO\Base\Fs\Folder($cleanupPath);
+					$folderTo->create();
+					
+					if($folderTo->exists()) {
+						if(!$copySubfixFile->fsFile->move($folderTo)) {
+							throw new Exception('file move error from: '. $copySubfixFile->path . ' to '. $folderTo->getFullPath());
+						}
+						
+						$copySubfixFile->delete();
+					} else {
+						throw new Exception('Folder do not exists: '.$cleanupPath);
+					}
+					
+				}
+			}
+			
+			
+		}
+	}
+	
+	
+	
 }
 

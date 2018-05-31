@@ -12,7 +12,7 @@
  * This class contains functions for string operations
  *
  * @copyright Copyright Intermesh
- * @version $Id: StringHelper.php 20726 2016-12-16 10:04:54Z mschering $
+ * @version $Id: StringHelper.php 22430 2018-02-28 09:15:18Z wsmits $
  * @author Merijn Schering <mschering@intermesh.nl>
  * @package GO.base.util
  * @since Group-Office 3.0
@@ -24,10 +24,26 @@ namespace GO\Base\Util;
 
 class StringHelper {
 	
+	/**
+	 * Check if the given string is a valid JSON string
+	 * 
+	 * @param string $string
+	 * @return boolean
+	 */
+	public static function isJSON($string){
+		return is_string($string) && is_array(json_decode($string, true)) && (json_last_error() == JSON_ERROR_NONE) ? true : false;
+	}
 	
-	public static function normalizeCrlf($text, $crlf="\r\n"){
-		$text = str_replace("\r","",$text);
-		return $crlf != "\n" ? str_replace("\n",$crlf,$text) : $text;
+	
+	/**
+	 * Normalize Carites Return Line Feed
+	 * 
+	 * @param string $text
+	 * @param string $crlf
+	 * @return string
+	 */
+	public static function normalizeCrlf($text, $crlf="\r\n"){		
+		return preg_replace('/\R/u', $crlf, $text);
 	}
 	
 	/**
@@ -642,7 +658,7 @@ END;
 	 * @return	StringHelper
 	 */
 	public static function get_email_validation_regex() {
-		return "/^[a-z0-9\._\-+\&]+@[a-z0-9\.\-_]+\.[a-z]{2,100}$/i";
+		return "/^[_a-z0-9\-+\&\']+(\.[_a-z0-9\-+\&\']+)*@[a-z0-9\-]+(\.[a-z0-9\-]+)*(\.[a-z]{2,100})$/i";
 	}
 
 
@@ -1170,7 +1186,7 @@ END;
 // Match style attributes
 				'#(<[^>]*+[\x00-\x20\"\'\/])*style=[^>]*(expression|behavior)[^>]*>?#iUu',
 // Match unneeded tags
-				'#</*(applet|meta|xml|blink|link|style|script|embed|object|iframe|frame|frameset|ilayer|layer|bgsound|title|base)[^>]*>?#i'
+				'#</*(applet|meta|xml|blink|link|style|script|embed|object|iframe|frame|frameset|ilayer|layer|bgsound|title|base)\s[^>]*>?#i'
 		);
 
 		foreach ($patterns as $pattern) {
@@ -1490,5 +1506,26 @@ END;
 		
 		return implode('/', $parts);
 	}
+	
+		/**
+	 * Replace linebreaks with the given char
+	 * 
+	 * @param string $text
+	 * @param string $replacement
+	 * @return string
+	 */
+	public static function convertLineBreaks($text,$replacement=";"){
+
+		// replace the linebreak (\r\n OR \n) to the replacement char
+		$text = str_replace(array("\r\n","\n"),$replacement, $text);
+		
+		// Check if the replace action did not place the replacement twice after each other.
+		// If so, then replace it with only a single replacement char.
+		$doubleReplacement = $replacement.$replacement;
+		$text = str_replace($doubleReplacement,$replacement, $text);
+
+		return $text;
+	}
+	
 
 }

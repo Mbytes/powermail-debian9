@@ -15,7 +15,7 @@ $l['imported_events']='%s afspraken geïmorteerd.';
 $l['ignored_events']='%s afspraken genegeerd omdat een identieke boeking al aanwezig was.';
 $l['days']='Dagen';
 $l['units']='Eenheden';
-$l['units_budget']='Gebudgeteerde eenheden';
+$l['units_budget']='Gebudgeteerd';
 $l['units_diff']='Eenheden over';
 $l['ext_fee_value']='Extern tarief';
 $l['int_fee_value']='Intern tarief';
@@ -98,7 +98,7 @@ $l["types"]="Toegangstypen";
 $l["customer"]='Klant';
 $l["filter"]='Filter';
 $l["dueAt"]='Eindigt op';
-$l["unitsBudget"]='Eenheden in budget';
+$l["unitsBudget"]='Gebudgeteerd';
 $l["profit"]='Winst';
 $l["unitsLeft"]='Eenheden over';
 $l["nextMonth"]='Volgende maand';
@@ -106,7 +106,7 @@ $l["previousMonth"]='Vorige maand';
 $l["importEvents"]='Importeer afspraken';
 $l["subprojects"]='Sub items';
 $l["subproject"]='Sub item';
-$l["unitsBooked"]='Geregistreerde eenheden';
+$l["unitsBooked"]='Geregistreerd';
 $l["budgetReached"]='Het aantal eenheden in het budget is bereikt!';
 $l["projectEnded"]='Dit project zou al voltooid moeten zijn!';
 $l["confirmBookedHours"]='U heeft {HOURS} uur geboekt. Weet u zeker dat u de week af wilt sluiten?';
@@ -454,7 +454,7 @@ $l["importSuccessCount"]='Gegevens die succesvol zijn geïmporteerd:';
 $l['firstRowNoAttributes'] = 'De eerste regel van het CSV-bestand moet kolomnamen van projecten bevatten. Het geuploade CSV-bestand bevat deze niet.';
 $l['couldNotSaveProject'] = 'Kon project niet opslaan.';
 $l['couldNotCreatePathProjects'] = 'Fout bij het aanmaken van de path projecten.';
-$l['importProjectsByCsv'] = 'Dit is om projecten te importeren van een CSV-bestand naar Group-Office. Zorgt u ervoor, dat:<br />1) de eerste rij van het bestand de database namen van de kolommen bevat,<br />2) dat alle ouderprojecten van de projecten gespecificeerd zijn, en<br />3) dat elk te importeren project een geldig projecttype heeft.';
+$l['importProjectsByCsv'] = 'Dit is om projecten te importeren van een CSV-bestand naar {product_name}. Zorgt u ervoor, dat:<br />1) de eerste rij van het bestand de database namen van de kolommen bevat,<br />2) dat alle ouderprojecten van de projecten gespecificeerd zijn, en<br />3) dat elk te importeren project een geldig projecttype heeft.';
 $l['importCsvNoTypeError'] = 'De CSV bevat geen kolom "type_id" en geen kolom "type_name". Een van beide moet aanwezig zijn in de CSV, om ervoor te zorgen dat elk te importeren project een geldige toegangstype heeft.';
 $l['importCsvNoParentError'] = 'De CSV bevat geen kolom "parent_project_id" en geen kolom "path". Een van beide moet aanwezig zijn in de CSV, om ervoor te zorgen dat elk te importeren project een geldige ouderproject heeft.';
 $l['importCsvNoStatusError'] = 'De CSV bevat geen kolom "status_id" en geen kolom "status_name". Een van beide moet aanwezig zijn in de CSV, om ervoor te zorgen dat elk te importeren project een geldige status heeft.';
@@ -486,11 +486,11 @@ $l['showInTreeAndFilter']='Toon in linker boom en filter';
 $l['projectName'] = 'Naam';
 $l['showInvoiced'] = 'Toon gefactureerde projecten';
 $l['downloadExample'] = 'Download voorbeeldbestand';
-$l['noStatusErr'] = 'Kon geen projectstatus vinden in uw Group-Office. U dient er tenminste 1 aan te maken voor het voorbeeldbestand.';
-$l['noTypeErr'] = 'Kon geen projecttype vinden in uw Group-Office. U dient er tenminste 1 aan te maken voor het voorbeeldbestand.';
-$l['noTemplateErr'] = 'Kon geen projectsjabloon vinden in uw Group-Office. U dient er tenminste 1 aan te maken voor het voorbeeldbestand.';
-$l['noContactErr'] = 'Kon geen contact vinden in uw Group-Office adresboeken. U dient er tenminste 1 aan te maken voor het voorbeeldbestand.';
-$l['noCompanyErr'] = 'Kon geen bedrijf vinden in uw Group-Office adresboeken. U dient er tenminste 1 aan te maken voor het voorbeeldbestand.';
+$l['noStatusErr'] = 'Kon geen projectstatus vinden in uw {product_name}. U dient er tenminste 1 aan te maken voor het voorbeeldbestand.';
+$l['noTypeErr'] = 'Kon geen projecttype vinden in uw {product_name}. U dient er tenminste 1 aan te maken voor het voorbeeldbestand.';
+$l['noTemplateErr'] = 'Kon geen projectsjabloon vinden in uw {product_name}. U dient er tenminste 1 aan te maken voor het voorbeeldbestand.';
+$l['noContactErr'] = 'Kon geen contact vinden in uw {product_name} adresboeken. U dient er tenminste 1 aan te maken voor het voorbeeldbestand.';
+$l['noCompanyErr'] = 'Kon geen bedrijf vinden in uw {product_name} adresboeken. U dient er tenminste 1 aan te maken voor het voorbeeldbestand.';
 $l['referenceNo'] = 'Referentienr.';
 
 $l['realisation']='Realisatie';
@@ -499,7 +499,7 @@ $l['useTasksPanel'] = 'Toon werkzaamhedenpaneel';
 $l['realization']='Realisatie';
 
 
-$l['invoicePostCalc'] = 'Gemaakte uren tot en met {date}';
+$l['invoicePostCalc'] = 'Gewerkte uren tot en met {date}';
 $l['isBillable'] = 'Factureerbaar';
 $l['until'] = 'T/m';
 
@@ -607,4 +607,16 @@ $l['financial'] = 'Financieel';
 
 $l['timeentriesPdfReportTitle'] = 'Tijdsregistraties voor project "%s" inclusief subprojecten';
 
-$l['open_fee'] = 'Nog te ontvangen';
+$l['open_fee'] = 'Nog te ontvangen (incl BTW)';
+
+$l['startDate'] = 'Start datum';
+
+$l['unitsBilled'] = 'Gefactureerd';
+$l['forManager'] = 'Voor manager';
+$l['unitsBillable'] = 'Facturabel';
+
+$l['applyToExistingProjectsWithTemplate'] = 'Pas wijzigingen/toevoeging toe op bestaande projecten.';
+$l['extRatePerActivity'] = 'Extern tarief per activiteit';
+$l['noRatePerActivityConfigured'] = 'Geen extern tarief per activiteit ingesteld';
+$l['activity'] = 'Activiteit';
+$l['rate'] = 'Tarief';

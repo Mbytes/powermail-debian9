@@ -121,7 +121,7 @@ $l['emailDoesntExists']='L\'adresse électronique n\'a pas été trouvée';
 $l['imageNotSupported']='Le format de l\'image transférée n\'est pas supporté. Veuillez utiliser une image au format gif, png ou jpg.';
 
 $l["contactId"] = "ID";
-$l["contactUser_id"] = "Utilisateur";
+//$l["contactUser_id"] = "Utilisateur";
 $l["contactAddressbook_id"] = "Carnet d'adresse";
 $l["contactFirst_name"] = "Prénom";
 $l["contactMiddle_name"] = "Deuxième prénom";
@@ -153,7 +153,7 @@ $l["contactMtime"] = "Date de modification";
 $l["contactSalutation"] = "Salutation";
 $l["contactEmail_allowed"] = "E-mail permis"; 
 $l["contactFiles_folder_id"] = "Répertoire";
-$l["contactGo_user_id"] = "Utilisateur";
+$l["contactGo_user_id"] = "{product_name} Utilisateur";
 $l["contactSuffix"] = "Suffixe";
 $l["contactHomepage"] = "Siteweb";
 $l['sendingEmailAllowed']= 'Envoi de courriel avec cette adresse de courriel est autorisée';

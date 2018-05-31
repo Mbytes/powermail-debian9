@@ -25,7 +25,7 @@ class FreebusypermissionsModule extends \GO\Base\Module{
 		return \GO\Base\Model\Acl::getUserPermissionLevel($fbAcl->acl_id, $request_user_id) > 0;
 	}
 
-	public static function loadSettings(&$settingsController, &$params, &$response, $user) {
+	public static function loadSettings($settingsController, &$params, &$response, $user) {
 		
 		$acl = FreebusypermissionsModule::getFreeBusyAcl($user->id);
 		

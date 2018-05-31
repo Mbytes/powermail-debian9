@@ -49,13 +49,6 @@ GO.base.upload.PluploadMenuItem = Ext.extend(Ext.menu.Item, {
 			this.window.show(); 
 			this.uploadpanel.doLayout();
 			
-			//automatically open file chooser if possible
-			if (this.uploadpanel.uploader.features.triggerDialog && GO.settings.upload_quickselect) {
-				var input = document.getElementById(this.uploadpanel.uploader.id + '_html5');
-				if (input && !input.disabled) { // for some reason FF (up to 8.0.1 so far) lets to click disabled input[type=file]
-						input.click();
-				}
-			}
 		};
         
 		GO.base.upload.PluploadMenuItem.superclass.constructor.apply(this, arguments);
@@ -64,8 +57,7 @@ GO.base.upload.PluploadMenuItem = Ext.extend(Ext.menu.Item, {
 		
 		if(new_max_filesize <= 0)
 			new_max_filesize=1;// needs one bytes or plupload doesn't
-		
-		this.uploadpanel.max_file_size = Math.min(new_max_filesize, GO.settings.config.max_file_size);
+		this.uploadpanel.max_quota_size = new_max_filesize
 		var humanSize = (new_max_filesize==1) ? '0B': GO.util.format.fileSize(this.uploadpanel.max_file_size);
 		
 		if(typeof humanSize === 'undefined') {
@@ -75,7 +67,7 @@ GO.base.upload.PluploadMenuItem = Ext.extend(Ext.menu.Item, {
 		}
 		
 		if(this.uploadpanel.uploader){
-			this.uploadpanel.uploader.settings.max_file_size = this.uploadpanel.max_file_size;
+			this.uploadpanel.uploader.settings.max_quota_size = this.uploadpanel.max_quota_size;
 		}
 		//this.render();
 		//this.uploader.max_file_size = this.max_file_size;

@@ -20,7 +20,7 @@ if (empty($_REQUEST['email'])) {
 	$findParams = \GO\Base\Db\FindParams::newInstance();
 	$findCriteria = \GO\Base\Db\FindCriteria::newInstance()
 				->addCondition('email', $_REQUEST['email'], '=','t', false)
-				->addCondition('email2',$_REQUEST['email'], '=','t', false);
+				->addCondition('recovery_email',$_REQUEST['email'], '=','t', false);
 
 	$findParams->criteria($findCriteria);
 	$user = \GO\Base\Model\User::model()->findSingle($findParams);

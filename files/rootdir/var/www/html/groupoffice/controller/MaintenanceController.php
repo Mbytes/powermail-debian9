@@ -171,6 +171,14 @@ class MaintenanceController extends AbstractController {
 		echo $acl->id;
 	}
 	
+	protected function actionCopyAcl($params){
+		$acl = \GO\Base\Model\Acl::model()->findByPk($params['id']);
+		$copy = $acl->duplicate();
+		$acl->copyPermissions($copy);
+		
+		echo $copy->id;
+	}
+	
 	protected function actionRemoveDuplicates($params){
 				
 		if(!\GO::modules()->tools)
@@ -427,7 +435,11 @@ class MaintenanceController extends AbstractController {
 		
 		$sql = "delete from go_acl where user_id>0 and group_id>0;";
 		\GO::getDbConnection()->query($sql);
-
+		
+		
+		$sql = 'insert ignore into go_acl_items (select acl_id, "1", "missing", now() from go_acl);';
+		\GO::getDbConnection()->query($sql);
+		
 		
 		
 		$classes=\GO::findClasses('model');

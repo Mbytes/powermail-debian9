@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: ResourceGrid.js 19935 2014-11-07 13:32:06Z mdhart $
+ * @version $Id: ResourceGrid.js 23455 2018-03-01 14:24:03Z mdhart $
  * @copyright Copyright Intermesh
  * @author Michael de Hart <mdhart@intermesh.nl>
  */
@@ -27,7 +27,22 @@ GO.projects2.ResourceGrid = Ext.extend(GO.grid.GridPanel,{
 			header: GO.projects2.lang.externalFee,
 			dataIndex: 'external_fee',			
 			align:'right',
-			renderer : GO.util.format.valuta
+			renderer: function (v, meta, record) {
+				if(record.json.externalRates == "-") {
+					return "-";
+				}
+				var min = GO.util.unlocalizeNumber(v), max = min;
+				if(record.json.externalRates) {
+					for(var i = 0; i < record.json.externalRates.length; i++) {
+						min = Math.min(min, GO.util.unlocalizeNumber(record.json.externalRates[i].external_rate));
+						max = Math.max(max, GO.util.unlocalizeNumber(record.json.externalRates[i].external_rate));
+					}
+					if(min < max) {
+						return GO.util.format.valuta(min) + ' - ' + GO.util.format.valuta(max);
+					}
+				}
+				return GO.util.format.valuta(v);
+			}
 //			,
 //			summaryType: 'sum',
 //			summaryRenderer:function(value){
@@ -36,7 +51,13 @@ GO.projects2.ResourceGrid = Ext.extend(GO.grid.GridPanel,{
 		},{
 			header: GO.projects2.lang.internalFee,
 			dataIndex: 'internal_fee',
-			renderer : GO.util.format.valuta,
+			renderer : function(v){
+				if(v == "-") {
+					return "-";
+				}
+				return GO.util.format.valuta(v);
+			
+			},
 			align:'right'
 //			,
 //			summaryType: 'sum',
@@ -50,18 +71,20 @@ GO.projects2.ResourceGrid = Ext.extend(GO.grid.GridPanel,{
 			align:'right',
 			summaryType: 'sum',
 			summaryRenderer: function(v) { return GO.util.format.duration(GO.util.unlocalizeNumber(v)*60); }
-		},{
-			header: GO.projects2.lang['totalBudget'],
-			dataIndex: 'total_budget',
-			renderer: function(value, meta, record) {
-				return GO.util.format.valuta(GO.util.unlocalizeNumber(value));
-			},
-			align:'right',
-			summaryType: 'sum',
-			summaryRenderer:function(value){
-				return GO.util.format.valuta(GO.util.unlocalizeNumber(value));
-			}
-		}];
+		}
+//		,{
+//			header: GO.projects2.lang['totalBudget'],
+//			dataIndex: 'total_budget',
+//			renderer: function(value, meta, record) {
+//				return GO.util.format.valuta(GO.util.unlocalizeNumber(value));
+//			},
+//			align:'right',
+//			summaryType: 'sum',
+//			summaryRenderer:function(value){
+//				return GO.util.format.valuta(GO.util.unlocalizeNumber(value));
+//			}
+//		}
+	];
     
 		Ext.apply(this,{
 			title:GO.projects2.lang['employees'],

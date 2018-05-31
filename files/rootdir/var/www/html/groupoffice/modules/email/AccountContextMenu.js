@@ -1,8 +1,9 @@
 GO.email.AccountContextMenu = Ext.extend(Ext.menu.Menu,{
 
-	
 	setNode : function(node){
 		this.addFolderButton.setDisabled(node.attributes.noinferiors);
+		// Disable the properties menu item when you have no manage permission
+		this.propertiesBtn.setDisabled((node.attributes.permission_level < GO.permissionLevels.manage));
 	},
 	initComponent : function(){
 		
@@ -75,11 +76,8 @@ GO.email.AccountContextMenu = Ext.extend(Ext.menu.Menu,{
 			scope:this
 		})
 		];
-
-
-		GO.email.AccountContextMenu.superclass.initComponent.call(this);
 		
-
+		GO.email.AccountContextMenu.superclass.initComponent.call(this);
 	}
 }
 );

@@ -13,7 +13,7 @@ use GO\Base\Util\Date;
  * If you have questions write an e-mail to info@intermesh.nl
  *
  * @copyright Copyright Intermesh
- * @version $Id: Month.php 19949 2016-04-07 13:50:22Z mschering $
+ * @version $Id: Month.php 21480 2017-09-28 06:46:58Z mschering $
  * @author Michael de Hart <mdhart@intermesh.nl>
  */
 class Month extends Calendar {
@@ -163,7 +163,7 @@ class Month extends Calendar {
 				$this->DayCell($events, $colw, $rowh-$dateh, $coord[0], $coord[1]+$dateh,$more);
 				
 				$this->SetXY($coord[0]+$colw,$coord[1]);
-				$date = \GO\Base\Util\Date::clear_time((new \Datetime('@'.$date))->add(new \DateInterval('P1D'))->getTimestamp()); // Date::date_add($date, 1);
+				$date = \GO\Base\Util\Date::date_add($date, 1);
 			}
 			$this->SetXY($this->leftMargin,$this->GetY()+$rowh);
 			

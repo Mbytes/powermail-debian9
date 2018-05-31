@@ -73,25 +73,5 @@ class Backend extends AbstractDigest {
 		return $result;
 	}
 	
-//	public function authenticate(\Sabre\DAV\Server $server, $realm) {		
-//		
-////		if(GO::user()){
-////			$this->_user = GO::user();
-////			return true;
-////		}	
-//		//if(parent::authenticate($server, $realm)){
-//			\GO::session()->setCurrentUser($this->_user);
-//			return true;
-//		//}
-//
-//	}
-	
-//	For basic auth
-//	protected function validateUserPass($username, $password) {
-//		$user = \GO::session()->login($username, $password, false);
-//		if($user)
-//			return true;
-//		else 
-//			return false;
-//	}
+
 }

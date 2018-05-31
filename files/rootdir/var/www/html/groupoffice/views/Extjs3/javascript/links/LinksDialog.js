@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: LinksDialog.js 19273 2015-07-28 08:30:25Z mschering $
+ * @version $Id: LinksDialog.js 21473 2017-09-21 15:05:24Z wsmits $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -19,13 +19,17 @@ GO.dialog.LinksDialog = function(config){
 	if(!config.filesupport) // Load only the models that can handle files then set to true else false
 		config.filesupport = false;
 	
+	if(!config.filter_model_type_ids)
+		config.filter_model_type_ids = [];
+	
 	this.grid = new GO.grid.SearchPanel({
 			filesupport: config.filesupport,
+			filter_model_type_ids: config.filter_model_type_ids,
 			for_links: true,
 			noTitle:true,
 			noOpenLinks:true,
 			hideDescription:config.hideDescription,
-			dontLoadOnRender:true,
+//			dontLoadOnRender:true,
 			singleSelect:config.singleSelect,
 			minimumWritePermission:true
 		});

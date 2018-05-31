@@ -599,7 +599,7 @@ $l['repeats_not_every'] = 'Herhaalt elke %s %s';
 $l['until']='tot';
 
 $l['cannotMoveError']="%s item(s) konden niet worden verplaatst, u heeft onvoldoende toegangsrechten.";
-$l['cliOnly']= "Dit script kan alleen worden uitgevoerd met de Group-Office Command Line Interface (CLI).";
+$l['cliOnly']= "Dit script kan alleen worden uitgevoerd met de {product_name} Command Line Interface (CLI).";
 $l['maxRowslistTooHigh']='Het maximum aantal rijen voor lijsten mag maximaal 50 zijn';
 $l['logFiles']='Logbestanden';
 $l['deleteAllItems']='Verwijder alle items';
@@ -673,3 +673,18 @@ $l['unreadEmailMessage'] = 'Je hebt %d ongelezen email(s)';
 $l['hasData'] = 'Bevat data';
 $l['appendValues']='Waardes toevoegen';
 $l['replace'] = 'Vervang';
+
+$l['passwordSameAsPreviousError'] = 'Nieuwe wachtwoord mag niet hetzelfde zijn als oude wachtwoord';
+$l['passwordExpired'] = 'Uw wachtwoord is verlopen.';
+$l['passwordNeedsChange'] = 'Uw wachtwoord dient gewijzigd te worden';
+$l['passwordNeedsChangeText'] = 'Wijzig uw wachtwoord om verder te kunnen werken in {product_name}.';
+$l['strCurrentPassword'] = 'Huidige wachtwoord';
+$l['strNewPassword'] = 'Nieuw wachtwoord';
+$l['strConfirmPassword'] = 'Bevestig wachtwoord';
+$l['alreadyLoggedInOther'] = 'U bent al ingelogd op een andere locatie';
+$l['alreadyLoggedInOtherText'] = "U bent al ingelogd op een andere locatie via IP {last_login_ip} sinds {last_login_time}.\nAls u hier inlogd, wordt u op de andere locatie uitgelogd.";
+$l['cmdContinue'] = 'Doorgaan';
+
+$l['strRecoveryEmail'] = 'Herstel e-mail';
+$l["recoveryEmailText"]= 'Dit e-mailadres wordt gebruikt om u een vergeten wachtwoord verzoek te sturen. Gebruik een e-mail adres waar u toegang toe heeft zonder {product_name} toegang.';
+$l["currentPasswordText"] = 'Om onderstaande velden te wijzigen dient u uw huidige wachtwoord op te geven.';

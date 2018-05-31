@@ -313,3 +313,14 @@ $l["notify_email_by_new_tickit"]= 'Notify following email addresses when new tic
 $l["email_on_new_msg_body"]= 'E-mail body';
 
 $l["onlyManagerReopenTicket"]="Only module managers may reopen closed tickets";
+
+$l['ticketReportMailerLabel'] = 'Ticket report mailer';
+$l['ticketReportMailerDescription'] = 'Sends a ticket report to the selected users.';
+$l['today_closed'] = 'Today closed';
+$l['closedAt'] = 'Closed at';
+$l['today_new'] = 'Today new';
+$l['currently_unclaimed'] = 'Currently unclaimed';
+$l['ticketReportMailerNothingEnabled'] = 'Nothing to show';
+
+$l['showConfirmOnClose'] = 'Show confirm dialog when closing ticket';
+$l['confirmCloseText'] = 'Are you sure you want to close this ticket?';

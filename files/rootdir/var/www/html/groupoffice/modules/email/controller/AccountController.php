@@ -243,13 +243,13 @@ class AccountController extends \GO\Base\Controller\AbstractModelController {
 		$usage="";
 
 		$quota = $account->openImapConnection()->get_quota();
-
+		
 		if(isset($quota['usage'])) {
 			if(!empty($quota['limit'])) {
 				$percentage = ceil($quota['usage']*100/$quota['limit']);
 				$usage = sprintf(\GO::t('usage_limit','email'), $percentage.'%', \GO\Base\Util\Number::formatSize($quota['limit']*1024));
-
-				$round5 = floor($usage/5)*5;
+				
+				$round5 = floor($quota['usage']/5)*5;
 
 				$usage='<span class="em-usage-'.$round5.'">'.$usage.'</span>';
 

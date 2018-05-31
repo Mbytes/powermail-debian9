@@ -283,7 +283,7 @@ class FindCriteria {
 			$sql = "CREATE TEMPORARY TABLE `$tableName` (
 				`id` int(11) NOT NULL,
 				PRIMARY KEY (`id`)
-			);";
+			) ENGINE = MEMORY;";
 			\GO::getDbConnection()->query($sql);
 
 			self::$_temporaryTables[$tableName]=true;
@@ -351,18 +351,22 @@ class FindCriteria {
 	 * @param String $value The value of the field for this condition.
 	 * @param Boolean $useAnd True for 'AND', false for 'OR'. Default: true.
 	 * @param Boolean $useNot True for 'NOT LIKE', false for 'LIKE'. Default: false.
-	 * @param Boolean $useExact True if you need an exact match for the given value, false if it needs to be a part of the given value. Default: false.
+	 * @param Boolean $partialMatch True if want to search on partials of the term. Default: false.
+	 * @param String $tableAlias The table alias to apply this searchcondition to.
+	 * 
 	 * @return FindCriteria The complete FindCriteria object is given as a return value.
 	 */
-	public function addSearchCondition($field, $value, $useAnd=true, $useNot=false, $useExact=false) {
+	public function addSearchCondition($field, $value, $useAnd=true, $useNot=false, $partialMatch=false, $tableAlias = 't') {
 		
 		$this->_appendOperator($useAnd);
 		
 		$comparator = $useNot ? 'NOT LIKE' : 'LIKE';
-		$exact = $useExact ? '%' : '';
-		$value = $exact.$value.$exact;
 		
-		$this->_appendConditionString('t', $field, $value, $comparator, false);	
+		if($partialMatch) {
+			$value = '%' . preg_replace('/[\s*]+/', '%', $value) . '%';
+		}
+		
+		$this->_appendConditionString($tableAlias, $field, $value, $comparator, false);	
 	
 		return $this;
 	}

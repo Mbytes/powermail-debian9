@@ -15,3 +15,6 @@ $l['readMore']="Les mer";
 $l['enableReadMore']="Bruk les mer-lenker ";
 $l['actionDate']='Oppfølgingsdato';
 $l['parent']='Forelder';
+$l['originalCommentTabs']= 'Original kommentarfane';
+$l['disableOriginalCommentsContact']= 'Skjul original kommentarfane i kontaktpersondialog';
+$l['disableOriginalCommentsCompany']= 'Skjul original kommentarfane i firmadialog';

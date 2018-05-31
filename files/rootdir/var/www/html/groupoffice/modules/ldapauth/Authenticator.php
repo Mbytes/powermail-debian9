@@ -107,7 +107,7 @@ class Authenticator {
 		if(!empty(GO::config()->ldap_create_mailbox_domains)){
 
 			if(!GO::modules()->serverclient)
-				throw new Exception("The serverclient module must be installed and configured when using \$config['GO::config()->ldap_create_mailbox_domains']. See https://www.group-office.com/wiki/Mailserver#Optionally_install_the_serverclient");
+				throw new \Exception("The serverclient module must be installed and configured when using \$config['GO::config()->ldap_create_mailbox_domains']. See https://www.group-office.com/wiki/Mailserver#Optionally_install_the_serverclient");
 
 			$_POST['serverclient_domains']=GO::config()->ldap_create_mailbox_domains;
 		}else
@@ -125,7 +125,7 @@ class Authenticator {
 
 		try{
 			$this->_checkEmailAccounts($user, $password);
-		}catch(Exception $e){
+		}catch(\Exception $e){
 //				GO::debug("LDAPAUTH: Failed to create or update e-mail account!\n\n".(string) $e);
 			trigger_error("LDAPAUTH: Failed to create or update e-mail account for user ".$user->username."\n\n".$e->getMessage());
 		}
@@ -148,6 +148,9 @@ class Authenticator {
 		
 
 		$attr = $this->getUserAttributes($record);
+		
+		
+		// ldap data $attr
 		
 		if(!empty($attr['exclude'])){
 			\GO::debug("LDAPAUTH: User is excluded from LDAP by mapping!");
@@ -222,10 +225,24 @@ class Authenticator {
 	}
 
 	private function _updateContact($user, $attributes) {
+		
+		
+		
 		$contact = $user->createContact();
 		if ($contact) {
 			\GO::debug('LDAPAUTH: updating user contact');
+			if(!empty($attributes['photo'])) {
+				$data = $attributes['photo'];
+				unset($attributes['photo']);
+			}
 			$contact->setAttributes($attributes);
+			
+			if (isset($data)) {
+				$f = \GO\Base\Fs\File::tempFile(uniqid('ldap_'), "jpg");
+				$f->putContents($data);
+
+				$contact->setPhoto($f);
+			}
 			$contact->cutAttributeLengths();
 			$contact->skip_user_update=true;
 
@@ -249,6 +266,9 @@ class Authenticator {
 			}
 
 			$contact->save();
+			if(isset($f)) {
+				$f->delete();
+			}
 		}
 	}
 

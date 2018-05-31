@@ -99,7 +99,7 @@ $l["fileExtension"] = "Extension";
 $l["fileExpire_time"] = "Expire time";
 $l["fileRandom_code"] = "Random Code";
 
-$l['createDownloadLink']='Create downloadlink';
+$l['createDownloadLink']='Create download link';
 
 $l['notifyFolderAdd'] = 'Folder %s was add to %s by %s';
 $l['notifyFolderRename'] = 'Folder %s was renamed to %s by %s';
@@ -152,3 +152,7 @@ $l['expiredFilesPortlet'] = 'Expired files';
 $l['folderBrowserPortlet'] = 'Show folder';
 
 $l['applyCFRecursively'] = 'Apply these custom field settings to current folder and it\'s sub folders recursively';
+$l['uploadFailed'] = 'The upload failed! Ask the server manager for what wrong';
+
+$l['cronNotifyFolderChangeLabel'] = 'Send notification email when something changes in subscribed files folder';
+$l['cronNotifyFolderChangeDescription'] = 'Send an email to the user when a folder is changed';

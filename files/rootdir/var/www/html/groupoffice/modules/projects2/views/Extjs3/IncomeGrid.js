@@ -6,27 +6,113 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: IncomeGrid.js 21429 2016-06-09 09:55:03Z mschering $
+ * @version $Id: IncomeGrid.js 22686 2017-11-21 13:17:52Z wsmits $
  * @copyright Copyright Intermesh
  * @author Michael de Hart <mdhart@intermesh.nl>
  */
 
 
 GO.projects2.IncomeGrid = Ext.extend(GO.grid.GridPanel,{
+	plugins: [],
+	
+	fields:['id', 'project_id', 'description', 'reference_no', 'amount', 'is_invoiced', 'invoiceable', 'invoice_at', 'paid_at', 'invoice_number', 'type', 'comments', 'is_contract', 'contract_repeat_amount', 'contract_repeat_freq', 'hide_print'],
 
-	initComponent : function(){
-		
-		this.summary = new Ext.grid.GridSummary();
+	
+	columns:[{
+				dataIndex:'invoiceable',
+				header: GO.projects2.lang['invoiceable'],
+				renderer: function(v,m,r) { 
+					if(r.data.invoiceable){
+						return '<div title="'+GO.projects2.lang['invoiceable']+'" class="go-icon-exclamation"><div class="x-grid3-cell-inner" style="height:16px; width: 16px;"></div<</div>';
+					}
+				},
+				width: 10
+			},{
+				dataIndex: 'is_invoiced',
+				renderer: function(v,m,r) { 
+					if(r.data.is_invoiced){
+						return '<div title="'+GO.projects2.lang['invoiced']+'" class="tasks-complete-icon"></div>';
+					}
+				},
+				width: 10
+			},{
+				dataIndex: 'is_contract',
+				header: GO.projects2.lang.contract,
+				renderer: function(v,m,r) { 
+					if(r.data.is_contract){
+						return GO.lang.yes;
+						//return '<div title="'+GO.projects2.lang['contract']+'" class="tasks-complete-icon"></div>';
+					} else {
+						return GO.lang.no;
+					}
+				},
+				width: 80
+			},{
+				dataIndex: 'contract_repeat_freq',
+				header: GO.projects2.lang.repeat,
+				renderer: function(v,m,r) { 
+					if(r.data.contract_repeat_freq){
 
-		this.store = new GO.data.JsonStore({
-			url:GO.url("projects2/income/store"),
-			fields: ['id', 'project_id', 'description', 'reference_no', 'amount', 'is_invoiced', 'invoiceable', 'invoice_at', 'paid_at', 'invoice_number', 'type', 'comments', 'is_contract', 'contract_repeat_amount', 'contract_repeat_freq'],
-			baseParams: {
-				forProjectTabPanel: true
+						var langKey = 'str'+GO.util.format.capitalize(r.data.contract_repeat_freq);
+						return r.data.contract_repeat_amount +' '+ GO.lang[langKey];
+					}
+				},
+				width: 110,
+				sortable:false
+			},{
+				header: GO.lang.strDescription,
+				dataIndex: 'description'
+			},{
+				header: GO.projects2.lang['referenceNo'],
+				dataIndex: 'reference_no'
+			},{
+				header: GO.projects2.lang['amount'],
+				dataIndex: 'amount',
+				align: 'right',
+				renderer: GO.util.format.valuta
+			}/*,{
+				header: GO.projects2.lang['invoiced'],
+				dataIndex: 'is_invoiced',
+				renderer: GO.util.format.yesNo
+			}*/,{
+				header: GO.projects2.lang['invoiceAt'],
+				dataIndex: 'invoice_at',
+				renderer: function(value){
+					return !value.dateFormat ? value : value.dateFormat(GO.settings.date_format);
+				},
+				summaryRenderer:function(){
+					return '&nbsp;';
+				}
+				}, {
+					header: GO.projects2.lang['paidAt'],
+					dataIndex: 'paid_at',
+					renderer: function (value) {
+						return !value.dateFormat ? value : value.dateFormat(GO.settings.date_format);
+					},
+					summaryRenderer: function () {
+						return '&nbsp;';
+					}
+				}, {
+				header: GO.projects2.lang['invoiceNo'],
+				dataIndex: 'invoice_number'
+			},{
+				header: GO.lang.strType,
+				dataIndex: 'type',
+				renderer: function(v) {
+					if(v==1)
+						return GO.projects2.lang['contractPrice'];
+					else
+						return GO.projects2.lang['postCalculation'];
+				}
+			},{
+				header: GO.lang['strComment'],
+				dataIndex: 'comments',
+				sortable: true,
+				hidden: true
 			}
-		});
-
-		var action = new Ext.ux.grid.RowActions({
+		],
+			
+		rowActionsSearchFiles : new Ext.ux.grid.RowActions({
 			header:'',
 			hideMode:'display',
 			keepSelection:true,
@@ -37,9 +123,33 @@ GO.projects2.IncomeGrid = Ext.extend(GO.grid.GridPanel,{
 				tooltipType: 'title'
 			}],
 			width: 50
-		});
-
-		action.on({
+		}),
+		
+		rowActionsPrint: new Ext.ux.grid.RowActions({
+			header:'',
+			hideMode:'display',
+			keepSelection:true,
+			actions:[{
+				hideIndex:'hide_print',
+				iconCls:'btn-print',
+				qtip:GO.lang.cmdPrint
+			}],
+			width: 50,
+			summaryRenderer:function(){
+				return '&nbsp;';
+			}
+		}),
+	
+	constructor : function(config){
+		config = config ? config: {};
+		
+		this.columns.push(this.rowActionsSearchFiles);
+		this.columns.push(this.rowActionsPrint);
+		
+		this.summary = new Ext.grid.GridSummary();
+		this.plugins.push(this.summary);
+		
+		this.rowActionsSearchFiles.on({
 			action:function(grid, record, action, row, col) {
 
 				switch(action){
@@ -67,9 +177,32 @@ GO.projects2.IncomeGrid = Ext.extend(GO.grid.GridPanel,{
 			},
 			scope: this
 		}, this);
+		
+		this.rowActionsPrint.on({
+			action:function(grid, record, action, row, col) {
 
-		Ext.apply(this,{
-			plugins: [this.summary, action],
+				switch(action){
+					case 'btn-print':
+						this.exportFile(record,action);
+						break;
+				}
+			},
+			scope: this
+		}, this);
+		
+		
+		this.plugins.push(this.rowActionsSearchFiles);
+		this.plugins.push(this.rowActionsPrint);
+
+		this.store = new GO.data.JsonStore({
+			url:GO.url("projects2/income/store"),
+			fields: this.fields,
+			baseParams: {
+				forProjectTabPanel: true
+			}
+		});
+		
+		Ext.apply(config,{
 			title:GO.projects2.lang.income,
 			disabled:true,
 			tbar: [{
@@ -117,104 +250,14 @@ GO.projects2.IncomeGrid = Ext.extend(GO.grid.GridPanel,{
 				defaults:{
 					sortable:true
 				},
-				columns:[{
-					dataIndex:'invoiceable',
-					header: GO.projects2.lang['invoiceable'],
-					renderer: function(v,m,r) { 
-						if(r.data.invoiceable){
-							return '<div title="'+GO.projects2.lang['invoiceable']+'" class="go-icon-exclamation"><div class="x-grid3-cell-inner" style="height:16px; width: 16px;"></div<</div>';
-						}
-					},
-					width: 10
-				},{
-					dataIndex: 'is_invoiced',
-					renderer: function(v,m,r) { 
-						if(r.data.is_invoiced){
-							return '<div title="'+GO.projects2.lang['invoiced']+'" class="tasks-complete-icon"></div>';
-						}
-					},
-					width: 10
-				},{
-					dataIndex: 'is_contract',
-					header: GO.projects2.lang.contract,
-					renderer: function(v,m,r) { 
-						if(r.data.is_contract){
-							return GO.lang.yes;
-							//return '<div title="'+GO.projects2.lang['contract']+'" class="tasks-complete-icon"></div>';
-						} else {
-							return GO.lang.no;
-						}
-					},
-					width: 80
-				},{
-					dataIndex: 'contract_repeat_freq',
-					header: GO.projects2.lang.repeat,
-					renderer: function(v,m,r) { 
-						if(r.data.contract_repeat_freq){
-							
-							var langKey = 'str'+GO.util.format.capitalize(r.data.contract_repeat_freq);
-							return r.data.contract_repeat_amount +' '+ GO.lang[langKey];
-						}
-					},
-					width: 110,
-					sortable:false
-				},{
-					header: GO.lang.strDescription,
-					dataIndex: 'description'
-				},{
-					header: GO.projects2.lang['referenceNo'],
-					dataIndex: 'reference_no'
-				},{
-					header: GO.projects2.lang['amount'],
-					dataIndex: 'amount',
-					align: 'right',
-					renderer: GO.util.format.valuta
-				}/*,{
-					header: GO.projects2.lang['invoiced'],
-					dataIndex: 'is_invoiced',
-					renderer: GO.util.format.yesNo
-				}*/,{
-					header: GO.projects2.lang['invoiceAt'],
-					dataIndex: 'invoice_at',
-					renderer: function(value){
-						return !value.dateFormat ? value : value.dateFormat(GO.settings.date_format);
-					},
-					summaryRenderer:function(){
-						return '&nbsp;';
-					}
-					}, {
-						header: GO.projects2.lang['paidAt'],
-						dataIndex: 'paid_at',
-						renderer: function (value) {
-							return !value.dateFormat ? value : value.dateFormat(GO.settings.date_format);
-						},
-						summaryRenderer: function () {
-							return '&nbsp;';
-						}
-					}, {
-					header: GO.projects2.lang['invoiceNo'],
-					dataIndex: 'invoice_number'
-				},{
-					header: GO.lang.strType,
-					dataIndex: 'type',
-					renderer: function(v) {
-						if(v==1)
-							return GO.projects2.lang['contractPrice'];
-						else
-							return GO.projects2.lang['postCalculation'];
-					}
-				},{
-					header: GO.lang['strComment'],
-					dataIndex: 'comments',
-					sortable: true,
-					hidden: true
-				},action]
+				columns:this.columns
 			})
 		});
 		
-		GO.projects2.IncomeGrid.superclass.initComponent.call(this);		
+		
+	
+		GO.projects2.IncomeGrid.superclass.constructor.call(this, config);	
 	},
-
 	
 	setProjectId : function(project_id){
 		this.store.baseParams.project_id=project_id;
@@ -228,6 +271,11 @@ GO.projects2.IncomeGrid = Ext.extend(GO.grid.GridPanel,{
 			});
 		}
 	},
+	
+	exportFile : function(record,action) {
+		window.open(GO.url('projects2/income/export',{income_id:record.id}));
+	},
+	
 	queryDuplicate: function() {
 		Ext.Msg.show({
 			title: GO.projects2.lang.duplicateQuestionTitle,

@@ -190,7 +190,7 @@ $l["pauseMailing"]='Pausa sändning';
 $l["resumeMailing"]='Återuppta sändning';
 
 $l["companyId"]= "ID";
-$l["companyUser_id"]= "Användare";
+//$l["companyUser_id"]= "Användare";
 $l["companyAddressbook_id"]= "Adressbok";
 $l["companyName"]= "Namn";
 $l["companyName2"]= "Namn 2";
@@ -221,7 +221,7 @@ $l["companyEmail_allowed"]= "E-post tillåtet";
 $l["companyFiles_folder_id"]= "Mapp";
 
 $l["contactId"]= "ID";
-$l["contactUser_id"]= "Användare";
+//$l["contactUser_id"]= "Användare";
 $l["contactAddressbook_id"]= "Adressbok";
 $l["contactFirst_name"]= "Förnamn";
 $l["contactMiddle_name"]= "Mellannamn";

@@ -32,9 +32,30 @@ class ModuleController extends AbstractJsonController{
 	
 	
 	protected function actionUpdate($id) {
-
+		if($id === 'users' && $_POST['enabled'] == 'false') {
+			throw new \Exception('This module is required');
+		}
 		
-		$module = Module::install($id);		
+		$module = Module::install($id);
+		
+		if($_POST['enabled'] == 'false') {
+			$modMan = $module->moduleManager;
+			if ($modMan) {
+				if(!$modMan->disable()){
+					throw new \Exception('Unable to disable this module');
+				}
+			}
+		}
+		
+		if($_POST['enabled'] == 'true') {
+			$modMan = $module->moduleManager;
+			if ($modMan) {
+				if(!$modMan->enable()){
+					throw new \Exception('Unable to enable this module');
+				}
+			}
+		}
+		
 		$module->setAttributes($_POST);		
 		$module->save();
 		
@@ -78,7 +99,7 @@ class ModuleController extends AbstractJsonController{
 		ksort($availableModules);		
 		
 		
-//		$response['has_license']=(GO::getLicenseFile()->exists() && GO::getLicenseFile()->size()) || GO::config()->product_name!='Group-Office';
+		$response['has_license']=GO::scriptCanBeDecoded() || GO::config()->product_name!='Group-Office';
 						
 		$response['results']=array_values($availableModules);		
 		$response['total']=count($response['results']);

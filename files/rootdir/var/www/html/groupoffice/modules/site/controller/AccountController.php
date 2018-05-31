@@ -7,7 +7,7 @@ namespace GO\Site\Controller;
 class AccountController extends \GO\Site\Components\Controller {
 	
 	protected function allowGuests() {
-		return array('register','login','lostpassword','recoverpassword','resetpassword','captcha');
+		return array('register','login','lostpassword','recoverpassword','resetpassword','captcha','resetexpiredpassword');
 	}
 	
 	public function actionCaptcha() {
@@ -129,7 +129,7 @@ class AccountController extends \GO\Site\Components\Controller {
 				$url = \Site::request()->getHostInfo(). \Site::urlManager()->createUrl('/site/account/resetpassword', array(), false);
 
 				$fromName = \Site::model()->name;
-				$fromEmail = 'noreply@intermesh.nl';
+				$fromEmail = \GO::config()->noreply_email;
 
 				$user->sendResetPasswordMail($siteTitle,$url,$fromName,$fromEmail);
 				\Site::notifier()->setMessage('success', \GO::t('recoverEmailSent', 'site')." ".$user->email);
@@ -169,6 +169,67 @@ class AccountController extends \GO\Site\Components\Controller {
 		echo $this->render('resetPassword', array('user'=>$user));
 	}
 	
+	public function actionResetExpiredPassword($params){
+		
+		$user = \GO\Base\Model\User::model()->findSingleByAttribute('username',$params['username']);
+		
+		if(!$user){
+			\Site::notifier()->setMessage('error', \GO::t("usernameIncorrect","defaultsite"));
+			echo $this->render('resetExpiredPassword',array('user'=>$user));
+			return;
+		}
+		
+		if (\GO\Base\Util\Http::isPostRequest()) {
+
+			// Check if the neccesary fields are here
+			if(empty($_POST['current_password']) || empty($_POST['password'])	|| empty($_POST['confirm'])){
+				\Site::notifier()->setMessage('error', \GO::t("pleaseFillInAllFields","defaultsite"));
+				echo $this->render('resetExpiredPassword',array('user'=>$user));
+				return;
+			}
+			
+			if($_POST['password'] != $_POST['confirm']){
+				\Site::notifier()->setMessage('error', \GO::t("passwordsDoNotMatch","defaultsite"));
+				echo $this->render('resetExpiredPassword',array('user'=>$user));
+				return;
+			}
+			
+
+			if($user->checkPassword($_POST['current_password'])){
+					
+				// Check if the new password is the same as the old password
+				if($user->checkPassword($_POST['password'])){
+					// The password validates with the current value, so it's the same
+					// Now validate to false
+					\Site::notifier()->setMessage('error', \GO::t("passwordsMayNotBeTheSame","defaultsite"));
+					echo $this->render('resetExpiredPassword',array('user'=>$user));
+					return;
+					
+				} else {
+
+					$user->password = $_POST['password'];
+					$user->passwordConfirm = $_POST['confirm'];
+					
+					if($user->save(true)){
+						\Site::notifier()->setMessage('success', 'YOUR PASSWORD IS CHANGED SUCCESSFULLY');	
+					}else{
+						\Site::notifier()->setMessage('error', \GO::t("couldNotSaveNewPassword","defaultsite"));
+						echo $this->render('resetExpiredPassword',array('user'=>$user));
+						return;
+					}
+				}
+			} else {
+					\Site::notifier()->setMessage('error', \GO::t("passwordIncorrect","defaultsite"));
+					echo $this->render('resetExpiredPassword',array('user'=>$user));
+					return;
+			}
+
+		}
+			
+		echo $this->render('resetExpiredPassword',array('user'=>$user,'ref'=>\GO::session()->values['sites']['returnUrl']));
+	}
+	
+	
 	/**
 	 * Render a login page 
 	 */
@@ -181,8 +242,16 @@ class AccountController extends \GO\Site\Components\Controller {
 			$model->username = $_POST['User']['username'];
 			
 			$password = $_POST['User']['password'];
-
-			$user = \GO::session()->login($model->username, $password);
+			
+			try {
+				$user = \GO::session()->login($model->username, $password);
+			} catch(\GO\Base\Exception\PasswordNeedsChange $e){
+				
+				\GO::session()->values['sites']['returnUrl'] = $this->getReturnUrl();
+				$url = \Site::urlManager()->createUrl('site/account/resetExpiredPassword', array('username'=>$model->username));
+				
+				$this->redirect($url);
+			}
 			
 			//reset language after login
 			if(!empty(\Site::model()->language))

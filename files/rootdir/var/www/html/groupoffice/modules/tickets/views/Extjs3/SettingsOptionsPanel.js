@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: SettingsOptionsPanel.js 21849 2016-11-08 12:46:37Z mschering $
+ * @version $Id: SettingsOptionsPanel.js 22427 2017-07-31 07:42:05Z johan $
  * @copyright Copyright Intermesh
  * @author Wesley Smits <wsmits@intermesh.nl>
  */
@@ -117,7 +117,7 @@ GO.tickets.SettingsOptionsPanel = Ext.extend(Ext.Panel, {
 			width:300,
 			anchor: '100%',
 			maxLength: 100,
-			allowBlank:false,
+//			allowBlank:false,
 			boxLabel: GO.tickets.lang.notifyContactCheck,
 			hideLabel:true
 		});
@@ -127,7 +127,7 @@ GO.tickets.SettingsOptionsPanel = Ext.extend(Ext.Panel, {
 			width:300,
 			anchor: '100%',
 			maxLength: 100,
-			allowBlank:false,
+//			allowBlank:false,
 			boxLabel: GO.tickets.lang.disableReminderAssigned,
 			hideLabel:true
 		});
@@ -137,7 +137,7 @@ GO.tickets.SettingsOptionsPanel = Ext.extend(Ext.Panel, {
 			width:300,
 			anchor: '100%',
 			maxLength: 100,
-			allowBlank:false,
+//			allowBlank:false,
 			boxLabel: GO.tickets.lang.disableReminderUnanswered,
 			hideLabel:true
 		});
@@ -147,7 +147,7 @@ GO.tickets.SettingsOptionsPanel = Ext.extend(Ext.Panel, {
 			width:300,
 			anchor: '100%',
 			maxLength: 100,
-			allowBlank:false,
+//			allowBlank:false,
 			boxLabel: GO.tickets.lang.leaveTypeBlankByDefault,
 			hideLabel:true
 		});
@@ -157,8 +157,18 @@ GO.tickets.SettingsOptionsPanel = Ext.extend(Ext.Panel, {
 			width:300,
 			anchor: '100%',
 			maxLength: 100,
-			allowBlank:false,
+//			allowBlank:false,
 			boxLabel: GO.tickets.lang.onlyManagerReopenTicket,
+			hideLabel:true
+		});
+		
+		this.showConfirmOnCloseCheckbox = new Ext.ux.form.XCheckbox({
+			name: 'show_close_confirm',
+			width:300,
+			anchor: '100%',
+			maxLength: 100,
+//			allowBlank:false,
+			boxLabel: GO.tickets.lang.showConfirmOnClose,
 			hideLabel:true
 		});
 		
@@ -188,7 +198,8 @@ GO.tickets.SettingsOptionsPanel = Ext.extend(Ext.Panel, {
 			this.disableAssignedReminderCheckbox,
 			this.disableUnansweredReminderCheckbox,
 			this.leaveTypeBlankByDefault,
-			this.managerReopenTicketOnlyCheckbox
+			this.managerReopenTicketOnlyCheckbox,
+			this.showConfirmOnCloseCheckbox
 		];
 		
 		

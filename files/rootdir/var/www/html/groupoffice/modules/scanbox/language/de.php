@@ -10,7 +10,7 @@ $l['actionLabel']='Was möchten Sie mit der/den gewählten Datei(en) machen?';
 $l['actionDeleteQuestion']="Sind Sie sicher, dass Sie die gewählte(n) Datei(en) löschen möchten?";
 
 $l['actionMove']="Datei(en) gesichert";
-$l['actionEmail']="Datei(en) per eMail versenden";
+$l['actionEmail']="Datei(en) per E-Mail versenden";
 $l['actionLink']="Bewegen Sie die Datei(en) auf ein Element";
 $l['actionDelete']="Datei(en) löschen";
 

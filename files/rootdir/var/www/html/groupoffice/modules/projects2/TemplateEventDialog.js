@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: TemplateEventDialog.js 21538 2016-07-18 11:46:14Z mschering $
+ * @version $Id: TemplateEventDialog.js 22579 2017-10-23 07:38:30Z mdhart $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -213,6 +213,16 @@ Ext.extend(GO.projects2.TemplateEventDialog, Ext.Window,{
 				name: 'name',
 				anchor: '-20',
 				fieldLabel: GO.lang.strName
+			},{
+				xtype: 'xcheckbox',
+				name: 'for_manager',
+				fieldLabel: GO.projects2.lang.forManager,
+				listeners: {
+					check: function(cc, checked) {
+						this.selectUser.setDisabled(checked);
+					},
+					scope:this
+				}
 			},
 			this.selectUser = new GO.projects2.SelectEmployee({				
 				anchor:'-20',

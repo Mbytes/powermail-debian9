@@ -219,12 +219,12 @@ Ext.extend(GO.billing.DeliveriesGrid, GO.grid.EditorGridPanel,{
 
 	beforeEdit : function(e)
 	{
-		var type = e.record.id.substr(0, 1);
-		if(type == 'f')
-		{
-			return false;
-		}else
-		{                
+//		var type = e.record.id.substr(0, 1);
+//		if(type == 'f')
+//		{
+//			return false;
+//		}else
+//		{                
 			var colId = this.colModel.getColumnId(e.column);
 
 			var col = this.colModel.getColumnById(colId);
@@ -234,7 +234,7 @@ Ext.extend(GO.billing.DeliveriesGrid, GO.grid.EditorGridPanel,{
 			{
 				e.record.set(e.field, GO.util.numberFormat(e.value));
 			}
-		}
+//		}
 	},
 	
 	numberRenderer : function(v)

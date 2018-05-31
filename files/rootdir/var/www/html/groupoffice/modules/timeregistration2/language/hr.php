@@ -48,3 +48,13 @@ $l['timerRunningSince ']= 'Brojač vremena radi od';
 $l['clickAtTimerBtn']="Kliknite na brojač vremena pored projekta kako bi zaustavili brojač";
 $l['copyLastWeek']='Kopiraj sate iz prošlog tjedna';
 $l['copyLastWeekConfirm']='Kopiraj registrirane sate iz prošlog tjedna u ovaj tjedan?';
+
+
+
+
+
+$l['timeTracking'] = 'Praćenje vremena';
+$l['project']='Projekt';
+
+
+

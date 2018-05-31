@@ -7,7 +7,7 @@
  * If you have questions write an e-mail to info@intermesh.nl
  *
  * @copyright Copyright Intermesh
- * @version $Id: TemplateDialog.js 20091 2014-12-24 08:11:10Z mschering $
+ * @version $Id: TemplateDialog.js 22439 2017-07-31 08:18:44Z johan $
  * @author Merijn Schering <mschering@intermesh.nl>
  */
 
@@ -209,6 +209,7 @@ Ext.extend(GO.billing.TemplateDialog, Ext.Window,{
 
 		["A3", "A3 (841.89,1190.55)"],
 		["A4", "A4 (595.28,841.89)"],
+		["A4-L", "A4 Landscape (841.89,595.28)"],
 		["A5", "A5 (419.53,595.28)"],
 		["LETTER", "US Letter (612,792)"],
 		["LEGAL", "US Legal (612,1008)"]
@@ -303,7 +304,7 @@ Ext.extend(GO.billing.TemplateDialog, Ext.Window,{
 						boxLabel: GO.billing.lang.createCostInvoice,
 						labelSeparator: '',
 						name: 'show_unit_cost',
-						allowBlank: true,
+//						allowBlank: true,
 						hideLabel:true,
 						checked:false
 					}),
@@ -311,7 +312,7 @@ Ext.extend(GO.billing.TemplateDialog, Ext.Window,{
 						boxLabel: GO.billing.lang.showUnitPrices,
 						labelSeparator: '',
 						name: 'show_nett_unit_price',
-						allowBlank: true,
+//						allowBlank: true,
 						hideLabel:true,
 						checked:true
 					}),
@@ -319,7 +320,7 @@ Ext.extend(GO.billing.TemplateDialog, Ext.Window,{
 						boxLabel: GO.billing.lang.showGrossUnitPrice,
 						labelSeparator: '',
 						name: 'show_gross_unit_price',
-						allowBlank: true,
+//						allowBlank: true,
 						hideLabel:true,
 						checked:false
 					}),
@@ -327,7 +328,7 @@ Ext.extend(GO.billing.TemplateDialog, Ext.Window,{
 						boxLabel: GO.billing.lang.showProdPrices,
 						labelSeparator: '',
 						name: 'show_nett_total_price',
-						allowBlank: true,
+//						allowBlank: true,
 						hideLabel:true,
 						checked:true
 					}),
@@ -335,7 +336,7 @@ Ext.extend(GO.billing.TemplateDialog, Ext.Window,{
 						boxLabel: GO.billing.lang.showGrossTotalPrice,
 						labelSeparator: '',
 						name: 'show_gross_total_price',
-						allowBlank: true,
+//						allowBlank: true,
 						hideLabel:true,
 						checked:false
 					}),
@@ -351,7 +352,7 @@ Ext.extend(GO.billing.TemplateDialog, Ext.Window,{
 						boxLabel: GO.billing.lang.showPageNumbers,
 						labelSeparator: '',
 						name: 'show_page_numbers',
-						allowBlank: true,
+//						allowBlank: true,
 						hideLabel:true,
 						checked:true
 					}),
@@ -359,7 +360,7 @@ Ext.extend(GO.billing.TemplateDialog, Ext.Window,{
 						boxLabel: GO.billing.lang.showProductNumber,
 						labelSeparator: '',
 						name: 'show_product_number',
-						allowBlank: true,
+//						allowBlank: true,
 						hideLabel:true,
 						checked:true
 					}),
@@ -367,7 +368,7 @@ Ext.extend(GO.billing.TemplateDialog, Ext.Window,{
 						boxLabel: GO.billing.lang.showItemId,
 						labelSeparator: '',
 						name: 'show_item_id',
-						allowBlank: true,
+//						allowBlank: true,
 						hideLabel:true,
 						checked:true
 					}),
@@ -375,7 +376,7 @@ Ext.extend(GO.billing.TemplateDialog, Ext.Window,{
 						boxLabel: GO.billing.lang.showCostCode,
 						labelSeparator: '',
 						name: 'show_cost_code',
-						allowBlank: true,
+//						allowBlank: true,
 						hideLabel:true,
 						checked:true
 					})
@@ -394,7 +395,7 @@ Ext.extend(GO.billing.TemplateDialog, Ext.Window,{
 						boxLabel: GO.billing.lang.showSupplierProductId,
 						labelSeparator: '',
 						name: 'show_supplier_product_id',
-						allowBlank: true,
+//						allowBlank: true,
 						hideLabel:true,
 						disabled: true
 					}),
@@ -402,7 +403,7 @@ Ext.extend(GO.billing.TemplateDialog, Ext.Window,{
 						boxLabel: GO.billing.lang.showAmounts,
 						labelSeparator: '',
 						name: 'show_amounts',
-						allowBlank: true,
+//						allowBlank: true,
 						hideLabel:true,
 						checked:true
 					}),
@@ -410,7 +411,7 @@ Ext.extend(GO.billing.TemplateDialog, Ext.Window,{
 						boxLabel: GO.billing.lang.showUnits,
 						labelSeparator: '',
 						name: 'show_units',
-						allowBlank: true,
+//						allowBlank: true,
 						hideLabel:true,
 						checked:false
 					}),
@@ -418,7 +419,7 @@ Ext.extend(GO.billing.TemplateDialog, Ext.Window,{
 						boxLabel: GO.billing.lang.showTax,
 						labelSeparator: '',
 						name: 'show_vat',
-						allowBlank: true,
+//						allowBlank: true,
 						hideLabel:true,
 						checked:false
 					}),
@@ -426,7 +427,7 @@ Ext.extend(GO.billing.TemplateDialog, Ext.Window,{
 						boxLabel: GO.billing.lang.repeatHeader,
 						labelSeparator: '',
 						name: 'repeat_header',
-						allowBlank: true,
+//						allowBlank: true,
 						hideLabel:true,
 						checked:false
 					}),
@@ -434,7 +435,7 @@ Ext.extend(GO.billing.TemplateDialog, Ext.Window,{
 						boxLabel: GO.billing.lang.showDateSent,
 						labelSeparator: '',
 						name: 'show_date_sent',
-						allowBlank: true,
+//						allowBlank: true,
 						hideLabel:true,
 						checked:false
 					}),
@@ -442,7 +443,7 @@ Ext.extend(GO.billing.TemplateDialog, Ext.Window,{
 						boxLabel: GO.billing.lang.showTotalPaid,
 						labelSeparator: '',
 						name: 'show_total_paid',
-						allowBlank: true,
+//						allowBlank: true,
 						hideLabel:true,
 						value: 0,
 						checked:true
@@ -451,7 +452,7 @@ Ext.extend(GO.billing.TemplateDialog, Ext.Window,{
 						boxLabel: GO.billing.lang.showReference,
 						labelSeparator: '',
 						name: 'show_reference',
-						allowBlank: true,
+//						allowBlank: true,
 						hideLabel:true,
 						checked:true
 					})
@@ -598,7 +599,7 @@ Ext.extend(GO.billing.TemplateDialog, Ext.Window,{
 			boxLabel: GO.billing.lang.deleteLogo,
 			labelSeparator: '',
 			name: 'delete_logo',
-			allowBlank: true,
+//			allowBlank: true,
 			hideLabel:true,
 			disabled:true
 		});
@@ -607,7 +608,7 @@ Ext.extend(GO.billing.TemplateDialog, Ext.Window,{
 			boxLabel: GO.billing.lang.logoOnlyFirstPage,
 			labelSeparator: '',
 			name: 'logo_only_first_page',
-			allowBlank: true,
+//			allowBlank: true,
 			hideLabel:true
 		});
 

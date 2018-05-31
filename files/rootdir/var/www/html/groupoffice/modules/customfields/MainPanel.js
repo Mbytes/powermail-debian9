@@ -106,7 +106,7 @@ GO.customfields.MainPanel = function(config){
 		region:'west',
 		title:GO.lang.menu,
 		autoScroll:true,
-		width: 150,
+		width: dp(280),
 		split:true,
 		resizable:true,
 		items:this.navMenu

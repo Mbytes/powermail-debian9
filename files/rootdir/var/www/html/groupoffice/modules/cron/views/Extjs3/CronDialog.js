@@ -114,9 +114,8 @@ GO.cron.CronDialog = Ext.extend(GO.dialog.TabbedFormDialog , {
 			width:300,
 			anchor: '100%',
 			maxLength: 100,
-			allowBlank:false,
-			boxLabel: GO.cron.lang.active,
-			hideLabel:true
+//			allowBlank:false,
+			boxLabel: GO.cron.lang.active
 		});
 		
 		this.runOnceCheckbox = new Ext.ux.form.XCheckbox({
@@ -124,9 +123,8 @@ GO.cron.CronDialog = Ext.extend(GO.dialog.TabbedFormDialog , {
 			width:300,
 			anchor: '100%',
 			maxLength: 100,
-			allowBlank:false,
-			boxLabel: GO.cron.lang.runonce,
-			hideLabel:true
+//			allowBlank:false,
+			boxLabel: GO.cron.lang.runonce
 		});
 		
 		this.jobCombo = new GO.form.ComboBox({

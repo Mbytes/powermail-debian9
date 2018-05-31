@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: SearchPanel.js 20382 2016-08-29 10:17:29Z mschering $
+ * @version $Id: SearchPanel.js 21745 2017-11-23 14:51:38Z michaelhart86 $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -39,10 +39,13 @@ GO.grid.SearchPanel = function(config){
 	if(!config.for_links) // Load only the models that can handle files then set to true else false
 		config.for_links = false;
 
+	if(!config.filter_model_type_ids)
+		config.filter_model_type_ids = [];
 
 	this.filterPanel = new GO.LinkTypeFilterPanel({
 		for_links: config.for_links,
 		filesupport:config.filesupport,
+		filter_model_type_ids:config.filter_model_type_ids,
 		region:'west',		
 		split:true,
 		border:true,
@@ -50,6 +53,12 @@ GO.grid.SearchPanel = function(config){
 	});
 	
 	this.filterPanel.on('change', function(grid, types){		
+		
+		//Make compatible with the config.filter_model_type_ids
+		if(this.filter_model_type_ids.length > 0 && types.length == 0){
+			types = this.filter_model_type_ids;
+		}
+		
 		this.searchGrid.store.baseParams.types = Ext.encode(types);
 		this.searchGrid.store.load();
 		//delete this.searchGrid.store.baseParams.types;
@@ -63,6 +72,7 @@ GO.grid.SearchPanel = function(config){
 			filesupport:config.filesupport,
 			link_id: this.link_id,
 			link_type: this.link_type,
+			for_links: config.for_links,
 			folder_id: this.folder_id,
 			type_filter:'true',
 			minimumWritePermission: config.minimumWritePermission || false
@@ -272,11 +282,14 @@ Ext.extend(GO.grid.SearchPanel, Ext.Panel, {
 	},
 	
 	load : function(){
-		if(this.query) {
+//		if(this.query) {
+
+		if(!this.for_links || !this.searchGrid.store.loaded) {
 			this.searchField.setValue(this.query);
 			this.searchGrid.store.baseParams.query=this.query;
 			this.searchGrid.store.load();
 		}
+//		}
 	},	
 	
 	iconRenderer : function(src,cell,record){

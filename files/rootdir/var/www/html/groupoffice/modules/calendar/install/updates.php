@@ -293,10 +293,22 @@ $updates['201610281650'][] = 'ALTER TABLE `go_links_cal_events` CONVERT TO CHARA
 
 $updates['201610281659'][] = 'SET foreign_key_checks = 1;';
 
+$updates['201701310910'][] = 'UPDATE cal_events SET timezone = (SELECT timezone FROM go_users WHERE id = 1) WHERE user_id = 0;';
 
-
-$updates['201612011333'][] = "ALTER TABLE `cal_exceptions` ADD "
+$updates['201701310910'][] = "ALTER TABLE `cal_exceptions` ADD "
 				. "`user_id` INT NOT NULL DEFAULT '0' AFTER `exception_event_id`, ADD "
 				. "`muser_id` INT NOT NULL DEFAULT '0' AFTER `user_id`, ADD "
 				. "`ctime` INT NOT NULL DEFAULT '0' AFTER `muser_id`, ADD "
 				. "`mtime` INT NOT NULL DEFAULT '0' AFTER `ctime`;";
+
+$updates['201701310910'][] = 'UPDATE cal_events SET timezone = (SELECT timezone FROM go_users WHERE id = 1) WHERE user_id = 0;';
+$updates['201702060910'][] = 'UPDATE cal_events SET timezone = (SELECT timezone FROM go_users WHERE id = 1) WHERE timezone = "";';
+
+$updates['201706010945'][] = 'ALTER TABLE `cal_events` CHANGE `reminder` `reminder` INT(11) NULL DEFAULT NULL;';
+$updates['201706011000'][] = 'UPDATE `cal_events` SET `reminder` = NULL WHERE `reminder`=0;';
+
+$updates['201706011015'][] = 'ALTER TABLE `cal_settings` CHANGE `reminder` `reminder` INT(11) NULL DEFAULT NULL;';
+$updates['201706011015'][] = 'UPDATE `cal_settings` SET `reminder` = NULL WHERE `reminder`=0;';
+
+$updates['201707131221'][] = 'ALTER TABLE `cal_settings` ADD `chack_conflict` BOOLEAN NOT NULL DEFAULT TRUE;';
+$updates['201708151100'][] = 'ALTER TABLE `cal_settings` CHANGE `chack_conflict` `check_conflict` BOOLEAN NOT NULL DEFAULT TRUE;';

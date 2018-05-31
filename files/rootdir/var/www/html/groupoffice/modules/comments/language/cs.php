@@ -20,3 +20,5 @@ $l['readMore']="Číst dále";
 $l['enableReadMore']="Povolit odkaz pro číst dále";
 
 $l['actionDate']='Datum akce';
+
+$l['parent']='Nadřazený';

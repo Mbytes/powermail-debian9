@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: TypeDialog.js 21849 2016-11-08 12:46:37Z mschering $
+ * @version $Id: TypeDialog.js 21998 2017-01-06 13:12:52Z johan $
  * @copyright Copyright Intermesh
  * @author Michiel Schmidt <michiel@intermesh.nl>
  * @author Merijn Schering <mschering@intermesh.nl>
@@ -89,6 +89,12 @@ Ext.extend(GO.tickets.TypeDialog, Ext.Window,{
 				
 				success:function(form, action)
 				{
+					
+					if(GO.customfields){
+						//GO\Tickets\Model\Ticket
+						this.disableTemplateCategoriesPanel.setModel(this.type_id, "GO\\Tickets\\Model\\Ticket");
+					}
+					
 					this.enableTemplates.checkbox.dom.checked = action.result.data.enable_templates;
 					this.checkboxToggle(this.enableTemplates.checkbox, this.enableTemplates.checkbox.dom.checked);
 					
@@ -375,6 +381,13 @@ Ext.extend(GO.tickets.TypeDialog, Ext.Window,{
 			this.readPermissionsTab, 
 			this.templates
 		];
+		
+		if(GO.customfields){
+			this.disableTemplateCategoriesPanel = new GO.customfields.DisableCategoriesPanel({
+				title:GO.customfields.lang.enabledCustomFields
+			});
+			items.push(this.disableTemplateCategoriesPanel);        
+		}
 			 
 		this.tabPanel = new Ext.TabPanel({
 			activeTab:0,      
@@ -411,5 +424,5 @@ Ext.extend(GO.tickets.TypeDialog, Ext.Window,{
 			} else {
 				this.settingsTemplatesForm.disable();
 			}
-	}
+	} 
 });

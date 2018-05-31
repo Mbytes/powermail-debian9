@@ -6,14 +6,14 @@ GO.billing.SelectProduct = function(config){
 		this.displayField='name';
 	
 	this.store = new GO.data.JsonStore({
-		url: GO.settings.modules.billing.url+ 'json.php',
+		url: GO.url("billing/product/store"),
 		baseParams: {
-			task: 'products'
+			
 		},
 		root: 'results',
 		id: 'id',
 		totalProperty:'total',
-		fields: ['id', 'name', 'description', 'cost_price', 'list_price', 'vat', 'total_price', 'article_id', 'full_name'],
+		fields: ['id', 'name', 'description', 'cost_price', 'list_price', 'vat', 'total_price', 'article_id', 'full_name','article_id_and_name'],
 		remoteSort: true
 	});
 	

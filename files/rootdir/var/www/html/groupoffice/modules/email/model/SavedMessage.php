@@ -88,9 +88,9 @@ class SavedMessage extends ComposerMessage {
 		$attributes['bcc'] = isset($structure->headers['bcc']) && strpos($structure->headers['bcc'], 'undisclosed') === false ? $structure->headers['bcc'] : '';		
 		$attributes['from'] = isset($structure->headers['from']) ? $structure->headers['from'] : '';
 		
-		
-		$attributes['date']=isset($structure->headers['date']) ? $structure->headers['date'] : date('c');		
-		$attributes['udate']=strtotime($attributes['date']);
+
+		$attributes['date']=isset($structure->headers['date']) ? $structure->headers['date'] : null;		
+		$attributes['udate']=isset($structure->headers['date']) ? strtotime($attributes['date']) : null;
 		$attributes['size']=strlen($mimeData);
 		
 		$attributes['message_id']=isset($structure->headers['message-id']) ? $structure->headers['message-id'] : "";
@@ -111,6 +111,7 @@ class SavedMessage extends ComposerMessage {
 					$attributes['content_type_attributes'][trim($keyvalue[0])]=trim($keyvalue[1],' "');
 			}
 		}
+		
 		
 		$this->setAttributes($attributes);
 		

@@ -108,6 +108,17 @@ GO.addressbook.CompanyProfilePanel = function(config)
 	 * 
 	 */
 	 
+	this.btnCopyVisitAddress = new Ext.Button({
+		text: GO.addressbook.lang.copyToPostAddress,
+		disabled:false,
+		fieldLabel: " ",
+		labelSeparator: "",
+		handler:function(){
+			this.copyVisitToPostAddress();
+		},
+		scope:this
+	});
+	 	 
 	this.formPostAddress = new Ext.form.TextArea(
 	{
 		fieldLabel: GO.lang['strAddress'], 
@@ -278,16 +289,31 @@ GO.addressbook.CompanyProfilePanel = function(config)
 		collapsed: false,
 		border: true,
 		defaults: { border: false, anchor: '100%' },
-		items: [this.formAddress,this.formAddressNo,this.formZip,this.formCity,this.formState,this.formCountry]
+		items: [
+			this.formAddress,
+			this.formAddressNo,
+			this.formZip,
+			this.formCity,
+			this.formState,
+			this.formCountry,
+			this.btnCopyVisitAddress
+		]
 	});
 	
 	this.postAddressFieldset = new Ext.form.FieldSet({
 		title: GO.addressbook.lang['cmdFieldsetPostAddress'], 
-    		autoHeight: true,
-    		collapsed: false,
-    		border: true,
-	    	defaults: { border: false, anchor:'100%' },
-				items: [this.formPostAddress,this.formPostAddressNo,this.formPostZip,this.formPostCity,this.formPostState,this.formPostCountry]
+		autoHeight: true,
+		collapsed: false,
+		border: true,
+		defaults: { border: false, anchor: '100%'},
+		items: [
+			this.formPostAddress,
+			this.formPostAddressNo,
+			this.formPostZip,
+			this.formPostCity,
+			this.formPostState,
+			this.formPostCountry
+		]
 	});
 
 
@@ -478,6 +504,16 @@ Ext.extend(GO.addressbook.CompanyProfilePanel, Ext.Panel,{
 		
 		
 	},
+
+	copyVisitToPostAddress : function(){
+		this.formPostAddress.setValue(this.formAddress.getValue());
+		this.formPostAddressNo.setValue(this.formAddressNo.getValue());
+		this.formPostZip.setValue(this.formZip.getValue());
+		this.formPostCity.setValue(this.formCity.getValue());
+		this.formPostState.setValue(this.formState.getValue());
+		this.formPostCountry.setValue(this.formCountry.getValue());
+	},
+
 
 	setCompanyId : function(company_id)
 	{

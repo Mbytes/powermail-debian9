@@ -1126,6 +1126,9 @@ In one short (Hare-Breadth Hurry, 1963), Bugs Bunny — with the help of "speed 
 				$resource->save();
 			}
 			
+			$folder = \GO\Files\Model\Folder::model()->findByPath('projects2/template-icons',true);
+			$folder->syncFilesystem();
+			
 		}
 		
 		

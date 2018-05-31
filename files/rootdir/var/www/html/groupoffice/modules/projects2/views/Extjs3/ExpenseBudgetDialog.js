@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: ExpenseBudgetDialog.js 21269 2016-03-22 16:01:21Z mschering $
+ * @version $Id: ExpenseBudgetDialog.js 22197 2017-03-31 11:10:55Z wsmits $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -102,7 +102,16 @@ GO.projects2.ExpenseBudgetDialog = Ext.extend(GO.dialog.TabbedFormDialog, {
 								this.contactField = new GO.addressbook.SelectContact({
 									anchor:'100%',
 									fieldLabel: GO.projects2.lang.contact,
-									hiddenName:'contact_id'
+									hiddenName:'contact_id',
+									listeners:{
+										'select': function(combo, record, index ){
+											if(record.data.company_id > 0){
+												this.customerField.setValue(record.data.company_id);
+												this.customerField.setRemoteText(record.data.company_name);
+											}
+										},
+										scope: this
+									}
 								}),
 								this.customerField = new GO.addressbook.SelectCompany({
 									anchor:'100%',

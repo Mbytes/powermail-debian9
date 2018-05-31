@@ -79,7 +79,8 @@ GO.billing.OrdersGrid = function(config){
 		},		{
 			header: GO.billing.lang.customer,
 			dataIndex: 'customer_name',
-			id:'customer'
+			id:'customer',
+			width: 200
 		},{
 			header: GO.billing.lang.paymentMethod,
 			dataIndex: 'payment_method'
@@ -225,7 +226,7 @@ GO.billing.OrdersGrid = function(config){
 	config.layout='fit';
 	config.autoScroll=true;
 	config.split=true;
-	config.autoExpandColumn='customer';
+//	config.autoExpandColumn='customer';
 	
 	var reader = new Ext.data.JsonReader({
 		root: 'results',
@@ -408,7 +409,7 @@ Ext.extend(GO.billing.OrdersGrid, GO.grid.GridPanel,{
 					book_id: 0
 					},
 				id: 'id',
-				fields: ['id','name','checked']
+				fields: ['id','name','checked', 'ask_to_notify_customer']
 			});
 			
 			this.statusMenu = new Ext.menu.Menu({
@@ -437,52 +438,58 @@ Ext.extend(GO.billing.OrdersGrid, GO.grid.GridPanel,{
 					this.statusMenu.removeAll();
 
 					this.orderStatusStore.each(function(r){
-						
 						this.statusMenu.add({
 							text:r.data.name,
 							status_id:r.data.id,
+							askNotify: r.data.ask_to_notify_customer,
 							grid: this.statusMenu.grid,
 							listeners: {
 								
 								click : function(mnu,e){
-			
-									Ext.Msg.show({
-										modal:false,
-										title:GO.billing.lang.notifyCustomer,
-										msg: GO.billing.lang.notifyCustomerText,
-										buttons: Ext.Msg.YESNOCANCEL,
-										icon: Ext.MessageBox.QUESTION,
-										fn: function(btn){
-											
-											if(btn=='cancel'){
-												return false;
-											}
-
-											var ids = [];
-											var selected = mnu.grid.selModel.getSelections();
-											for (var i = 0; i < selected.length; i++) {
-												if (!GO.util.empty(selected[i].data.id))
-													ids.push(selected[i].data.id);
-											}
-
-											GO.request({
-												maskEl:Ext.getBody(),
-												url:"billing/order/setOrderStatusses",
-												params:{                                                    
-													ids: Ext.encode(ids),
-													status_id:mnu.status_id,
-													notify_customer: btn=='yes' ? 1 : 0
-												},
-												success:function(options, response, data){
-													if(!data.success)	{
-														GO.errorDialog.show(data.feedback);
-													} else {
-														mnu.grid.store.reload();
-													}
+									console.log(mnu.askNotify);
+									var ids = [];
+									var selected = mnu.grid.selModel.getSelections();
+									for (var i = 0; i < selected.length; i++) {
+										if (!GO.util.empty(selected[i].data.id))
+											ids.push(selected[i].data.id);
+									}
+									
+									var setOrderStatus = function(ids,statusId,notify) {
+										GO.request({
+											maskEl:Ext.getBody(),
+											url:"billing/order/setOrderStatusses",
+											params:{                                                    
+												ids: Ext.encode(ids),
+												status_id:statusId,
+												notify_customer: notify
+											},
+											success:function(options, response, data){
+												if(!data.success)	{
+													GO.errorDialog.show(data.feedback);
+												} else {
+													mnu.grid.store.reload();
 												}
-											});
-										}
-									});
+											}
+										});
+									}.createDelegate(this);
+									if(mnu.askNotify) {
+										Ext.Msg.show({
+											modal:false,
+											title:GO.billing.lang.notifyCustomer,
+											msg: GO.billing.lang.notifyCustomerText,
+											buttons: Ext.Msg.YESNOCANCEL,
+											icon: Ext.MessageBox.QUESTION,
+											fn: function(btn){
+
+												if(btn=='cancel'){
+													return false;
+												}
+												setOrderStatus(ids,mnu.status_id, btn=='yes' ? 1 : 0);
+											}
+										});
+									} else {
+										setOrderStatus(ids,mnu.status_id, 0);
+									}
 								},
 								scope:this
 							}

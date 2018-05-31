@@ -43,7 +43,6 @@ $l["ticketCloseTicket"] = "Schließen";
 $l["ticketCloseTicketTooltip"] = "Schließen Sie dieses Ticket. Sie können auf dieses Ticket nicht mehr reagieren, wenn Sie es geschlossen haben.";
 $l["ticketNewTicket"] = "Neues Ticket";
 $l["ticketContactInfo"] = "Kontaktinformation";
-$l["ticketinfo"] = "Ticket Informationen";
 $l["ticketBackToList"] = "Zurück zur Übersicht";
   
 $l["contactDetails"] = "Kontakt";
@@ -72,3 +71,20 @@ $l["ticketCreatedText"] = "Danke, wir haben Ihr Ticket empfangen und wir werden 
 $l["gotoTicket"] = "zum Ticket gehen";
   
 $l["selectOne"] = "Wählen Sie eine";
+
+$l['ticketCompany']= 'Firma';
+$l['ticketInfo']= 'Ticketinformation';
+$l['contactformTitle']="Kontaktformular";
+$l['contactformText']="Füllen Sie dieses Formular aus und klicken Sie auf 'OK', um sich zu registrieren. Die mit einem * gekennzeichneten Felder sind Pflichtfelder.";
+$l['addressbookNotFound']="Kein Adressbuch mit dem Namen '% s' gefunden.";
+$l['contactformDoneText']="Wir haben Ihre Registrierung erhalten.";
+$l['currentPassword']="Aktuelles Passwort";
+$l['passwordExpired']="Ihr Passwort ist abgelaufen";
+$l['changePasswordRequiredText']= 'Sie müssen Ihr Passwort ändern.';
+$l['usernameIncorrect']= 'Der angegebene Benutzername ist falsch';
+$l['pleaseFillInAllFields']= 'Bitte füllen Sie alle Felder aus';
+$l['passwordsDoNotMatch']= 'Das Passwort und die Passwortbestätigung stimmen nicht überein';
+$l['passwordsMayNotBeTheSame']= 'Das neue Passwort stimmt möglicherweise nicht mit dem alten übereind';
+$l['couldNotSaveNewPassword']= 'Das neue Passwort konnte nicht gespeichert werden. Bitte kontaktieren Sie den Administrator des Systems';
+$l['passwordIncorrect']= 'Das von Ihnen angegebene Passwort ist falsch';
+

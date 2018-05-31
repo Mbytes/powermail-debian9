@@ -330,7 +330,7 @@ class Reader extends Sabre\VObject\Reader{
 		
 		//parsing of rrule is done by GO. SabreDAV fails on vcalendar 1.0 rrules
 		//
-		if(strpos($data,"VERSION:1.0")){
+		if(strpos($data,"\nVERSION:1.0\n")){
 			Sabre\VObject\Component\VCalendar::$propertyMap['RRULE']='Sabre\\VObject\\Property\\Text';
 			
 			//Workaround funambol bug

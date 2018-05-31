@@ -32,7 +32,7 @@ class CalendarModule extends \GO\Base\Module{
 	}
 	
 	public static function getDefaultCalendar($userId){
-		$user = \GO\Base\Model\User::model()->findByPk($userId);
+		$user = \GO\Base\Model\User::model()->findByPk($userId, false, true);
 		$calendar = Model\Calendar::model()->getDefault($user);		
 		return $calendar;
 	}
@@ -51,7 +51,7 @@ class CalendarModule extends \GO\Base\Module{
 		Model\View::model()->deleteByAttribute('user_id', $user->id);		
 	}
 	
-	public static function submitSettings(&$settingsController, &$params, &$response, $user) {
+	public static function submitSettings($settingsController, &$params, &$response, $user) {
 		
 		$settings = Model\Settings::model()->getDefault($user);
 		if(!$settings){
@@ -60,9 +60,19 @@ class CalendarModule extends \GO\Base\Module{
 		}
 		
 		$settings->background=$params['background'];
-		$settings->reminder=$params['reminder_multiplier'] * $params['reminder_value'];
+		
+//		var_dump($params['reminder_value']);
+		
+		if(isset($params['reminder_value'])){
+			if($params['reminder_value'] !== ''){
+				$settings->reminder=$params['reminder_multiplier'] * $params['reminder_value'];
+			} else {
+				$settings->reminder = null;
+			}
+		}
 		$settings->calendar_id=$params['default_calendar_id'];
 		$settings->show_statuses=$params['show_statuses'];
+		$settings->check_conflict=$params['check_conflict'];
 	
 
 		$settings->save();
@@ -70,7 +80,7 @@ class CalendarModule extends \GO\Base\Module{
 		return parent::submitSettings($settingsController, $params, $response, $user);
 	}
 	
-	public static function loadSettings(&$settingsController, &$params, &$response, $user) {
+	public static function loadSettings($settingsController, &$params, &$response, $user) {
 		
 		$settings = Model\Settings::model()->getDefault($user);
 		$response['data']=array_merge($response['data'], $settings->getAttributes());
@@ -81,11 +91,13 @@ class CalendarModule extends \GO\Base\Module{
 			$response['data']['default_calendar_id']=$calendar->id;
 			$response['remoteComboTexts']['default_calendar_id']=$calendar->name;
 		}
-		
+
 		$response = Controller\EventController::reminderSecondsToForm($response);
 		
-		
-		
+		if(!$response['data']['enable_reminder']){
+			$response['data']['reminder_value'] = null;
+		}
+				
 		return parent::loadSettings($settingsController, $params, $response, $user);
 	}
 	

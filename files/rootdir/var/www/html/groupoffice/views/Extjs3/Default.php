@@ -1,9 +1,12 @@
 <?php
 
-$string =  json_encode($data);
+$string = json_encode($data);
 
 if($string === false) {
-	throw new \Exception("JSON encoding error");
+	if(\GO::config()->debug){
+		var_dump($data);
+	}
+	throw new \Exception("JSON encoding error ".json_last_error_msg());
 }
 
 if(strpos($string,'startjs:')!==false){

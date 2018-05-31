@@ -173,11 +173,22 @@ class SentMailingController extends \GO\Base\Controller\AbstractModelController 
 
 		\GO::session()->runAs($mailing->user_id);
 		
-		echo 'Status: '.$mailing->status."\n";;
+		echo 'Status: '.$mailing->status."\n";
 		
 		if(empty($mailing->status)){
 			echo "Starting mailing at ".\GO\Base\Util\Date::get_timestamp(time())."\n";
 			$mailing->reset();
+			
+		}else if($mailing->status== \GO\Addressbook\Model\SentMailing::STATUS_RUNNING) {
+			echo 'Is already running!\n';
+			exit();
+		}else if($mailing->status== \GO\Addressbook\Model\SentMailing::STATUS_WAIT_PAUSED) {
+			
+			// Do error!!!
+			
+			echo "It is still running ".\GO\Base\Util\Date::get_timestamp(time())."\n";
+			exit();
+			
 		}elseif (!empty($params['restart'])) {
 			echo "Restarting mailing at ".\GO\Base\Util\Date::get_timestamp(time())."\n";
 			$mailing->reset();
@@ -453,9 +464,14 @@ class SentMailingController extends \GO\Base\Controller\AbstractModelController 
 		else
 			$sentMailModel = \GO\Addressbook\Model\SentMailingCompany::model()->findSingleByAttributes(array('sent_mailing_id'=>$mailing->id,'company_id'=>$model->id));
 		
+		
 		$mailing = \GO\Addressbook\Model\SentMailing::model()->findByPk($mailing->id, array(), true, true);
-		if($mailing->status==\GO\Addressbook\Model\SentMailing::STATUS_PAUSED)
+		
+		
+		if($mailing->status==\GO\Addressbook\Model\SentMailing::STATUS_WAIT_PAUSED)
 		{
+			$mailing->status = \GO\Addressbook\Model\SentMailing::STATUS_PAUSED;
+			$mailing->save();
 			echo "Mailing paused by user. Exiting.";
 			exit();
 		}
@@ -527,7 +543,7 @@ class SentMailingController extends \GO\Base\Controller\AbstractModelController 
 	private function _pauseMailing($mailingId) {
 		$mailing = \GO\Addressbook\Model\SentMailing::model()->findByPk($mailingId);
 		if($mailing->status==\GO\Addressbook\Model\SentMailing::STATUS_RUNNING){
-			$mailing->status = \GO\Addressbook\Model\SentMailing::STATUS_PAUSED;
+			$mailing->status = \GO\Addressbook\Model\SentMailing::STATUS_WAIT_PAUSED;
 			$mailing->save();
 		}
 	}
@@ -547,8 +563,8 @@ class SentMailingController extends \GO\Base\Controller\AbstractModelController 
 	}
 
 	public function formatStoreRecord($record, $model, $store) {
-		$record['hide_pause'] = in_array($model->status, array(\GO\Addressbook\Model\SentMailing::STATUS_PAUSED, \GO\Addressbook\Model\SentMailing::STATUS_FINISHED));
-		$record['hide_play'] = in_array($model->status, array(\GO\Addressbook\Model\SentMailing::STATUS_RUNNING, \GO\Addressbook\Model\SentMailing::STATUS_FINISHED));
+		$record['hide_pause'] = in_array($model->status, array(\GO\Addressbook\Model\SentMailing::STATUS_PAUSED, \GO\Addressbook\Model\SentMailing::STATUS_FINISHED, \GO\Addressbook\Model\SentMailing::STATUS_WAIT_PAUSED));
+		$record['hide_play'] = in_array($model->status, array(\GO\Addressbook\Model\SentMailing::STATUS_RUNNING, \GO\Addressbook\Model\SentMailing::STATUS_FINISHED, \GO\Addressbook\Model\SentMailing::STATUS_WAIT_PAUSED));
 		$record['addresslist'] = !empty($model->addresslist) ? $model->addresslist->name : '';
 		$record['user_name'] = !empty($model->user) ? $model->user->name : '';
 		return parent::formatStoreRecord($record, $model, $store);

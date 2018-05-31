@@ -137,7 +137,7 @@ $l['undefined'] = '-';
 $l['addresslistContact'] = 'ঠিকানাতালিকার ব্যক্তিবর্গ';
 
 $l["companyId"] = "ID";
-$l["companyUser_id"] = "ব্যবহারকারি";
+//$l["companyUser_id"] = "ব্যবহারকারি";
 $l["companyAddressbook_id"] = "ঠিকানাপঞ্জী";
 $l["companyName"] = "নাম";
 $l["companyName2"] = "নাম ২";
@@ -168,7 +168,7 @@ $l["companyEmail_allowed"] = "ই-মেইল অনুমোদিত";
 $l["companyFiles_folder_id"] = "ফোল্ডার";
 
 $l["contactId"] = "ID";
-$l["contactUser_id"] = "ব্যবহারকারি";
+//$l["contactUser_id"] = "ব্যবহারকারি";
 $l["contactAddressbook_id"] = "ঠিকানাপঞ্জী";
 $l["contactFirst_name"] = "নামের প্রথমাংশ";
 $l["contactMiddle_name"] = "নামের মধ্যমাংশ";
@@ -201,7 +201,7 @@ $l["contactMtime"] = "পরিবর্তনের নির্ঘন্ট";
 $l["contactSalutation"] = "সম্মোধন";
 $l["contactEmail_allowed"] = "ই-মেইল অনুমোদিত";
 $l["contactFiles_folder_id"] = "ফোল্ডার";
-$l["contactGo_user_id"] = "ব্যবহারকারি";
+$l["contactGo_user_id"] = "{product_name} ব্যবহারকারি";
 $l["contactSuffix"] = "অনুসর্গ";
 $l["contactHomepage"] = "নিবাসপাতা";
 

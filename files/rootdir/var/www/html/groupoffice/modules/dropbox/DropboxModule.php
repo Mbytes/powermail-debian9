@@ -1,18 +1,19 @@
 <?php
 namespace GO\Dropbox;
 
-class DropboxModule extends \GO\Base\Module{
+use GO;
+use GO\Base\Module;
+use GO\Dropbox\Model\Settings;
+
+class DropboxModule extends Module {
 	
 	public function package() {
 		return self::PACKAGE_UNSUPPORTED;
 	}
 
-	const DBX_ROOT = '/'; //todo this can't be changed because it will break dbxToGoFolder and vice versa
-	const GO_ROOT = '/Dropbox';
-
-	private static $client;
-	
 	public static function initListeners() {
+		GO::config()->addListener('init', 'GO\Dropbox\DropboxModule', 'registerAutoload');
+		
 		\GO\Base\Model\User::model()->addListener('delete', "GO\Dropbox\DropboxModule", "userDelete");
 	}
 	
@@ -53,11 +54,69 @@ class DropboxModule extends \GO\Base\Module{
 	}
 	
 	public static function userDelete(\GO\Base\Model\User $user){
-		$dbxUser = Model\User::model()->findByPk($user->id);
+		$dbxUser = Model\DropboxUser::model()->findByPk($user->id);
 		
 		if($dbxUser){
 			$dbxUser->delete();
 		}
 	}
-
+	
+	public static function registerAutoload() {		
+		require(dirname(__FILE__).'/vendor/autoload.php');
+	}
+	
+	/**
+	 * Get the Key of the dropbox app (Configured by the administrator)
+	 * 
+	 * @return string
+	 * @throws Exception
+	 */
+	public static function getAppKey(){
+		$settings = Settings::load();
+		$key = $settings->app_key;
+		
+		if(empty($key)){
+			Throw new Exception(GO::t('notConfiguredError','dropbox'));
+		}
+		
+		return $key;
+	}
+	
+	/**
+	 * Get the Secret of the dropbox app (Configured by the administrator)
+	 * 
+	 * @return string
+	 * @throws Exception
+	 */
+	public static function getAppSecret(){
+		$settings = Settings::load();
+		$secret = $settings->app_secret;
+		
+		if(empty($secret)){
+			Throw new Exception(GO::t('notConfiguredError','dropbox'));
+		}
+		
+		return $secret;
+	}
+	
+	/**
+	 * Get callback uri that needs to be set in the dropbox App
+	 * 
+	 * @return string
+	 */
+	public static function getCallbackUri(){
+		$callbackuri = GO::url('dropbox/auth/callback', array(), false, false, false);
+		return $callbackuri;
+	}
+	
+	/**
+	 * Get webhook uri that needs to be set in the dropbox App
+	 * 
+	 * @return string
+	 */
+	public static function getWebhookUri(){
+		$webhookuri = GO::url('dropbox/auth/webhook', array(), false, false, false);
+		return $webhookuri;
+	}
+	
 }

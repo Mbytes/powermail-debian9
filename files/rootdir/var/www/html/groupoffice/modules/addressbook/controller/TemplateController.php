@@ -112,13 +112,12 @@ class TemplateController extends \GO\Base\Controller\AbstractModelController{
 		
 		$findParams = \GO\Base\Db\FindParams::newInstance()->order('name');			
 		$findParams->getCriteria()->addCondition('type', \GO\Addressbook\Model\Template::TYPE_EMAIL);
-				
-		$stmt = \GO\Addressbook\Model\Template::model()->find($findParams);
 		
-		$store = \GO\Base\Data\Store::newInstance(\GO\Addressbook\Model\Template::model());		
+		
+		$store = new \GO\Base\Data\DbStore('GO\Addressbook\Model\Template',new \GO\Base\Data\ColumnModel('GO\Addressbook\Model\Template'),$params,$findParams);
+		
 		$store->getColumnModel()->setFormatRecordFunction(array($this, 'formatEmailSelectionRecord'));
 		
-		$store->setStatement($stmt);
 		$store->addRecord(array(
 			'group' => 'templates',
 			'checked'=>isset($this->_defaultTemplate->template_id) && $this->_defaultTemplate->template_id==0,
@@ -128,24 +127,6 @@ class TemplateController extends \GO\Base\Controller\AbstractModelController{
 		
 		$response = $store->getData();
 		
-		if($response['total']>0){
-
-			$response['results'][] = '-';
-
-			$record = array(
-				'text' => \GO::t('setCurrentTemplateAsDefault','addressbook'),
-				'template_id'=>'default'
-			);
-
-			$response['results'][] = $record;
-			
-			$record = array(
-				'text' => \GO::t('setCurrentTemplateAsDefaultEAccount','addressbook'),
-				'template_id'=>'default_for_account'
-			);
-			
-			$response['results'][] = $record;
-		}
 		
 		return $response;
 	}

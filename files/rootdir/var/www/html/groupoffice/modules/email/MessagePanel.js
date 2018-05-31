@@ -5,7 +5,7 @@
  * Group-Office license along with Group-Office. See the file /LICENSE.TXT
  *
  * If you have questions write an e-mail to info@intermesh.nl
- * @version $Id: MessagePanel.js 20164 2016-06-23 13:31:47Z mschering $
+ * @version $Id: MessagePanel.js 21549 2017-10-19 07:30:00Z mschering $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  * @since Group-Office 1.0
@@ -25,6 +25,8 @@ GO.email.MessagePanel = Ext.extend(Ext.Panel, {
 		GO.email.MessagePanel.superclass.initComponent.call(this);
 
 		this.attachmentContextMenu = new GO.email.AttachmentContextMenu();
+		this.allAttachmentContextMenu = new GO.email.AllAttachmentContextMenu();
+		
 		this.addEvents({
 			attachmentClicked : true,
 			linkClicked : true,
@@ -39,7 +41,7 @@ GO.email.MessagePanel = Ext.extend(Ext.Panel, {
 		this.contactImageId = Ext.id();
 
 		this.linkMessageId = Ext.id();
-
+		this.downloadAllMenuId = Ext.id();
 
 
 		var templateStr =
@@ -95,9 +97,17 @@ GO.email.MessagePanel = Ext.extend(Ext.Panel, {
 				'<a class="filetype-link filetype-{extension}" id="'+this.attachmentsId+'_{[xindex-1]}" href="#">{name:htmlEncode} ({human_size})</a> '+
 				'</tpl>'+
 			'</tpl>'+
-			'<tpl if="attachments.length&gt;1 && zip_of_attachments_url!=\'\'">'+
-			'<a class="filetype-link filetype-zip" href="{zip_of_attachments_url}" target="_blank">'+GO.email.lang.downloadAllAsZip+'</a>'+
+//			ORIGINAL
+//			'<tpl if="attachments.length&gt;1 && zip_of_attachments_url!=\'\'">'+
+//			'<a class="filetype-link filetype-zip" href="{zip_of_attachments_url}" target="_blank">'+GO.email.lang.downloadAllAsZip+'</a>'+
+//			'</tpl>'+
+			
+			'<tpl if="attachments.length&gt;1">'+
+//				'<a class="filetype-link btn-menu" id="downloadAllMenu" href="#"></a>'+
+				'<a class="filetype-link btn-more-vert" id="downloadAllMenu-'+this.downloadAllMenuId +'" href="#"></a>'+
+//				'<a class="filetype-link btn-expand-more" id="downloadAllMenu" href="#"></a>'+
 			'</tpl>'+
+			
 			'</td></tr>'+
 			'</table>'+
 			'</tpl>'+
@@ -209,12 +219,10 @@ GO.email.MessagePanel = Ext.extend(Ext.Panel, {
 			this.on('load', function(){this.popup()}, this, {single:true});
 		}else{
 
-			if(!this.messageDialog){
 				this.messageDialog = new GO.email.MessageDialog({
-					id:'em-message-dialog'
+					 closeAction:"close"
 				});
 				this.messageDialog.messagePanel.on('attachmentClicked', GO.email.openAttachment, this);
-			}
 
 			this.messageDialog.showData(this.data);
 			this.messageDialog.messagePanel.uid=this.uid;
@@ -259,10 +267,15 @@ GO.email.MessagePanel = Ext.extend(Ext.Panel, {
 				this.loading=false;
 				this.fireEvent('load', options, true, response, data, password);
 			},
-			fail:function(){
+			fail: function(response, options, result) {
+				Ext.Msg.alert(GO.lang.strError, result.feedback);
 				this.loading=false;
 			}
 		});
+	},
+	
+	reload : function() {
+		this.loadMessage();
 	},
 
 	setData : function (data){
@@ -479,7 +492,14 @@ GO.email.MessagePanel = Ext.extend(Ext.Panel, {
 				this.attachmentsEl.on('contextmenu', this.onAttachmentContextMenu, this);
 			}
 		}
-
+		
+		if(data.attachments.length > 1 && this.allAttachmentContextMenu)	{
+			this.allAttachmentsMenuEl = Ext.get('downloadAllMenu-'+this.downloadAllMenuId);
+			
+			this.allAttachmentsMenuEl.on('click', this.onAllAttachmentContextMenu, this);
+			this.allAttachmentContextMenu.messagePanel = this;
+			this.allAttachmentsMenuEl.on('contextmenu', this.onAllAttachmentContextMenu, this);
+		}
 
 		this.contactImageEl = Ext.get(this.contactImageId);
 		this.contactImageEl.on('click', this.lookupContact, this);
@@ -590,6 +610,11 @@ GO.email.MessagePanel = Ext.extend(Ext.Panel, {
 			this.attachmentContextMenu.showAt(e.getXY(), attachment);
 		}
 
+	},
+	
+	onAllAttachmentContextMenu : function (e, target){
+		e.preventDefault();
+		this.allAttachmentContextMenu.showAt(e.getXY());
 	},
 
 	openAttachment :  function(e, target)

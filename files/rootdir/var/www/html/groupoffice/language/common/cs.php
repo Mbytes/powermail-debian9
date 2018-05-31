@@ -608,7 +608,7 @@ $l['queryComparator'] = "Comparator";
 $l['queryValue']="Hodnota";
 $l['queryStartGroup']="Start group";
 
-$l['cliOnly'] = "Tento skript může být spuštěn pouze z příkazové řádky Group-Office (CLI).";
+$l['cliOnly'] = "Tento skript může být spuštěn pouze z příkazové řádky {product_name} (CLI).";
 $l['unnamed']='Nepojmenové';
 
 $l['maxRowslistTooHigh']='Maximální počet řádek je přiliš velký. (max. 50)';
@@ -677,6 +677,8 @@ $l['pt']    = 'Portugalština';
 $l['sv']    = 'Švédština';
 $l['th']    = 'Thajština';
 $l['pt_BR'] = 'Portugalština - Brazílie';
+$l['bn_BD'] = 'Bangladéš';
+$l['es'] 	= 'Španělsko';
 
 $l['removeDuplicates']='Smazat duplicity';
 $l['removeDuplicatesAreYouSure']='Opravdu chcete smazat duplicity?';
@@ -703,3 +705,24 @@ $l['dependenciesCannotDelete']="Není možné smazat tento modul, protože jsou 
 $l['MailboxNotFoundException'] = "Nelze otevřít složku \"%s\". Zkontrolujte nastavení Vašeho e-mailové účtu.";
 
 $l['cantDeleteDefault'] = "Výchozí položka nemůže být smazána.";
+$l['overwriteAcl'] = 'Přepsat výchozí oprávnění pro tuto položku (klepněte na tlačítko Použít pro aktivaci)';
+
+$l['columns']= 'Sloupce';
+$l['savedExport']= 'Uložený export';
+$l['savedExports']= 'Uložené exporty';
+$l['includeColumnNames']= 'Začlenění názvů sloupců';
+$l['manageSavedExports']= 'Administrace uložených exportů';
+$l['noSavedExports']= 'Žádné uložené exporty k dispozici';
+$l['updateWithMatchingAttributes']= 'Úprava položek (místo vytvoření nových) se shodnými atributy';
+$l['zipFilesizeTooBig']= 'Celková velikost vybraných souborů k archivaci je příliš velká (povoleno pouze %s).';
+$l['selectedColumns']= 'Vybrané sloupce';
+$l['availableColumns']= 'Dostupné sloupce';
+$l['exportSelectHelpText']= 'Pomocí tažení nebo dvojkliku vyberte sloupce pro export zleva doprava.';
+$l['moduleNotInstalled']= 'Modul není instalován.';
+$l['handlerNotInstalled']= 'Ukazatel pro tento odkaz náleží modulu, které není aktuálně nainstalován.';
+$l['newEmail']= 'Nový email';
+$l['unreadEmailMessage']= 'Máte %d nepřečtených emailů';
+$l['hasData']= 'Obsahuje data';
+$l['appendValues']= 'Přidat k stávajícímu';
+$l['replace']= 'Nahradit';
+

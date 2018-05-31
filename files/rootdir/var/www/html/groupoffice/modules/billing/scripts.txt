@@ -1,3 +1,7 @@
+modules/billing/Stores.js
+
+modules/billing/SelectTrackingCode.js
+modules/billing/SelectCostCode.js
 modules/billing/OrderShippingPanel.js
 modules/billing/ExportIncomeDialog.js
 modules/billing/SelectProduct.js
@@ -15,7 +19,7 @@ modules/billing/ExpenseBookDialog.js
 modules/billing/ExpensesGrid.js
 modules/billing/ExpenseDialog.js
 
-modules/billing/Stores.js
+
 
 modules/billing/PaymentDialog.js
 modules/billing/PaymentsGrid.js
@@ -77,8 +81,8 @@ modules/billing/DetailedReportDialog.js
 modules/billing/ReportGrid.js
 modules/billing/CustomerReportGrid.js
 
-modules/billing/SelectCostCode.js
-modules/billing/SelectTrackingCode.js
+
+
 modules/billing/StatusSelectWindow.js
 
 modules/billing/CostCodesGrid.js

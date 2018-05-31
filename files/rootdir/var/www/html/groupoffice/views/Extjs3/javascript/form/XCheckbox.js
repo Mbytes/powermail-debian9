@@ -2,7 +2,7 @@
  * Ext.ux.form.XCheckbox - checkbox with configurable submit values
  *
  * @author  Ing. Jozef Sakalos
- * @version $Id: XCheckbox.js 19784 2016-01-26 13:56:16Z michaelhart86 $
+ * @version $Id: XCheckbox.js 21334 2017-07-31 07:40:36Z devdevilnl $
  * @date    10. February 2008
  *
  *
@@ -20,11 +20,13 @@
   */
 Ext.ns('Ext.ux.form');
 Ext.ux.form.XCheckbox = Ext.extend(Ext.form.Checkbox, {
-	submitOffValue:'0'
-	,
-	submitOnValue:'1'
-
-	,
+	submitOffValue:'0',
+	submitOnValue:'1',
+	
+	// it neet to be set
+	allowBlank: true,
+	
+	blankText : 'This field is required',	
 	onRender:function(ct) {
 
 		this.inputValue = this.submitOnValue;
@@ -37,6 +39,15 @@ Ext.ux.form.XCheckbox = Ext.extend(Ext.form.Checkbox, {
 			tag:'input',
 			type:'hidden'
 		});
+		
+		
+		this.on('change', function(scope, newValue, oldValue) {
+			if(newValue != oldValue) {
+				this.validate();
+			}
+		});
+		
+		
 
 		// update value of hidden field
 		this.updateHidden();
@@ -90,7 +101,60 @@ Ext.ux.form.XCheckbox = Ext.extend(Ext.form.Checkbox, {
 		if(this.rendered){
 			this.wrap.child('.x-form-cb-label').update(boxLabel);
 		}
+	},
+	
+	
+	
+	
+	
+	getErrors: function(value) {
+		var errors = Ext.form.Checkbox.superclass.getErrors.apply(this, arguments);
+		
+		if(!this.allowBlank && !this.getValue()) {
+			
+			errors.push(this.blankText);
+		}
+		
+		return errors;
+	},
+	
+	
+	markInvalid: function (msg) {
+		//don't set the error icon if we're not rendered or marking is prevented
+		
+        if (this.rendered && !this.preventMark) {
+            msg = msg || this.invalidText;
+							if(this.msgTarget){
+                this.el.parent().addClass(this.invalidClass);
+                var t = Ext.getDom(this.msgTarget);
+                if(t){
+                    t.innerHTML = msg;
+                    t.style.display = this.msgDisplay;
+                }
+            }
+        }
+        
+        this.setActiveError(msg);
+	},
+	
+	clearInvalid: function () {
+		 //don't remove the error icon if we're not rendered or marking is prevented
+        if (this.rendered && !this.preventMark) {
+            this.el.removeClass(this.invalidClass);
+            
+							if(this.msgTarget){
+                this.el.parent().removeClass(this.invalidClass);
+                var t = Ext.getDom(this.msgTarget);
+                if(t){
+                    t.innerHTML = '';
+                    t.style.display = 'none';
+                }
+            }
+        }
+        
+        this.unsetActiveError();
 	}
+	
 
 }); 
 Ext.reg('xcheckbox', Ext.ux.form.XCheckbox);

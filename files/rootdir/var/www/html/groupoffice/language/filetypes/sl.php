@@ -2,7 +2,7 @@
 
 
 $ft_title = "Vrste datotek";
-$ft_text = "Vrste datotek je Group-Office samodejno dodal. Tukaj lahko spremenite ikone in imena.";
+$ft_text = "Vrste datotek je {product_name} samodejno dodal. Tukaj lahko spremenite ikone in imena.";
 $ft_icon = "Ikona";
 $ft_extension = "Raz�iritev";
 $ft_friendly = "Prijazno ime";

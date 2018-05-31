@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: QuickAddPanel.js 16748 2014-01-29 15:51:31Z mschering $
+ * @version $Id: QuickAddPanel.js 21544 2017-10-18 08:55:32Z michaelhart86 $
  * @copyright Copyright Intermesh
  * @author Wesley Smits<wsmits@intermesh.nl>
  */
@@ -22,11 +22,7 @@ GO.panels.QuickAddPanel = Ext.extend(Ext.Container, {
 		Ext.apply(this, {
 			border:false,
 			hidden:false,
-			layout:{
-				type: 'hbox',
-				align: 'top',
-				pack: 'end'
-			},
+			layout:'toolbar',
 			cls: 'go-white-bg', 
 			items:[]
 		});
@@ -67,14 +63,10 @@ GO.mainLayout.on('render', function(){
 		// Declare variable to keep the click state
 		toggleButton.enableClick = true;
 
-
-/////// FORCE VISIBILITY OF THE QUICK ADD MENU ///////
 		GO.quickAddPanel.setVisible(true);
 		menu.setVisible(true);
-		toggleButton.setVisible(false); // Hide toggle button
 		// align the menu to the button
 		menu.alignTo('quick-add-menu-collapse','r-l');
-/////// FORCE VISIBILITY OF THE QUICK ADD MENU ///////
 
 		// Set the click handler on the toggle button
 		toggleButton.on('click',function(){

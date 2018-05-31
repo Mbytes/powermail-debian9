@@ -122,7 +122,7 @@ $l['newContactFromSite']='New contact data have been added through a website for
 $l['clickHereToView']='Click here to view the contact';
 $l['contactFromAddressbook']='Contact from %s';
 $l['companyFromAddressbook']='Company from %s';
-$l['defaultSalutationTpl']='Dear [Mr./Mrs.] {middle_name} {last_name}';
+$l['defaultSalutationTpl']='Dear {first_name}';
 $l['multipleSelected']='Multiple address books selected';
 $l['incomplete_delete_contacts']='You don\'t have permission to delete all selected contacts';
 $l['incomplete_delete_companies']='You don\'t have permission to delete all selected companies';
@@ -134,7 +134,7 @@ $l['undefined'] = '-';
 $l['addresslistContact'] = 'Address list contact';
 
 $l["companyId"] = "ID";
-$l["companyUser_id"] = "User";
+//$l["companyUser_id"] = "User";
 $l["companyAddressbook_id"] = "Addressbook";
 $l["companyName"] = "Name";
 $l["companyName2"] = "Name 2";
@@ -163,9 +163,9 @@ $l["companyCtime"] = "Creation Time";
 $l["companyMtime"] = "Modification Time";
 $l["companyEmail_allowed"] = "Email allowed";
 $l["companyFiles_folder_id"] = "Folder";
-
+$l['companyBank_bic'] = "Bank BIC number";
 $l["contactId"] = "ID";
-$l["contactUser_id"] = "User";
+//$l["contactUser_id"] = "User";
 $l["contactAddressbook_id"] = "Addressbook";
 $l["contactFirst_name"] = "First name";
 $l["contactMiddle_name"] = "Middle name";
@@ -198,7 +198,7 @@ $l["contactMtime"] = "Modification time";
 $l["contactSalutation"] = "Salutation";
 $l["contactEmail_allowed"] = "Email allowed";
 $l["contactFiles_folder_id"] = "Folder";
-$l["contactGo_user_id"] = "User";
+$l["contactGo_user_id"] = "{product_name} user";
 $l["contactSuffix"] = "Suffix";
 $l["contactHomepage"] = "Homepage";
 
@@ -325,3 +325,14 @@ $l['exportContactsAsVcard'] = 'Export contacts as vcard';
 $l["addEmployee"] = 'Add new';
 $l["addExistingEmployee"] = 'Add existing';
 $l["deleteWarningAdderessList"] = 'WARNING!!! The address list including sent newsletters will be deleted!';
+
+$l["copyToPostAddress"] = 'Copy to post address';
+$l["addressbookDefaults"] = 'Defaults settings for address book';
+$l["defaultAddressbook"] = 'Default address book';
+
+$l["files_module"] = "Files module";
+$l["create_folder_contact_or_company"] = "Create folder for on create of a contact or company";
+
+$l["manageGroups"] = "Manage groups";
+$l["addresslistGroup"] = "Addresslist group";
+$l["noPermission"] = "No Permissions";

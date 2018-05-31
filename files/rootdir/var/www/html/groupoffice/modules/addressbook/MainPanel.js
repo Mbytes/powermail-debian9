@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: MainPanel.js 20071 2016-05-25 09:38:11Z mschering $
+ * @version $Id: MainPanel.js 21434 2017-09-14 12:59:40Z wsmits $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -266,12 +266,13 @@ GO.addressbook.MainPanel = function(config)
 //	if(GO.addressbook)
 //	{
 
-		this.mailingsFilterPanel= new GO.addressbook.AddresslistsMultiSelectGrid({
+		this.mailingsFilterPanel= new GO.addressbook.AddresslistsGroupedMultiSelectGrid({
 			id: 'ab-mailingsfilter-panel',
 			region:'center',
 			split:true
-			
 		});
+		
+		this.mailingsFilterPanel.getStore().load();
 
 		this.mailingsFilterPanel.on('change', function(grid, addresslist_filter){
 			var panel = this.tabPanel.getActiveTab();
@@ -935,6 +936,8 @@ GO.linkHandlers["GO\\Addressbook\\Model\\Company"]=function(id){
 	GO.addressbook.linkCompanyWindow.show();
 	return GO.addressbook.linkCompanyWindow;
 }
+
+GO.linkHandlers["GO\\Addressbook\\Model\\Addresslist"]=function(id){}
 
 GO.quickAddPanel.addButton(new Ext.Button({
 	iconCls:'img-contact-add',

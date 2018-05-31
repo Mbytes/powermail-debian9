@@ -67,6 +67,26 @@ GO.calendar.AttendanceWindow = Ext.extend(GO.dialog.TabbedFormDialog, {
 			labelSeperator : ''
 		});
 		
+		this.reminderComposite = new Ext.form.CompositeField({
+			style:'margin-top:10px;',
+			fieldLabel : GO.calendar.lang.reminder,
+			items : [this.reminderValue,this.reminderMultiplier]
+		});
+		
+		this.enableReminderCheckbox = new Ext.ux.form.XCheckbox({
+			boxLabel : GO.calendar.lang.useReminder,
+			name : 'enable_reminder',
+			width : 'auto',
+			hideLabel : true,
+			listeners : {
+				check : {
+					fn : function(cb, checked) {
+						this.reminderComposite.setDisabled(!checked);
+					},
+					scope : this
+				}
+			}
+		});
 		
 		this.addPanel({
 			cls:'go-form-panel',
@@ -111,12 +131,15 @@ GO.calendar.AttendanceWindow = Ext.extend(GO.dialog.TabbedFormDialog, {
 //			}
 			,this.infoPanel = new Ext.form.FieldSet({
 				title:GO.calendar.lang.eventInfo
-			}),
-			{
-				xtype : 'compositefield',
-				fieldLabel : GO.calendar.lang.reminder,
-				items : [this.reminderValue,this.reminderMultiplier]
-			}]
+			}),{
+				xtype : 'fieldset',
+				autoHeight : true,
+				layout : 'form',
+				title : GO.calendar.lang.reminder,
+				items : [
+					this.enableReminderCheckbox,
+					this.reminderComposite
+			]}]
 		});
 	}
 });

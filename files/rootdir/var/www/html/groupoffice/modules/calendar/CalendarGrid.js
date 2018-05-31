@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: CalendarGrid.js 20382 2016-08-29 10:17:29Z mschering $
+ * @version $Id: CalendarGrid.js 21238 2017-06-22 13:30:12Z michaelhart86 $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -1663,6 +1663,15 @@ GO.grid.CalendarGrid = Ext.extend(Ext.Panel, {
 				// 4. Whole recurring series is removed while you would think only one is removed.
 				//
 				//this.currentRecurringEvent.repeats=false;
+				this.recurrenceDialog.hide();
+			},this)
+
+			this.recurrenceDialog.on('thisandfuture', function()
+			{
+				this.currentActionData.singleInstance= true;
+				this.currentActionData.thisAndFuture = true;
+
+				this.fireEvent(this.currentFireEvent, this, this.currentRecurringEvent, this.currentActionData);
 				this.recurrenceDialog.hide();
 			},this)
 

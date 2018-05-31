@@ -294,7 +294,7 @@ class JsonView extends AbstractView{
 		//Init data array
 		foreach($data as $modelName=>$model){
 			
-			if(is_array($model)){
+			if(!is_object($model) || !method_exists($model, "getAttributes") ){
 				$response['data'][$modelName] = $model;
 			} else {
 				$response['data'][$modelName] = $model->getAttributes();

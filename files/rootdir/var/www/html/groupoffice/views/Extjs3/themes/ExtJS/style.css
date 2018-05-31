@@ -331,3 +331,15 @@ line-height:20px;
 .permissions-error .x-grid3-cell-inner{
 	color:red;
 }
+
+.btn-menu{
+	background-image:url('images/menu.png') !important;
+}
+
+.btn-more-vert{
+	background-image:url('images/more_vert.png') !important;
+}
+
+.btn-expand-more{
+	background-image:url('images/expand_more.png') !important;
+}

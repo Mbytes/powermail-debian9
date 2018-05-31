@@ -382,30 +382,35 @@ class Participant extends \GO\Base\Db\ActiveRecord {
 			}
 			
 			
-			$stmt = $this->event->getRelatedParticipantEvents();
+			if(empty($newEvent)) {
+				$stmt = $this->event->getRelatedParticipantEvents();
 			
-			foreach($stmt as $event){
-				if(empty($newEvent) || $event->id!=$newEvent->id){
-					
-					$p = Participant::model()->findSingleByAttributes(array(
-							'event_id'=>$event->id,
-							'email'=>$this->email
-					));
-					if(!$p){
-						$p = new Participant();
-						$p->setAttributes($this->getAttributes('raw'), false);
-						$p->event_id=$event->id;
-						$p->id=null;
-						$p->save();
-					}
+				foreach($stmt as $event){
+//					if($event->id!=$newEvent->id){
+
+						$p = Participant::model()->findSingleByAttributes(array(
+								'event_id'=>$event->id,
+								'email'=>$this->email
+						));
+						if(!$p){
+							$p = new Participant();
+							$p->setAttributes($this->getAttributes('raw'), false);
+							$p->event_id=$event->id;
+							$p->id=null;
+							$p->save();
+						}
+//					}
 				}
 			}
 			
-			if(!$this->is_organizer && $this->contact && \GO::config()->calendar_autolink_participants){
+			
+			if(!$this->is_organizer && $this->contact_id && \GO::config()->calendar_autolink_participants){
 				$this->contact->link($this->event);
 			}
 		}
-
+		
+//		$this->_updateEvents();
+		
 		return parent::afterSave($wasNew);
 	}
 	
@@ -425,8 +430,27 @@ class Participant extends \GO\Base\Db\ActiveRecord {
 			}
 		}
 		
+		if($this->event) {
+			$this->event->touch();
+		}
+		
 		return parent::afterDelete();
 	}
+	
+//	private function _updateEvents(){
+//
+//		if(!$this->event) {
+//			return;
+//		}
+//		// Update mtime of all events (For each participant)
+//		$stmt = $this->event->getRelatedParticipantEvents(true);
+//		
+//		foreach($stmt as $event){
+//			$event->mtime = time();
+//			$event->save(true);
+//		}
+//	}
+	
 	
 //	private function _notifyOrganizer(){
 //

@@ -44,7 +44,7 @@ class SieveController extends \GO\Base\Controller\AbstractModelController{
 		}
 		$extensions = array();
 		if($supported){
-			$extensions = $this->_sieve->get_extensions();
+			$extensions = (array) $this->_sieve->get_extensions();
 		}
 		
 		return array('success'=>true, 'supported'=>$supported,'server_extensions'=>$extensions);

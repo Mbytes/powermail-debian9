@@ -513,3 +513,49 @@ $updates['201610281650'][] = 'ALTER TABLE `go_links_ab_contacts` CONVERT TO CHAR
 $updates['201610281659'][] = 'SET foreign_key_checks = 1;';
 
 $updates['201612130830'][] = 'ALTER TABLE `ab_sent_mailings` CHANGE `subject` `subject` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL;';
+
+$updates['201703311130'][] = "CREATE TABLE IF NOT EXISTS `ab_settings` (
+  `user_id` int(11) NOT NULL,
+  `default_addressbook_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+
+
+$updates['201707111519'][] = "ALTER TABLE `ab_addressbooks` ADD `create_folder` BOOLEAN NOT NULL DEFAULT FALSE;";
+
+$updates['201709131640'][]="ALTER TABLE `ab_addresslists` ADD `ctime` INT NOT NULL DEFAULT '0' AFTER `default_salutation`, ADD `mtime` INT NOT NULL DEFAULT '0' AFTER `ctime`;";
+$updates['201709131645'][]="CREATE TABLE IF NOT EXISTS `go_links_ab_addresslists` (
+  `id` int(11) NOT NULL,
+  `folder_id` int(11) NOT NULL,
+  `model_id` int(11) NOT NULL,
+  `model_type_id` int(11) NOT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  `ctime` int(11) NOT NULL,
+  PRIMARY KEY `model_id` (`id`,`model_id`,`model_type_id`),
+  KEY `id` (`id`,`folder_id`),
+  KEY `ctime` (`ctime`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;";
+
+$updates['201711091453'][] = "";
+$updates['201711091453'][] = "ALTER TABLE `ab_contacts` 
+	ADD `latitude` DECIMAL(10,8) NULL AFTER `address_no`,
+	ADD `longitude` DECIMAL(11,8) NULL AFTER `latitude`;";
+
+$updates['201712061453'][] = "ALTER TABLE `ab_companies` 
+	ADD `latitude` DECIMAL(10,8) NULL AFTER `address_no`,
+	ADD `longitude` DECIMAL(11,8) NULL AFTER `latitude`,
+	ADD `post_latitude` DECIMAL(10,8) NULL AFTER `post_address_no`,
+	ADD `post_longitude` DECIMAL(11,8) NULL AFTER `post_latitude`;";
+
+$updates['201803081042'][] = "CREATE TABLE `ab_addresslist_group` (
+  `id` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+
+$updates['201803081043'][] = "ALTER TABLE `ab_addresslist_group`
+  ADD PRIMARY KEY (`id`);";
+
+$updates['201803081044'][] = "ALTER TABLE `ab_addresslist_group`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;";
+
+$updates['201803081045'][] = "ALTER TABLE `ab_addresslists` ADD `addresslist_group_id` INT NULL AFTER `id`;";

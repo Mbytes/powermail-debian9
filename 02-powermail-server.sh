@@ -39,8 +39,6 @@ sed -i "s/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/error_reporting = 
 
 
 
-
-
 sed -i "s/SOCKET\=local\:\$RUNDIR\/opendkim.sock/#SOCKET\=local\:\$RUNDIR\/opendkim.sock/" /etc/default/opendkim
 sed -i "s/#SOCKET\=inet\:12345\@localhost/SOCKET\=inet\:12345\@localhost/" /etc/default/opendkim 
 /lib/opendkim/opendkim.service.generate
@@ -120,7 +118,7 @@ echo "GRANT ALL PRIVILEGES ON nextcloud.* TO nextcloud@localhost IDENTIFIED BY '
 mysqladmin -uroot reload
 mysqladmin -uroot refresh
 
-mysql  < files/nextcloud-db.sql
+#mysql  < files/nextcloud-db.sql
 
 
 
@@ -152,7 +150,7 @@ chown -R www-data:www-data /var/www/html
 NCPASS=`pwgen -c -1 8`
 echo $NCPASS > /usr/local/src/nextcloudadmin-pass
 
-echo "Nextcloud admin login: nextcloud and password $NCPASS in /usr/local/src/nextcloudadmin-pass"
+#echo "Nextcloud admin login: nextcloud and password $NCPASS in /usr/local/src/nextcloudadmin-pass"
 #cd /var/www/html/nextcloud
 #sudo -u www-data bash -c "export OC_PASS=$NCPASS ;php occ  user:resetpassword --password-from-env nextcloud "
 #cd - 
@@ -161,7 +159,6 @@ echo "Working on importing godb GroupOffice MySQL database..."
 MYSQLPASSVPOP=`pwgen -c -1 8`
 echo $MYSQLPASSVPOP > /usr/local/src/mysql-godb-pass
 ## need to autogen
-echo "Rocket2020" > /usr/local/src/groupofficeadmin-pass
 
 mysqladmin create godb -uroot
 echo "GRANT ALL PRIVILEGES ON godb.* TO godb@localhost IDENTIFIED BY '$MYSQLPASSVPOP'" | mysql -uroot
@@ -170,13 +167,28 @@ mysqladmin -uroot  refresh
 
 mysql  godb < files/godb-fresh.sql
 
+GOPASSVPOP=`pwgen -c -1 8`
+echo $GOPASSVPOP > /usr/local/src/groupofficeadmin-pass
+echo "update godb.go_users set password=md5('$GOPASSVPOP'), password_type='md5' where username='groupofficeadmin'" | mysql;
+
+
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-nextcloud-pass`/" /var/www/html/nextcloud/config/config.php
 sed -i "s/powermail\.mydomainname\.com/`hostname`/" /var/www/html/nextcloud/config/config.php
 
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-godb-pass`/" /var/www/html/groupoffice/config.php
 sed -i "s/powermail\.mydomainname\.com/`hostname`/" /var/www/html/groupoffice/config.php
+sed -i "s/powermail\.mydomainname\.com/`hostname`/" /var/www/html/groupoffice/imapauth.config.php
+
+
+## add Archive Part its now with mailscanner
+#echo "MAILTO=\"\"" >> /var/spool/cron/crontabs/root
+#echo "*/3 * * * * /usr/local/src/mailarchive-scripts/fetch-and-convert.sh" >> /var/spool/cron/crontabs/root
+#echo "* * * * * /usr/local/src/mailarchive-scripts/add-email-from-stage2-to-final-index.sh" >> /var/spool/cron/crontabs/root
+
+
 
 systemctl disable spampd.service
+/etc/init.d/spampd stop
 
 /etc/init.d/dovecot restart
 /etc/init.d/postfix restart
@@ -193,4 +205,7 @@ systemctl disable spampd.service
 
 
 
-sendEmail -f postmaster@`hostname`  -t postmaster@`hostname` -u "Test Mail" -m "Test Mail" -o tls=no -s 127.0.0.1:25
+sendEmail -f postmaster@`hostname`  -t postmaster@`hostname` -u "Test Mail via 25" -m "Test Mail" -o tls=no -s 127.0.0.1:25 2>/dev/null 1>/dev/null
+sendEmail -f postmaster@`hostname`  -t postmaster@`hostname` -u "Test Mail via 2525" -m "Test Mail" -o tls=no -s 127.0.0.1:2525 2>/dev/null 1>/dev/null
+echo "All Done";
+echo "";

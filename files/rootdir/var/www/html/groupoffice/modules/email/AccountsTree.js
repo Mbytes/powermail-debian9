@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: AccountsTree.js 19873 2016-03-01 10:55:30Z michaelhart86 $
+ * @version $Id: AccountsTree.js 21337 2017-07-31 07:56:53Z devdevilnl $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -546,7 +546,7 @@ Ext.extend(GO.email.AccountsTree, Ext.tree.TreePanel, {
 							boxLabel: GO.email.lang.storePassword,
 							checked: false,
 							name: 'store_password',
-							allowBlank: true,
+//							allowBlank: true,
 							hideLabel:true
 						})],
 						buttons: [{

@@ -122,3 +122,20 @@ $l['weekIsClosed'] = 'This week is closed';
 
 $l['weekTotal'] = 'Weekly total registered hours';
 $l['monthTotal'] = 'Monthly total registered hours';
+
+
+
+$l['entriesClosedTill'] = "Timeentries closed till";
+$l["timeTracking"]= 'Time tracking';
+$l['timerSure'] = "Are you sure you like to stop the timer?";
+$l["project"]= 'Project';
+$l['task']='Job';
+$l['activity'] = "Activity";
+$l['travelDistance'] = 'Travel distance';
+$l['comments'] = 'Comments';
+
+
+
+
+
+

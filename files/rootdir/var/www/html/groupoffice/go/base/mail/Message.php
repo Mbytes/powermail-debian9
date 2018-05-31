@@ -47,15 +47,42 @@ class Message extends \Swift_Message{
 	public function __construct($subject = null, $body = null, $contentType = null, $charset = null) {
 		parent::__construct($subject, $body, $contentType, $charset);
 		
-		$headers = $this->getHeaders();
+//		$headers = $this->getHeaders();
 
-		$headers->addTextHeader("User-Agent", GO::config()->product_name);
+//		$headers->addTextHeader("User-Agent", GO::config()->product_name);
+		// See Mailer.php at line 105 for header encoding
+		if(GO::config()->swift_email_body_force_to_base64) {
+			//Override qupted-prinatble encdoding with base64 because it uses much less memory on larger bodies. See also:
+			//https://github.com/swiftmailer/swiftmailer/issues/356
+			$this->setEncoder(new \Swift_Mime_ContentEncoder_Base64ContentEncoder());
+		}
+	}
+	
+	public function setBody($body, $contentType = null, $charset = null) {
 		
+		$this->switchEncoder($body);		
 		
+		return parent::setBody($body, $contentType, $charset);
+	}
+	
+	private function switchEncoder($body) {
 		
-		//Override qupted-prinatble encdoding with base64 because it uses much less memory on larger bodies. See also:
-		//https://github.com/swiftmailer/swiftmailer/issues/356
-		$this->setEncoder(new \Swift_Mime_ContentEncoder_Base64ContentEncoder());
+		if(GO::config()->swift_email_body_force_to_base64) {
+			return;
+		}
+		
+		if(strlen($body) * 8 > 200 * 1024) {
+			//Override quoted-prinatble encdoding with base64 because it uses much less memory on larger bodies. See also:
+			//https://github.com/swiftmailer/swiftmailer/issues/356
+			$this->setEncoder(new \Swift_Mime_ContentEncoder_Base64ContentEncoder());
+		}
+	}
+	
+	public function addPart($body, $contentType = null, $charset = null) {
+		
+		$this->switchEncoder($body);
+		
+		return parent::addPart($body, $contentType, $charset);		
 	}
 	
 	/**
@@ -166,8 +193,13 @@ class Message extends \Swift_Message{
 			$fromList = new EmailRecipients(str_replace('mailto:','',$structure->headers['from']));
 			$from =$fromList->getAddress();
 		
-			if($from)
-				$this->setFrom($from['email'], $from['personal']);
+			if($from){
+				try {
+					$this->setFrom($from['email'], $from['personal']);
+				} catch(Exception $e)  {
+					\GO::debug('Failed to add from address: '.$e);
+				}
+			}
 		}
 		
 		$this->_getParts($structure);
@@ -213,6 +245,9 @@ class Message extends \Swift_Message{
 	public function setHtmlAlternateBody($htmlBody){
 	
 		//add body
+		$htmlBody = \GO\Base\Util\StringHelper::normalizeCrlf($htmlBody);
+		$htmlBody = str_replace("\r\n\r\n", "\r\n", $htmlBody);
+		
 		$this->setBody($htmlBody, 'text/html','UTF-8');
 			
 		//add text version of the HTML body
@@ -222,7 +257,9 @@ class Message extends \Swift_Message{
 		
 		//Override qupted-prinatble encdoding with base64 because it uses much less memory on larger bodies. See also:
 		//https://github.com/swiftmailer/swiftmailer/issues/356
-		$part->setEncoder(new \Swift_Mime_ContentEncoder_Base64ContentEncoder());
+		if(GO::config()->swift_email_body_force_to_base64) {
+			$part->setEncoder(new \Swift_Mime_ContentEncoder_Base64ContentEncoder());
+		}
 			
 //	Was testing this but didn't seem to work		
 //			$plainTextPart = $this->findPlainTextBody();

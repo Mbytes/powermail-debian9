@@ -23,7 +23,14 @@ require('../../GO.php');
 
 
 // Authentication backend
-$authBackend = new \GO\Dav\Auth\Backend();
+
+if(empty(\GO::config()->webdav_auth_basic)) {	
+	$authBackend = new \GO\Dav\Auth\Backend();
+}else
+{
+	$authBackend = new \GO\Dav\Auth\BasicBackend();
+}
+
 
 if (!\GO::modules()->isInstalled('dav')){
 	$msg = 'DAV module not installed. Install it at Start menu -> Apps.';
@@ -34,6 +41,8 @@ if (!\GO::modules()->isInstalled('dav')){
 }
 
 $root = new \GO\Dav\Fs\RootDirectory();
+
+//$root = new \GO\Dav\Fs\Directory("projects2");
 
 //$tree = new \GO\Dav\ObjectTree($root);
 

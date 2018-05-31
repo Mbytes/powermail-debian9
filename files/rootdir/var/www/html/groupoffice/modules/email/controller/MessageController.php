@@ -330,6 +330,10 @@ class MessageController extends \GO\Base\Controller\AbstractController {
 		foreach($messages as $message){
 
 			$record = $message->getAttributes(true);
+			
+			$messageMailbox = new \GO\Email\Model\ImapMailbox($message->account, array('name'=>$message->mailbox));
+			$record['mailboxname'] = $messageMailbox->getDisplayName();
+		
 			$record['account_id']=$account->id;
 
 			if(!isset($record['mailbox']))
@@ -359,6 +363,9 @@ class MessageController extends \GO\Base\Controller\AbstractController {
 				$to = $record['to'];
 				$record['to'] = $record['from'];
 				$record['from'] = $to;
+			}else
+			{
+				$record = $this->checkPersonalField($record, $message);
 			}
 
 			if(empty($record['subject']))
@@ -384,6 +391,17 @@ class MessageController extends \GO\Base\Controller\AbstractController {
 		$response['deleteConfirm']=empty($account->trash) || $account->trash==$params['mailbox'];
 
 		return $response;
+	}
+	
+	private function checkPersonalField($record, $message) {
+		
+		$from = $message->from->getAddress();
+						
+		if(\GO\Base\Util\Validate::email(($record['from'])) && strtolower($record['from']) != strtolower($from['email'])) {
+			$record['from'] = '<div style="color: red">'.$from['email'].'</div>';
+		}
+		
+		return $record;
 	}
 
 	/**
@@ -734,7 +752,7 @@ class MessageController extends \GO\Base\Controller\AbstractController {
 			throw new \Exception(GO::t('feedbackNoReciepent','email'));
 
 		$message->setFrom($alias->email, $alias->name);
-
+		
 		$mailer = \GO\Base\Mail\Mailer::newGoInstance(\GO\Email\Transport::newGoInstance($account));
 
 		$logger = new \Swift_Plugins_Loggers_ArrayLogger();
@@ -912,6 +930,11 @@ class MessageController extends \GO\Base\Controller\AbstractController {
 			$this->_addEmailsAsAttachment($message,$params);
 			
 			$response['data'] = $message->toOutputArray(true, true);
+			
+			if(!empty($params['subject'])) {
+				$unsetSubject = false;
+				$response['data']['subject'] = $params['subject'];
+			}
 
 			$presetbody = isset($params['body']) ? $params['body'] : '';
 			if (!empty($presetbody) && strpos($response['data']['htmlbody'], '{body}') == false) {
@@ -985,7 +1008,7 @@ class MessageController extends \GO\Base\Controller\AbstractController {
 			$this->_setAddressFields($params, $message);
 			$this->_addEmailsAsAttachment($message,$params);
 			
-			$response['data'] = $message->toOutputArray(true, true);
+			$response['data'] = $message->toOutputArray($params['content_type'] == 'html', true);
 		}
 		
 		$this->_keepHeaders($response, $params, $unsetSubject);
@@ -1193,6 +1216,18 @@ class MessageController extends \GO\Base\Controller\AbstractController {
 			$response['data']['inlineAttachments'] = array_merge($response['data']['inlineAttachments'], $oldMessage['inlineAttachments']);
 		} else {
 			
+			$AccountModel =  Account::model()->findByPk($params['account_id']);
+			if($AccountModel->full_reply_headers) {
+				$headerLines = $this->_getFollowUpHeaders($message);
+				$replyText = "\n\n" . GO::t('original_message', 'email') . "\n";
+				foreach ($headerLines as $line)
+					$replyText .= $line[0] . ': ' . $line[1] . "\n";
+				$replyText .= "\n\n";
+			}else
+			{
+				$replyText = sprintf(GO::t('replyHeader', 'email'), $fullDays[date('w', $message->udate)], date(GO::user()->completeDateFormat, $message->udate), date(GO::user()->time_format, $message->udate), $fromArr['personal']);
+			}
+			
 			$oldMessage = $message->toOutputArray(false,false,true);
 			
 			if(!empty($oldMessage['smime_encrypted'])) {
@@ -1254,7 +1289,7 @@ class MessageController extends \GO\Base\Controller\AbstractController {
 					$linkedMessage = \GO\Savemailas\Model\LinkedEmail::model()->findByImapMessage($message, $contact);
 
 
-					if($linkedMessage){
+					if($linkedMessage && $linkedMessage->linkExists($contact)){
 
 						$tag = $this->_createAutoLinkTag($account, "GO\Addressbook\Model\Contact", $contact->id);
 
@@ -1718,8 +1753,7 @@ class MessageController extends \GO\Base\Controller\AbstractController {
 			//make sure we don't parse the same tag twice.
 			if(!in_array($match[1], $unique)){				
 				$props = explode(',',base64_decode($match[1]));
-
-				if($props[0]==$_SERVER['SERVER_NAME']){
+				if($props[0]==$_SERVER['SERVER_NAME'] && count($props) == 4){
 					$tag=array();
 					
 					if(!$account_id || $account_id==$props[1]){
@@ -2000,6 +2034,75 @@ class MessageController extends \GO\Base\Controller\AbstractController {
 
 		if(!$response['success'])
 			$response['feedback']='Could not save to '.$file->stripFileStoragePath();
+		return $response;
+	}
+	
+	/**
+	 * Save all attachments of the given message to the given folder
+	 * 
+	 * @param int $folder_id		The id of the folder to save the attachments to
+	 * @param int $account_id		The account id of the mailbox account
+	 * @param string $mailbox		The affected mailbox in where to search the message uid
+	 * @param int $uid					The uid of the message to search in the mailbox
+	 * 
+	 * @return string						Json string if the request was successfully done
+	 * 
+	 * @throws \GO\Base\Exception\NotFound
+	 * @throws AccessDenied
+	 */
+	protected function actionSaveAllAttachments($folder_id,$account_id,$mailbox,$uid){
+		$response = array('success'=>true);
+		
+		$folder = \GO\Files\Model\Folder::model()->findByPk($folder_id);
+
+		if(!$folder){
+			trigger_error("GO\Email\Controller\Message::actionSaveAllAttachments(".$folder_id.") folder not found", E_USER_WARNING);
+			throw new \GO\Base\Exception\NotFound("Specified folder not found");
+		}
+		
+		if(!$folder->checkPermissionLevel(\GO\Base\Model\Acl::WRITE_PERMISSION)) {
+			throw new \GO\Base\Exception\AccessDenied();
+		}
+		
+		// Search message from imap
+		$account = Account::model()->findByPk($account_id);
+		
+		if(!$account){
+			trigger_error("GO\Email\Controller\Message::actionSaveAllAttachments(".$account_id.") account not found", E_USER_WARNING);
+			throw new \GO\Base\Exception\NotFound("Specified account not found");
+		}
+		
+		$message = \GO\Email\Model\ImapMessage::model()->findByUid($account, $mailbox, $uid);
+		
+		if(!$message){
+			trigger_error("GO\Email\Controller\Message::actionSaveAllAttachments(". $mailbox." - ". $uid.") message not found", E_USER_WARNING);
+			throw new \GO\Base\Exception\NotFound("Specified message could not be found");
+		}
+		
+		$atts = $message->getAttachments();
+		$fsFolder = $folder->fsFolder;
+		
+		while($att=array_shift($atts)){
+			if(empty($att->content_id) || $att->disposition=='attachment'){
+				
+				// Check if the file already exists on disk, if so then add a number after it.
+				$fileName = null;
+				$file = $fsFolder->child($att->name);
+				if($file){
+					$file->appendNumberToNameIfExists();
+					$fileName = $file->name();
+				}
+				
+				if(!$att->saveToFile($fsFolder,$fileName)){
+					$response['success'] = false;
+				}
+			}
+		}
+
+		if(!$response['success']){
+			$response['feedback']='Could not save all files to the selected folder';
+		}
+		
 		return $response;
 	}
 

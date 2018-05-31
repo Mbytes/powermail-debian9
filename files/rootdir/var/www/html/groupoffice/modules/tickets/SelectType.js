@@ -16,7 +16,7 @@ GO.tickets.SelectType = Ext.extend(GO.form.ComboBox, {
 					 '<tpl for=".">',
 					 '<tpl if="this.group_name != values.group_name">',
 					 '<tpl exec="this.group_name = values.group_name"></tpl>',
-					 '<h1><b>{group_name}</b></h1>',
+					 '<div class="menu-title">{group_name}</div>',
 					 '</tpl>',
 					 '<div class="x-combo-list-item">{name}</div>',
 					 '</tpl>',

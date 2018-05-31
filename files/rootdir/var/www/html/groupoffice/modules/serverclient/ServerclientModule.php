@@ -114,7 +114,7 @@ class ServerclientModule extends \GO\Base\Module{
 			
 			while($account = $stmt->fetch()){
 				$account->password=$user->getUnencryptedPassword();
-				$account->save();
+				$account->save(true);
 			}
 		}
 	}

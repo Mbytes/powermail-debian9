@@ -61,8 +61,11 @@ use GO\Base\Mail\Mailer;
  * @property string $date_separator
  * @property string $date_format
  * @property string $email
+ * @property string $recovery_email
  * @property \GO\Addressbook\Model\Contact $contact
- * @property string $diges
+ * @property string $digest
+ * @property int $last_password_change
+ * @property boolean $force_password_change
  *
  * @method User findByPk();
  *
@@ -259,7 +262,7 @@ class User extends \GO\Base\Db\ActiveRecord {
 	public function init() {
 		$this->columns['email']['regex'] = \GO\Base\Util\StringHelper::get_email_validation_regex();
 		$this->columns['email']['required'] = true;
-		$this->columns['email2']['regex'] = \GO\Base\Util\StringHelper::get_email_validation_regex();
+		$this->columns['recovery_email']['regex'] = \GO\Base\Util\StringHelper::get_email_validation_regex();
 
 		$this->columns['password']['required'] = true;
 		$this->columns['username']['required'] = true;
@@ -292,7 +295,10 @@ class User extends \GO\Base\Db\ActiveRecord {
 	}
 
 	private function _maxUsersReached() {
-		return GO::config()->max_users > 0 && $this->count() >= GO::config()->max_users;
+		$stmt = $this->getDbConnection()->query("SELECT count(*) AS count FROM `".$this->tableName()."` WHERE enabled = 1");
+		$record = $stmt->fetch();
+		$countActive = $record['count'];
+		return GO::config()->max_users > 0 && $countActive >= GO::config()->max_users;
 	}
 
         /**
@@ -363,7 +369,7 @@ class User extends \GO\Base\Db\ActiveRecord {
 			}
 		}
 
-		if ($this->isNew && $this->_maxUsersReached())				
+		if (($this->isNew || ($this->isModified('enabled') && $this->enabled)) && $this->_maxUsersReached())				
 			$this->setValidationError('form', GO::t('max_users_reached', 'users'));
 			
 		if (!GO::config()->allow_duplicate_email) {
@@ -371,7 +377,7 @@ class User extends \GO\Base\Db\ActiveRecord {
 			$findParams = \GO\Base\Db\FindParams::newInstance();
 			$findCriteria = \GO\Base\Db\FindCriteria::newInstance()
 						->addCondition('email', $this->email, '=','t', false)
-						->addCondition('email2', $this->email, '=','t', false);
+						->addCondition('recovery_email', $this->email, '=','t', false);
 		
 			$findParams->criteria($findCriteria);
 			$existing = \GO\Base\Model\User::model()->findSingle($findParams);
@@ -401,9 +407,8 @@ class User extends \GO\Base\Db\ActiveRecord {
 		
 		if($this->isNew){
 			$holiday = Holiday::localeFromCountry($this->language);
-			
-		if($holiday !== false)
-			$this->holidayset = $holiday; 
+			if($holiday !== false)
+				$this->holidayset = $holiday; 
 		}
 		
 		if(!$this->isNew && empty($this->holidayset) && ($contact = $this->createContact())){
@@ -422,6 +427,17 @@ class User extends \GO\Base\Db\ActiveRecord {
 			$this->password_type='crypt';
 			
 			$this->digest = md5($this->username.":".GO::config()->product_name.":".$this->_unencryptedPassword);
+			
+			// set the last_password_change time
+			$this->last_password_change = time();
+			
+			// Only reset this when it's not modified in the same request.
+			// Otherwise checking this checkbox will not work in the Admin Users module 
+			// when you have changed the password at the same time.
+			if(!$this->isModified('force_password_change')){
+				// Reset the force_password_change boolean
+				$this->force_password_change = false;
+			}
 		}
 		
 		return parent::beforeSave();
@@ -429,21 +445,7 @@ class User extends \GO\Base\Db\ActiveRecord {
 	
 	
 	private function _encryptPassword($password) {
-		if(function_exists('password_hash')) {
-			return password_hash($password,PASSWORD_DEFAULT);
-		}else
-		{
-			$salt = uniqid();
-			if(function_exists("mcrypt_create_iv")) {
-				$salt = base64_encode(mcrypt_create_iv(24, MCRYPT_DEV_URANDOM));
-			}
-			
-			if (CRYPT_SHA256 == 1) {
-					$salt = '$5$'.$salt;
-			}
-			
-			return crypt($password, $salt);
-		}
+		return password_hash($password,PASSWORD_DEFAULT);		
 	}
 		
 	/**
@@ -520,6 +522,16 @@ class User extends \GO\Base\Db\ActiveRecord {
 		{
 			return parent::beforeDelete();
 		}
+	}
+	
+	
+	protected function beforeValidate() {
+		
+		if($this->getIsNew() && empty($this->recovery_email)){
+			$this->recovery_email = $this->email;
+		}
+		
+		return parent::beforeValidate();
 	}
 	
 	protected function afterDelete() {
@@ -631,7 +643,9 @@ class User extends \GO\Base\Db\ActiveRecord {
 			$groups = explode(',',GO::config()->register_user_groups);
 			foreach($groups as $groupName){
 				$group = GO\Base\Model\Group::model()->findByName(trim($groupName));
-				$groupIds[]=$group->id;
+				if($group) {
+					$groupIds[]=$group->id;
+				}
 			}
 		}
 
@@ -728,6 +742,32 @@ class User extends \GO\Base\Db\ActiveRecord {
 		return true;
 	}	
 	
+	/**
+	 * Check if it is required to change the password
+	 * 
+	 * @return boolean
+	 */
+	public function checkPasswordChangeRequired(){
+		
+		if($this->force_password_change){
+			return true;
+		}
+		
+		$days = \GO::config()->force_password_change;
+		
+		// If set to 0, then no password change requirement is set (So return false)
+		if($days <= 0){
+			return false;
+		}
+		
+		// Change the amount of days to seconds
+		$seconds = strtotime($days.' days',0);
+		
+		// Check if the last password change+seconds is greater than the current time, 
+		// if it is then the password does not need to change, otherwise it does
+		return (($this->last_password_change+$seconds) > time())?false:true;
+	}
+	
 	public function defaultAttributes() {
 		$attr = parent::defaultAttributes();
 		
@@ -740,6 +780,8 @@ class User extends \GO\Base\Db\ActiveRecord {
 		$attr['currency']=GO::config()->default_currency;
 		$attr['decimal_separator']=GO::config()->default_decimal_separator;
 		$attr['thousands_separator']=GO::config()->default_thousands_separator;
+		$attr['text_separator']=GO::config()->default_text_separator;
+		$attr['list_separator']=GO::config()->default_list_separator;
 		$attr['time_format']=GO::config()->default_time_format;
 		$attr['sort_name']=GO::config()->default_sort_name;
 		$attr['max_rows_list']=GO::config()->default_max_rows_list;
@@ -836,7 +878,7 @@ class User extends \GO\Base\Db\ActiveRecord {
 		$message->setSubject(GO::t('lost_password_subject','base','lostpassword'));
 		
 		if(!$toEmail) {
-			$toEmail = $this->email;
+			$toEmail = $this->recovery_email;
 		}
 		
 		if(!$siteTitle)
@@ -859,6 +901,8 @@ class User extends \GO\Base\Db\ActiveRecord {
 
 		$emailBody = GO::t('lost_password_body','base','lostpassword');
 		$emailBody = sprintf($emailBody,$this->contact->salutation, $siteTitle, $this->username, $url);
+		
+		$emailBody = str_replace('{ip_address}', \GO\Base\Util\Http::getClientIp() , $emailBody);
 		
 		$message->setBody($emailBody);
 		$message->addFrom($fromEmail,$fromName);

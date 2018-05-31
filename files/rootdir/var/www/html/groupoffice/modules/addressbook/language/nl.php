@@ -199,7 +199,7 @@ $l['female']='Vrouw';
 $l['importing']='Importeren';
 
 $l["contactId"] = "ID";
-$l["contactUser_id"] = "Gebruiker";
+//$l["contactUser_id"] = "Gebruiker";
 $l["contactAddressbook_id"] = "Adresboek";
 $l["contactFirst_name"] = "Voornaam";
 $l["contactMiddle_name"] = "Tussenvoegsel";
@@ -231,7 +231,7 @@ $l["contactMtime"] = "Bewerkt tijd";
 $l["contactSalutation"] = "Aanhef";
 $l["contactEmail_allowed"] = "Email toegestaan";
 $l["contactFiles_folder_id"] = "Map";
-$l["contactGo_user_id"] = "Gebruiker";
+$l["contactGo_user_id"] = "{product_name} Gebruiker";
 $l['nRemovedFromAddresslist']='%n contacten zijn herkend en verwijderd uit de geselecteerde adreslijst.';
 
 $l['addToAddresslist']='Toevoegen aan adreslijst %s';
@@ -247,7 +247,7 @@ $l["moveEmployees"]='Verplaats werknemers';
 $l['contact']= 'Contactpersoon';
 $l['company']= 'Bedrijf';
 $l["companyId"]= "ID";
-$l["companyUser_id"]= "Gebruiker";
+//$l["companyUser_id"]= "Gebruiker";
 $l["companyAddressbook_id"]= "Adresboek";
 $l["companyName"]= "Naam";
 $l["companyName2"]= "Naam 2";
@@ -275,7 +275,7 @@ $l["companyCrn"]= "KvK nummer";
 $l["companyEmail_allowed"]= "Nieuwsbrieven toegestaan";
 $l["companyFiles_folder_id"]= "Map";
 $l["contactId"]= "ID";
-$l["contactUser_id"]= "Gebruiker";
+//$l["contactUser_id"]= "Gebruiker";
 $l["contactAddressbook_id"]= "Adresboek";
 $l["contactFirst_name"]= "Voornaam";
 $l["contactMiddle_name"]= "Tussenvoegsel";
@@ -360,3 +360,9 @@ $l["addEmployee"] = 'Nieuw toevoegen';
 $l["addExistingEmployee"] = 'Bestaand toevoegen';
 
 $l["deleteWarningAdderessList"] = 'Waarschuwing! De lijst inclusief verzonden nieuwsbrieven worden verwijderd.';
+
+$l["copyToPostAddress"] = 'Kopieer naar post adres';
+
+
+$l["files_module"] = "Bestanden module";
+$l["create_folder_contact_or_company"] = "Maak een map aan voor contacten of bedrijven";

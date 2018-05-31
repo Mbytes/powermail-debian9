@@ -16,3 +16,9 @@ $l['enableReadMore']="Enable read more links";
 
 $l['actionDate']='Action date';
 $l['parent']='Parent';
+
+$l['originalCommentTabs'] = 'Original comment tabs';
+$l['disableOriginalCommentsContact'] = 'Hide original comments tab in contact dialog';
+$l['disableOriginalCommentsCompany'] = 'Hide original comments tab in company dialog';
+
+$l['emptyComment']='Empty comment';

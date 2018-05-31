@@ -1,6 +1,6 @@
 <?php
 $l['name'] = "IP Whitelist voor Gebruikersgroepen";
-$l['description'] = "Beperkt de IP addressen van waaruit gebruikers vanuit in mogen loggen in Group-Office.";
+$l['description'] = "Beperkt de IP addressen van waaruit gebruikers vanuit in mogen loggen in {product_name}.";
 
 $l['ipWhitelist'] = "IP whitelist";
 $l['enableWhitelist'] = "Whitelist aanzetten voor deze gebruikersgroep";

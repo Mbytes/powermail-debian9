@@ -1,7 +1,7 @@
 <?php
 // Bangla (Bangladesh) Translation by Shubhra Prakash Paul <shuvro.paul@gmail.com>
 $l['name'] = 'সিস্টেম কর্মকান্ড শিডিউলার';
-$l['description'] = 'Group-Office এর অভ্যন্তরে সিস্টেম কর্মকান্ড ব্যবস্থাপনার মডিউল ।';
+$l['description'] = '{product_name} এর অভ্যন্তরে সিস্টেম কর্মকান্ড ব্যবস্থাপনার মডিউল ।';
 
 $l['cronManager'] = 'সিস্টেম কর্মকান্ড ব্যবস্থাপনা';
 

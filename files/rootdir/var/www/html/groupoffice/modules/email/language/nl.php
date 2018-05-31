@@ -135,7 +135,7 @@ $l["emptyFolderConfirm"]='Weet u zeker dat u \'{name}\' wilt LEGEN?';
 $l["addUnknownRecipients"]='Voeg onbekende ontvanger toe';
 $l["addUnknownRecipientsText"]='U heeft een e-mail verzonden naar een of meer ontvangers die niet in uw adresboek staan. Klik op een naam als u deze wilt toevoegen of sluit dit venster.';
 $l["addUnknownSenders"]='Voeg onbekende verzenders toe';
-$l["addUnknownSendersText"]='U wilt geselecteerde emailverzenders toevoegen aan een adreslijst. Daarvoor moeten eerst de volgende verzenders toegevoegd worden aan een Group-Office adresboek. Klik op een naam als u deze wilt toevoegen of sluit dit venster.';
+$l["addUnknownSendersText"]='U wilt geselecteerde emailverzenders toevoegen aan een adreslijst. Daarvoor moeten eerst de volgende verzenders toegevoegd worden aan een {product_name} adresboek. Klik op een naam als u deze wilt toevoegen of sluit dit venster.';
 $l["vacation"]='Automatisch beantwoorden';
 $l["vacationActive"]='Activeer automatisch beantwoorden';
 $l["vacationSubject"]='Onderwerp';
@@ -291,6 +291,8 @@ $l['permissionDelegated'] = 'Alleen lezen en gedelegeerd';
 
 $l['saveToItem'] = 'Opslaan bij item';
 $l['saveToPersonal'] = 'Opslaan in persoonlijke map';
+$l['saveAllToPersonal'] = 'Alles opslaan in persoonlijke map';
+$l['saveAllToItem'] = 'Alles opslaan bij item';
 
 $l['thisIsSpam1'] = 'Dit bericht is gemarkeerd als spam. Klik';
 $l['thisIsSpam2'] = 'hier';

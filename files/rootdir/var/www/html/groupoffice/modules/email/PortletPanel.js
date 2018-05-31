@@ -102,7 +102,8 @@ GO.email.PortletPanel = Ext.extend(Ext.Panel, {
 								account_id : p.account_id,
 								mailbox : p.mailbox
 							},
-							fail:function(){
+							fail: function(response, options, result) {
+								Ext.Msg.alert(GO.lang.strError, result.feedback);
 								this.folderStore.reload();
 							},
 							success:function(){

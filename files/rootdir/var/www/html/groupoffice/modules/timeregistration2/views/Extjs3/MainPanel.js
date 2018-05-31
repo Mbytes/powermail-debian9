@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: MainPanel.js 20762 2015-08-24 07:27:42Z mschering $
+ * @version $Id: MainPanel.js 22164 2017-03-20 07:57:03Z mschering $
  * @copyright Copyright Intermesh
  * @author Michael de Hart <mdhart@intermesh.nl>
  */
@@ -20,7 +20,7 @@ GO.timeregistration2.MainPanel = Ext.extend(Ext.Panel, {
 			items: [	
 			{
 				xtype:'htmlcomponent',
-				html:GO.projects2.lang.timeTracking,
+				html:GO.timeregistration2.lang.timeTracking,
 				cls:'go-module-title-tbar'
 			},
 //			{
@@ -98,7 +98,7 @@ GO.timeregistration2.MainPanel = Ext.extend(Ext.Panel, {
 			listeners:{
 				scope:this,
 				beforestoptimer:function(btn){
-					return confirm(GO.projects2.lang['timerSure']);
+					return confirm(GO.timeregistration2.lang['timerSure']);
 				}
 	//			stoptimer:function(btn, elapsed, startTime){
 	//				this.projectsView.projectPanel.addFromTimerMenuItem.setVisible(false);
@@ -188,6 +188,6 @@ GO.timeregistration2.MainPanel = Ext.extend(Ext.Panel, {
 
 // This will add the module to the main tabpanel filled with all the modules
 GO.moduleManager.addModule('timeregistration2', GO.timeregistration2.MainPanel, {
-	title : GO.projects2.lang.timeTracking,  //Module name in startmenu
+	title : GO.timeregistration2.lang.timeTracking,  //Module name in startmenu
 	iconCls : 'go-tab-icon-timeregistration2' //The css class with icon for startmenu
 });

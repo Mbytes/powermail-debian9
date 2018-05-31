@@ -44,6 +44,10 @@ GO.files.FolderbrowserTabPanel = Ext.extend(Ext.TabPanel, {
 				
 				this.doLayout();
 				this.setActiveTab(0);
+			},
+			fail: function () {
+				// If something fails with listing the folder, then remove the portlet. (Ususally an access denied error.)
+				this.ownerCt.removePortlet();
 			}
 		});
 		

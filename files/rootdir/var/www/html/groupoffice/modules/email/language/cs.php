@@ -149,7 +149,7 @@ $l["markFolderReadConfirm"]='Opravdu chcete označit všechny zprávy v této sl
 $l["addUnknownRecipients"]='Přidat neznámého příjemce';
 $l["addUnknownRecipientsText"]='Právě jste poslali email na jednoho nebo více příjemců, kteří nejsou ve Vašem adresáři. Kliknutím na jméno můžete dotyčného přidat do adresáře nebo zavřít toto okno';
 $l["addUnknownSenders"]='Přidat neznámého odesílatele';
-$l["addUnknownSendersText"]='Právě jste přidali odesílatele do skupiny adres. Nejdříve musíte přidat vybraného odesílatele do Group-Office adresáře. Klikněte na jméno pokud chcete osobu přidat nebo toto okno zavřete.';
+$l["addUnknownSendersText"]='Právě jste přidali odesílatele do skupiny adres. Nejdříve musíte přidat vybraného odesílatele do {product_name} adresáře. Klikněte na jméno pokud chcete osobu přidat nebo toto okno zavřete.';
 $l["attachFilesPC"]='Přidat z počítače';
 $l["attachFilesGO"]='Přidat z pošty';
 $l["renameFolder"]='Přejmenovat složku';
@@ -315,3 +315,7 @@ $l["moveToSpamFolder"]='Přesunout do složky nevyžádané pošty';
 $l['addEmailAsAttachment'] = 'Přeposlat e-mail jako přílohu';
 $l["allowSelfSignedText"]="Povolit při SSL nebo TLS šifrování použít certifikát podepsaný sám sebou.";
 $l["fullReplyHeaders"] = "Při odpovědi: Přidej původní hlavičku zprávy (odesílatele).";
+
+$l['icalendarOpenEvent']='Otevřít událost';
+$l['saveAttachmentTo']= 'Uložit přílohu k těmto položkám';
+$l['linkeditems']= 'Tento email je odkazuje na %s položek: %s';

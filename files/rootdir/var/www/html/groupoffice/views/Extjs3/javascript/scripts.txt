@@ -11,6 +11,8 @@ views/Extjs3/javascript/JsonMenu.js
 views/Extjs3/javascript/SmallPagingToolbar.js
 views/Extjs3/javascript/BlindPagingToolbar.js
 
+views/Extjs3/javascript/Cutstring.js
+
 views/Extjs3/javascript/buttons/AddButton.js
 views/Extjs3/javascript/buttons/DeleteButton.js
 views/Extjs3/javascript/buttons/QuickEditButton.js
@@ -27,6 +29,7 @@ modules/users/PasswordPanel.js
 modules/users/Settings.js
 
 
+views/Extjs3/javascript/common.js
 views/Extjs3/javascript/windows/LoginDialog.js
 
 views/Extjs3/javascript/plugins/livegrid-all-debug.js
@@ -44,11 +47,11 @@ views/Extjs3/javascript/RecordsContextMenu.js
 
 views/Extjs3/javascript/grids/SimpleSelectList.js
 views/Extjs3/javascript/grids/CheckColumn.js
+views/Extjs3/javascript/grids/IconColumn.js
 views/Extjs3/javascript/grids/RowAction.js
 views/Extjs3/javascript/grids/RadioColumn.js
 views/Extjs3/javascript/grids/ModulePermissionsGrid.js
 
-views/Extjs3/javascript/common.js
 views/Extjs3/javascript/blinkTitle.js
 views/Extjs3/javascript/state/HttpProvider.js
 
@@ -59,6 +62,7 @@ views/Extjs3/javascript/plugins/HtmlEditorImageInsert.js
 views/Extjs3/javascript/plugins/HtmlEditorSpellCheck.js
 views/Extjs3/javascript/plugins/Ext.ux.HtmlEditor.Plugins-0.2-all.js
 views/Extjs3/javascript/panels/DisplayPanel.js
+views/Extjs3/javascript/panels/DetailView.js
 views/Extjs3/javascript/panels/IframeComponent.js
 views/Extjs3/javascript/windows/SelectGroups.js
 views/Extjs3/javascript/windows/SelectUsers.js
@@ -70,6 +74,7 @@ views/Extjs3/javascript/form/TreeSelect.js
 views/Extjs3/javascript/form/SearchField.js
 views/Extjs3/javascript/form/Combo.js
 views/Extjs3/javascript/form/ColorField.js
+views/Extjs3/javascript/form/DateFieldReset.js
 views/Extjs3/javascript/form/ComboReset.js
 views/Extjs3/javascript/form/ComboBoxMulti.js
 views/Extjs3/javascript/form/UploadFile.js
@@ -130,6 +135,8 @@ views/Extjs3/javascript/advancedquery/SavedQueriesGrid.js
 
 views/Extjs3/javascript/query/QueryPanel.js
 
+views/Extjs3/javascript/query/CriteriaFormPanel.js
+
 views/Extjs3/javascript/windows/UsersInGroup.js
 
 views/Extjs3/javascript/windows/SummaryDialog.js
@@ -170,6 +177,7 @@ views/Extjs3/javascript/base/ContextMenu.js
 views/Extjs3/javascript/base/tree/TreeLoader.js
 
 views/Extjs3/javascript/windows/ResetPasswordDialog.js
+views/Extjs3/javascript/windows/RequirePasswordResetDialog.js
 views/Extjs3/javascript/query/SavedQueryGrid.js
 views/Extjs3/javascript/query/SavedQueryDialog.js
 views/Extjs3/javascript/query/QueryContextMenu.js
@@ -205,3 +213,32 @@ views/Extjs3/javascript/treegrid/TreeGridColumns.js
 views/Extjs3/javascript/treegrid/TreeGridLoader.js
 views/Extjs3/javascript/treegrid/TreeGridNodeUI.js
 views/Extjs3/javascript/treegrid/TreeGridSorter.js
+
+views/Extjs3/javascript/windows/OtherLoginLocationDetectedDialog.js
+
+
+views/Extjs3/javascript/calendar/Calendar.js
+views/Extjs3/javascript/calendar/templates/DayHeaderTemplate.js
+views/Extjs3/javascript/calendar/templates/DayBodyTemplate.js
+views/Extjs3/javascript/calendar/templates/BoxLayoutTemplate.js
+views/Extjs3/javascript/calendar/templates/DayViewTemplate.js
+views/Extjs3/javascript/calendar/templates/MonthViewTemplate.js
+views/Extjs3/javascript/calendar/dd/CalendarDD.js
+views/Extjs3/javascript/calendar/dd/CalendarScrollManager.js
+views/Extjs3/javascript/calendar/dd/DayViewDD.js
+views/Extjs3/javascript/calendar/dd/StatusProxy.js
+views/Extjs3/javascript/calendar/views/CalendarView.js
+views/Extjs3/javascript/calendar/views/DayBodyView.js
+views/Extjs3/javascript/calendar/views/DayView.js
+views/Extjs3/javascript/calendar/views/MonthDayDetailView.js
+views/Extjs3/javascript/calendar/views/MonthView.js
+views/Extjs3/javascript/calendar/views/DayHeaderView.js
+views/Extjs3/javascript/calendar/views/WeekView.js
+views/Extjs3/javascript/calendar/widgets/CalendarPicker.js
+views/Extjs3/javascript/calendar/widgets/DateRangeField.js
+views/Extjs3/javascript/calendar/widgets/ReminderField.js
+views/Extjs3/javascript/calendar/CalendarPanel.js
+views/Extjs3/javascript/calendar/EventEditForm.js
+views/Extjs3/javascript/calendar/EventEditWindow.js
+views/Extjs3/javascript/calendar/EventRecord.js
+views/Extjs3/javascript/calendar/WeekEventRenderer.js

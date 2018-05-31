@@ -68,7 +68,7 @@ $l["stepSort_order"] = "Sortierung";
 $l["stepName"] = "Name";
 $l["stepDescription"] = "Beschreibung";
 $l["stepDue_in"] = "fällig in in (Stunden)";
-$l["stepEmail_alert"] = "eMail Alarm";
+$l["stepEmail_alert"] = "E-Mail Alarm";
 $l["stepPopup_alert"] = "Popup Alarm";
 $l["stepAll_must_approve"] = "Genehmigung durch alle benötigt";
 
@@ -88,14 +88,17 @@ $l["triggerModel_attribute_value"] = "Wert";
 $l["triggerProcess_id"] = "Prozess";
 
 
-// Email that will be send to the approvers
-$l["emailSubject"] = "Neues Modell %s benötigt Ihre genehmigung!"; // %s is the model name
+// E-Mail that will be send to the approvers
+$l["emailSubject"] = "Neues Modell %s benötigt Ihre Genehmigung!"; // %s is the model name
 $l["disapproveSubject"] = "Abgelehnt: %s"; // %s is the model name
-$l["emailBody"] = "Neues Modell %s benötigt Ihre genehmigung.<br />
-				     Bitte <a href='%s'>klicken</a> Sie hier um %s anzuzeigen.<br/><br/>
-				     Klicken Sie auf einen der Links unten:<br/><br/>
-				     <a href='%s'>Genehmigt</a> | <a href='%s'>Abgelehnt</a>";
+$l["emailBody"] = "A new %s needs your approval.<br />
+																		  Bitte hier <a href='%s'>clicken</a> um %s anzuzeigen.<br /><br />
+																		  Auf einen der u. st. Links clicken:<br /><br />
+																		  <a href='%s'>Genehmigen</a> | <a href='%s'>Ablehnen</a>";
 $l["disapprovedBody"] = "%s hat %s in verändert %s. Es wurde kürzlich von %s abgelehnt.";
+
+$l['workflowDoneSubject']= "%s genehmigt";
+$l['workflowDoneBody']= " %s genehmigt von %s am %s";
 
 $l['reminderSubject'] = "Genehmigungsanfrage!";
 $l['reminderDisapproved'] = "%s abgelehnt durch %s.";
@@ -120,7 +123,7 @@ $l['decline']= "Ablehnen";
 
 $l['modelTypeNotSupported'] = 'In diesem Workflow, wird der Modeltyp "%m" nicht unterstützt durch die Aktion "%wm".';
 $l['filesOnly'] = 'Gilt nur für Dateien';
-$l['copyToFolder'] = 'In diesen Ordner kopieren';
+$l['copyToFolder'] = 'In diesen Ordner verschieben';
 $l['keepOriginalCopy'] = 'Kopieren anstatt verschieben';
 
 $l['actionType'] = 'Aktiontyp';

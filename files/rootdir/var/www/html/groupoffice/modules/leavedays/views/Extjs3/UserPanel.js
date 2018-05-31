@@ -210,9 +210,9 @@ Ext.extend( GO.leavedays.UserPanel, Ext.Panel, {
 				}];
 			
 		var icons = {
-			appr: '<div title="GOED" style="float:left" class="tasks-complete-icon"></div>',
+			appr: '<div title="GOED" style="float:left;height:16px;width:16px;" class="btn-ok"></div>',
 			disa: '<div class="go-icon-cross"><div style="float:left; height:16px;width:16px;padding-left:3px !important;" class="x-grid3-cell-inner"></div></div>',
-			none: '<div style="float:left" class="go-important-icon"></div>'
+			none: '<div style="float:left; height:16px;width:16px;" class="go-important-icon"></div>'
 		};
 		
 		if(GO.leavedays.currentUserIsManager){
@@ -400,17 +400,22 @@ Ext.extend( GO.leavedays.UserPanel, Ext.Panel, {
 				cls: 'x-btn-text-icon',
 //				disabled: true,
 				handler: function(){
+					
+//					var  selModel = this.gridPanel.getSelectionModel();
+//					Ext.each(selModel.getSelections(), function (record, index) {
+//						if(record.get('status') != 0 && !GO.settings.modules.leavedays.write_permission) {
+//							
+//							selModel.deselectRow(this.gridPanel.getStore().indexOf(record));
+//						}
+//							
+//					}, this);
+					
 					this.gridPanel.deleteSelected();
 				},
 				scope: this
 			});
 			
-		if (GO.settings.modules.leavedays.write_permission) {
 			gridPanelConfig.tbar = [this.addButton,this.delButton];
-		}else
-		{
-			gridPanelConfig.tbar = [this.addButton];
-		}
 		
 		gridPanelConfig.title =  GO.leavedays.lang['holiday_request'];
 		
@@ -420,9 +425,12 @@ Ext.extend( GO.leavedays.UserPanel, Ext.Panel, {
 			this._loadYearSummary();
 		}, this);
 		
-		if (GO.settings.modules.leavedays.write_permission)
+		//if (GO.settings.modules.leavedays.write_permission)
 			gridPanel.on('rowdblclick',function(grid,rowIndex,event){
 				var record = grid.store.getAt(rowIndex);
+
+				if(record.get('status') != 0 && !GO.settings.modules.leavedays.write_permission)
+					return false;
 				GO.leavedays.showLeavedayDialog(record.data['id']);
 				
 				if(!this.saveListenerAdded){

@@ -33,43 +33,80 @@ class JuploadController extends \GO\Base\Controller\AbstractController {
 //			$sessionCookie .= '; HttpOnly';
 
 		
-		$afterUploadScript = '
-			<script type="text/javascript">
-				function afterUpload(success){
-//					opener.GO.files.juploadFileBrowser.sendOverwrite({upload:true});	
-					
-					if(success){
-						window.uploadSuccess=true;
-						setTimeout("self.close();", 1000);
-					}
-				}
-			</script>			
-		';
-
-		$appletCode = '
-			<applet
-				code="wjhk.jupload2.JUploadApplet"
-				name="JUpload"
-				archive="' . \GO::config()->host . 'go/vendor/jupload/wjhk.jupload.jar' . '"
-				width="640"
-				height="480"
-				mayscript="true"
-				alt="The java pugin must be installed.">
-				<param name="lang" value="' . \GO::user()->language . '" />
-				<param name="readCookieFromNavigator" value="false" />
-				<!--<param name="lookAndFeel" value="system" />-->
-				<param name="postURL" value="' . \GO::url('files/jupload/handleUploads') . '" />
-				<param name="afterUploadURL" value="javascript:afterUpload(%success%);" />
+//		$afterUploadScript = '
+//			<script type="text/javascript">
+//				function afterUpload(success){
+////					opener.GO.files.juploadFileBrowser.sendOverwrite({upload:true});	
+//					
+//					if(success){
+//						window.uploadSuccess=true;
+//						setTimeout("self.close();", 1000);
+//					}
+//				}
+//			</script>			
+//		';
+//
+//		$appletCode = '
+//			<applet
+//				code="wjhk.jupload2.JUploadApplet"
+//				name="JUpload"
+//				archive="' . \GO::config()->host . 'go/vendor/jupload/wjhk.jupload.jar' . '"
+//				width="640"
+//				height="480"
+//				mayscript="true"
+//				alt="The java pugin must be installed.">
+//				<param name="lang" value="' . \GO::user()->language . '" />
+//				<param name="readCookieFromNavigator" value="false" />
+//				<!--<param name="lookAndFeel" value="system" />-->
+//				<param name="postURL" value="' . \GO::url('files/jupload/handleUploads') . '" />
+//				<param name="afterUploadURL" value="javascript:afterUpload(%success%);" />
+//				<param name="showLogWindow" value="false" />
+//				<param name="maxChunkSize" value="1048576" />    
+//				<param name="specificHeaders" value="' . $sessionCookie . '" />
+//				<param name="maxFileSize" value="' . intval(\GO::config()->max_file_size) . '" />
+//				<param name="nbFilesPerRequest" value="5" />
+//				<!--<param name="debugLevel" value="99" />-->
+//				Java 1.5 or higher plugin required. 
+//			</applet>';
+//		$this->render('jupload', array('applet' => $appletCode, 'afterUploadScript' => $afterUploadScript));
+		
+		$jnlp = '<?xml version="1.0" encoding="utf-8"?> 
+<jnlp spec="1.0+" codebase="' . \GO::config()->full_url . 'go/vendor/jupload">
+        <information>
+                <title>JUpload</title>
+                <vendor>JUpload</vendor>
+                <homepage href="http://jupload.sourceforge.net/" />
+                <description>
+                        JUpload takes care of the limitation posed by traditional HTML upload forms by allowing you to upload a 
+                        whole directory and the files within it with a single click. All information is available on the JUpload site.
+                </description>
+        </information>
+        <security>
+                <all-permissions/>
+        </security>
+        <resources>
+                <j2se version="1.7+" />
+                <jar href="wjhk.jupload.jar" />
+        </resources>
+         <applet-desc 
+         name="JUpload Demo"
+         main-class="wjhk.jupload2.JUploadApplet"
+         width="640"
+         height="400">
+        <param name="postURL" value="' . \GO::url('files/jupload/handleUploads',array(). false) . '" />
+				
 				<param name="showLogWindow" value="false" />
 				<param name="maxChunkSize" value="1048576" />    
 				<param name="specificHeaders" value="' . $sessionCookie . '" />
 				<param name="maxFileSize" value="' . intval(\GO::config()->max_file_size) . '" />
-				<param name="nbFilesPerRequest" value="5" />
-				<!--<param name="debugLevel" value="99" />-->
-				Java 1.5 or higher plugin required. 
-			</applet>';
+				<param name="nbFilesPerRequest" value="5" />        <!-- Add all your JUpload applet params here -->
+     </applet-desc>
+</jnlp>';
+		
+		$file = new \GO\Base\Fs\MemoryFile('jupload.jnlp', $jnlp);
+		\GO\Base\Util\Http::downloadFile($file);
 
-		$this->render('jupload', array('applet' => $appletCode, 'afterUploadScript' => $afterUploadScript));
+		
 	}
 
 	protected function actionHandleUploads($params) {

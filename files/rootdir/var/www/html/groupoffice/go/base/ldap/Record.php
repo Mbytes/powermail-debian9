@@ -43,7 +43,18 @@ class Record extends Model{
 			for($i=0;$i<$attributes['count'];$i++){
 				//echo $attributes[$i]." : ".$attributes[$attributes[$i]]."\n";
 				$key = $keyToLowerCase ? strtolower($attributes[$i]) : $attributes[$i];
-				$this->_attributes[$key] = $this->_convertUTF8($attributes[$attributes[$i]]);
+				
+				
+				switch ($key) {
+					case 'jpegphoto': // its base64 data
+						$this->_attributes[$key] = $attributes[$attributes[$i]];
+						break;
+					
+					default:
+						$this->_attributes[$key] = $this->_convertUTF8($attributes[$attributes[$i]]);
+						break;
+				}
+				
 				unset($this->_attributes[$key]['count']);
 			}
 			unset($this->_attributes['objectclass']);

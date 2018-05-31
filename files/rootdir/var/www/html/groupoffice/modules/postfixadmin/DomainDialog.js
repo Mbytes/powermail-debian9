@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: DomainDialog.js 15954 2013-10-17 12:04:36Z mschering $
+ * @version $Id: DomainDialog.js 21339 2017-07-31 07:59:22Z devdevilnl $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -74,7 +74,62 @@ GO.postfixadmin.DomainDialog = Ext.extend(GO.dialog.TabbedFormDialog,{
 	enableApplyButton : GO.settings.modules.postfixadmin.write_permission,
 	
 	initComponent : function(){
+		
+		
+		var buttons = [];
+		
+		
+		if(GO.settings.modules.postfixadmin.write_permission){
+			buttons.push(this.buttonExport = new Ext.Button({
+				text: GO.lang['cmdExport'],
+				handler: function(){
+					var domainExportDialog = new GO.postfixadmin.DomainExportDialog();
+					
+					var data = {
+						remoteModelId:this.remoteModelId,
+						domain:this.loadData.domain
+					};
+					
+					domainExportDialog.show(data);
+				},
+				scope:this
+			}));
+			
+			buttons.push('->');
+		}
+		
+		// These three buttons are enabled by default.
+		if (this.enableOkButton)
+			buttons.push(this.buttonOk = new Ext.Button({
+				text: GO.lang['cmdOk'],
+				handler: function(){
+					this.submitForm(true);
+				},
+				scope: this
+			}));
+		if (this.enableApplyButton)
+			buttons.push(this.buttonApply = new Ext.Button({
+				text: GO.lang['cmdApply'],
+				handler: function(){
+					this.submitForm();
+				},
+				scope:this
+			}));
+		if (this.enableCloseButton)
+			buttons.push(this.buttonClose = new Ext.Button({
+				text: GO.lang['cmdClose'],
+				handler: function(){
+					this.hide();
+				},
+				scope:this
+			}));
+		
+		Ext.applyIf(this, {
+			buttons: buttons
+		});
+
 		Ext.apply(this, {
+			buttonAlign:'left',
 			titleField:'domain',
 			title: GO.postfixadmin.lang.domain,
 			formControllerUrl: 'postfixadmin/domain',
@@ -82,7 +137,7 @@ GO.postfixadmin.DomainDialog = Ext.extend(GO.dialog.TabbedFormDialog,{
 			height:600
 			//fileUpload:true
 		});
-		GO.postfixadmin.DomainDialog.superclass.initComponent.call(this);	
+		GO.postfixadmin.DomainDialog.superclass.initComponent.call(this);
 	},
 	
 	beforeLoad : function(remoteModelId, config){
@@ -285,7 +340,7 @@ GO.postfixadmin.DomainDialog = Ext.extend(GO.dialog.TabbedFormDialog,{
 					xtype: 'xcheckbox',
 					name: 'active',
 					anchor: '-20',
-					allowBlank:false,
+//					allowBlank:false,
 					boxLabel: GO.postfixadmin.lang.active,
 					hideLabel: true,
 					checked: true
@@ -293,7 +348,7 @@ GO.postfixadmin.DomainDialog = Ext.extend(GO.dialog.TabbedFormDialog,{
 					xtype: 'xcheckbox',
 					name: 'backupmx',
 					anchor: '-20',
-					allowBlank:false,
+//					allowBlank:false,
 					boxLabel: GO.postfixadmin.lang.backupmx,
 					hideLabel: true,
 					listeners:{

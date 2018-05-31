@@ -40,4 +40,3 @@ if(\GO::modules()->customfields){
 		$GO_SCRIPTS_JS .= "\n\n".'GO.customfields.settingsPanels.panels.push({xtype : "customformpanel", itemId:"cf-panel-'.$category->id.'", category_id: '.$category->id.', title : "'.htmlspecialchars($category->name,ENT_QUOTES, 'UTF-8').'", customfields : '.json_encode($fields).'});'."\n";
 	}
 }
-					

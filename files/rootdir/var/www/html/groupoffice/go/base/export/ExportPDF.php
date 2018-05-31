@@ -74,14 +74,18 @@ class ExportPDF extends AbstractExport {
 		if(!empty($this->orientation)){
 			$orientation = $this->orientation;
 		}
+		if(class_exists('\GOFS\Pdf')) {
+			$pdf = new \GOFS\Pdf($orientation);
+		} else {
+			$pdf = new \GO\Base\Util\Pdf($orientation);
+		}
 		
-		$pdf = new \GO\Base\Util\Pdf($orientation, $unit='mm', $format='A4', $unicode=true, $encoding='UTF-8', $diskcache=false, $pdfa=false);
-
 		$pdf->SetTitle($this->title);
 		$pdf->SetSubject($this->title);
 		$pdf->SetAuthor($this->title);
 		$pdf->SetCreator($this->title);
 		$pdf->SetKeywords($this->title);
+		$pdf->subtitle = $this->params['name'];
 		
 
 		$pdf->AddPage();

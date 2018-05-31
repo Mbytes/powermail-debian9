@@ -1,111 +1,330 @@
-<?php //004fb
-if(!extension_loaded('ionCube Loader')){$__oc=strtolower(substr(php_uname(),0,3));$__ln='ioncube_loader_'.$__oc.'_'.substr(phpversion(),0,3).(($__oc=='win')?'.dll':'.so');if(function_exists('dl')){@dl($__ln);}if(function_exists('_il_exec')){return _il_exec();}$__ln='/ioncube/'.$__ln;$__oid=$__id=realpath(ini_get('extension_dir'));$__here=dirname(__FILE__);if(strlen($__id)>1&&$__id[1]==':'){$__id=str_replace('\\','/',substr($__id,2));$__here=str_replace('\\','/',substr($__here,2));}$__rd=str_repeat('/..',substr_count($__id,'/')).$__here.'/';$__i=strlen($__rd);while($__i--){if($__rd[$__i]=='/'){$__lp=substr($__rd,0,$__i).$__ln;if(file_exists($__oid.$__lp)){$__ln=$__lp;break;}}}if(function_exists('dl')){@dl($__ln);}}else{die('The file '.__FILE__." is corrupted.\n");}if(function_exists('_il_exec')){return _il_exec();}echo("Site error: the ".(php_sapi_name()=='cli'?'ionCube':'<a href="http://www.ioncube.com">ionCube</a>')." PHP Loader needs to be installed. This is a widely used PHP extension for running ionCube protected PHP code, website security and malware blocking.\n\nPlease visit ".(php_sapi_name()=='cli'?'get-loader.ioncube.com':'<a href="http://get-loader.ioncube.com">get-loader.ioncube.com</a>')." for install assistance.\n\n");exit(199);
-?>
-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
-ndMPvG==
+<?php
+
+namespace GO\Billing\Controller;
+/*
+ * Copyright Intermesh BV.
+ *
+ * This file is part of Group-Office. You should have received a copy of the
+ * Group-Office license along with Group-Office. See the file /LICENSE.TXT
+ *
+ * If you have questions write an e-mail to info@intermesh.nl
+ */
+
+/**
+ * The Site controller
+ *
+ * @package GO.modules.Billing
+ * @version $Id: SiteController.php 19778 2014-10-06 09:30:45Z mschering $
+ * @copyright Copyright Intermesh BV.
+ * @author Wesley Smits wsmits@intermesh.nl
+ */
+
+class SiteController extends \GO\Site\Components\AbstractFrontController {
+
+	protected function ignoreAclPermissions() {
+		return array('*');
+	}
+
+	/**
+	 * Action for a page that need to display all the invoices of the current 
+	 * logged in user.
+	 * 
+	 * @param array $params The params that are passed through to this page
+	 */
+	public function actionInvoices() {
+		//unset($this->invoices); //??
+
+		$findParams = \GO\Base\Db\FindParams::newInstance()->debugSql();
+		$webshop = \GO\Webshop\Model\Webshop::getBySite();
+
+		$whereCriteria = \GO\Base\Db\FindCriteria::newInstance()
+						->addCondition('user_id', \GO::user()->id)
+						->addCondition('status_id', $webshop->order_success_status_id, '!=')
+						->addCondition('status_id', 0, '>');
+		$findParams->criteria($whereCriteria)->debugSql()->order('btime', 'DESC');
+
+		//$this->invoices = \GO\Billing\Model\Order::model()->find($findParams)->fetchAll();
+
+		$pager = new \GO\Site\Widgets\Pager('p', $_GET, \GO\Billing\Model\Order::model(), $findParams, \GO::user()->max_rows_list, 2);
+
+		//$site = $this->getSite();
+		//if(!empty($site->id))
+		//$this->webshop = \GO\Webshop\Model\Webshop::model()->findSingleByAttribute('site_id',$site->id);
+		//$params['pager'] = $pager;
+		$this->render('invoices', array('pager' => $pager));
+	}
+
+//	/**
+//	 * Action to download the invoice as a pdf.
+//	 * 
+//	 * The order_id need to be passed with the params parameter to let this 
+//	 * function find the correct order.
+//	 * 
+//	 * @param array $params The params that are passed through to this page
+//	 * @throws \GO\Base\Exception\AccessDenied 
+//	 */
+//	protected function actionInvoicePdf($params) {
+//
+//		if (isset($params['order_id']))
+//			$this->order = \GO\Billing\Model\Order::model()->findByPk($params['order_id']);
+//
+//		if (\GO::user()->user_id != $this->order->user_id)
+//			throw new \GO\Base\Exception\AccessDenied();
+//
+//		$filename = $this->order->order_id . '.pdf';
+//		$pdf = $this->order->pdf;
+//		\GO\Base\Util\Http::outputDownloadHeaders(new \GO\Base\Fs\File($filename));
+//		echo $pdf->Output($filename, 'S');
+//	}
+
+	public function actionOrderFromTrial() {
+		
+		$this->setPageTitle("Order hosted Group-Office");
+
+		if (\GO\Base\Util\Http::isPostRequest()) {
+
+
+			$cart = new \GO\Webshop\Components\ShoppingCart();
+			$cart->clear();
+			
+			
+
+			$webshop = \GO\Webshop\Model\Webshop::getBySite();
+			$webshoporder = $webshop->getWebshopOrder();
+			$webshoporder->orderAttributes=array('reference'=>$_REQUEST['reference']);
+
+			$months = $this->_paymentperiod($_REQUEST);
+
+			$number_of_users = isset($_REQUEST['number_of_users']) ? $_REQUEST['number_of_users'] : 1;
+			$totaluserprice = $this->_pricefromusers($number_of_users);
+
+			//users
+			$cartitem = new \GO\Webshop\Components\CartItem(
+											"Hosted groupoffice for " . $number_of_users . " users per " . $months . " months.",
+											$months * $totaluserprice,
+											21,
+											1,
+											"hosting"
+			);
+			$cart->add($cartitem);
+
+
+			$diskspace = isset($_REQUEST['diskspace']) ? $_REQUEST['diskspace'] : 1;
+
+			//diskspace
+			$cartitem = new \GO\Webshop\Components\CartItem(
+											$diskspace . " GB diskspace for Group-Office per " . $months . " months.",
+											$diskspace * 1 * $months,
+											21,
+											1,
+											"diskspace"
+			);
+			$cart->add($cartitem);
+			
+			if(!empty($_REQUEST['billing'])){
+				$cartitem = new \GO\Webshop\Components\CartItem(
+												"Billing module for Group-Office per " . $months . " months.",
+												20 * $months,
+												21,
+												1,
+												"billing"
+				);
+			
+				$cart->add($cartitem);
+			}
+			
+			
+			if(!empty($_REQUEST['documents'])){
+				$cartitem = new \GO\Webshop\Components\CartItem(
+												"Documents module for Group-Office per " . $months . " months.",
+												15 * $months,
+												21,
+												1,
+												"documents"
+				);
+			
+				$cart->add($cartitem);
+			}
+
+
+			$this->redirect(array('/webshop/site/cart')); // Go to the payment selection screen	
+		}
+
+		$this->render('orderfromtrial', array('reference'=>isset($_REQUEST['reference']) ? $_REQUEST['reference'] : 'unknown trial'));
+	}
+
+//	public function actionOrderFromTrialOldf() {
+//		$contact = \GO::user()->createContact();
+//		$webshop = \GO\Webshop\Model\Webshop::getBySite();
+//
+//		$customer = $contact->company();
+//		if (!$customer) {
+//			$customer = new \GO\Addressbook\Model\Company();
+//			$customer->addressbook_id = $contact->addressbook_id;
+//		}
+//
+//		//prepare order model
+//		$order = new \GO\Billing\Model\Order();
+//		$order->book_id = $webshop->order_book_id; // Set the book
+//		$order->webshop_id = $webshop->id;
+//		$order->btime = time(); // Set the time for this order
+//		$order->for_warehouse = 0; // Set warehouse to zero(0)
+//		$order->status_id = $webshop->order_pending_status_id; // Set the order status
+//		$order->language_id = GOS::site()->getSite()->language_id;
+//		$order->notify_customer = true;
+//		$order->reference = $_REQUEST['reference'];
+//		$order->setCustomerFromCompany($customer);
+//		if (!empty($contact->salutation))
+//			$order->customer_salutation = $contact->salutation;
+//
+//		if (\GO\Base\Util\Http::isPostRequest() && isset($_POST['submitorderfromtrial'])) {
+//
+//			//prepare company model
+//			$customer->setAttributes($_POST);
+//			$customer->setPostAddressFromVisitAddress();
+//
+//
+//
+//			\GO\Base\Html\Error::checkRequired();
+//			\GO\Base\Html\Error::validateModel($customer);
+//			\GO\Base\Html\Error::validateModel($order, array(
+//					'customer_email' => 'email',
+//					'customer_vat_no' => 'vat_no',
+//					'customer_country' => 'country'
+//			));
+//
+//			if (!\GO\Base\Html\Error::hasErrors()) {
+//
+//				if ($customer->save() && $customer->id != $contact->company_id) {
+//					$contact->company_id = $customer->id;
+//					$contact->save();
+//				}
+//
+//				// Add the customer to the order
+//				$order->save(); // Save the order before adding products				
+//
+//
+//				$months = $this->_paymentperiod($_REQUEST);
+//
+//				$number_of_users = isset($_REQUEST['number_of_users']) ? $_REQUEST['number_of_users'] : 1;
+//				$totaluserprice = $this->_pricefromusers($number_of_users);
+//
+//				//users
+//				$item = new \GO\Billing\Model\Item();
+//				$item->order_id = $order->id;
+//				$item->description = "Hosted groupoffice for " . $number_of_users . " users per " . $months . " months.";
+//				$item->unit_price = $months * $totaluserprice;
+//				$item->amount = 1;
+//				$item->save();
+//
+//
+//
+//				$diskspace = isset($_REQUEST['diskspace']) ? $_REQUEST['diskspace'] : false;
+//
+//				//diskspace
+//				$item = new \GO\Billing\Model\Item();
+//				$item->order_id = $order->id;
+//				$item->description = $diskspace . " GB diskspace for Group-Office per " . $months . " months.";
+//				$item->unit_price = $diskspace * 2.5 * $months;
+//				$item->amount = 1;
+//				$item->save();
+//
+//				$order->syncItems(); // Update the order totals
+//
+//				$this->redirect(array('/webshop/site/payment', 'order_id' => $order->id)); // Go to the payment selection screen	
+//			}
+//		}
+//
+//
+//
+//		$this->render('orderfromtrial', $_REQUEST);
+//	}
+
+	private function _pricefromusers($number_of_users) {
+
+		switch ($number_of_users) {
+			case 1:
+				$price = 10;
+				break;
+			case 2:
+				$price = 19;
+				break;
+			case 3:
+				$price = 28;
+				break;
+			case 4:
+				$price = 36;
+				break;
+			case 5:
+				$price = 43;
+				break;
+			case 6:
+				$price = 50;
+				break;
+			case 7:
+				$price = 57;
+				break;
+			case 8:
+				$price = 63;
+				break;
+			case 9:
+				$price = 69;
+				break;
+			case 10:
+				$price = 74;
+				break;
+			case 15:
+				$price = 95;
+				break;
+			case 20:
+				$price = 109;
+				break;
+			case 25:
+				$price = 123;
+				break;
+			case 30:
+				$price = 134;
+				break;
+			case 35:
+				$price = 141;
+				break;
+			case 40:
+				$price = 146;
+				break;
+			case 45:
+				$price = 148;
+				break;
+			case 50:
+				$price = 150;
+				break;
+			default:
+				$price = 10;
+				break;
+		}
+
+		return $price;
+	}
+
+	private function _paymentperiod($params) {
+
+		$period = isset($params['payment_period']) ? $params['payment_period'] : 'year';
+
+		switch ($period) {
+			case "year":
+				$months = 12;
+				break;
+			case "halfyear":
+				$months = 6;
+				break;
+			case "quarter":
+				$months = 3;
+				break;
+			default:
+				$months = 12;
+				break;
+		}
+
+		return $months;
+	}
+
+}

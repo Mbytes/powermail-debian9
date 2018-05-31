@@ -191,19 +191,21 @@ class CertificateController extends \GO\Base\Controller\AbstractController {
 
 	private function _savePublicCertificate($certData, $emails) {
 
-		$findParams = \GO\Base\Db\FindParams::newInstance()->single();
-		$findParams->getCriteria()
-						->addInCondition('email', $emails)
-						->addCondition('user_id', \GO::user()->id);
+		foreach($emails as $email) {
+			$findParams = \GO\Base\Db\FindParams::newInstance()->single();
+			$findParams->getCriteria()
+							->addCondition('email', $email)
+							->addCondition('user_id', \GO::user()->id);
 
-		$cert = \GO\Smime\Model\PublicCertificate::model()->find($findParams);
-		if (!$cert) {
-			$cert = new \GO\Smime\Model\PublicCertificate();
-			$cert->email = $emails[0];
-			$cert->user_id = \GO::user()->id;
+			$cert = \GO\Smime\Model\PublicCertificate::model()->find($findParams);
+			if (!$cert) {
+				$cert = new \GO\Smime\Model\PublicCertificate();
+				$cert->email = $email;
+				$cert->user_id = \GO::user()->id;
+			}
+			$cert->cert = $certData;
+			$cert->save();
 		}
-		$cert->cert = $certData;
-		$cert->save();
 	}
 
 	private function _getRootCertificates() {

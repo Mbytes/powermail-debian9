@@ -57,18 +57,11 @@ GO.projects2.MainPanel = function(config){
 
 
 	var subProjectFields = {
-		fields: ['id', 'name','reference_no','status_name','user_name','type_name','template_name','responsible_user_name','icon','start_time', 'due_time','customer_name'],
+		fields: ['id', 'name','reference_no','status_name','user_name','type_name','template_name','responsible_user_name','icon','start_time', 'due_time','customer_name', 'contact'],
 		columns: [{
 				header: '',
 				dataIndex: 'icon',
-				id: 'icon',
-				width: 20,
-				renderer: function(v) {
-					if (!GO.util.empty(v))
-						return '<img src="'+v+'" />';
-					else
-						return '<img class="x-tree-node-icon go-model-icon-GO_Projects2_Model_Project" src="'+GO.settings.config.full_url+'views/Extjs3/ext/resources/images/default/s.gif" />';
-				}
+				xtype: 'iconcolumn'
 			},{
 				header: 'ID',
 				dataIndex: 'id',
@@ -133,6 +126,12 @@ GO.projects2.MainPanel = function(config){
 				id: 'customer_name',
 				width: 120,
 				sortable:false
+			},{
+				header: GO.projects2.lang['contact'],
+				dataIndex: 'contact',
+				id: 'contact',
+				width: 120,
+				sortable:false
 			}]
 	}
 
@@ -143,10 +142,27 @@ GO.projects2.MainPanel = function(config){
 	exportBtn.iconCls = null;
 	
 
+var subProjectsStore = new GO.data.JsonStore({
+			url: GO.url('projects2/project/store'),
+			baseParams: {
+				parent_project_id: 0
+			},
+			root: 'results',
+			totalProperty: 'total',
+			id: 'id',
+			fields: subProjectFields.fields,
+			remoteSort:true
+		});
 
 
 	this.subProjectsGrid = new GO.grid.GridPanel({
-		tbar: [exportBtn,this.showMineOnlyField = new Ext.form.Checkbox({
+		tbar: [exportBtn,
+			this.searchField = new GO.form.SearchField({
+				store: subProjectsStore,
+				width:120,
+				emptyText: GO.lang.strSearch
+			}),
+			this.showMineOnlyField = new Ext.form.Checkbox({
 			boxLabel: GO.projects2.lang.showMineOnly,
 			labelSeparator: '',
 			name: 'show_mine_only',
@@ -168,17 +184,7 @@ GO.projects2.MainPanel = function(config){
 //		title:GO.projects2.lang['subprojects'],
 		split: true,
 //		renderTo: 'projects2-subprojectsgrid',
-		store: new GO.data.JsonStore({
-			url: GO.url('projects2/project/store'),
-			baseParams: {
-				parent_project_id: 0
-			},
-			root: 'results',
-			totalProperty: 'total',
-			id: 'id',
-			fields: subProjectFields.fields,
-			remoteSort:true
-		}),
+		store: subProjectsStore,
 		autoScroll:true,
 		paging : true,
 		sm: new Ext.grid.RowSelectionModel(),
@@ -380,7 +386,12 @@ GO.projects2.MainPanel = function(config){
 //		hideCollapseTool:true,
 //		collapsible:true
 	});
-
+	this.projectPanel.on("fullReload", function (panel) {
+		this.refresh();
+		
+		this._switchProject(panel.data.parent_project_id);
+		
+	}, this);
 
 	this.projectPanel.on('load', function(tp, project_id){
 
@@ -388,7 +399,8 @@ GO.projects2.MainPanel = function(config){
 		this.tasksPanel.setProjectId(project_id,tp.data.use_tasks_panel==1);
 
 		var node = this.getTreePanel().getNodeById(project_id);
-		if(node){
+		
+		if(node && node.rendered){
 			this.getTreePanel().getSelectionModel().select(node);
 			node.expand();
 		}
@@ -549,7 +561,7 @@ GO.projects2.MainPanel = function(config){
 	items.push({
 		iconCls:'btn-actions',
 		text:GO.projects2.lang.report,
-		hidden: !GO.projects2.has_finance_permission && !GO.projects2.has_report_permission,
+		hidden: GO.settings.modules.projects2.permission_level<GO.projects2.permissionLevelFinance,
 		handler:function(){
 			if(!this.reportDialog)
 			{
@@ -629,8 +641,7 @@ GO.projects2.MainPanel = function(config){
 
 	this.invoiceButton = new Ext.Button({
 		iconCls: 'btn-add',
-		text: GO.projects2.lang['financial'],
-		hidden: !GO.projects2.has_finance_permission,
+		text: GO.projects2.lang['financial'],		
 		cls: 'x-btn-text-icon',
 		handler: function() {
 			if(!this.invoiceDialog)
@@ -856,5 +867,8 @@ GO.newMenuItems.push({
         });
     }
 });
+
+
+GO.projects2.permissionLevelFinance = 45;
 
 

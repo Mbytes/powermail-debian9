@@ -89,25 +89,7 @@ GO.grid.MultiSelectGrid = function (config){
 	    
 	},this);
 	
-	if(this.relatedStore){
-		this.on('change', function(grid, categories, records)
-		{
-			//if(records.length){
-				this.relatedStore.baseParams[this.getRequestParam()] = Ext.encode(categories);
-				this.relatedStore.load();
-				delete this.relatedStore.baseParams[this.getRequestParam()];
-			//}
-		}, this);
 
-		if(this.autoLoadRelatedStore){
-			this.store.on('load', function()
-			{
-				this.relatedStore.baseParams[this.getRequestParam()] = Ext.encode(this.getSelected());
-				this.relatedStore.load();		
-				delete this.relatedStore.baseParams[this.getRequestParam()];
-			}, this);
-		}
-	}
 
 	this.addEvents({
 		change : true
@@ -131,6 +113,33 @@ Ext.extend(GO.grid.MultiSelectGrid, GO.grid.GridPanel,{
 	selectedAll : false,
 	
 	requestPrefix : '',
+	
+	afterRender : function() {
+		
+		
+		GO.grid.MultiSelectGrid.superclass.afterRender.call(this);
+		
+		if(this.relatedStore){
+			this.on('change', function(grid, categories, records)
+			{
+				//if(records.length){
+					this.relatedStore.baseParams[this.getRequestParam()] = Ext.encode(categories);
+					this.relatedStore.load();
+					delete this.relatedStore.baseParams[this.getRequestParam()];
+				//}
+			}, this);
+
+
+			if(this.autoLoadRelatedStore){
+				this.store.on('load', function()
+				{
+					this.relatedStore.baseParams[this.getRequestParam()] = Ext.encode(this.getSelected());
+					this.relatedStore.load();		
+					delete this.relatedStore.baseParams[this.getRequestParam()];
+				}, this);
+			}
+		}
+	},
 	
 	getRequestParam : function(){
 		return this.requestPrefix+this.id;

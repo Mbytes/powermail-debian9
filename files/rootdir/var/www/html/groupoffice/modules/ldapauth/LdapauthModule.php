@@ -37,16 +37,27 @@ class LdapauthModule extends \GO\Base\Module{
 	/**
 	 * Save the Person attributes from LDAP with the given username
 	 */
-	public static function submitSettings(&$settingsController, &$params, &$response, $user) {
+	public static function submitSettings($settingsController, &$params, &$response, $user) {
 		//save what is loaded
 		
-		if(empty(GO::config()->ldap_peopledn) || empty(GO::config()->ldap_person_fields))
-			return true;
+		if(empty(GO::config()->ldap_peopledn)) {
+				return true;
+		}
 		
 		try{
 			$person = \GO\Ldapauth\Model\Person::findByUsername($user->username);
 			
 			if(!$person){
+				return true;
+			}
+			
+			if(!empty(GO::config()->ldap_change_password)) {
+				if(!empty($_POST["current_password"]) || !empty($_POST["password"]) ){
+					$response['success'] = $response['success'] && $person->changePassword($_POST["current_password"],$_POST["password"]);
+				}
+			}
+			
+			if(empty(GO::config()->ldap_peopledn) || empty(GO::config()->ldap_person_fields)) {
 				return true;
 			}
 			
@@ -56,9 +67,6 @@ class LdapauthModule extends \GO\Base\Module{
 				$response['success'] = $response['success'] && $person->save();	
 			}
 			
-			if(!empty($_POST["current_password"]) || !empty($_POST["password"]) ){
-				$response['success'] = $response['success'] && $person->changePassword($_POST["current_password"],$_POST["password"]);
-			}
 			
 			if(!$response['success']) {
 				$response['feedback'] = 'Save failed: LDAP '. $person->getError();
@@ -72,7 +80,7 @@ class LdapauthModule extends \GO\Base\Module{
 	/**
 	 * Load the Person attributes from LDAP with the given username
 	 */
-	public static function loadSettings(&$settingsController, &$params, &$response, $user){	
+	public static function loadSettings($settingsController, &$params, &$response, $user){	
 		
 		if(empty(GO::config()->ldap_peopledn) || empty(GO::config()->ldap_person_fields))
 			return true;

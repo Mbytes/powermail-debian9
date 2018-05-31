@@ -4,7 +4,7 @@
 $htmldirection='rtl';
 $charset='UTF-8';
 $ft_title = "סוגי קבצים";
-$ft_text = "סוגי קבצים נוספים באופן אוטומטי ל- Group-Office. כאן את/ה יכול/ה לשנות אייקונים ושמות";
+$ft_text = "סוגי קבצים נוספים באופן אוטומטי ל- {product_name}. כאן את/ה יכול/ה לשנות אייקונים ושמות";
 $ft_icon = "אייקון";
 $ft_extension = "סיומת";
 $ft_friendly = "שם ידידותי";

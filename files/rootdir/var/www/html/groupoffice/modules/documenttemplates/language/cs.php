@@ -11,3 +11,6 @@ $l["selectDocumentTemplate"]='Vyberte šablonu dokumentu';
 $l["selectRelevantResources"]='Vyberte relevantní zdroje';
 
 $l["warnCompat"]="Nebyly nalezeny žádné tagy pro šablonu. Vloženo pro kompatibilitu s verzí 3.7";
+
+$l['emailFromTemplate']= 'E-mail ze šablony';
+$l['selectEmailTemplate']= 'Zvolte e-mailovou šablonu';

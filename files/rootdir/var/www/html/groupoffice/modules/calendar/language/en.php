@@ -5,7 +5,11 @@ $l["addressbook"]='Addressbook';
 $l["appointments"]= 'Appointments';
 $l["recurrence"]= 'Recurrence';
 $l["options"]= 'Options';
-$l["repeatForever"]= 'repeat forever';
+$l["rangeRecurrence"]= 'Range of recurrence';
+$l["repeatForever"]= 'Repeat forever';
+$l["repeatUntilDate"]= 'Repeat until';
+$l["repeatCount"]= 'Repeat';
+$l["times"] = 'times';
 $l["repeatEvery"]= 'Repeat every';
 $l["repeatUntil"]= 'Repeat until';
 $l["busy"]= 'Show as busy';
@@ -278,3 +282,11 @@ $l['exportAsIcs'] = 'Export as ICS';
 $l['noDefaultCalendar'] = "You don't have a default calendar configured. Please select one at your settings.";
 $l['calNotDeletedDefault'] = "Not deleted!\nThis is the default calendar of user :username";
 $l['last'] = 'Last';
+
+$l['clearHolidayCache'] = 'Clear calendar holiday cache';
+$l['clearHolidayCacheDescription'] = 'Clears calendar holiday cache so they will be rebuilded through the holiday files. (On first view)';
+
+$l['useReminder'] = 'Enable reminder for this event';
+$l['thisAndFuture'] = 'This and future';
+
+$l['check_for_conflict'] = 'Check for conflicts';

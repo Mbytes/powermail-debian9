@@ -227,3 +227,5 @@ $updates['201610281650'][] = 'ALTER TABLE `go_links_fs_folders` CONVERT TO CHARA
 $updates['201610281659'][] = 'SET foreign_key_checks = 1;';
 
 
+
+$updates['201706121115'][] = "ALTER TABLE `fs_folders` CHANGE `parent_id` `parent_id` INT(11) NOT NULL DEFAULT '0';";

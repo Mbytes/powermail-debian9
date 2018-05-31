@@ -78,7 +78,7 @@ GO.email.MessageDialog = function(config){
 	config.height=500;
 	config.resizable=true;
 	config.minizable=true;
-	config.closeAction='hide';	
+//	config.closeAction='hide';	
 	config.items=this.messagePanel;
 	config.tbar=this.toolbar;
 	config.buttons=[{	
@@ -94,7 +94,8 @@ GO.email.MessageDialog = function(config){
 }
 
 Ext.extend(GO.email.MessageDialog, Ext.Window,{
-		
+	closeAction:'hide',	
+	
 	showData : function(data){
 		GO.email.MessageDialog.superclass.show.call(this);
 		

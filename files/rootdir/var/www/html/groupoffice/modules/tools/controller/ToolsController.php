@@ -12,7 +12,7 @@
  * The GO\Tools\Controller\Tools controller
  *
  * @package GO.modules.Tools
- * @version $Id: ToolsController.php 20499 2016-10-06 11:38:46Z mschering $
+ * @version $Id: ToolsController.php 21143 2017-05-03 08:14:59Z wsmits $
  * @copyright Copyright Intermesh BV.
  * @author Wesley Smits wsmits@intermesh.nl
  */
@@ -24,7 +24,7 @@ class ToolsController extends GO\Base\Controller\AbstractJsonController{
 	
 	public function actionStore($params){
 	
-		$columnModel = new GO\Base\Data\ColumnModel(false,array(),array('name','script'));
+		$columnModel = new GO\Base\Data\ColumnModel(false,array(),array('name','description','script'));
 		
 		$store = new GO\Base\Data\ArrayStore($columnModel);
 
@@ -40,6 +40,10 @@ class ToolsController extends GO\Base\Controller\AbstractJsonController{
 		
 		if(GO::modules()->filesearch)
 			$store->addRecord(array('name'=>'Update filesearch index','script'=>GO::url('filesearch/filesearch/sync')));
+		
+		if(GO::modules()->calendar){
+			$store->addRecord(array('name'=>GO::t('clearHolidayCache','calendar'),'description'=>GO::t('clearHolidayCacheDescription','calendar'),'script'=>GO::url('calendar/calendar/truncateHolidays')));
+		}
 
 		echo $this->renderStore($store);
 	}

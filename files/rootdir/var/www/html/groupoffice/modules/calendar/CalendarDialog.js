@@ -6,7 +6,7 @@
  *
  * If you have questions write an e-mail to info@intermesh.nl
  *
- * @version $Id: CalendarDialog.js 19784 2016-01-26 13:56:16Z michaelhart86 $
+ * @version $Id: CalendarDialog.js 21247 2017-06-26 09:28:06Z devdevilnl $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -45,7 +45,12 @@ GO.calendar.CalendarDialog = function(config)
 			displayField:'name',
 			id:'resource_groups',
 			emptyText: GO.lang.strPleaseSelect,
-			store: GO.calendar.groupsStore,
+			store: new GO.data.JsonStore({
+				url: GO.url("calendar/group/store"),
+				fields:['id','name','user_name','fields','acl_id'],
+				baseParams: {'limit': 0}
+			}),
+			
 			mode:'local',
 			triggerAction:'all',
 			editable:false,
@@ -190,12 +195,12 @@ GO.calendar.CalendarDialog = function(config)
 	this.readPermissionsTab = new GO.grid.PermissionsPanel({	
 	});
 	
-	var uploadFile = new GO.form.UploadFile({
+	this.uploadFile = new GO.form.UploadFile({
 		inputName : 'ical_file',	   
 		max:1 			
 	});
 	
-	uploadFile.on('filesChanged', function(input, inputs){
+	this.uploadFile.on('filesChanged', function(input, inputs){
 		this.importButton.setDisabled(inputs.getCount()==1);
 	}, this);
 	
@@ -214,7 +219,9 @@ GO.calendar.CalendarDialog = function(config)
 			xtype: 'panel',
 			html: GO.calendar.lang.selectIcalendarFile,
 			border:false
-		},uploadFile,this.importButton = new Ext.Button({
+		},
+		this.uploadFile,
+		this.importButton = new Ext.Button({
 			xtype:'button',
 			disabled:true,
 			text:GO.lang.cmdImport,
@@ -228,7 +235,7 @@ GO.calendar.CalendarDialog = function(config)
 					},
 					success: function(form,action)
 					{
-						uploadFile.clearQueue();
+						this.uploadFile.clearQueue();
 
 						Ext.Msg.show({
 							title: GO.lang.strSuccess,
@@ -344,9 +351,11 @@ Ext.extend(GO.calendar.CalendarDialog, GO.Window, {
 		
 	},				
 	show : function (calendar_id, resource){		
-		if(!this.rendered)
+		if(!this.rendered) {
 			this.render(Ext.getBody());
-			
+		} else {
+			this.selectGroup.store.reload()
+		}
 		if(GO.tasks)
 		{
 			this.tasklistsTab.setModelId(calendar_id);
@@ -409,6 +418,12 @@ Ext.extend(GO.calendar.CalendarDialog, GO.Window, {
 			GO.calendar.CalendarDialog.superclass.show.call(this);
 		}
 	},
+	hide : function() {
+		this.uploadFile.clearQueue();
+		
+		GO.calendar.CalendarDialog.superclass.hide.call(this);
+	},
+	
 	loadCalendar : function(calendar_id)
 	{
 		if(GO.tasks)

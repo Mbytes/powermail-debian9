@@ -11,7 +11,7 @@ $l["cmdUninstallMessage"]= 'ATTENTION ! Toutes les données de cette App vont ê
 $l["cmdModulesCannotBeDeleted"]= 'Le module "Apps" ne peut pas être supprimé !.';
 $l["modules"]='Apps';
 $l['name'] = 'Apps';
-$l['description'] = '<i style="color: green">*** Module Admin *** </i>Gérer les Apps de Group-Office.';
+$l['description'] = '<i style="color: green">*** Module Admin *** </i>Gérer les Apps de {product_name}.';
 $l['deleteModule'] = 'Le module "Apps" ne peut pas être supprimé !';
 $l['enabled']='Enabled';
 $l['sort_order']='Sort order';

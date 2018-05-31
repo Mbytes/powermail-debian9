@@ -9,7 +9,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: MainPanel.js 19308 2015-08-13 07:47:19Z mschering $
+ * @version $Id: MainPanel.js 21354 2017-08-03 15:05:25Z wsmits $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -18,6 +18,7 @@ GO.log.MainPanel = function(config) {
 		config = {};
 	}
 	
+	config.noDelete = true;
 	config.title = GO.log.lang.name;
 	config.layout = 'fit';
 	config.autoScroll = true;

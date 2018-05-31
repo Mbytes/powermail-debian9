@@ -183,4 +183,17 @@ abstract class AbstractCustomfieldtype extends \GO\Base\Observable{
 	public function getField(){
 		return $this->field;
 	}
+	
+	/**
+	 * Do something after the parent is saved
+	 * 
+	 * @param string $key
+	 * @param array $attributes
+	 * @param array $modifiedAttributes
+	 * @param AbstractCustomFieldsRecord $model
+	 */
+	public function afterParentSave($key, $attributes, $modifiedAttributes, \GO\Customfields\Model\AbstractCustomFieldsRecord $model){
+		
+	}
+	
 }

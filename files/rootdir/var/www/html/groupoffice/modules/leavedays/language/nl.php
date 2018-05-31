@@ -138,3 +138,5 @@ $l['starttimeForCalendar'] = 'Starttijd voor agenda';
 $l['removeYearCreditNotPossibleIfLeavedayIsSet'] = 'Kan jaartegoed met boekingen niet verwijderen. Verwijder eerst de boekingen.';
 
 $l['reason_why'] = 'Reden waarom';
+
+$l['deleteHolidayNotPermitted'] = 'Kan sommige vakantiedagen niet verwijderen om een van de volgende redenen:<br />U bent niet de manager,<br />De vakantiedag is in het verleden<br />De vakantiedag is al goed-/af-gekeurd.';

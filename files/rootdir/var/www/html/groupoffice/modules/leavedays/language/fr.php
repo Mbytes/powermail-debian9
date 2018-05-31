@@ -1,6 +1,6 @@
 <?php
 $l['name']='Congés';
-$l['description']='Gérez vos congés.';
+$l['description']='Gérez les congés de vos employés.';
 
 $l['id'] = 'ID';
 $l['leaveday'] = 'Vacance';
@@ -9,7 +9,7 @@ $l['firstDate'] = 'Date de début';
 $l['lastDate'] = 'Date de fin';
 $l['hours'] = 'Heures';
 $l['strDescription'] = 'Description';
-$l['employee'] = 'Employés';
+$l['employee'] = 'Employé';
 $l['comments'] = 'Commentaires';
 $l['leaveHours'] = 'Heures de départ';
 
@@ -58,7 +58,7 @@ $l['createYearCredit'] = 'Créer un crédit annuel';
 $l['ycAlreadyExists'] = 'Le crédit annuel pour l\'année selectionnée existe déjà pour cet agent.';
 $l['noYearCredit'] = 'Il n\'y a pas d\'information disponible concernant votre crédit de congès dans %s.';
 
-$l['copyLastYearsCredits'] = 'Copier le crédit de l\'année précedente';
+$l['copyLastYearsCredits'] = 'Copier crédit année N-1'; 
 $l['copyLastYearsCreditsRUSure'] = 'Cette action va copier tous les crédits de %y1 vers %y2, en écrasant les crédits de %y2. Continuer ?';
 
 $l['overlappingLeaveDays'] = 'Une autre période de congés chevauche l\'actuelle. Sauvegarde annulée !';
@@ -75,6 +75,9 @@ $l['newHolidayEntryBodyNegativeCredit']='Attention : le mois a un crédit négat
 
 $l['approvedHolidayEntrySubject']='Période de congés approuvée';
 $l['approvedHolidayEntryBody']='{manager} a approuvé votre période de congés débutant le {first_date}.';
+
+$l['disapprovedHolidayEntrySubject']='Période de congés désapprouvée';
+$l['disapprovedHolidayEntryBody']='{manager} a désapprouvé votre période de congés débutant le {first_date}.';
 
 $l['addHoliday']='Ajouter des congés';
 
@@ -106,3 +109,33 @@ $l['november'] = 'Nov';
 $l['december'] = 'Déc';
 
 $l['errorApprove'] = "Vous ne pouvez pas approuver vos propres congés";
+
+$l['hrs'] = 'h';
+$l['from'] = 'Du';
+$l['monthView'] = 'Vue Mensuelle';
+$l['noHolidaysTaken'] = 'Pas de vacances prises ce mois çi';
+$l['monthReport'] = 'Rapport Mensuel';
+$l['month'] = 'Mois';
+$l['reload'] = 'Actualiser';
+$l['noHours'] = 'S.V.P. Entrer un nombre d\'heures';
+
+$l['credittypes'] = 'Credit types';
+$l['type'] = 'Type';
+$l['credit_doesnt_expired'] = 'Crédit restant peut etre pris l\'année suivante';
+$l['holiday_request'] = 'Demandes de congés';
+$l['year_summary'] = 'Recapitulatif Année';
+
+$l['total'] = 'total';
+$l['used'] = 'utilisé';
+$l['credit'] = 'crédit';
+
+$l['errCreditAlreadyGiven'] = 'Crédit Année déjà donné pour cet employé cette année.';
+$l['errCreditTypeAlreadyInUse'] = 'Erreur - type de crédit déjà donné!';
+
+$l['starttimeForCalendar'] = 'Heure de début sur calendrier';
+
+$l['removeYearCreditNotPossibleIfLeavedayIsSet'] = 'Impossible de supprimer crédit annuel ayant des réservations. Enlever les réservations avant de supprimer.';
+
+$l['reason_why'] = 'Motif';
+
+$l['deleteHolidayNotPermitted']= 'Impossible d\enlever des congés, raisons possibles:<br />Vous n\'etes pas manager,<br />Congés à une date antérieure<br />Les congés sont déjà approuvés ou désapprouvés.';

@@ -62,7 +62,7 @@ class Comment extends \GO\Base\Db\ActiveRecord{
 		}
 		
 		return array(
-				'name' => $this->comments,
+				'name' => empty($this->comments)?\GO::t('emptyComment','comments'):\GO\Base\Util\StringHelper::cut_string($this->comments, 100),
 				'description'=>'',
 				'acl_id' => $this->getAttachedObject()->findAclId()
 		);

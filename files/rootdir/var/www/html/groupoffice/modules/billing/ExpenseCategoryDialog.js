@@ -7,7 +7,7 @@
  * If you have questions write an e-mail to info@intermesh.nl
  * 
  * @copyright Copyright Intermesh
- * @version $Id: ExpenseCategoryDialog.js 18395 2014-02-28 08:05:58Z mschering $
+ * @version $Id: ExpenseCategoryDialog.js 22373 2017-06-22 13:32:46Z mdhart $
  * @author Merijn Schering <mschering@intermesh.nl>
  */
 
@@ -84,7 +84,7 @@ Ext.extend(GO.billing.ExpenseCategoryDialog, Ext.Window,{
 				
 				success:function(form, action)
 				{
-					this.formPanel.baseParams.expense_book_id=action.result.data.expense_book_id;
+					this.formPanel.baseParams.id=action.result.data.expense_book_id;
 					GO.billing.ExpenseCategoryDialog.superclass.show.call(this);
 				},
 				failure:function(form, action)
@@ -103,7 +103,7 @@ Ext.extend(GO.billing.ExpenseCategoryDialog, Ext.Window,{
 	
 	setExpenseCategoryId : function(expense_category_id)
 	{
-		this.formPanel.form.baseParams['expense_category_id']=expense_category_id;
+		this.formPanel.form.baseParams['id']=expense_category_id;
 		this.expense_category_id=expense_category_id;
 		
 	},

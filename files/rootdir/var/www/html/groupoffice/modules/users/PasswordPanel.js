@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: PasswordPanel.js 20382 2016-08-29 10:17:29Z mschering $
+ * @version $Id: PasswordPanel.js 21127 2017-04-24 14:30:47Z wsmits $
  * @copyright Copyright Intermesh
  * @author Merijn Schering <mschering@intermesh.nl>
  */
@@ -46,43 +46,49 @@ GO.users.PasswordPanel = function(config)
 		fieldLabel: GO.users.lang.confirmPassword,
 		name: prefix+'passwordConfirm'
 		});
-
-
-	
-	
+		
+	this.recoveryEmailField = new Ext.form.TextField({
+		fieldLabel: GO.lang.strRecoveryEmail,
+		name: 'recovery_email',
+		vtype:'emailAddress'
+	});
 
 	config.items=[
-//		new Ext.Panel({
-//				title: GO.users.lang.changePassword,
-				
-					new Ext.form.FieldSet({
-						title: GO.users.lang.changePassword,
-						items:[
-							this.currentPasswordField,
-							this.passwordField1,
-							this.passwordField2
-						]
-					}),
-					
-					new Ext.form.FieldSet({
-						title: GO.users.lang.alternativeEmail,
-						
-						items:[
-							new Ext.Container({html:GO.users.lang.alternativeEmailText}),
-							new Ext.form.TextField({
-								fieldLabel: GO.lang.email,
-								name: 'forgotPasswordEmail'
-							})
-						]
-					})
-//				]
-//			})	
-		
+		new Ext.form.FieldSet({
+			title: GO.users.lang.currentPassword,
+			items:[
+				new Ext.Container({
+					html:GO.lang.currentPasswordText,
+					style: {
+            marginBottom: '10px'
+					}
+				}),
+				this.currentPasswordField
+			]
+		}),
+		new Ext.form.FieldSet({
+			title: GO.users.lang.changePassword,
+			items:[
+				this.passwordField1,
+				this.passwordField2
+			]
+		}),
+		new Ext.form.FieldSet({
+			title: GO.lang.strRecoveryEmail,
+			items:[
+				new Ext.Container({
+					html:GO.lang.recoveryEmailText,
+					style: {
+            marginBottom: '10px'
+					}
+				}),
+				this.recoveryEmailField
+			]
+		})
 	];
 
 	GO.users.PasswordPanel.superclass.constructor.call(this, config);
 };
-
 
 Ext.extend(GO.users.PasswordPanel, Ext.Panel,{
 	onSaveSettings : function(){

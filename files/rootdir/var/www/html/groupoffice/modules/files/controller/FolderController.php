@@ -320,15 +320,16 @@ class FolderController extends \GO\Base\Controller\AbstractModelController {
 //				$folder->checkFsSync();
 
 				$stmt = $folder->getSubFolders(\GO\Base\Db\FindParams::newInstance()
-							->limit(200)//not so nice hardcoded limit
 							->order('name','ASC'));
 
 				while ($subfolder = $stmt->fetch()) {
 					$response[] = $this->_folderToNode($subfolder, $expandFolderIds, false, $showFiles);
-					if ($showFiles) {
-						$response = array_merge($response, $this->_addFileNodes($subfolder->parent));
-					}
+					
 				}
+
+				if ($showFiles) {
+						$response = array_merge($response, $this->_addFileNodes($folder));
+					}
 
 				break;
 		}
@@ -351,7 +352,7 @@ class FolderController extends \GO\Base\Controller\AbstractModelController {
 		if ($expanded) {
 			$node['children'] = array();
 			$stmt = $folder->getSubFolders(\GO\Base\Db\FindParams::newInstance()
-							->limit(100)//not so nice hardcoded limit
+							->limit(300)//not so nice hardcoded limit
 							->order('name','ASC'));
 			while ($subfolder = $stmt->fetch()) {
 				$node['children'][] = $this->_folderToNode($subfolder, $expandFolderIds, false, $withFiles);
@@ -402,7 +403,18 @@ class FolderController extends \GO\Base\Controller\AbstractModelController {
 		if(isset($params['share']) && !$model->readonly && !$model->isSomeonesHomeFolder() && $model->checkPermissionLevel(\GO\Base\Model\Acl::MANAGE_PERMISSION)){
 			if ($params['share']==1 && $model->acl_id == 0) {
 				$model->visible = 1;
-
+				if(GO::modules()->isInstalled('hidesharedprojectfs')) {
+					$parentId = ($model->getIsNew()) ? $params['parent_id'] : $model->parent_id;
+					$parent = GO\Files\Model\Folder::model()->findByPk($parentId);
+					if(!empty($parent)) { 
+						while($parent = $parent->parent) {
+							if($parent->parent_id == 0 && in_array($parent->name, array('projects2', 'addressbook'))) {
+								$model->visible = 0;
+							}
+						}
+					}
+				}
+				
 //				$acl = new \GO\Base\Model\Acl();
 //				$acl->description = $model->tableName() . '.' . $model->aclField();
 //				$acl->user_id = \GO::user() ? \GO::user()->id : 1;
@@ -522,10 +534,7 @@ class FolderController extends \GO\Base\Controller\AbstractModelController {
 					case 'no':
 						if ($params['overwrite'] == 'no')
 							$params['overwrite'] = 'ask';
-
-						continue;
-
-						break;
+						continue 2;
 				}
 			}
 
@@ -670,6 +679,12 @@ class FolderController extends \GO\Base\Controller\AbstractModelController {
 		}else
 		{			
 			$folder = \GO\Files\Model\Folder::model()->findByPk($params['folder_id']);
+		}
+		
+		
+		// if it is the users folder tha get the shared folders
+		if($folder->name == 'users' && $folder->parent_id == 0) {
+			return $this->_listShares($params);
 		}
 		
 		if(!$folder)
@@ -845,7 +860,11 @@ class FolderController extends \GO\Base\Controller\AbstractModelController {
 							)
 							->mergeWith($aclWhereCriteria)
 					);
-
+			
+			if(isset($params['sort'])){
+				$findParams->order("t.".$params['sort'], $params['dir']);
+			}
+			
 			$filesStmt = \GO\Files\Model\File::model()->find($findParams);
 
 			$response['total'] = $filesStmt->rowCount();
@@ -886,7 +905,10 @@ class FolderController extends \GO\Base\Controller\AbstractModelController {
 			$record['size']=$model->size;
 			$record['permission_level']=$this->_listFolderPermissionLevel;
 			$record['unlock_allowed']=$model->unlockAllowed();
-			$record['handler']='startjs:function(){'.$model->getDefaultHandler()->getHandler($model).'}:endjs';
+
+			if(empty($_REQUEST['noHandler'])){ // Added this line because the json_decode function cannot handle javascript. When noHandler is set to true, this line will be skipped
+				$record['handler']='startjs:function(){'.$model->getDefaultHandler()->getHandler($model).'}:endjs';
+			}
 		}
 		$record['thumb_url'] = $model->thumbURL;
 
@@ -1042,6 +1064,7 @@ class FolderController extends \GO\Base\Controller\AbstractModelController {
 //          $folder->acl_id = $model->acl_id;
 
 		$folder->acl_id=$model->findAclId();
+		
 		$folder->visible = 0;
 		$folder->readonly = 1;
 		$folder->systemSave = true;
@@ -1087,7 +1110,7 @@ class FolderController extends \GO\Base\Controller\AbstractModelController {
 
 			if ($saveModel && $model->isModified())
 				$model->save(true);
-		}elseif ((isset($model->acl_id) && !$model->aclOverwrite()) || $mustExist) {
+		}elseif ($model->alwaysCreateFilesFolder() || $mustExist) {
 			
 			GO::debug('Folder does not exist in database. Will create it.');
 		
@@ -1108,8 +1131,9 @@ class FolderController extends \GO\Base\Controller\AbstractModelController {
 
 		 \GO\Base\Fs\File::setAllowDeletes($oldAllowDeletes);
 		 
-		 
-		 $this->fireEvent('checkmodelfolder', array($model, $folder, $newFolder));
+		 if($model->files_folder_id) {
+			$this->fireEvent('checkmodelfolder', array($model, $folder, $newFolder));
+		 }
 
 		return $model->files_folder_id;
 	}

@@ -85,7 +85,7 @@ class EventHandlers {
 			
 			$outfile = \GO\Base\Fs\File::tempFile();
 			$imapMessage->getImapConnection()->save_to_file($imapMessage->uid, $outfile->path());
-
+			
 			$verifyOutfile = \GO\Base\Fs\File::tempFile();
 
 //			$cmd = '/usr/bin/openssl smime -verify -in ' . $outfile->path() . ' -out ' . $verifyOutfile->path();
@@ -95,7 +95,7 @@ class EventHandlers {
 			//suppling the extracerts option. We generated a dummy certificate for 
 			//this.
 			openssl_pkcs7_verify($outfile->path(), null, "/dev/null", array(), GO::config()->root_path."modules/smime/dummycert.pem", $verifyOutfile->path());
-			
+
 			$message = \GO\Email\Model\SavedMessage::model()->createFromMimeData(
 							$verifyOutfile->getContents());
 			

@@ -85,6 +85,29 @@ class Router{
 	 */
 	public function runController($params=false){
 		
+		
+		//Handles preflight OPTIONS request
+		if (isset($_SERVER['REQUEST_METHOD'])){
+			switch(strtoupper($_SERVER['REQUEST_METHOD'])){
+				
+				case 'OPTIONS':
+					header('Content-Type: text/plain');
+			
+					foreach(\GO::config()->extra_headers as $header){
+						header($header);
+					}
+					\GO::debug("OPTIONS request in controller ".get_class($this));
+					exit(0);
+					
+				case 'HEAD':
+					\GO::debug("HEAD request in controller ".get_class($this));
+					header('X-PHP-Response-Code: 501', true, 501);
+					exit(0);
+					
+			}
+		}
+		
+		
 		if(!$params){
 			$params = array_merge($_REQUEST, \GO::request()->post);
 		}

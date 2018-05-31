@@ -48,7 +48,7 @@ use GO;
  *
  * @property boolean $delete_when_expired
  */
-class File extends \GO\Base\Db\ActiveRecord {
+class File extends \GO\Base\Db\ActiveRecord implements \GO\Base\Mail\SwiftAttachableInterface {
 
 
 	public static $deleteInDatabaseOnly=false;
@@ -258,6 +258,11 @@ class File extends \GO\Base\Db\ActiveRecord {
 
 		//check permissions on the filesystem
 		if($this->isNew){
+			
+			if(is_null($this->folder->fsFolder)){
+				throw new \Exception("Folder ".$this->folder->path." cannot be found on disk, please check this path manually.");
+			}
+			
 			if(!$this->folder->fsFolder->isWritable()){
 				throw new \Exception("Folder ".$this->folder->path." is read only on the filesystem. Please check the file system permissions (hint: chown -R www-data:www-data /home/groupoffice)");
 			}
@@ -381,6 +386,19 @@ class File extends \GO\Base\Db\ActiveRecord {
 		}
 		
 		return parent::checkPermissionLevel($level);
+	}
+	
+	private function getOldFolder() {
+		return Folder::model()->findByPk($this->getOldAttributeValue('folder_id'));
+	}
+	
+	
+	public function checkOldPermissionLevel($level) {
+		//If this folder belongs to a contact or project etc. then we only need write permission to delete it.
+		if($level == \GO\Base\Model\Acl::DELETE_PERMISSION && $this->getOldFolder()->acl->description != 'fs_folders.acl_id') {
+			$level = \GO\Base\Model\Acl::WRITE_PERMISSION;
+		}
+		return parent::checkOldPermissionLevel($level);
 	}
 
 	protected function afterSave($wasNew) {
@@ -794,5 +812,24 @@ class File extends \GO\Base\Db\ActiveRecord {
 		return self::$defaultHandlers[$ex];
 
 
+	}
+
+	/**
+	 * Returns this file as swift attachment
+	 * 
+	 * @param string $altName
+	 * @return Swift_Attachment
+	 */
+	public function getAttachment($altName = null) {
+	
+		$fullPath = $this->getFsFile()->path();
+		
+		$attachment = \Swift_Attachment::fromPath($fullPath);
+		
+		if($altName !== null){
+			$attachment->setFilename($altName);
+		}
+		
+		return $attachment;
 	}
 }

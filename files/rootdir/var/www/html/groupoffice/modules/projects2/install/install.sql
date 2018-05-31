@@ -169,7 +169,7 @@ CREATE TABLE IF NOT EXISTS `pr2_projects` (
   `user_id` int(11) NOT NULL DEFAULT '0',
   `acl_id` INT(11) NOT NULL,
   `name` varchar(100) NOT NULL DEFAULT '',
-  `customer` varchar(100) DEFAULT '',
+  `customer` varchar(201) DEFAULT '',
   `description` text,
   `company_id` int(11) NOT NULL DEFAULT '0',
   `ctime` int(11) NOT NULL DEFAULT '0',
@@ -342,6 +342,7 @@ CREATE TABLE IF NOT EXISTS `pr2_templates_events` (
   `user_id` int(11) NOT NULL,
   `new_template_id` int(11) NOT NULL DEFAULT '0',
   `template_id` int(11) NOT NULL,
+  `for_manager` TINYINT(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`),
   KEY `fk_pr2_templates_events_pr2_templates1_idx` (`template_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -413,3 +414,71 @@ ENGINE = InnoDB  DEFAULT CHARSET=utf8mb4;
 
 
 ALTER TABLE `pr2_templates` ADD `use_name_template` BOOLEAN NOT NULL DEFAULT FALSE, ADD `name_template` VARCHAR(80) NOT NULL AFTER `use_name_template`; 
+
+
+ALTER TABLE `pr2_income` CHANGE `paid_at` `paid_at` INT(11) NOT NULL DEFAULT '0';
+
+
+
+--
+-- Tabelstructuur voor tabel `pr2_income_items`
+--
+
+CREATE TABLE `pr2_income_items` (
+  `id` int(11) NOT NULL,
+  `income_id` int(11) NOT NULL,
+  `amount` double NOT NULL DEFAULT '0',
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+CREATE TABLE `pr2_employee_activity_rate` (
+  `activity_id` INT NOT NULL,
+  `employee_id` INT NOT NULL,
+  `external_rate` FLOAT NOT NULL,
+  PRIMARY KEY (`activity_id`, `employee_id`),
+  INDEX `fk_pr2_employee_activity_idx` (`employee_id` ASC),
+  CONSTRAINT `fk_pr2_employee_activity`
+    FOREIGN KEY (`employee_id`)
+    REFERENCES `pr2_employees` (`user_id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION);
+
+
+CREATE TABLE `pr2_resource_activity_rate` (
+  `activity_id` INT NOT NULL,
+  `employee_id` INT NOT NULL,
+  `project_id` INT NOT NULL,
+  `external_rate` FLOAT NOT NULL,
+  PRIMARY KEY (`activity_id`, `employee_id`, `project_id`),
+  INDEX `fk_pr2_resource_activity_idx` (`project_id` ASC, `employee_id` ASC),
+  CONSTRAINT `fk_pr2_resource_activity`
+    FOREIGN KEY (`project_id`, `employee_id`)
+    REFERENCES `pr2_resources` (`project_id`, `user_id`)
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION
+);
+
+
+--
+-- Indexen voor geëxporteerde tabellen
+--
+
+--
+-- Indexen voor tabel `pr2_income_items`
+--
+ALTER TABLE `pr2_income_items`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT voor geëxporteerde tabellen
+--
+
+--
+-- AUTO_INCREMENT voor een tabel `pr2_income_items`
+--
+ALTER TABLE `pr2_income_items`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+
+ALTER TABLE `pr2_income` ADD `contact` VARCHAR(190) NULL DEFAULT NULL AFTER `contract_end_notification_sent`;

@@ -2,39 +2,56 @@ GO.moduleManager.onModuleReady('projects2', function() {
 	Ext.override(GO.projects2.IncomeDialog, {
 		width:800,
 		
+		afterSubmit : GO.projects2.IncomeDialog.prototype.afterSubmit.createSequence(function(action) { 
+			this.exactShowInvoiceButton.setDisabled(!action.result.incomeIsInExact);
+			this.exactAddInvoiceButton.setDisabled(action.result.incomeIsInExact);			
+			this.exactCustomerCheckbox.setValue(action.result.customerIsInExact);
+		}),
+		
+		afterShowAndLoad :  GO.projects2.IncomeDialog.prototype.afterShowAndLoad.createSequence(function (remoteModelId, config, result){	
+			this.exactShowInvoiceButton.setDisabled(!result.incomeIsInExact);
+			this.exactAddInvoiceButton.setDisabled(result.incomeIsInExact);			
+			this.exactCustomerCheckbox.setValue(result.customerIsInExact);
+		}),
+		
 		buildForm : GO.projects2.IncomeDialog.prototype.buildForm.createSequence(function(){
 			
 			this.exactShowInvoiceButton = new Ext.Button({
 				text: GO.exactonline.lang['showExactInvoice'],
 				handler: function() {
-					window.open(GO.url('exactonline/invoice/exportExact',{invoiceNumber:this.txtInvoiceNo.getValue(),'incomeId':this.remoteModelId,'toPDF':true}));
-					
-				},
-				
-				
+					window.open(GO.url('exactonline/invoice/exportExact',{invoiceNumber:this.txtInvoiceNo.getValue(),'incomeId':this.remoteModelId,'toPDF':true}));					
+				},				
 				scope: this
 			});
 			
 			this.exactAddInvoiceButton = new Ext.Button({
 				text: GO.exactonline.lang['addExactInvoice'],
 				handler: function() {
-					this.setDisabled(true);
-					GO.request({
-	//					timeout:300000,
-	//					maskEl:Ext.getBody(),
-						url:'exactonline/invoice/add',
-						params:{
-							invoiceNumber:this.txtInvoiceNo.getValue(),
-							incomeId:this.remoteModelId
-						},
-						success: function(options, response, result) {
-							this.setDisabled(false);
-						},
-						callback:function(options, success, response){
-							this.setDisabled(false);
-						},
-						scope:this
+					
+					this.submitForm(false, {
+						scope: this,
+						callback: function() {
+							this.setDisabled(true);
+							GO.request({
+			//					timeout:300000,
+			//					maskEl:Ext.getBody(),
+								url:'exactonline/invoice/add',
+								params:{
+									invoiceNumber:this.txtInvoiceNo.getValue(),
+									incomeId:this.remoteModelId
+								},
+								success: function(options, response, result) {
+									this.setDisabled(false);
+								},
+								callback:function(options, success, response){
+									this.setDisabled(false);
+								},
+								scope:this
+							});
+						}
 					});
+					
+					
 //				
 				},
 				
@@ -57,6 +74,13 @@ GO.moduleManager.onModuleReady('projects2', function() {
 
 			// Replace the "Old" txtInvoiceNo with the new invoiceComp
 			this.propertiesPanel.insert(currentFieldIndex,this.invoiceComp);
+			
+			
+			this.exactCustomerCheckbox = new Ext.form.Checkbox({
+				disabled: true,
+				fieldLabel: 'Exact Online'
+			});
+			this.propertiesPanel.add(this.exactCustomerCheckbox);
 		})
 	});
 	

@@ -79,3 +79,14 @@ $l['contactformText']="Fill out this form and click on 'Ok' to register. The fie
 
 $l['addressbookNotFound']="No address book found with name '%s'.";
 $l['contactformDoneText']="We have succesfully received your registration.";
+
+$l['currentPassword']="Current password";
+$l['passwordExpired']="Your password is expired";
+$l['changePasswordRequiredText'] = 'You are required to change your password.';
+
+$l['usernameIncorrect'] = 'The given username is incorrect';
+$l['pleaseFillInAllFields'] = 'Please fill in all fields';
+$l['passwordsDoNotMatch'] = 'The password and the password confirmation do not match';
+$l['passwordsMayNotBeTheSame'] = 'The new password may not be the same as the old password';
+$l['couldNotSaveNewPassword'] = 'The new password could not be saved. Please contact the administrator of the system';
+$l['passwordIncorrect'] = 'The password you have given is incorrect';

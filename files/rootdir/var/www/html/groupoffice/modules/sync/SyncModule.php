@@ -5,7 +5,7 @@ namespace GO\Sync;
 
 class SyncModule extends \GO\Professional\Module{
 	
-	public static function submitSettings(&$settingsController, &$params, &$response, $user) {
+	public static function submitSettings($settingsController, &$params, &$response, $user) {
 		
 		$settings = Model\Settings::model()->findForUser($user);
 		
@@ -63,7 +63,7 @@ class SyncModule extends \GO\Professional\Module{
 		return parent::submitSettings($settingsController, $params, $response, $user);
 	}
 	
-	public static function loadSettings(&$settingsController, &$params, &$response, $user) {
+	public static function loadSettings($settingsController, &$params, &$response, $user) {
 		
 		$settings = Model\Settings::model()->findForUser($user);
 
@@ -81,10 +81,6 @@ class SyncModule extends \GO\Professional\Module{
 			$response['data']['account_id']=$account->id;
 			$response['remoteComboTexts']['account_id']=$account->aliases(\GO\Base\Db\FindParams::newInstance()->single())->email;
 		}
-		
-		$response = \GO\Calendar\Controller\EventController::reminderSecondsToForm($response);
-		
-		
 		
 		return parent::loadSettings($settingsController, $params, $response, $user);
 	}

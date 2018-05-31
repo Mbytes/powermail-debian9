@@ -7,7 +7,7 @@
  * If you have questions write an e-mail to info@intermesh.nl
  * 
  * @copyright Copyright Intermesh
- * @version $Id: OrderDialog.js 21319 2016-04-18 11:08:43Z mschering $
+ * @version $Id: OrderDialog.js 22573 2017-10-19 07:54:16Z mschering $
  * @author Merijn Schering <mschering@intermesh.nl>
  */
 
@@ -174,7 +174,7 @@ GO.billing.OrderDialog = function(config){
 		},
 		scope: this
 	},{
-		text: GO.lang['cmdSave'],
+		text: GO.lang['cmdApply'],
 		handler: function(){
 			this.submitForm();
 		},

@@ -181,12 +181,18 @@ Ext.ux.PluploadPanel = Ext.extend(Ext.Panel, {
         if ( this.silverlight_xap_url ) {
             runtimes = "silverlight," + runtimes; 
         }
+				
+				if(typeof this.max_file_size == 'undefined') {
+					this.max_file_size = '10mb';
+				} 
+				
         this.uploader = new plupload.Uploader({
             url: this.url,
             runtimes: this.runtimes || runtimes,
             browse_button: this.getTopToolbar().getComponent('addButton').getEl().dom.id,
             container: this.getTopToolbar().getEl().dom.id,
-            max_file_size: this.max_file_size || '10mb',
+            max_file_size: this.max_file_size,
+            max_quota_size: this.max_quota_size,
             resize: this.resize || '',
             flash_swf_url: this.flash_swf_url || '',
             silverlight_xap_url: this.silverlight_xap_url || '',
@@ -198,6 +204,7 @@ Ext.ux.PluploadPanel = Ext.extend(Ext.Panel, {
             drop_element: this.body.dom.id,
             required_features: this.required_features
         });
+				
         Ext.each(['Init', 'ChunkUploaded', 'FilesAdded', 'FilesRemoved', 'FileUploaded', 'PostInit',
                   'QueueChanged', 'Refresh', 'StateChanged', 'UploadFile', 'UploadProgress', 'Error' ], 
                  function (v) { this.uploader.bind(v, eval("this." + v), this); }, this
@@ -308,25 +315,14 @@ Ext.ux.PluploadPanel = Ext.extend(Ext.Panel, {
     ChunkUploaded: function() {
     },
     FilesAdded: function(uploader, files) {
-        this.getTopToolbar().getComponent('delete').setDisabled(false);
-        this.getTopToolbar().getComponent('start').setDisabled(false);
-		
-        Ext.each(files, function (v) {
-            this.update_store( v );
-        }, this);
 			
-		var fileSize = 0,
-			max = uploader.settings.max_file_size;
-		for(var i=0; i<files.length; i++) {
-			fileSize += files[i].size;
-		}
-		
-		// auto start after adding files
-		setTimeout(function(){
-			if(fileSize < max) {
-				uploader.start();
-			}
-		},10);
+			this.getTopToolbar().getComponent('delete').setDisabled(false);
+			this.getTopToolbar().getComponent('start').setDisabled(false);
+
+			Ext.each(files, function (v) {
+					this.update_store( v );
+			}, this);
+			
     },
     FilesRemoved: function(uploader, files) {
         Ext.each(files, 
@@ -354,15 +350,24 @@ Ext.ux.PluploadPanel = Ext.extend(Ext.Panel, {
 
     },
     QueueChanged: function(uploader) {
-		uploader.max_file_size = this.max_file_size;
+//		uploader.max_file_size = this.max_file_size;
 		var fileSize = 0;	
-		for(var i=0; i<uploader.files.length; i++) {
-			
-			fileSize += uploader.files[i].size;
-			if(fileSize > this.max_file_size)
-				uploader.files[i].status=4; //4 = "Too Big"
+		if(uploader.settings.max_quota_size) {
+			for(var i=0; i<uploader.files.length; i++) {
+
+	//			fileSize += uploader.files[i].size;
+				if((fileSize +uploader.files[i].size) > uploader.settings.max_quota_size) {
+					this.uploader.trigger('Error', {
+						code : plupload.FILE_SIZE_ERROR,
+						message : plupload.translate('File size error max quota'),
+						file : uploader.files[i]
+					});
+
+				} else {
+					fileSize += uploader.files[i].size;
+				}
+			}
 		}
-		
     },
     Refresh: function(uploader) {
         Ext.each(uploader.files, 
@@ -392,9 +397,11 @@ Ext.ux.PluploadPanel = Ext.extend(Ext.Panel, {
         this.update_store( file );
     },
     Error: function (uploader, data) {
-        data.file.status = 4;
+			data.file.status = 4;
+			
         if ( data.code == -600 ) {
-            data.file.msg = String.format( '<span style="color: red">{0}</span>', this.statusInvalidSizeText || 'Too big' );
+//            data.file.msg = String.format( '<span style="color: red">{0}</span>', this.statusInvalidSizeText || 'Too big' );
+            data.file.msg = String.format( '<span style="color: red">{0}</span>', data.message || 'Too big' );
         }
         else if ( data.code == -700 ) {
             data.file.msg = String.format( '<span style="color: red">{0}</span>', this.statusInvalidExtensionText || 'Invalid file type' );

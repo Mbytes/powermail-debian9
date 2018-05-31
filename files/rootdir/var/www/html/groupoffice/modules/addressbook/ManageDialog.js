@@ -7,7 +7,7 @@
  * If you have questions write an e-mail to info@intermesh.nl
  * 
  * @copyright Copyright Intermesh
- * @version $Id: ManageDialog.js 20499 2016-10-06 11:38:46Z mschering $
+ * @version $Id: ManageDialog.js 21434 2017-09-14 12:59:40Z wsmits $
  * @author Merijn Schering <mschering@intermesh.nl>
  */
 
@@ -18,6 +18,8 @@ GO.addressbook.ManageDialog = Ext.extend(GO.dialog.TabbedFormDialog, {
 		Ext.apply(this, {
 			title:GO.addressbook.lang.cmdManageDialog,
 			formControllerUrl: 'addressbook/settings',
+			enableOkButton : false,
+			enableApplyButton : false,
 			width:900,
 			height:600
 		});

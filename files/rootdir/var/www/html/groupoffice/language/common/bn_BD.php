@@ -602,7 +602,7 @@ $l['queryComparator'] = "Comparator";
 $l['queryValue']="মান";
 $l['queryStartGroup']="শুরুর গোষ্ঠী";
 
-$l['cliOnly'] = "এই স্ক্রিপ্টটি শুধুমাত্র  Group-Office Command Line Interface (CLI) ব্যবহার করে চালানো যাবে।";
+$l['cliOnly'] = "এই স্ক্রিপ্টটি শুধুমাত্র  {product_name} Command Line Interface (CLI) ব্যবহার করে চালানো যাবে।";
 $l['unnamed']='শিরোনামহীন';
 
 $l['maxRowslistTooHigh']='তালিকায় পংক্তির সর্বোচ্চ সংখ্যা অতিশয় দীর্ঘ । (সর্বোচ্চ ৫০)';

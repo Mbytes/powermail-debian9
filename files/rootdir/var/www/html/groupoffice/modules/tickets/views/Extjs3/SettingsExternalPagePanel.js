@@ -6,7 +6,7 @@
  * 
  * If you have questions write an e-mail to info@intermesh.nl
  * 
- * @version $Id: SettingsExternalPagePanel.js 20049 2014-12-08 08:22:07Z wsmits $
+ * @version $Id: SettingsExternalPagePanel.js 22562 2017-10-12 07:15:32Z wsmits $
  * @copyright Copyright Intermesh
  * @author Wesley Smits <wsmits@intermesh.nl>
  */
@@ -31,7 +31,7 @@ GO.tickets.SettingsExternalPagePanel = Ext.extend(Ext.Panel, {
 			width:300,
 			anchor: '100%',
 			maxLength: 100,
-			allowBlank:false,
+//			allowBlank:false,
 			boxLabel: GO.tickets.lang.useAlternativeUrl,
 			hideLabel:true
 		});
@@ -40,7 +40,7 @@ GO.tickets.SettingsExternalPagePanel = Ext.extend(Ext.Panel, {
 			name: 'alternative_url',
 			anchor: '100%',
 			maxLength: 100,
-			allowBlank:true,
+//			allowBlank:true,
 			fieldLabel: GO.tickets.lang.url
 		});
 		
@@ -50,7 +50,7 @@ GO.tickets.SettingsExternalPagePanel = Ext.extend(Ext.Panel, {
 			width:300,
 			anchor: '100%',
 			maxLength: 100,
-			allowBlank:false,
+			allowBlank:true,
 			boxLabel: GO.tickets.lang.enableExternalPage,
 			hideLabel:true
 		});
@@ -60,7 +60,7 @@ GO.tickets.SettingsExternalPagePanel = Ext.extend(Ext.Panel, {
 			width:300,
 			anchor: '100%',
 			maxLength: 100,
-			allowBlank:false,
+//			allowBlank:false,
 			boxLabel: GO.tickets.lang.enableAnonymousTickets,
 			hideLabel:true,
 			disabled:true
@@ -69,7 +69,7 @@ GO.tickets.SettingsExternalPagePanel = Ext.extend(Ext.Panel, {
 		this.customCssTextarea = new Ext.form.TextArea({
 			name: 'external_page_css',
 			anchor: '100%',
-			allowBlank:true,
+//			allowBlank:true,
 			fieldLabel:GO.tickets.lang.customTicketPageCss,
 			disabled:true,
 			hideLabel:true,
@@ -126,7 +126,8 @@ GO.tickets.SettingsExternalPagePanel = Ext.extend(Ext.Panel, {
 										this.customCssTextarea.setDisabled(false);
 										this.goToSiteButton.setDisabled(false);
 									},
-									fail:function(){
+									fail: function(response, options, result) {
+										Ext.Msg.alert(GO.lang.strError, result.feedback);
 										this.enableExternalPageCheckbox.reset();
 									},
 									scope: this

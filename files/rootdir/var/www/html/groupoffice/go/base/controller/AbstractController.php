@@ -122,27 +122,6 @@ abstract class AbstractController extends Observable {
 			$this->render('Disabled');
 			exit();
 		}	
-	
-		//Handles preflight OPTIONS request
-		if (isset($_SERVER['REQUEST_METHOD'])){
-			switch(strtoupper($_SERVER['REQUEST_METHOD'])){
-				
-				case 'OPTIONS':
-					header('Content-Type: text/plain');
-			
-					foreach(GO::config()->extra_headers as $header){
-						header($header);
-					}
-					GO::debug("OPTIONS request");
-					exit(0);
-					
-				case 'HEAD':
-					header('X-PHP-Response-Code: 501', true, 501);
-					exit(0);
-					
-			}
-		}
-			
 	}
 	
 	protected function init(){
@@ -301,6 +280,9 @@ abstract class AbstractController extends Observable {
 	 * An associative array of which the keys become available variables in the view file.
 	 */
 	protected function render($viewName, $data=array()){
+		
+		$this->fireEvent('render', [$viewName, &$data]);
+		
 		return $this->view->render($viewName, $data);		
 	}
 	
@@ -471,8 +453,10 @@ abstract class AbstractController extends Observable {
 			$response['success'] = false;
 			
 			$response['feedback'] = !empty($response['feedback']) ? $response['feedback']."\r\n\r\n" : '';
-			$response['feedback'] .= $e->getMessage();
+			$response['feedback'] .= $e->getMessage();	
 			
+			$response['exceptionCode'] = $e->getCode();
+					
 			$response['exceptionClass'] = get_class($e);
 			
 			if($e instanceof AccessDenied){
@@ -588,15 +572,13 @@ abstract class AbstractController extends Observable {
 	
 	/**
 	 * Check if we are called with the Command Line Interface
+	 * 
+	 * @deprecated use \GO::environment()->isCli(); instead
+	 * 
 	 * @return type 
 	 */
 	public function isCli(){
-		$cli = PHP_SAPI=='cli';
-		if(!$cli && PHP_SAPI=='cgi-fcgi' && isset($_SERVER['REMOTE_ADDR']) && isset($_SERVER['SERVER_ADDR']))
-			return $_SERVER['REMOTE_ADDR'] == $_SERVER['SERVER_ADDR'];
-		else
-			return $cli;
-		return false;
+		return \GO::environment()->isCli();
 	}
 	
 	/**

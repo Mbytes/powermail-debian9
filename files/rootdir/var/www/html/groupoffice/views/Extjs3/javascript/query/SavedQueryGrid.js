@@ -27,13 +27,15 @@ GO.query.SavedQueryGrid = function(config) {
 			id: 'id'
 		},
 		{
-			header: GO.lang['strName'],
+			header: GO.lang['savedQueries'],
 			dataIndex : 'name',
 			hidden: false,
 			width: '230',
 			id: 'name'
 		}]
 	});
+	
+	config.autoExpandColumn = 'name';
 	
 	config.view=new Ext.grid.GridView({
 		emptyText: GO.lang.strNoItems	
@@ -50,12 +52,15 @@ GO.query.SavedQueryGrid = function(config) {
 	}
 	
 	config.paging = true;
-	
-	this.searchField = new GO.form.SearchField({
-		store: config.store,
-		width:100
-	});
-	config.tbar = [GO.lang['strSearch'] + ':', this.searchField];
+	config.bbar = new GO.SmallPagingToolbar({
+			items:[this.searchField = new GO.form.SearchField({
+				store: config.store,
+				width:120,
+				emptyText: GO.lang.strSearch
+			})],
+			store:config.store,
+			pageSize:GO.settings.config.nav_page_size
+		})
 
 	GO.query.SavedQueryGrid.superclass.constructor.call(this, config);
 	
@@ -66,8 +71,22 @@ GO.query.SavedQueryGrid = function(config) {
 	this.on('rowdblclick',function(grid,rowId,e){
 			var record = grid.store.getAt(rowId);
 			this.queryId = record.data.id;
-			this.queryPanel.setCriteriaStore(record);
-			this.queryPanel.titleField.setValue('<b>'+record.data.name+'</b>');
+			
+			if (!GO.util.empty(record)) {
+				var data = Ext.decode(record.data.data);
+				this.queryPanel.clear();
+				Ext.each(data, function(item) {
+					var rec = new this.queryPanel.criteriaRecord(item);
+					var count = this.queryPanel.criteriaStore.getCount();
+					this.queryPanel.criteriaStore.insert(count, rec);
+				}, this);
+				
+			}
+			
+			
+			
+			
+			this.queryPanel.setQueryTitel(record.data.name);
 		},this);
 	
 	this.on('contextmenu',function(eventObject,target,object){

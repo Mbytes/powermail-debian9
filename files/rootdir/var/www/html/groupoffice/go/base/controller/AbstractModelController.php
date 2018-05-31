@@ -417,6 +417,15 @@ class AbstractModelController extends AbstractController {
 	 * @return array 
 	 */
 	protected function beforeStoreStatement(array &$response, array &$params, \GO\Base\Data\AbstractStore &$store, \GO\Base\Db\FindParams $storeParams){
+		
+		$this->fireEvent('beforeStoreStatement', array(
+				&$this,
+				&$response,
+				&$store,
+				&$params,
+				&$storeParams));		
+		
+		
 		return $response;
 	}
 
@@ -653,6 +662,11 @@ class AbstractModelController extends AbstractController {
 
 			// Check if there is a folder set and can be found.
 			$folder = \GO\Files\Model\Folder::model()->findByPk($response['data']['files_folder_id']);
+						
+			if(!$folder) {
+				$folder = $model->getFilesFolder();
+				$response['data']['files_folder_id'] = $folder->id;
+			}
 			
 			if($folder){
 				$fc = new \GO\Files\Controller\FolderController();
@@ -778,7 +792,7 @@ class AbstractModelController extends AbstractController {
 		//$startOfDay = \GO\Base\Util\Date::clear_time(time());
 
 		// Process linked tasks that are not completed.
-		$findParams = \GO\Base\Db\FindParams::newInstance()->order('due_time','DESC');
+		$findParams = \GO\Base\Db\FindParams::newInstance()->order(array('due_time','name'),array('DESC','ASC'));
 		//$findParams->getCriteria()->addCondition('start_time', $startOfDay, '<=')->addCondition('status', \GO\Tasks\Model\Task::STATUS_COMPLETED, '!=');						
 		$findParams->getCriteria()->addCondition('status', \GO\Tasks\Model\Task::STATUS_COMPLETED, '!=');						
 
@@ -800,7 +814,7 @@ class AbstractModelController extends AbstractController {
 		$response['data']['tasks']=$data['results'];
 		
 		// Process linked tasks that are completed.
-		$findParams = \GO\Base\Db\FindParams::newInstance()->order('due_time','DESC');
+		$findParams = \GO\Base\Db\FindParams::newInstance()->order(array('due_time','name'),array('DESC','ASC'));
 		//$findParams->getCriteria()->addCondition('start_time', $startOfDay, '<=')->addCondition('status', \GO\Tasks\Model\Task::STATUS_COMPLETED, '!=');						
 		$findParams->getCriteria()->addCondition('status', \GO\Tasks\Model\Task::STATUS_COMPLETED, '=');						
 

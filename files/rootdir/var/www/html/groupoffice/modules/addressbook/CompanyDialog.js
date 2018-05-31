@@ -7,7 +7,7 @@
  * If you have questions write an e-mail to info@intermesh.nl
  * 
  * @copyright Copyright Intermesh
- * @version $Id: CompanyDialog.js 19784 2016-01-26 13:56:16Z michaelhart86 $
+ * @version $Id: CompanyDialog.js 20952 2017-03-20 07:59:18Z mschering $
  * @author Merijn Schering <mschering@intermesh.nl>
  */
 
@@ -139,7 +139,12 @@ GO.addressbook.CompanyDialog = function(config)
 	this.personalPanel,
 	this.photoPanel,
 	this.commentPanel];
-	      	
+
+	// Remove the original comment panel if it is set in the settings of the user.
+	if(GO.comments && GO.comments.hideOriginalTab('company')){
+		items.pop();
+	}		
+					
 	this.selectAddresslistsPanel = new GO.addressbook.SelectAddresslistsPanel();
 					
 	items.push(this.selectAddresslistsPanel);
@@ -401,8 +406,10 @@ Ext.extend(GO.addressbook.CompanyDialog, GO.Window, {
 			params: params,
 			success: function(form, action) {
 				
-
+				
 				this.employeePanel.setCompanyId(action.result.data['id']);
+				this.employeePanel.setAddressbookId(action.result.data['addressbook_id']);
+				
 				this.personalPanel.setCompanyId(action.result.data['id']);
 				this.moveEmployeesButton.setDisabled(false);
 				

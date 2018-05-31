@@ -90,7 +90,7 @@ $l["markFolderReadConfirm"]='Are you sure you want to mark all messages in folde
 $l["addUnknownRecipients"]='Add unknown recipients';
 $l["addUnknownRecipientsText"]='You just sent an e-mail to one or more recipients that are not in your addressbook. Click on a name if you want to add that person or close this window.';
 $l["addUnknownSenders"]='Add unknown senders';
-$l["addUnknownSendersText"]='You are adding selected email senders to an addresslist. First, the following selected senders must be added to a Group-Office address book. Click on a name if you want to add that person or close this window.';
+$l["addUnknownSendersText"]='You are adding selected email senders to an addresslist. First, the following selected senders must be added to a {product_name} address book. Click on a name if you want to add that person or close this window.';
 $l["attachFilesPC"]='Add from PC';
 $l["attachFilesGO"]='Add from {product_name}';
 $l["renameFolder"]='Rename folder';
@@ -283,6 +283,8 @@ $l['labelsLimit'] = 'Label\'s limit reached. The maximum number of labels is %d'
 $l['saveToItem'] = 'Save to item';
 $l['saveAttachmentTo'] = 'Save the attachment to these items';
 $l['saveToPersonal'] = 'Save to personal folder';
+$l['saveAllToPersonal'] = 'Save all to personal folder';
+$l['saveAllToItem'] = 'Save all to item';
 
 $l['thisIsSpam1'] = 'This message has been identified as spam. Click';
 $l['thisIsSpam2'] = 'here';

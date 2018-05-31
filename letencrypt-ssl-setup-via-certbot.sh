@@ -5,6 +5,7 @@
 ##certbot certonly -d `hostname` --standalone --agree-tos --email yourmail@example.com
 certbot certonly -d `hostname` --standalone --agree-tos 
 
+cat /etc/letsencrypt/live/`hostname`/{cert,chain,fullchain,privkey}.pem >/etc/webmin/miniserv.pem
 sed -i "s/powermail\.mydomainname\.com/`hostname`/" /usr/local/src/cert-renew-and-restart.sh
 
 #echo "MAILTO=\"\"" >> /var/spool/cron/crontabs/root 
