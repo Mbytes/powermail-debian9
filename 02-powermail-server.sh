@@ -1,6 +1,6 @@
 #y!/bin/sh
 
-## install roundcube  , nextcloud, groupoffice , postfixadmin and all mailserver stuff without mailscanner & haraka
+## install roundcube  ,  groupoffice , postfixadmin and all mailserver stuff without mailscanner & haraka
 echo `hostname` > /etc/mailname
 sh files/extra-tools/etc-config-backup.sh
 groupadd -g 89 vmail 2>/dev/null
@@ -18,9 +18,6 @@ mkdir /home/groupoffice/ 2>/dev/null
 chmod 777 /home/groupoffice/
 chown www-data:www-data /home/groupoffice/
 
-mkdir /home/nextcloud/ 2>/dev/null
-chmod 777 /home/nextcloud/
-chown www-data:www-data /home/nextcloud/
 
 /bin/cp -pR files/rootdir/* /
 /bin/cp -pR files/extra-tools/* /bin/
@@ -108,20 +105,6 @@ sed -i "s/\$config\['smtp_server'\] = '';/\$config\['smtp_server'\] = '127.0.0.1
 
 
 
-
-echo "Working on importing nextcloud webmail MySQL database..."
-
-MYSQLPASS=`pwgen -c -1 8`
-echo $MYSQLPASS > /usr/local/src/mysql-nextcloud-pass
-mysqladmin create nextcloud -uroot
-echo "GRANT ALL PRIVILEGES ON nextcloud.* TO nextcloud@localhost IDENTIFIED BY '$MYSQLPASS'" | mysql -uroot
-mysqladmin -uroot reload
-mysqladmin -uroot refresh
-
-#mysql  < files/nextcloud-db.sql
-
-
-
 #/usr/share/clamav-unofficial-sigs/conf.d/00-clamav-unofficial-sigs.conf
 # disable /comment below lines in above file
 #   honeynet.hdb
@@ -142,18 +125,8 @@ echo > /var/log/mail.log
 /bin/rm -rf /var/log/mail.err
 echo > /var/log/dovecot.log
 
-/bin/rm -rf /var/www/html/nextcloud/core/skeleton/Documents/*
-/bin/rm -rf /var/www/html/nextcloud/core/skeleton/Photos/*
-/bin/rm -rf /var/www/html/nextcloud/core/skeleton/N*
 chown -R www-data:www-data /var/www/html
 
-NCPASS=`pwgen -c -1 8`
-echo $NCPASS > /usr/local/src/nextcloudadmin-pass
-
-#echo "Nextcloud admin login: nextcloud and password $NCPASS in /usr/local/src/nextcloudadmin-pass"
-#cd /var/www/html/nextcloud
-#sudo -u www-data bash -c "export OC_PASS=$NCPASS ;php occ  user:resetpassword --password-from-env nextcloud "
-#cd - 
 
 echo "Working on importing godb GroupOffice MySQL database..."
 MYSQLPASSVPOP=`pwgen -c -1 8`
@@ -172,8 +145,8 @@ echo $GOPASSVPOP > /usr/local/src/groupofficeadmin-pass
 echo "update godb.go_users set password=md5('$GOPASSVPOP'), password_type='md5' where username='groupofficeadmin'" | mysql;
 
 
-sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-nextcloud-pass`/" /var/www/html/nextcloud/config/config.php
-sed -i "s/powermail\.mydomainname\.com/`hostname`/" /var/www/html/nextcloud/config/config.php
+#sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-nextcloud-pass`/" /var/www/html/nextcloud/config/config.php
+#sed -i "s/powermail\.mydomainname\.com/`hostname`/" /var/www/html/nextcloud/config/config.php
 
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-godb-pass`/" /var/www/html/groupoffice/config.php
 sed -i "s/powermail\.mydomainname\.com/`hostname`/" /var/www/html/groupoffice/config.php
@@ -203,6 +176,11 @@ systemctl disable spampd.service
 /home/powermail/bin/vaddalias abuse@`hostname` postmaster@`hostname`
 /home/powermail/bin/vaddalias fbl@`hostname` postmaster@`hostname`
 
+## only useful for nextcloud if used
+systemctl disable redis-server.service
+systemctl disable memcached.service
+/etc/init.d/redis-server stop
+/etc/init.d/memcached stop
 
 
 sendEmail -f postmaster@`hostname`  -t postmaster@`hostname` -u "Test Mail via 25" -m "Test Mail" -o tls=no -s 127.0.0.1:25 2>/dev/null 1>/dev/null
