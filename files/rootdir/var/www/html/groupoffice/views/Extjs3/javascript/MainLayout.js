@@ -73,7 +73,7 @@ Ext.extend(GO.MainLayout, Ext.util.Observable, {
 		}
 		if(GO.settings.config.debug)
 		{
-			this.msg(GO.lang.debugModeDetected, GO.lang.debugModeWarning, 4, 400);
+//			this.msg(GO.lang.debugModeDetected, GO.lang.debugModeWarning, 4, 400);
 		}
 		
 		if(GO.settings.config.login_message)
