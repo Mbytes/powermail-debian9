@@ -183,6 +183,7 @@ systemctl disable memcached.service
 /etc/init.d/memcached stop
 
 
+
 sendEmail -f postmaster@`hostname`  -t postmaster@`hostname` -u "Test Mail via 25" -m "Test Mail" -o tls=no -s 127.0.0.1:25 2>/dev/null 1>/dev/null
 sendEmail -f postmaster@`hostname`  -t postmaster@`hostname` -u "Test Mail via 2525" -m "Test Mail" -o tls=no -s 127.0.0.1:2525 2>/dev/null 1>/dev/null
 echo "All Done";
