@@ -16,7 +16,7 @@ $cmdx="mkdir /etc/opendkim/keys/".$newdomain."";
 `$cmdx`;
 $cmdx="cd /etc/opendkim/keys/".$newdomain." ; opendkim-genkey --domain=".$newdomain." --selector=mail";
 `$cmdx`;
-$cmdx="echo \"mail._domainkey.".$newdomain." ".$newdomain.":default:/etc/opendkim/keys/".$newdomain."/mail.private\"  >>/etc/opendkim/KeyTable";
+$cmdx="echo \"mail._domainkey.".$newdomain." ".$newdomain.":mail:/etc/opendkim/keys/".$newdomain."/mail.private\"  >>/etc/opendkim/KeyTable";
 `$cmdx`;
 $cmdx="echo \"".$newdomain." mail._domainkey.".$newdomain."\" >> /etc/opendkim/SigningTable";
 `$cmdx`;
