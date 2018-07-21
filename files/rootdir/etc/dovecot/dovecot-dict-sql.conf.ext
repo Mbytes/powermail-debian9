@@ -1,6 +1,7 @@
 # This file is commonly accessed via dict {} section in dovecot.conf
 
 #connect = host=localhost dbname=mails user=testuser password=pass
+connect = host=localhost dbname=powermail user=powermail password=ohm8ahC2
 
 # CREATE TABLE quota (
 #   username varchar(100) not null,
@@ -11,13 +12,13 @@
 
 map {
   pattern = priv/quota/storage
-  table = quota
+  table = quota2
   username_field = username
   value_field = bytes
 }
 map {
   pattern = priv/quota/messages
-  table = quota
+  table = quota2
   username_field = username
   value_field = messages
 }
@@ -29,13 +30,13 @@ map {
 #   primary key (username, mailbox)
 # );
 
-map {
-  pattern = shared/expire/$user/$mailbox
-  table = expires
-  value_field = expire_stamp
-
-  fields {
-    username = $user
-    mailbox = $mailbox
-  }
-}
+#map {
+#  pattern = shared/expire/$user/$mailbox
+#  table = expires
+#  value_field = expire_stamp
+#
+#  fields {
+#    username = $user
+#    mailbox = $mailbox
+#  }
+# }
