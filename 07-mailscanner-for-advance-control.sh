@@ -86,4 +86,4 @@ echo "* * * * * /usr/local/src/mailarchive-scripts/add-email-from-stage2-to-fina
 /etc/init.d/clamav-daemon restart
 
 
-sendEmail -f postmaster@`hostname`  -t postmaster@`hostname` -u "Test Mail after MailScanner" -m "Test Mail after MailScanner" -o tls=no -s 127.0.0.1:2525
+sendEmail -f postmaster@`hostname`  -t postmaster@`hostname` -u "Test Mail after MailScanner" -m "Test Mail after MailScanner" -o tls=no -s 127.0.0.1:25

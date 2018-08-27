@@ -39,7 +39,7 @@ npm install -g nodemailer
 
 ##npm install -g haraka-plugin-graph
 
-/bin/cp -pR files/haraka-inbound /opt/
+/bin/cp -pR ../files/haraka-inbound /opt/
 
 sed -i "s/powermail\.mydomainname\.com/`hostname`/" /opt/haraka-inbound/config/host_list
 
