@@ -9,7 +9,7 @@ cd files/mailscanner-root/MailScanner-5.0.3-7/
 cd ../../../
 
 /bin/cp -pRv files/mailscanner-root/header_checks /etc/postfix/header_checks
-## disabled amavis
+## disabled amavis f got installed
 postconf -e 'content_filter = '
 chkconfig --level 345 amavis off 2>/dev/null
 

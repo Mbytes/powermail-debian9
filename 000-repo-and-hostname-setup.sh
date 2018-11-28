@@ -5,20 +5,47 @@
 HOSTNAME=powermail.domainname.com
 IPADDR=192.168.1.1
 
+##disable ipv6 as most time not required
+sysctl -w net.ipv6.conf.all.disable_ipv6=1
+sysctl -w net.ipv6.conf.default.disable_ipv6=1
+
+
+## backup existing repo by copy to root
+/bin/cp -pR /etc/apt/sources.list /usr/local/old-sources.list-`date +%s`
+echo "" >  /etc/apt/sources.list
+echo "deb http://httpredir.debian.org/debian stretch main contrib non-free" >> /etc/apt/sources.list
+echo "deb http://httpredir.debian.org/debian stretch-updates main contrib non-free" >> /etc/apt/sources.list
+echo "deb http://security.debian.org/ stretch/updates main contrib non-free" >> /etc/apt/sources.list
+
+apt-get update
+apt-get -y install vim screen wget telnet openssh-server mc iptraf iputils-ping git sudo bind9 curl elinks xfsprogs debconf-utils pwgen net-tools
+apt-get upgrade
+
+#mkdir /opt ; cd /opt ; git clone https://github.com/deependhulla/powermail-debian9.git
+
+
+## for adding firmware realtek driver
+## apt-get install firmware-linux-nonfree
+## apt-get install firmware-realtek
+## update-initramfs -u
+## Make sure proper valid hostname.domainname.com is used
+
+#dpkg-reconfigure tzdata
+#dpkg-reconfigure locales
+#export LANGUAGE=en_US.UTF-8
+#export LANG=en_US.UTF-8
+#export LC_ALL=en_US.UTF-8
+#export TERM=xterm
+#export EDITOR=vi
+
+
 hostname $HOSTNAME
-echo "$IPADDR	$HOSTNAME" >> /etc/hosts
+echo "$IPADDR   $HOSTNAME" >> /etc/hosts
 echo $HOSTNAME > /etc/hostname
 
 #Disable vim automatic visual mode using mouse
 echo "\"set mouse=a/g" >  ~/.vimrc
 
-
-## backup existing repo by copy to root
-/bin/cp -pR /etc/apt/sources.list /root/old-sources.list-`date +%s`
-echo "" >  /etc/apt/sources.list
-echo "deb http://httpredir.debian.org/debian stretch main contrib non-free" >> /etc/apt/sources.list
-echo "deb http://httpredir.debian.org/debian stretch-updates main contrib non-free" >> /etc/apt/sources.list
-echo "deb http://security.debian.org/ stretch/updates main contrib non-free" >> /etc/apt/sources.list
 
 apt-get update
 CFG_HOSTNAME_FQDN=`hostname`

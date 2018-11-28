@@ -5,36 +5,19 @@
 sysctl -w net.ipv6.conf.all.disable_ipv6=1
 sysctl -w net.ipv6.conf.default.disable_ipv6=1
 
-/bin/cp -pR /etc/apt/sources.list /root/old-sources.list-`date +%s`
+
+/bin/cp -pR /etc/apt/sources.list /usr/local/src/old-sources.list-`date +%s`
 echo "" >  /etc/apt/sources.list
 echo "deb http://httpredir.debian.org/debian stretch main contrib non-free" >> /etc/apt/sources.list
 echo "deb http://httpredir.debian.org/debian stretch-updates main contrib non-free" >> /etc/apt/sources.list
 echo "deb http://security.debian.org/ stretch/updates main contrib non-free" >> /etc/apt/sources.list
-apt-get update
-apt-get -y install vim screen wget telnet openssh-server mc iptraf iputils-ping git sudo bind9 curl elinks xfsprogs debconf-utils pwgen net-tools
-apt-get upgrade
 
-#Disable vim automatic visual mode using mouse
+apt-get update; apt-get -y upgrade ;apt-get -y install vim screen wget telnet openssh-server mc iptraf iputils-ping git sudo bind9 curl elinks xfsprogs debconf-utils pwgen net-tools
+
+#Disable vim automatic visual mode using mouse, useful for copy from vi edit mode
 echo "\"set mouse=a/g" >  ~/.vimrc
 
 
-mkdir /opt
-cd /opt
-git clone https://github.com/deependhulla/powermail-debian9.git 
-
-
-## for adding firmware realtek driver
-## apt-get install firmware-linux-nonfree
-## apt-get install firmware-realtek
-## update-initramfs -u
-## Make sure proper valid hostname.domainname.com is used
-
-#dpkg-reconfigure tzdata
-#dpkg-reconfigure locales
-#export LANGUAGE=en_US.UTF-8
-#export LANG=en_US.UTF-8
-#export LC_ALL=en_US.UTF-8
-#export TERM=xterm
-#export EDITOR=vi
+mkdir /opt ; cd /opt ; git clone https://github.com/deependhulla/powermail-debian9.git 
 
 

@@ -89,5 +89,12 @@ systemctl restart  systemd-timedated systemd-timesyncd
 ## make cpan auto yes for pre-requist modules.
 (echo y;echo o conf prerequisites_policy follow;echo o conf commit)|cpan
 
+## install webmin
+echo "deb http://download.webmin.com/download/repository sarge contrib " > /etc/apt/sources.list.d/webmin.list
+curl -s http://www.webmin.com/jcameron-key.asc | apt-key add -
+apt-get update
+apt-get install webmin
+
+
 ## for termnial name in alt tab ..do following in xfce4 desktop
 ## Applications -> settings -> Settings Manager -> Window Manager Tweaks -> Cycling -> Cycle through windows in a list
