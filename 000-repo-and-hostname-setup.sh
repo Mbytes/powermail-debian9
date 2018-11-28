@@ -44,6 +44,9 @@ apt-get -y  upgrade
 #apt-get install firmware-realtek
 #update-initramfs -u
 
+## for proxmox/kvm better preformance
+apt-get -y install qemu-guest-agent
+
 
 ## to have features like CentOS for Bash
 
@@ -56,6 +59,8 @@ echo "alias mv='mv -i'" >> /etc/bash.bashrc
 echo "alias rm='rm -i'" >> /etc/bash.bashrc
 
 #Load bashrc
+
+
 
 source /etc/bash.bashrc
 

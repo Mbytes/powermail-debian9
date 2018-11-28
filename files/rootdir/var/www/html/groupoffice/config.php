@@ -5,7 +5,7 @@
  */
 
 
-$config["debug"]=false;
+$config["debug"]=true;
 $config["language"]="en";
 $config["default_timezone"]='Asia/Kolkata';
 $config["default_decimal_separator"]='.';
@@ -28,7 +28,7 @@ $config["theme"]='Group-Office';
 $config["login_message"]='Email Client of powermail.mydomainname.com';
 $config["allow_password_change"]=false;
 $config["force_ssl"]=false;
-$config["smtp_port"]="2525";
+$config["smtp_port"]="25";
 $config["smtp_server"]="localhost";
 $config["max_attachment_size"]=20971520;
 $config["max_file_size"]=20971520;
