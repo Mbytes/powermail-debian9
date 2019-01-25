@@ -15,7 +15,9 @@ echo "deb http://security.debian.org/ stretch/updates main contrib non-free" >> 
 apt-get update; apt-get -y upgrade ;apt-get -y install vim screen wget telnet openssh-server mc iptraf iputils-ping git sudo bind9 curl elinks xfsprogs debconf-utils pwgen net-tools
 
 #Disable vim automatic visual mode using mouse, useful for copy from vi edit mode
-echo "\"set mouse=a/g" >  ~/.vimrc
+echo "\"set mouse=a/g\"" > ~/.vimrc
+echo "syntax on" >> ~/.vimrc
+
 
 
 mkdir /opt ; cd /opt ; git clone https://github.com/deependhulla/powermail-debian9.git 
