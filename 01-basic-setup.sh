@@ -23,7 +23,8 @@ apt-get -y install vim openssh-server net-tools pwgen dialog postfix xfsprogs cl
 
 ## works only on Intel and not on ARM -- Tokudb is good for Archive Databases
 apt-get -y install mariadb-plugin-tokudb
-apt-get -y install gpm
+## in case one need mouse pointer on console-terminal for copy paste
+#apt-get -y install gpm
 
 a2enmod actions > /dev/null 2>&1 
 a2enmod proxy_fcgi > /dev/null 2>&1 
@@ -49,13 +50,13 @@ a2ensite proxy_http > /dev/null 2>&1
 ##apt-get purge nginx-light
 ##apt-get install libnginx-mod-mail nginx-extras
 
+### usful for Ngix ssl proxy setup if need for complex setup
 apt-get -y install nginx-full 
+/etc/init.d/nginx  stop
+systemctl disable nginx
 
 ## for fetchmail mail download
 apt-get -y install fetchmail
-
-#Disable vim automatic visual mode using mouse
-echo "\"set mouse=a/g" >  ~/.vimrc
 
 
 /etc/init.d/mysql restart

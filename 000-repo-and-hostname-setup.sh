@@ -2,8 +2,9 @@
 
 ## setup local hostname with domainname and ifconfig/Local IP on this machine/vm
 
-HOSTNAME=powermail.domainname.com
-IPADDR=192.168.1.1
+#HOSTNAME=powermail.domainname.com
+HOSTNAME=mx2.technomail.in
+IPADDR=62.210.138.217
 
 ##disable ipv6 as most time not required
 sysctl -w net.ipv6.conf.all.disable_ipv6=1
@@ -21,22 +22,6 @@ apt-get update
 apt-get -y install vim screen wget telnet openssh-server mc iptraf iputils-ping git sudo bind9 curl elinks xfsprogs debconf-utils pwgen net-tools
 apt-get upgrade
 
-#mkdir /opt ; cd /opt ; git clone https://github.com/deependhulla/powermail-debian9.git
-
-
-## for adding firmware realtek driver
-## apt-get install firmware-linux-nonfree
-## apt-get install firmware-realtek
-## update-initramfs -u
-## Make sure proper valid hostname.domainname.com is used
-
-#dpkg-reconfigure tzdata
-#dpkg-reconfigure locales
-#export LANGUAGE=en_US.UTF-8
-#export LANG=en_US.UTF-8
-#export LC_ALL=en_US.UTF-8
-#export TERM=xterm
-#export EDITOR=vi
 
 
 hostname $HOSTNAME
@@ -45,7 +30,7 @@ echo $HOSTNAME > /etc/hostname
 
 #Disable vim automatic visual mode using mouse
 echo "\"set mouse=a/g" >  ~/.vimrc
-
+echo "syntax on" >> ~/.vimrc
 
 apt-get update
 CFG_HOSTNAME_FQDN=`hostname`
@@ -71,8 +56,9 @@ apt-get -y  upgrade
 #apt-get install firmware-realtek
 #update-initramfs -u
 
+## only if VM notfor LXC
 ## for proxmox/kvm better preformance
-apt-get -y install qemu-guest-agent
+#apt-get -y install qemu-guest-agent
 
 
 ## to have features like CentOS for Bash
