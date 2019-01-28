@@ -36,7 +36,7 @@ npm install -g haraka-plugin-fcrdns
 npm install -g address-rfc2822
 npm install -g haraka-plugin-attachment
 npm install -g nodemailer
-
+npm install -g haraka-plugin-fcrdns
 ##npm install -g haraka-plugin-graph
 
 /bin/cp -pR ../files/haraka-inbound /opt/
@@ -53,6 +53,10 @@ mkdir -p /usr/local/share/GeoIP
 
 echo "Downloading GeoIP database ..can take few minutes..please wait.."
 /usr/bin/maxmind-geolite-mirror
+
+/bin/cp -pRv /usr/lib/node_modules/Haraka/contrib/Haraka.cf /etc/mail/spamassassin/
+/bin/cp -pRv /usr/lib/node_modules/Haraka/contrib/Haraka.pm /etc/mail/spamassassin/
+
 
 echo "All Done\n";
 

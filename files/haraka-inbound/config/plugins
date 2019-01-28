@@ -21,8 +21,9 @@ record_envelope_addresses
 access
 # connect.p0f
 geoip
-asn
+#asn
 #connect.fcrdns
+fcrdns
 # block mails from known bad hosts (see config/dnsbl.zones for the DNS zones queried)
 dnsbl
 
@@ -41,7 +42,7 @@ helo.checks
 
 # MAIL FROM
 # Only accept mail where the MAIL FROM domain is resolvable to an MX record
-mail_from.is_resolvable
+#mail_from.is_resolvable
 spf
 
 # RCPT TO
@@ -74,6 +75,6 @@ limit
 queue/smtp_forward
 
 # Disconnect client if they spew bad SMTP commands at us
-max_unrecognized_commands
+#max_unrecognized_commands
 
 #watch
