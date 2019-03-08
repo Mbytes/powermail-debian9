@@ -1,12 +1,9 @@
 #!/bin/sh
 
 iptables -F
-iptables -A INPUT -s 127.0.0.1 -p tcp -m tcp --dport 25 -j ACCEPT
-iptables -A INPUT  -p tcp -m tcp --dport 25 -j DROP
+#iptables -A INPUT -s 127.0.0.1 -p tcp -m tcp --dport 25 -j ACCEPT
+#iptables -A INPUT  -p tcp -m tcp --dport 25 -j DROP
 
-## only if Haraka SMTP Filter used ..specaily if acting as MX
-#/opt/haraka-inbound/stop-inbound.sh
-#/opt/haraka-inbound/start-inbound.sh
 
 ## for tmp files of groupoffice
 mkdir /tmp/groupoffice
