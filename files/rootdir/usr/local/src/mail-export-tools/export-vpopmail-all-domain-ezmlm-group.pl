@@ -44,6 +44,7 @@ open(OUTOACSV,">$newfilecsv");
 
 for($e=0;$e<@linex;$e++)
 {
+$slinex="";
 #/home/vpopmail/domains/teamshl.in/.qmail-default
 $qfile=$linex[$e];
 $qaliasmain=$qfile;

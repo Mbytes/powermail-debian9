@@ -51,10 +51,10 @@ $qaliasmain=~ s/$rml/""/eg;
 $qaliasmain=~ s/:/"."/eg;
 if($qaliasmain ne "default")
 {
-$linex="";
+$slinex="";
 $qalias=$qaliasmain;
 $qalias=$qalias."\@".$domainx;
-#print "\n $xtablename $e  [".$qalias."]--> ".$linex[$e];
+#print "\n  ".$linex[$e]."\n";
 
 $slinex=$slinex.$qalias;
 $slinex=$slinex."|";
@@ -64,6 +64,7 @@ $xcmdout=`$xcmdx`;
 #print "\n -- > $xcmdx  \n $xcmdout";
 @xlinex=();
 @xlinex=split/\n/,$xcmdout;
+$zslinex="";
 for($ie=0;$ie<@xlinex;$ie++)
 {
 if($ie!=0){$slinex=$slinex.",";}
@@ -82,7 +83,7 @@ $slinex=$slinex."".$addx;
 
 $slinex=$slinex."\n";
 
-####print "$slinex";
+#print "$slinex";
 
 
 print OUTOACSV $slinex;
