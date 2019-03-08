@@ -2,9 +2,13 @@
 
 ## setup local hostname with domainname and ifconfig/Local IP on this machine/vm
 
+## sample
+###HOSTNAME=powermail.domainname.com
+###IPADDR=192.168.1.1
+
+
 #HOSTNAME=powermail.domainname.com
-HOSTNAME=powermail.domainname.com
-IPADDR=192.168.1.1
+#IPADDR=192.168.1.1
 
 ##disable ipv6 as most time not required
 sysctl -w net.ipv6.conf.all.disable_ipv6=1
