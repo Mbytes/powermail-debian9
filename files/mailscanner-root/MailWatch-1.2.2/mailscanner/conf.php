@@ -76,7 +76,7 @@ define('LDAP_MS_AD_COMPATIBILITY', true);
 
 // Set Time Zone
 // See http://php.net/manual/en/timezones.php for a list of usable timezones.
-define('TIME_ZONE', 'America/New_York');
+define('TIME_ZONE', 'Asia/Kolkata');
 // Date/Time settings
 define('DATE_FORMAT', '%d/%m/%y');
 define('TIME_FORMAT', '%H:%i:%s');

@@ -312,7 +312,7 @@ if($searchsub != ""){$qx3 = "AND subject:".$searchsub."  ";  $qx=$qx.$qx3;}
 
 $cmdx="/usr/bin/recoll -t -m -n ".$noofrec."  -c  ".$vmainpath."/".$foldercheck."/indexdata/ -q \"(".$qx.")\" ";
 
-print " --> $cmdx";
+#print " --> $cmdx";
 
 $cmdoutx=`$cmdx`;
 $cmdout=explode("\n",$cmdoutx);
