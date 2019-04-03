@@ -13,6 +13,8 @@ $vmainpath="/mail-archive-compress";
 
 $boxtype=1;
 
+$make_header_only_for_search=0;
+
 $path = $argv[1];
 $path=str_replace("\n","",$path);
 $path=str_replace("\t","",$path);
@@ -96,7 +98,7 @@ $maildatex=$dx[1];$maildatey = DateTime::createFromFormat( ' d M Y H:i:s ', $mai
 
 
 print "\n DATEX7 ->".$maildatex."<-";
-print "\n DATEX8 ->".$maildatey."<-";
+#print "\n DATEX8 ->".$maildatey."<-";
 }
 //////////////////////
 
@@ -116,11 +118,12 @@ $datext=date('hi');
 $indexbox=$vmainpath."/".$mailfolder."/indexdata/";
 $mainbox=$vmainpath."/".$mailfolder."/maindata/".$datext;
 $headerbox=$vmainpath."/".$mailfolder."/headerdata/".$datext;
-$topmainbox=$vmainpath."/".$mailfolder."/headerdata/";
+if($make_header_only_for_search==0){$topmainbox=$vmainpath."/".$mailfolder."/maindata/";}
+if($make_header_only_for_search==1){$topmainbox=$vmainpath."/".$mailfolder."/headerdata/";}
 
 mkdir($indexbox, 0777, true);
 mkdir($mainbox, 0777, true);
-mkdir($headerbox, 0777, true);
+if($make_header_only_for_search==1){mkdir($headerbox, 0777, true);}
 $configfile=$indexbox."/recoll.conf";
 $topline="topdirs = ".$topmainbox."\n";
 file_put_contents($configfile, $topline);
@@ -135,19 +138,22 @@ $hfile=$headerbox."/".$mtime;
 
 print "\n Header : $hfile";
 
+if($make_header_only_for_search==1){
 file_put_contents($hfile, $stringHeaders);
-
 $mcmdx="gzip -9v \"".$hfile."\" ;  ";
 print "\n $mcmdx ";
 `$mcmdx`;
+}
 
 $mcmdx="mv \"".$path."\" \"".$newfile."\" ; gzip -9v \"".$newfile."\" ; chmod 755 \"".$newfile.".gz\" ;  ";
 print "\n $mcmdx ";
 `$mcmdx`;
 
-$addcmdx="recollindex -c ".$indexbox."/ -i ".$hfile.".gz";
+if($make_header_only_for_search==0){$addcmdx="recollindex -c ".$indexbox."/ -i ".$newfile.".gz";}
+if($make_header_only_for_search==1){$addcmdx="recollindex -c ".$indexbox."/ -i ".$hfile.".gz";}
 print "\n $addcmdx ";
 `$addcmdx`;
+
 $searchline="recoll  -t  -c  ".$indexbox."/ -q \"$to\"";
 #print "\n$searchline\n";
 
