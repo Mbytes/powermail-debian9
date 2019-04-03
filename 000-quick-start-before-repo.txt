@@ -6,6 +6,8 @@ sysctl -w net.ipv6.conf.all.disable_ipv6=1
 sysctl -w net.ipv6.conf.default.disable_ipv6=1
 
 
+
+
 /bin/cp -pR /etc/apt/sources.list /usr/local/src/old-sources.list-`date +%s`
 echo "" >  /etc/apt/sources.list
 echo "deb http://httpredir.debian.org/debian stretch main contrib non-free" >> /etc/apt/sources.list
