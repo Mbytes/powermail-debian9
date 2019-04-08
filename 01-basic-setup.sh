@@ -23,8 +23,12 @@ apt-get -y install vim openssh-server net-tools pwgen dialog postfix xfsprogs cl
 
 ## works only on Intel and not on ARM -- Tokudb is good for Archive Databases
 apt-get -y install mariadb-plugin-tokudb
+
 ## in case one need mouse pointer on console-terminal for copy paste
 #apt-get -y install gpm
+
+## keep etc version via git
+apt-get -y install etckeeper
 
 a2enmod actions > /dev/null 2>&1 
 a2enmod proxy_fcgi > /dev/null 2>&1 
@@ -46,11 +50,6 @@ a2ensite proxy_http > /dev/null 2>&1
 
 # ngnix is install for imap/smtp load balance if needed
 /etc/init.d/apache2 stop
-
-##apt-get purge nginx-light
-##apt-get install libnginx-mod-mail nginx-extras
-
-### usful for Ngix ssl proxy setup if need for complex setup
 apt-get -y install nginx-full 
 /etc/init.d/nginx stop
 systemctl disable nginx > /dev/null 2>&1
