@@ -160,6 +160,8 @@ sed -i "s/powermail\.mydomainname\.com/`hostname`/" /var/www/html/groupoffice/im
 #echo "* * * * * /usr/local/src/mailarchive-scripts/add-email-from-stage2-to-final-index.sh" >> /var/spool/cron/crontabs/root
 
 
+sed -i "s/powermail\.mydomainname\.com/`hostname`/" /etc/dovecot/conf.d/10-ssl.conf
+sed -i "s/powermail\.mydomainname\.com/`hostname`/" /etc/apache2/sites-available/default-ssl.conf
 
 systemctl disable spampd.service
 /etc/init.d/spampd stop

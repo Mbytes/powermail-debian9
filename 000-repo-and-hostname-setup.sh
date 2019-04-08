@@ -7,8 +7,8 @@
 ###IPADDR=192.168.1.1
 
 
-#HOSTNAME=powermail.domainname.com
-#IPADDR=192.168.1.1
+HOSTNAME=list.assocham.co.in
+IPADDR=139.59.63.110
 
 ##disable ipv6 as most time not required
 sysctl -w net.ipv6.conf.all.disable_ipv6=1
