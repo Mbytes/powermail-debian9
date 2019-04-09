@@ -1,0 +1,26 @@
+
+echo "Working on importing godb GroupOffice MySQL database..."
+MYSQLPASSVPOP=`pwgen -c -1 8`
+echo $MYSQLPASSVPOP > /usr/local/src/mysql-godb-pass
+## need to autogen
+
+mysqladmin create godb -uroot
+echo "GRANT ALL PRIVILEGES ON godb.* TO godb@localhost IDENTIFIED BY '$MYSQLPASSVPOP'" | mysql -uroot
+mysqladmin -uroot  reload
+mysqladmin -uroot  refresh
+
+mysql  godb < godb-fresh.sql
+
+GOPASSVPOP=`pwgen -c -1 8`
+echo $GOPASSVPOP > /usr/local/src/groupofficeadmin-pass
+echo "update godb.go_users set password=md5('$GOPASSVPOP'), password_type='md5' where username='groupofficeadmin'" | mysql;
+
+
+#sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-nextcloud-pass`/" /var/www/html/nextcloud/config/config.php
+#sed -i "s/powermail\.mydomainname\.com/`hostname`/" /var/www/html/nextcloud/config/config.php
+
+sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-godb-pass`/" /var/www/html/groupoffice/config.php
+sed -i "s/powermail\.mydomainname\.com/`hostname`/" /var/www/html/groupoffice/config.php
+sed -i "s/powermail\.mydomainname\.com/`hostname`/" /var/www/html/groupoffice/imapauth.config.php
+
+## latter copy groupoffice folder in /var/www/html/

@@ -212,6 +212,7 @@ if($_ eq "hold")
 my $dvdx="ls -lh /var/spool/postfix/hold/ | wc -l";
 my $dvdy=`$dvdx`;
 $dvdy =~ s/\n/""/eg;
+$dvdy = $dvdy - 1 ;
 $queue{$_}=$dvdy;
 }
 

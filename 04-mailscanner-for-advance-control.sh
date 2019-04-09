@@ -2,7 +2,7 @@
 
 #MailScanner Setup
 
-files/extra-tools/etc-config-backup.sh
+files/rootdir/bin/etc-config-backup.sh
 
 cd files/mailscanner-root/MailScanner-5.0.3-7/
 ./install.sh
@@ -77,8 +77,6 @@ echo "*/5 * * * * /usr/local/bin/mailwatch-postfix-relay" >> /var/spool/cron/cro
 ## add Archive Part
 echo "*/3 * * * * /usr/local/src/mailarchive-scripts/fetch-and-convert.sh" >> /var/spool/cron/crontabs/root
 echo "* * * * * /usr/local/src/mailarchive-scripts/add-email-from-stage2-to-final-index.sh" >> /var/spool/cron/crontabs/root
-
-
 
 /etc/init.d/cron restart
 /etc/init.d/postfix restart

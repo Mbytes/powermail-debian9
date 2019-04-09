@@ -1,13 +1,10 @@
 #!/bin/sh
 
 iptables -F
-#iptables -A INPUT -s 127.0.0.1 -p tcp -m tcp --dport 25 -j ACCEPT
-#iptables -A INPUT  -p tcp -m tcp --dport 25 -j DROP
 
 ##disable ipv6 as most time not required
 sysctl -w net.ipv6.conf.all.disable_ipv6=1
 sysctl -w net.ipv6.conf.default.disable_ipv6=1
-
 
 ## for tmp files of groupoffice
 mkdir /tmp/groupoffice
