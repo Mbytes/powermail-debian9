@@ -106,7 +106,7 @@ echo "GRANT ALL PRIVILEGES ON groupofficedb.* TO groupofficedb@localhost IDENTIF
 mysqladmin -uroot  reload
 mysqladmin -uroot  refresh
 
-sed -i "s/ohm8ahC2/`cat /usr/local/src/groupofficeadmin-pass`/" /etc/groupoffice/config.php
+sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-groupofficedb-pass`/" /etc/groupoffice/config.php
 
 /bin/cp -p files/groupoffice-6.3.sql /tmp/groupoffice-6.3-tmp.sql
 ### doing sed multiple time to replace multiple time
