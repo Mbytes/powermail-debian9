@@ -20,5 +20,5 @@ $sqlx="UPDATE groupofficedb.`core_auth_password` SET `password` = '".$pp."', `di
 #print "$sqlx";
 $filesql="/tmp/grouppass.sql";
 file_put_contents($filesql,$sqlx);
-
+unlink($filesql);
 ?>

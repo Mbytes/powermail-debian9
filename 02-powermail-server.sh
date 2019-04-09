@@ -96,13 +96,13 @@ echo > /var/log/dovecot.log
 
 chown -R www-data:www-data /var/www/html
 
-echo "Working on importing groupfficedb GroupOffice MySQL database..."
+echo "Working on importing GroupOffice MySQL database..."
 MYSQLPASSVPOP=`pwgen -c -1 8`
 echo $MYSQLPASSVPOP > /usr/local/src/mysql-groupofficedb-pass
 ## need to autogen
 
-mysqladmin create groupofficedb -uroot
-echo "GRANT ALL PRIVILEGES ON groupofficedb.* TO groupofficedb@localhost IDENTIFIED BY '$MYSQLPASSVPOP'" | mysql -uroot
+mysqladmin create groupoffice -uroot
+echo "GRANT ALL PRIVILEGES ON groupoffice.* TO groupoffice@localhost IDENTIFIED BY '$MYSQLPASSVPOP'" | mysql -uroot
 mysqladmin -uroot  reload
 mysqladmin -uroot  refresh
 
@@ -116,8 +116,8 @@ sed -i "s/powermail\.mydomainname\.com/`hostname`/" /tmp/groupoffice-6.3-tmp.sql
 sed -i "s/powermail\.mydomainname\.com/`hostname`/" /tmp/groupoffice-6.3-tmp.sql
 sed -i "s/powermail\.mydomainname\.com/`hostname`/" /tmp/groupoffice-6.3-tmp.sql
 
-mysql groupofficedb < /tmp/groupoffice-6.3-tmp.sql
-
+mysql groupoffice < /tmp/groupoffice-6.3-tmp.sql
+/bin/rm -rf /tmp/groupoffice-6.3-tmp.sql
 GOPASSVPOP=`pwgen -c -1 8`
 echo $GOPASSVPOP > /usr/local/src/groupofficeadmin-pass
 

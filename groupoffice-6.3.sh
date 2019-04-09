@@ -13,8 +13,14 @@ cat files/groupoffice-0758838B-key.txt |  apt-key add -
 
 apt-get update
 
+
+echo "groupoffice groupoffice/dbconfig-install boolean false" | debconf-set-selections
+echo "groupoffice groupoffice/database-type select mysql" | debconf-set-selections
+echo "groupoffice groupoffice/remote/host select  localhost" | debconf-set-selections
+echo "groupoffice groupoffice/remote/port string  3306" | debconf-set-selections
+
 ### issue with key at times ..use unauth
-##apt-get -y install groupoffice-com --allow-unauthenticated
-#apt-get -y install groupoffice-com 
+##apt-get -y install groupoffice --allow-unauthenticated
+apt-get -y install groupoffice 
 
 
