@@ -6,11 +6,11 @@ $cdomainmysqlip=Array();
 $cdomainsmtpip=Array();
 $ci=0;
 
-$cdomainname[$ci]="firstglobal.in";
+$cdomainname[$ci]="test.com";
 $cdomainnamedbname[$ci]="emailarchive";
 $cdomainnamedbip[$ci]="localhost";
-$cdomainnamedbuser[$ci]="emailarchive";
-$cdomainnamedbpass[$ci]="rocket4040";
+$cdomainnamedbuser[$ci]="admin";
+$cdomainnamedbpass[$ci]="aM4ohKex";
 $cdomainimapip[$ci]="127.0.0.1";
 $cdomainmysqlip[$ci]="localhost";
 $cdomainsmtpip[$ci]="127.0.0.1";

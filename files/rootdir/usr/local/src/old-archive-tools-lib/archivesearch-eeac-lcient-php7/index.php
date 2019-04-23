@@ -1,16 +1,66 @@
 <?php
 
+
+$readfilex=file_get_contents('data-map.php');
+#print "--> $readfilex";
+$extradata1=str_replace("\r","",$extradata1);
+$extradata1=explode("\n",$readfilex);
+
 #phpinfo();
 ob_start();
-session_name('groupoffice');
+session_name('groupofficex');
 
 session_start(); 
 include_once("customerdb.php");
 $loginok=0;
 //$globalwebmailuser=$_SESSION['GO_SESSION']['username'];
 $globalwebmailuser=$_COOKIE['useraddress'];
+$encoded=$_COOKIE['mailarchiveid'];
 
-//print "--> $globalwebmailuser";
+
+
+function encode($string,$key) {
+$j=0;
+$key = sha1($key);
+$strLen = strlen($string);
+$keyLen = strlen($key);
+for ($i = 0; $i < $strLen; $i++) {
+$ordStr = ord(substr($string,$i,1));
+if ($j == $keyLen) { $j = 0; }
+$ordKey = ord(substr($key,$j,1));
+$j++;
+$hash .= strrev(base_convert(dechex($ordStr + $ordKey),16,36));
+}
+return $hash;
+}
+function decode($string,$key) {
+$key = sha1($key);
+$strLen = strlen($string);
+$keyLen = strlen($key);
+for ($i = 0; $i < $strLen; $i+=2) {
+$ordStr = hexdec(base_convert(strrev(substr($string,$i,2)),36,16));
+if ($j == $keyLen) { $j = 0; }
+$ordKey = ord(substr($key,$j,1));
+$j++;
+$hash .= chr($ordStr - $ordKey);
+}
+return $hash;
+}
+
+#$encoded = encode($globalwebmailuser , "getkeynowxyz");
+
+#echo $encoded;
+#echo "\n";
+$decoded = decode($encoded, "getkeynowxyz");
+#echo $decoded;
+#echo "\n";
+
+$globalwebmailuser=$decoded;
+
+
+
+
+#print "--> $globalwebmailuser";
 
 #exit;
 if($_GET['logout'] =="yes")
@@ -42,6 +92,10 @@ list($eeacuser,$eeacdomain)=explode("@",$eeacemail);
 $eeadomainid=0;
 #print "aaaaa";
 }
+
+
+## make listx
+###print " --> $eeacemail";
 
 ### Chekc Session end
 
@@ -122,7 +176,7 @@ document.myform.submit();
 </script>
 </head>
 <body>
-<form name="myform" id="myform" action="index.php" method="post">
+<form name="myform" id="myform" action="" method="post">
 <input type="hidden" name="loginnow" value="yes">
 <centeR>
 <font color=red><?php
@@ -158,8 +212,8 @@ if($loginok==1)
 
 if($fun ==""){$fun="dashboard";}
 //mysql_connect($cdomainnamedbip[$eeadomainid], $cdomainnamedbuser[$eeadomainid], $cdomainnamedbpass[$eeadomainid]) or die(mysql_error());
-$mysqlcon=mysqli_connect('localhost', 'emailarchive', 'rocket4040') ;
-mysqli_select_db($mysqlcon,"emailarchive");
+$mysqlcon=mysqli_connect('127.0.0.1', 'admin', 'aM4ohKex') ;
+mysqli_select_db($mysqlcon,"emailarchive") || die("cannot connect to database");
 
 
 ?>
@@ -273,7 +327,7 @@ $mailstorepath="";
 $msql="select id, mailstorepath from `".$table1."` where  id='".$table2."'";
 #print " --> $msql";
 $arsg = mysqli_query($mysqlcon,$msql);
-while($atey=mysqli_fetch_array($mysqlcon,$arsg))
+while($atey=mysqli_fetch_array($arsg))
 {
 $mailstorepath=$atey[1];
 }
@@ -281,7 +335,7 @@ $mailstorepath=$atey[1];
 
 $mailza=Array();
 $mailzi=0;
-$mailza=split("/",$mailstorepath);
+$mailza=explode("/",$mailstorepath);
 $newmailstorepath="";
 #print " $mailstorepath --> ".$mailza[1]. "--> ".$mailza[2];
 if($mailza[1]=="linuxdata" )
@@ -337,7 +391,7 @@ if ($fileok ==0 && file_exists($filenamemx2)){$fileok=1;$mailstorepath=$filename
 
 
 
-if($mailza[1]=="mnt" )
+if($mailza[1]=="mntu" )
 {
 $newmailstorepath="/linuxdata/mail-store-path/before2011";
 #print " uu changex";
@@ -363,7 +417,9 @@ $filex=Array();
 $filex=explode("/",$mailstorepath);
 $filexi=count($filex)-1;
 $cmdx="/bin/cp -f ".$mailstorepath.".gz /tmp/";
+##print "<br> $cmdx --> ";
 $eex=`$cmdx`;
+#print "<br> $cmdx -->  $eex ";
 $cmdx2="/bin/gzip -d /tmp/".$filex[$filexi].".gz";
 $eex=`$cmdx2`;
 #print "<br> $cmdx2 --> ";
@@ -377,11 +433,11 @@ $exsss=file_put_contents("/tmp/".$filex[$filexi], $mailcontentff);
 
 
 
+$serversmtp="livemail.firstglobal.in";
 
-
-$sendnowx="/bin/sendEmail -o tls=no -f ".$eeacemail." -t ".$eeacemail." -s ".$cdomainsmtpip[$eeadomainid].":25 -o message-format=raw -o message-file=/tmp/".$filex[$filexi];
+$sendnowx="/bin/sendEmail -f postmaster\@firstglobal.in  -s ".$serversmtp.":587   -xu postmaster@firstglobal.in -xp 'First@02srv' -o tls=no  -t ".$eeacemail."  -o message-format=raw -o message-file=/tmp/".$filex[$filexi];
 $abcx=`$sendnowx`;
-#print "<br> $sendnowx";
+#print "<br> $sendnowx ::: $abcx";
 $doner++;
 }
 
@@ -404,16 +460,17 @@ $table2=str_replace(" ","",$table2);
 #print "aa view ";
 $msql="select id, mailstorepath from `".$table1."` where  id='".$table2."'";
 #print " --> $msql";
-$arsg = mysql_query($msql) or die(mysql_error());
-while($atey=mysql_fetch_array($arsg))
+$arsg = mysqli_query($mysqlcon,$msql) or die(mysqli_error());
+while($atey=mysqli_fetch_array($arsg))
 {
 $mailstorepath=$atey[1];
 }
 
+#print "ssss : $mailstorepath<hr>";
 #######
 $mailza=Array();
 $mailzi=0;
-$mailza=split("/",$mailstorepath);
+$mailza=explode("/",$mailstorepath);
 $newmailstorepath="";
 ## DVDX
 #print " $mailstorepath --> ".$mailza[1]. "--> ".$mailza[2];
@@ -472,7 +529,7 @@ if ($fileok ==0 && file_exists($filenamemx2)){$fileok=1;$mailstorepath=$filename
 
 
 
-if($mailza[1]=="mnt" )
+if($mailza[1]=="mntu" )
 {
 $newmailstorepath="/linuxdata/mail-store-path/before2011";
 #print " uu changex";
@@ -492,13 +549,14 @@ $mailstorepath=$newmailstorepath;
 #######
 if($mailstorepath!="")
 {
-#print "<br>$mailstorepath";
+#print "<br>UUU :$mailstorepath";
 $filex=Array();
 $filex=explode("/",$mailstorepath);
 $filexi=count($filex)-1;
 $cmdx="/bin/cp -f ".$mailstorepath.".gz /tmp/";
 $eex=`$cmdx`;
-$cmdx2="/bin/gzip -d /tmp/".$filex[$filexi].".gz";
+$rxu="/bin/rm -rf /tmp/".$filex[$filexi]."; ";
+$cmdx2=$rxu."/bin/gzip -d /tmp/".$filex[$filexi].".gz";
 $eex=`$cmdx2`;
 $readfilex="/tmp/".$filex[$filexi];
 #print "<br> $readfilex --> ";
@@ -510,6 +568,9 @@ $Parser = new MimeMailParser();
 $Parser->setPath($path);
 
 $to = $Parser->getHeader('to');
+$cc = htmlentities($Parser->getHeader('cc'));
+
+$mainheader = $Parser->getHeadersRaw();
 $from = $Parser->getHeader('from');
 $subject = $Parser->getHeader('subject');
 $date = $Parser->getHeader('date');
@@ -530,13 +591,28 @@ $chkbox=$table1."__".$table2;
 <div class="pages-bottom">
 <div class="actionbox"><button type="usubmit" onClick="if(confirm('Are you sure you want to restore this email?')){document.mybox.submit();}return false;" ><span>Restore this email to my Inbox for complete mail.</span></button></div>
 </div>
-
+<script>
+function myFunctionHeader() {
+    var x = document.getElementById("myDIVHeader");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+} 
+</script>
 <?
 
 print "From: ".$from."<br>";
 print "To: ".$to."<br>";
+print "Cc: ".$cc."<br>";
 print "Date: ".$date."<br>";
 print "Subject: ".$subject."<br>";
+print "Header: <a href=\"#\" onclick=\"myFunctionHeader()\">View Full Header</a>";
+
+print "<div id=\"myDIVHeader\" style=\"display:none\"><pre>";
+print htmlentities($mainheader);
+print "</pre></div>";
 $ezs=0;
 foreach($attachments as $attachment) { // get the attachment name
 $filename = $attachment->filename; // write the file to the directory you 
@@ -563,22 +639,69 @@ print $html;
 
 ### only view end
 
+$extraemail=array();
+$zei=0;
+for($ze=0;$ze<sizeof($extradata1);$ze++)
+{
+$zer=array();
+$zer=explode(":",$extradata1[$ze]);
+if($zer[0] == $eeacemail){
+#print "<br> $ze --> ".$zer[1];
+$extraemail[$zei]=$zer[1];
+$zei++;
+}
+
+}
+
 if($fun!="searchresult"  && $fun!="viewemail" && $fun!="restoreemail")
 {
 #print "FUN: - $fun";
+
+if($zei==10000)
+{
 ?>
+<div class="box">
+<div class="title">
+<h2>Search Emails for also : </h2></div>
+<div class="content messages"> 
+<?php
+print "";
+for($ze=0;$ze<sizeof($extraemail);$ze++)
+{
+if($ze!=0){print ",";}
+print $extraemail[$ze];
+}
+?>
+</div>
+</div>
+<?php
+}
+?>
+
 <div class="box"> 
 <div class="title"> 
 <h2>Search</h2> 
 <img src="images/title-hide.gif" class="toggle" alt="" />  
 </div> 
 <div class="content messages"> 
-<form name="searchnow" action="index.php" method=pos>
+<form name="searchnow" action="" method=pos>
 <input type="hidden" name="fun" value="searchresult">
 Search for Email Communication <select name="searchmaintype">
-<option value="fromto" <?=$searchmaintypefromto?>>From/To <?=$eeacemail?></option>
-<option value="from" <?=$searchmaintypefrom?>>From <?=$eeacemail?></option>
-<option value="to" <?=$searchmaintypeto?>>To <?=$eeacemail?></option>
+<option value="fromto" <?=$searchmaintypefromto?>>From/To</option>
+<option value="from" <?=$searchmaintypefrom?>>From></option>
+<option value="to" <?=$searchmaintypeto?>>To</option>
+</select>
+Email
+<select name="extrasearchid" id="extrasearchid">
+<?php
+if($zei!=0){ print "<option value=\"all\">All</option>";}
+ print "<option value=\"".$eeacemail."\">".$eeacemail."</option>";
+for($ze=0;$ze<sizeof($extraemail);$ze++)
+{
+print "<option value=\"".$extraemail[$ze]."\">".$extraemail[$ze]."</option>";
+}
+
+?>
 </select>
 <br>Search in (Year/Month/Date) Enter (YYYY for Year or YYYY-MM for Month or YYYY-MM-DD for Day)
 <input type=text name="searchdate"  value="<?=$searchdate?>">
@@ -608,12 +731,13 @@ Email/Domain <input type="text" name="searchcom" value="<?=$searchcom?>">
 ##### work for searchresult --start
 $startpage=0;
 if($_POST['startpage']!=""){$startpage=$_POST['startpage'];}
+if($_GET['startpage']!=""){$startpage=$_GET['startpage'];}
 if($fun=="searchresult")
 {
 
 $eeacemailold=$eeacuser.'@technogroup.co.in';
 
-print "FUN: - $fun --> $searchmaintype -- $searchdate";
+#print "FUN: - $fun --> $searchmaintype -- $searchdate";
 $searchdate=str_replace(" ","",$searchdate);
 $searchdate2=$searchdate;
 $searchdate2=str_replace("-","_",$searchdate2);
@@ -621,10 +745,10 @@ $getsql="show tables";
 $rsg1 = mysqli_query($mysqlcon,$getsql) ;
 $tableok=0;
 $mainsqlx="";
-while($tech1=mysqli_fetch_array($mysqlcon,$rsg1))
+while($tech1=mysqli_fetch_array($rsg1))
 {
 
-print "aaaa";
+#print "aaaa";
 list($a1,$a2,$a3,$a4)=explode("_",$tech1[0]);
 $gdate=0;
 if($a1 =="details")
@@ -640,15 +764,59 @@ $tableok++;
 ###### make SQL here start
  
 $mainsqlx=$mainsqlx."select id, emailfromfull, emailto, subject, emaildate, '".$tech1[0]."' as tablehere from `".$tech1[0]."` where  ";
-if($searchmaintype =="fromto"){$mainsqlx=$mainsqlx."(`emailfrom` like '".$eeacemail."' || `emailto` like '".$eeacemail."'  || `emailfrom` like '".$eeacemailold."' || `emailto` like '".$eeacemailold."')";}
+$sizeofex=sizeof($extraemail);
+$extrasearchid=$_GET['extrasearchid'];
+for($ze=0;$ze<sizeof($extraemail);$ze++)
+{
+
+}
+#print "EEEE : $sizeofex --> $extrasearchid";
+if($sizeofex==0)
+{
+if($searchmaintype =="fromto"){$mainsqlx=$mainsqlx."(`emailfrom` like '".$eeacemail."' || `emailto` like '".$eeacemail."'  || `emailfrom` like '".$eeacemailold."' || `emailto` like '".$eeacemailold."' || `plainheader` like '% ".$eeacemail."%')";}
 if($searchmaintype =="from"){$mainsqlx=$mainsqlx."(`emailfrom` like '".$eeacemail."' || `emailfrom` like '".$eeacemailold."') ";}
 if($searchmaintype =="to"){$mainsqlx=$mainsqlx."(`emailto` like '".$eeacemail."' || `emailto` like '".$eeacemailto."')";}
+}
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+
+if($sizeofex!=0)
+{
+////////////////////////////////
+if($extrasearchid =="all" || $extrasearchid==$eeacemail ){
+$eeacemailxt=$eeacemail;
+if($searchmaintype =="fromto"){$mainsqlx=$mainsqlx."(`emailfrom` like '".$eeacemailxt."' || `emailto` like '".$eeacemailxt."'  || `emailfrom` like '".$eeacemailold."' || `emailto` like '".$eeacemailold."' || `plainheader` like '% ".$eeacemailxt."%')";}
+if($searchmaintype =="from"){$mainsqlx=$mainsqlx."(`emailfrom` like '".$eeacemailxt."' || `emailfrom` like '".$eeacemailold."') ";}
+if($searchmaintype =="to"){$mainsqlx=$mainsqlx."(`emailto` like '".$eeacemailxt."' || `emailto` like '".$eeacemailto."')";}
+}
+////////////////////////////////
+
+////////////////////////////////
+for($ze=0;$ze<sizeof($extraemail);$ze++)
+{
+if($extrasearchid =="all"  ){  $mainsqlx=$mainsqlx." || ";  }
+
+if($extrasearchid =="all" || $extrasearchid==$extraemail[$ze] ){
+$eeacemailxt=$extraemail[$ze];
+if($searchmaintype =="fromto"){$mainsqlx=$mainsqlx."(`emailfrom` like '".$eeacemailxt."' || `emailto` like '".$eeacemailxt."' )";}
+if($searchmaintype =="from"){$mainsqlx=$mainsqlx."(`emailfrom` like '".$eeacemailxt."' ) ";}
+if($searchmaintype =="to"){$mainsqlx=$mainsqlx."( `emailto` like '".$eeacemailxt."')";}
+}
+}
+////////////////////////////////
+
+
+}
+
+////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
+
 if($searchcom!="" && $searchcomtype=="like" ){$mainsqlx=$mainsqlx." and (emailto like '%".$searchcom."%' || emailfrom like '%".$searchcom."%' || emailfromfull like '%".$searchcom."%' )";}
 #if($searchcom!="" && $searchcomtype=="like" ){$mainsqlx=$mainsqlx." and (emailto like '%".$searchcom."%')";}
 if($searchcom!="" && $searchcomtype=="notlike" ){$mainsqlx=$mainsqlx." and (emailto not like '%".$searchcom."%' || emailfrom not like '%".$searchcom."%')";}
 if($searchsub!="" && $searchsubtype=="like" ){$mainsqlx=$mainsqlx." and subject like '%".$searchsub."%'";}
 if($searchsub!="" && $searchsubtype=="notlike" ){$mainsqlx=$mainsqlx." and subject not like '%".$searchsub."%'";}
-$mainsqlx=$mainsqlx."";
+$mainsqlx=$mainsqlx." group by  messageid";
 $mainsqlx=$mainsqlx."";
 $mainsqlx=$mainsqlx."";
 ###### make SQL here end 
@@ -662,9 +830,9 @@ $nowpage=0;
 $domainrows=0;
 if($tableok>0)
 {
-print "<br> SQL - $mainsqlx";
-$rs_countg = mysql_query($mainsqlx) or die(mysql_error());
-$domainrows = mysql_num_rows($rs_countg);
+#print "<br> DVDSQL - <hr>$mainsqlx <hr>";
+$rs_countg = mysqli_query($mysqlcon,$mainsqlx) or die(mysqli_error());
+$domainrows = mysqli_num_rows($rs_countg);
 $startpage1z=$startpage*$noofrec;
 $mainsqlx=$mainsqlx." limit $startpage1z,$noofrec";
 
@@ -698,7 +866,7 @@ if($domainrows>0)
 {
 $totalrecord=$domainrows;
 #print "<br>$totalrecord  SQL - $mainsqlx";
-$rsg = mysql_query($mainsqlx) or die(mysql_error());
+$rsg = mysqli_query($mysqlcon,$mainsqlx) or die(mysqli_error());
 ?>
 <input type="hidden" name="fun" value="restoreemail">
 <table><thead><tr><td><input type="checkbox" class="checkall" /></td><td>Sr.</td><td>Email From</td><td>Email To</td>
@@ -706,7 +874,7 @@ $rsg = mysql_query($mainsqlx) or die(mysql_error());
 
 <?
 $jsid=0;
-while($tey=mysql_fetch_array($rsg))
+while($tey=mysqli_fetch_array($rsg))
 {
 $tey[1]=htmlentities($tey[1]);
 $jsid++;
@@ -731,7 +899,7 @@ print "<tr class=\"grey\"><td><input type=\"checkbox\" name=\"chkid_".$jsid."\" 
 </tbody></table></form><div class="pages-bottom">
 <div class="actionbox"><button type="usubmit" onClick="if(confirm('Are you sure you want to restore selected emails?')){document.mybox.submit();}return false;" ><span>Restore selected to my Inbox</span></button></div>
 <div class="pagination">
-<form name="abcform" action="index.php" method="post">
+<form name="abcform" action="index.php" method="get">
 <select name="startpage">
 <?
 for($hb=0;$hb<$tpage;$hb++)
@@ -747,6 +915,7 @@ print "<option value=\"".$hb."\" ".$hb2.">Page ".$hb1."</option>";
 
 <input type="hidden" name="fun" value="searchresult">
 <input type="hidden" name="searchmaintype" value="<?=$searchmaintype?>">
+<input type="hidden" name="extrasearchid" value="<?=$extrasearchid?>">
 <input type="hidden" name="searchdate"  value="<?=$searchdate?>">
 <input type="hidden" name="searchcomtype" value="<?=$searchcomtype?>">
 <input type="hidden" name="searchcom" value="<?=$searchcom?>">
