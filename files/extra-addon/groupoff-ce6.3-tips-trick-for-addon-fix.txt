@@ -1,0 +1,159 @@
+/usr/share/groupoffice/views/Extjs3/javascript/go/login/UsernamePanel.js
+
+             var panel = new Ext.Panel({
+                        id: 'usernameCheck',
+                        bbar: [
+/*                              this.forgotBtn = new Ext.Button({
+                                        text: t("Forgot username?"),
+                                        handler: this.showForgot,
+                                        scope: this
+                                }),
+*/
+this.changePassButton = new Ext.Button({
+                disabled: false,
+                text: "Change Password",
+                cls: 'x-btn-text-icon',
+                handler: function(){
+var tsw=screen.width-20;
+var tsh=screen.width-20;
+ tLeftPosition = (screen.width) ? (screen.width-tsw)/2 : 0;
+ tTopPosition = (screen.height) ? (screen.height-tsh)/2 : 0;
+    teailarchivenewwindow=window.open('/changepass/','nameemailarchive','height='+tsh+',width='+tsw+',top='+tTopPosition+',left='+tLeftPosition+',scrollbars=yes,menubar=yes,resizable');                                                           if (window.focus) {teailarchivenewwindow.focus()}
+
+},
+                scope: this
+        }),
+
+
+                                '->',
+                                this.nextButton = new Ext.Button({
+                                        type: "submit",
+                                        text: t("Next"),
+                                        handler: this.submit,
+                                        scope: this
+                                })
+                        ],
+
+#################
+/usr/share/groupoffice/modules/email/EmailClient.js
+
+iconCls: 'ic-forward',
+                                text: t("Forward", "email"),
+                                handler: function(){
+                                        if (!this._permissionDelegated) {
+                                                GO.email.showComposer({
+                                                        uid: this.messagePanel.uid,
+                                                        task: 'forward',
+                                                        mailbox: this.messagePanel.mailbox,
+                                                        account_id: this.account_id
+                                                });
+                                        } else {
+                                                GO.email.showComposer({
+                                                        uid: this.messagePanel.uid,
+                                                        task: 'forward',
+                                                        mailbox: this.messagePanel.mailbox,
+                                                        account_id: this.account_id,
+                                                        delegated_cc_enabled: true
+                                                });
+                                        }
+                                },
+                                scope: this
+                        }),
+
+this.archiveButton=new Ext.Button({
+                                disabled:'false',
+                                iconCls: 'ic-search',
+                                text: 'ArchiveSearch',
+                                handler: function(){
+var tsw=screen.width-20;
+var tsh=screen.width-20;
+ tLeftPosition = (screen.width) ? (screen.width-tsw)/2 : 0;
+tTopPosition = (screen.height) ? (screen.height-tsh)/2 : 0;
+temailarchivenewwindow=window.open('/groupoffice/eeac-client/','nameemailarchive','height='+tsh+',width='+tsw+',top='+tTopPosition+',left='+tLeftPosition+',scrollbars=yes,menubar=yes,resizable');
+ if (window.focus) {temailarchivenewwindow.focus()}
+
+},
+                                scope: this
+                        }),
+
+'->',
+                        {
+      hidden: !GO.email.saveAsItems || !GO.email.saveAsItems.length,
+                                iconCls: 'ic-save',
+                                text:t("Save as"),
+                                menu:this.saveAsMenu
+                        },this.printButton = new Ext.Button({
+                                disabled: true,
+                                iconCls: 'ic-print',
+                                tooltip: t("Print"),
+
+#####################
+ this.messagePanel.on('load', function(options, success, response, data, password){
+                if(!success)
+                {
+                        this.messagePanel.uid=0;
+                }else
+                {
+                        this.messagePanel.do_not_mark_as_read = 0;
+                        if(!GO.util.empty(data.do_not_mark_as_read))
+                                this.messagePanel.do_not_mark_as_read = data.do_not_mark_as_read;
+                        //this.messagePanel.uid=record.data['uid'];
+
+
+this.archiveButton.setDisabled(false);
+                        this.replyAllButton.setDisabled(this.readOnly && !this._permissionDelegated);
+                        this.replyButton.setDisabled(this.readOnly && !this._permissionDelegated);
+                        this.forwardButton.setDisabled(this.readOnly && !this._permissionDelegated);
+                        this.printButton.setDisabled(this.readOnly && !this._permissionDelegated);
+
+                        var record = this.messagesGrid.store.getById(this.messagePanel.uid);
+
+########################3
+
+this.messagePanel.on('reset', function(){
+
+                this.replyAllButton.setDisabled(true);
+                this.replyButton.setDisabled(true);
+                this.forwardButton.setDisabled(true);
+                this.printButton.setDisabled(true);
+                this.archiveButton.setDisabled(false);
+        }, this);
+
+
+
+######################
+
+cat /etc/apache2/conf-enabled/archivesearch.conf 
+
+
+ProxyPass /archivesearch/ http://192.168.1.1/archivesearch/
+RewriteEngine on
+RewriteRule    ^.*archivesearch$  http://192.168.1.1/archivesearch/ [R]
+ProxyPassReverse /archivesearch/ http://192.168.1.1/archivesearch/
+
+
+#############
+## to get session userid and username
+ob_start();
+session_name('groupoffice');
+
+session_start();
+$loginok=0;
+$globalwebmailuserid=$_SESSION['GO_SESSION']['user_id'];
+$globalwebmailuser="";
+#print "--> $globalwebmailuser --> $globalwebmailuserid";
+
+$dblink = new mysqli('127.0.0.1', 'admin', 'yourpass', 'groupoffice');
+$msql="SELECT `username` FROM `groupoffice`.`core_user` WHERE `id` = '".$globalwebmailuserid."' ";
+#print "--> $msql ";
+$uarsg = mysqli_query($dblink,$msql);
+if(!$uarsg){print "Error:".mysqli_error($dblink);}
+while($atey=mysqli_fetch_array($uarsg))
+{
+$mxx=$atey[0];
+$globalwebmailuser=$mxx;
+}
+#print "<hr>--> $globalwebmailuser --> $globalwebmailuserid";
+
+
+

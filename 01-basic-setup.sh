@@ -44,6 +44,7 @@ a2enmod auth_digest > /dev/null 2>&1
 a2enmod fcgid > /dev/null 2>&1
 a2enmod cgi > /dev/null 2>&1
 a2enmod headers > /dev/null 2>&1
+a2enmod proxy_http > /dev/null 2>&1
 #a2enmod fastcgi > /dev/null 2>&1
 a2ensite default-ssl > /dev/null 2>&1	
 a2ensite proxy_http > /dev/null 2>&1	
