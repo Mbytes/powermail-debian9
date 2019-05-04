@@ -7,8 +7,8 @@
 ###IPADDR=192.168.1.1
 
 
-HOSTNAME=livemail.assocham.com
-IPADDR=139.59.38.112
+HOSTNAME=mx2.assocham.com
+IPADDR=192.163.163.129
 
 ##disable ipv6 as most time not required
 sysctl -w net.ipv6.conf.all.disable_ipv6=1
