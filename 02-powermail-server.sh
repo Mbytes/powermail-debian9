@@ -132,7 +132,7 @@ php files/extra-addon/groupoffice63-groupofficeadmin-password-reset.php
 sed -i "s/powermail\.mydomainname\.com/`hostname`/" /etc/dovecot/conf.d/10-ssl.conf
 sed -i "s/powermail\.mydomainname\.com/`hostname`/" /etc/apache2/sites-available/default-ssl.conf
 
-systemctl disable spampd.service
+systemctl disable spampd
 /etc/init.d/spampd stop
 
 /etc/init.d/dovecot restart
@@ -148,7 +148,7 @@ systemctl disable spampd.service
 /home/powermail/bin/vaddalias abuse@`hostname` postmaster@`hostname`
 /home/powermail/bin/vaddalias fbl@`hostname` postmaster@`hostname`
 
-## only useful for nextcloud if used
+## only useful for nextcloud if used or harakasmtp 
 systemctl disable redis-server.service
 systemctl disable memcached.service
 /etc/init.d/redis-server stop
