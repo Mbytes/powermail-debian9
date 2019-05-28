@@ -11,6 +11,8 @@ myhostname = powermail.mydomainname.com
 
 ##for Archive
 #always_bcc = fullarchive@powermail.mydomainname.com
+##sender_bcc_maps = hash:/etc/postfix/sender_bcc
+##recipient_bcc_maps = hash:/etc/postfix/recipient_bcc
 
 ## to use /etc/hosts first than dns
 #lmtp_host_lookup = native
@@ -38,7 +40,15 @@ alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
 mydestination = localhost, localhost.localdomain
 relayhost = 
+## use below stype for smtp relay via online or other smtp
+#relayhost = [192.168.1.254]:587
+##smtp_sasl_password_maps = hash:/etc/postfix/relay_passwd
+#smtp_sasl_security_options =
+
 mynetworks = 127.0.0.0/8
+## for webmin to use
+##mynetworks = 127.0.0.0/8  192.168.1.253/32 192.168.1.67/32 192.168.1.200/32
+## for best via file
 #mynetworks = hash:/etc/postfix/tcp_smtp_network_table_relay_network
 
 # if ipv6 too
@@ -179,6 +189,8 @@ smtpd_milters = inet:localhost:12345
 non_smtpd_milters = inet:localhost:12345
 
 transport_maps = hash:/etc/postfix/transport_smtp_routes 
+
+## usefull during relay ..see above relay section too
 #smtp_sasl_password_maps = hash:/etc/postfix/transport_smtp_routes_sasl_passwd
 
 ## Postfix send rate limit per user/domain via extra program
