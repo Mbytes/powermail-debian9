@@ -8,6 +8,8 @@ cd files/mailscanner-root/MailScanner-5.0.3-7/
 ./install.sh
 cd ../../../
 
+systemctl disable spampd 
+
 /bin/cp -pRv files/mailscanner-root/header_checks /etc/postfix/header_checks
 ## disabled amavis f got installed
 postconf -e 'content_filter = '
