@@ -22,7 +22,7 @@ $table_data->execute;
 $d=0;
 while(($tablename)=$table_data->fetchrow_array)
 {
-if($tablename ne "valias" && $tablename ne "lastauth" && $tablename ne "dir_control")
+if($tablename ne "valias" && $tablename ne "lastauth" && $tablename ne "dir_control" && $tablename ne "weakpass" && $tablename ne "lastpass")
 {
 $d++;
 $xtablename = $tablename;
@@ -60,6 +60,7 @@ $zlout=`$zl`;
 @zlinex=();
 @zlinex=split/\n/,$zlout;
 
+
 $slinex=$slinex.$qemail;
 $slinex=$slinex."|";
 for($z=0;$z<@zlinex;$z++)
@@ -69,6 +70,23 @@ $slinex=$slinex.",";
 }
 $slinex=$slinex.$zlinex[$z];
 }
+
+###################
+$mzl="ezmlm-list /home/vpopmail/domains/".$domainx."/".$qaliasmain."/mod";
+$mzlout=`$mzl`;
+@mzlinex=();
+@mzlinex=split/\n/,$mzlout;
+
+$slinex=$slinex."|";
+for($mz=0;$mz<@mzlinex;$mz++)
+{
+if($mz!=0){
+$slinex=$slinex.",";
+}
+$slinex=$slinex.$mzlinex[$mz];
+}
+
+###################
 
 $slinex=$slinex."\n";
 #print "$slinex";
