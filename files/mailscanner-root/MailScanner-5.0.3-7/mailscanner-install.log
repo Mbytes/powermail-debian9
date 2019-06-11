@@ -1,15 +1,15 @@
-[3J[H[2J
+[H[J
 Installation results are being logged to mailscanner-install.log
 
 Installing required system packages ...
 
 Hit:1 http://security.debian.org stretch/updates InRelease
-Ign:2 http://download.webmin.com/download/repository sarge InRelease
-Hit:4 http://repo.group-office.com 63-php-70 InRelease
-Ign:3 http://cdn-fastly.deb.debian.org/debian stretch InRelease
-Hit:6 http://download.webmin.com/download/repository sarge Release
+Hit:2 http://repo.group-office.com 63-php-70 InRelease
+Ign:3 http://download.webmin.com/download/repository sarge InRelease
+Ign:4 http://cdn-fastly.deb.debian.org/debian stretch InRelease
 Hit:5 http://cdn-fastly.deb.debian.org/debian stretch-updates InRelease
-Hit:8 http://cdn-fastly.deb.debian.org/debian stretch Release
+Hit:6 http://download.webmin.com/download/repository sarge Release
+Hit:7 http://cdn-fastly.deb.debian.org/debian stretch Release
 Reading package lists...
 Reading package lists...
 Building dependency tree...
@@ -17,31 +17,12 @@ Reading state information...
 The following NEW packages will be installed:
   perl-doc
 0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
-Need to get 7,146 kB of archives.
+Need to get 7146 kB of archives.
 After this operation, 13.8 MB of additional disk space will be used.
-Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 perl-doc all 5.24.1-3+deb9u5 [7,146 kB]
-[master f3d3ebb] saving uncommitted changes in /etc prior to apt run
- 21 files changed, 283 insertions(+), 67 deletions(-)
- create mode 100644 letsencrypt/accounts/acme-v02.api.letsencrypt.org/directory/c90e256a69b1cb9f22443694845d6822/meta.json
- create mode 100644 letsencrypt/accounts/acme-v02.api.letsencrypt.org/directory/c90e256a69b1cb9f22443694845d6822/private_key.json
- create mode 100644 letsencrypt/accounts/acme-v02.api.letsencrypt.org/directory/c90e256a69b1cb9f22443694845d6822/regr.json
- create mode 100644 letsencrypt/archive/livemail.assocham.com/cert1.pem
- create mode 100644 letsencrypt/archive/livemail.assocham.com/chain1.pem
- create mode 100644 letsencrypt/archive/livemail.assocham.com/fullchain1.pem
- create mode 100644 letsencrypt/archive/livemail.assocham.com/privkey1.pem
- create mode 100644 letsencrypt/csr/0000_csr-certbot.pem
- create mode 100644 letsencrypt/keys/0000_key-certbot.pem
- create mode 100644 letsencrypt/live/README
- create mode 100644 letsencrypt/live/livemail.assocham.com/README
- create mode 120000 letsencrypt/live/livemail.assocham.com/cert.pem
- create mode 120000 letsencrypt/live/livemail.assocham.com/chain.pem
- create mode 120000 letsencrypt/live/livemail.assocham.com/fullchain.pem
- create mode 120000 letsencrypt/live/livemail.assocham.com/privkey.pem
- create mode 100644 letsencrypt/renewal/livemail.assocham.com.conf
- rewrite webmin/miniserv.pem (100%)
-Fetched 7,146 kB in 0s (8,479 kB/s)
+Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 perl-doc all 5.24.1-3+deb9u5 [7146 kB]
+Fetched 7146 kB in 2s (3234 kB/s)
 Selecting previously unselected package perl-doc.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 134084 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 123284 files and directories currently installed.)
 Preparing to unpack .../perl-doc_5.24.1-3+deb9u5_all.deb ...
 Adding 'diversion of /usr/bin/perldoc to /usr/bin/perldoc.stub by perl-doc'
 Unpacking perl-doc (5.24.1-3+deb9u5) ...
@@ -88,9 +69,9 @@ The following NEW packages will be installed:
 Need to get 13.8 kB of archives.
 After this operation, 32.8 kB of additional disk space will be used.
 Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libtest-manifest-perl all 2.02-2 [13.8 kB]
-Fetched 13.8 kB in 0s (30.5 kB/s)
+Fetched 13.8 kB in 1s (11.7 kB/s)
 Selecting previously unselected package libtest-manifest-perl.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 135053 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 124253 files and directories currently installed.)
 Preparing to unpack .../libtest-manifest-perl_2.02-2_all.deb ...
 Unpacking libtest-manifest-perl (2.02-2) ...
 Setting up libtest-manifest-perl (2.02-2) ...
@@ -115,9 +96,9 @@ The following NEW packages will be installed:
 Need to get 29.5 kB of archives.
 After this operation, 68.6 kB of additional disk space will be used.
 Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libdata-dump-perl all 1.23-1 [29.5 kB]
-Fetched 29.5 kB in 0s (39.7 kB/s)
+Fetched 29.5 kB in 1s (27.9 kB/s)
 Selecting previously unselected package libdata-dump-perl.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 135059 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 124259 files and directories currently installed.)
 Preparing to unpack .../libdata-dump-perl_1.23-1_all.deb ...
 Unpacking libdata-dump-perl (1.23-1) ...
 Setting up libdata-dump-perl (1.23-1) ...
@@ -126,7 +107,6 @@ Reading package lists...
 Building dependency tree...
 Reading state information...
 libperl5.24 is already the newest version (5.24.1-3+deb9u5).
-libperl5.24 set to manually installed.
 0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
 Reading package lists...
 Building dependency tree...
@@ -148,9 +128,9 @@ Need to get 46.6 kB of archives.
 After this operation, 262 kB of additional disk space will be used.
 Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libbusiness-isbn-data-perl all 20140910.003-1 [19.3 kB]
 Get:2 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libbusiness-isbn-perl all 3.003-1 [27.4 kB]
-Fetched 46.6 kB in 0s (56.5 kB/s)
+Fetched 46.6 kB in 1s (32.5 kB/s)
 Selecting previously unselected package libbusiness-isbn-data-perl.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 135071 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 124271 files and directories currently installed.)
 Preparing to unpack .../libbusiness-isbn-data-perl_20140910.003-1_all.deb ...
 Unpacking libbusiness-isbn-data-perl (20140910.003-1) ...
 Selecting previously unselected package libbusiness-isbn-perl.
@@ -179,7 +159,6 @@ Reading package lists...
 Building dependency tree...
 Reading state information...
 perl-modules-5.24 is already the newest version (5.24.1-3+deb9u5).
-perl-modules-5.24 set to manually installed.
 0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
 Reading package lists...
 Building dependency tree...
@@ -212,9 +191,9 @@ The following NEW packages will be installed:
 Need to get 164 kB of archives.
 After this operation, 424 kB of additional disk space will be used.
 Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libdbd-sqlite3-perl amd64 1.54-1 [164 kB]
-Fetched 164 kB in 0s (296 kB/s)
+Fetched 164 kB in 1s (135 kB/s)
 Selecting previously unselected package libdbd-sqlite3-perl.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 135094 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 124294 files and directories currently installed.)
 Preparing to unpack .../libdbd-sqlite3-perl_1.54-1_amd64.deb ...
 Unpacking libdbd-sqlite3-perl (1.54-1) ...
 Setting up libdbd-sqlite3-perl (1.54-1) ...
@@ -239,9 +218,9 @@ The following NEW packages will be installed:
 Need to get 12.5 kB of archives.
 After this operation, 48.1 kB of additional disk space will be used.
 Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libfilesys-df-perl amd64 0.92-6+b1 [12.5 kB]
-Fetched 12.5 kB in 0s (32.6 kB/s)
+Fetched 12.5 kB in 0s (12.8 kB/s)
 Selecting previously unselected package libfilesys-df-perl.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 135117 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 124317 files and directories currently installed.)
 Preparing to unpack .../libfilesys-df-perl_0.92-6+b1_amd64.deb ...
 Unpacking libfilesys-df-perl (0.92-6+b1) ...
 Setting up libfilesys-df-perl (0.92-6+b1) ...
@@ -278,9 +257,9 @@ After this operation, 443 kB of additional disk space will be used.
 Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libyaml-perl all 1.21-1 [64.8 kB]
 Get:2 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libconfig-yaml-perl all 1.42-2 [10.3 kB]
 Get:3 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libyaml-libyaml-perl amd64 0.63-2 [68.8 kB]
-Fetched 144 kB in 0s (222 kB/s)
+Fetched 144 kB in 1s (124 kB/s)
 Selecting previously unselected package libyaml-perl.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 135128 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 124328 files and directories currently installed.)
 Preparing to unpack .../libyaml-perl_1.21-1_all.deb ...
 Unpacking libyaml-perl (1.21-1) ...
 Selecting previously unselected package libconfig-yaml-perl.
@@ -307,9 +286,9 @@ The following NEW packages will be installed:
 Need to get 26.1 kB of archives.
 After this operation, 160 kB of additional disk space will be used.
 Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libole-storage-lite-perl all 0.19-1 [26.1 kB]
-Fetched 26.1 kB in 0s (75.6 kB/s)
+Fetched 26.1 kB in 1s (23.7 kB/s)
 Selecting previously unselected package libole-storage-lite-perl.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 135196 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 124396 files and directories currently installed.)
 Preparing to unpack .../libole-storage-lite-perl_0.19-1_all.deb ...
 Unpacking libole-storage-lite-perl (0.19-1) ...
 Processing triggers for man-db (2.7.6.1-2) ...
@@ -323,9 +302,9 @@ The following NEW packages will be installed:
 Need to get 27.4 kB of archives.
 After this operation, 55.3 kB of additional disk space will be used.
 Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libsys-sigaction-perl all 0.23-1 [27.4 kB]
-Fetched 27.4 kB in 0s (53.4 kB/s)
+Fetched 27.4 kB in 1s (25.5 kB/s)
 Selecting previously unselected package libsys-sigaction-perl.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 135212 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 124412 files and directories currently installed.)
 Preparing to unpack .../libsys-sigaction-perl_0.23-1_all.deb ...
 Unpacking libsys-sigaction-perl (0.23-1) ...
 Setting up libsys-sigaction-perl (0.23-1) ...
@@ -345,15 +324,15 @@ The following NEW packages will be installed:
   libparse-recdescent-perl libpegex-perl
 0 upgraded, 5 newly installed, 0 to remove and 0 not upgraded.
 Need to get 420 kB of archives.
-After this operation, 1,172 kB of additional disk space will be used.
+After this operation, 1172 kB of additional disk space will be used.
 Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libparse-recdescent-perl all 1.967013+dfsg-1 [159 kB]
 Get:2 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libinline-perl all 0.80-1 [86.2 kB]
 Get:3 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libpegex-perl all 0.63-1 [76.8 kB]
 Get:4 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libinline-c-perl all 0.76-1 [73.8 kB]
 Get:5 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libinline-files-perl all 0.68-1 [24.5 kB]
-Fetched 420 kB in 0s (436 kB/s)
+Fetched 420 kB in 1s (211 kB/s)
 Selecting previously unselected package libparse-recdescent-perl.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 135221 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 124421 files and directories currently installed.)
 Preparing to unpack .../libparse-recdescent-perl_1.967013+dfsg-1_all.deb ...
 Unpacking libparse-recdescent-perl (1.967013+dfsg-1) ...
 Selecting previously unselected package libinline-perl.
@@ -381,11 +360,11 @@ The following NEW packages will be installed:
   libmail-imapclient-perl
 0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
 Need to get 221 kB of archives.
-After this operation, 1,327 kB of additional disk space will be used.
+After this operation, 1327 kB of additional disk space will be used.
 Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libmail-imapclient-perl all 3.38-1 [221 kB]
-Fetched 221 kB in 0s (431 kB/s)
+Fetched 221 kB in 1s (187 kB/s)
 Selecting previously unselected package libmail-imapclient-perl.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 135442 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 124642 files and directories currently installed.)
 Preparing to unpack .../libmail-imapclient-perl_3.38-1_all.deb ...
 Unpacking libmail-imapclient-perl (3.38-1) ...
 Setting up libmail-imapclient-perl (3.38-1) ...
@@ -416,9 +395,9 @@ Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libdevel-symdum
 Get:2 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libpod-coverage-perl all 0.23-1 [23.9 kB]
 Get:3 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libtest-pod-coverage-perl all 1.10-2 [14.5 kB]
 Get:4 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libtest-pod-perl all 1.51-1 [14.7 kB]
-Fetched 70.1 kB in 0s (90.3 kB/s)
+Fetched 70.1 kB in 1s (59.6 kB/s)
 Selecting previously unselected package libdevel-symdump-perl.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 135478 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 124678 files and directories currently installed.)
 Preparing to unpack .../libdevel-symdump-perl_2.17-1_all.deb ...
 Unpacking libdevel-symdump-perl (2.17-1) ...
 Selecting previously unselected package libpod-coverage-perl.
@@ -455,9 +434,9 @@ The following NEW packages will be installed:
 Need to get 12.4 kB of archives.
 After this operation, 35.8 kB of additional disk space will be used.
 Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libfile-sharedir-install-perl all 0.11-1 [12.4 kB]
-Fetched 12.4 kB in 0s (33.8 kB/s)
+Fetched 12.4 kB in 1s (6636 B/s)
 Selecting previously unselected package libfile-sharedir-install-perl.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 135518 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 124718 files and directories currently installed.)
 Preparing to unpack .../libfile-sharedir-install-perl_0.11-1_all.deb ...
 Unpacking libfile-sharedir-install-perl (0.11-1) ...
 Setting up libfile-sharedir-install-perl (0.11-1) ...
@@ -465,7 +444,7 @@ Processing triggers for man-db (2.7.6.1-2) ...
 Reading package lists...
 Building dependency tree...
 Reading state information...
-unzip is already the newest version (6.0-21).
+unzip is already the newest version (6.0-21+deb9u1).
 0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
 Reading package lists...
 Building dependency tree...
@@ -498,9 +477,9 @@ The following NEW packages will be installed:
 Need to get 38.6 kB of archives.
 After this operation, 92.2 kB of additional disk space will be used.
 Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libhtml-tokeparser-simple-perl all 3.16-2 [38.6 kB]
-Fetched 38.6 kB in 0s (103 kB/s)
+Fetched 38.6 kB in 0s (43.4 kB/s)
 Selecting previously unselected package libhtml-tokeparser-simple-perl.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 135526 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 124726 files and directories currently installed.)
 Preparing to unpack .../libhtml-tokeparser-simple-perl_3.16-2_all.deb ...
 Unpacking libhtml-tokeparser-simple-perl (3.16-2) ...
 Setting up libhtml-tokeparser-simple-perl (3.16-2) ...
@@ -509,7 +488,6 @@ Reading package lists...
 Building dependency tree...
 Reading state information...
 perl is already the newest version (5.24.1-3+deb9u5).
-perl set to manually installed.
 0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
 Reading package lists...
 Building dependency tree...
@@ -526,9 +504,9 @@ The following NEW packages will be installed:
 Need to get 10.8 kB of archives.
 After this operation, 32.8 kB of additional disk space will be used.
 Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libnet-dns-resolver-programmable-perl all 0.003-4 [10.8 kB]
-Fetched 10.8 kB in 0s (31.5 kB/s)
+Fetched 10.8 kB in 0s (11.8 kB/s)
 Selecting previously unselected package libnet-dns-resolver-programmable-perl.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 135552 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 124752 files and directories currently installed.)
 Preparing to unpack .../libnet-dns-resolver-programmable-perl_0.003-4_all.deb ...
 Unpacking libnet-dns-resolver-programmable-perl (0.003-4) ...
 Processing triggers for man-db (2.7.6.1-2) ...
@@ -536,9 +514,9 @@ Setting up libnet-dns-resolver-programmable-perl (0.003-4) ...
 Reading package lists...
 Building dependency tree...
 Reading state information...
-postfix is already the newest version (3.1.9-0+deb9u2).
+postfix is already the newest version (3.1.12-0+deb9u1).
 0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
-[3J[H[2J
+[H[J
 Installing Clam AV via apt ... 
 
 Reading package lists...
@@ -551,27 +529,27 @@ The following NEW packages will be installed:
 Need to get 13.8 kB of archives.
 After this operation, 67.6 kB of additional disk space will be used.
 Get:1 http://cdn-fastly.deb.debian.org/debian stretch/main amd64 libclamav-client-perl all 0.11-2 [13.8 kB]
-Fetched 13.8 kB in 0s (40.2 kB/s)
+Fetched 13.8 kB in 1s (13.2 kB/s)
 Selecting previously unselected package libclamav-client-perl.
-(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 135560 files and directories currently installed.)
+(Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 124760 files and directories currently installed.)
 Preparing to unpack .../libclamav-client-perl_0.11-2_all.deb ...
 Unpacking libclamav-client-perl (0.11-2) ...
 Setting up libclamav-client-perl (0.11-2) ...
 Processing triggers for man-db (2.7.6.1-2) ...
-[3J[H[2J
+[H[J
 Checking Perl Modules ... 
 
-[3J[H[2JModule::Build is missing. Installing via CPAN ...
+[H[JModule::Build is missing. Installing via CPAN ...
 
 Reading '/root/.cpan/Metadata'
-  Database was generated on Tue, 09 Apr 2019 12:17:02 GMT
+  Database was generated on Wed, 08 May 2019 02:55:41 GMT
 Running install for module 'Module::Build'
 Fetching with LWP:
-http://www.cpan.org/authors/id/L/LE/LEONT/Module-Build-0.4224.tar.gz
+http://www.cpan.org/authors/id/L/LE/LEONT/Module-Build-0.4229.tar.gz
 Fetching with LWP:
 http://www.cpan.org/authors/id/L/LE/LEONT/CHECKSUMS
-Checksum for /root/.cpan/sources/authors/id/L/LE/LEONT/Module-Build-0.4224.tar.gz ok
-Configuring L/LE/LEONT/Module-Build-0.4224.tar.gz with Makefile.PL
+Checksum for /root/.cpan/sources/authors/id/L/LE/LEONT/Module-Build-0.4229.tar.gz ok
+Configuring L/LE/LEONT/Module-Build-0.4229.tar.gz with Makefile.PL
 # running Build.PL --installdirs site
 
 Checking optional features...
@@ -583,13 +561,13 @@ ERRORS/WARNINGS FOUND IN PREREQUISITES.  You may wish to install the versions
 of the modules indicated above before proceeding with this installation
 
 Created MYMETA.yml and MYMETA.json
-Creating new 'Build' script for 'Module-Build' version '0.4224'
-  LEONT/Module-Build-0.4224.tar.gz
+Creating new 'Build' script for 'Module-Build' version '0.4229'
+  LEONT/Module-Build-0.4229.tar.gz
   /usr/bin/perl Makefile.PL INSTALLDIRS=site -- OK
-Running make for L/LE/LEONT/Module-Build-0.4224.tar.gz
+Running make for L/LE/LEONT/Module-Build-0.4229.tar.gz
 /usr/bin/perl Build --makefile_env_macros 1
 Building Module-Build
-  LEONT/Module-Build-0.4224.tar.gz
+  LEONT/Module-Build-0.4229.tar.gz
   /usr/bin/make -- OK
 Running make test
 /usr/bin/perl Build --makefile_env_macros 1 test
@@ -647,59 +625,59 @@ t/versions.t ................... ok
 t/write_default_maniskip.t ..... ok
 t/xs.t ......................... ok
 All tests successful.
-Files=53, Tests=1167, 42 wallclock secs ( 0.24 usr  0.09 sys + 31.51 cusr  6.76 csys = 38.60 CPU)
+Files=53, Tests=1167, 43 wallclock secs ( 0.22 usr  0.08 sys + 36.42 cusr  5.58 csys = 42.30 CPU)
 Result: PASS
-  LEONT/Module-Build-0.4224.tar.gz
+  LEONT/Module-Build-0.4229.tar.gz
   /usr/bin/make test -- OK
 Running make install
 /usr/bin/perl Build --makefile_env_macros 1 install
 Building Module-Build
 Installing /usr/local/man/man1/config_data.1p
 Installing /usr/local/share/perl/5.24.1/Module/Build.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/PodParser.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Config.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Cookbook.pm
 Installing /usr/local/share/perl/5.24.1/Module/Build/Authoring.pod
+Installing /usr/local/share/perl/5.24.1/Module/Build/PPMMaker.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Base.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Bundling.pod
 Installing /usr/local/share/perl/5.24.1/Module/Build/Compat.pm
 Installing /usr/local/share/perl/5.24.1/Module/Build/Notes.pm
-Installing /usr/local/share/perl/5.24.1/Module/Build/Config.pm
-Installing /usr/local/share/perl/5.24.1/Module/Build/PPMMaker.pm
-Installing /usr/local/share/perl/5.24.1/Module/Build/API.pod
-Installing /usr/local/share/perl/5.24.1/Module/Build/Cookbook.pm
-Installing /usr/local/share/perl/5.24.1/Module/Build/Dumper.pm
-Installing /usr/local/share/perl/5.24.1/Module/Build/Bundling.pod
-Installing /usr/local/share/perl/5.24.1/Module/Build/PodParser.pm
-Installing /usr/local/share/perl/5.24.1/Module/Build/Base.pm
 Installing /usr/local/share/perl/5.24.1/Module/Build/ConfigData.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Dumper.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/API.pod
+Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/Windows.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/MacOS.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/VMS.pm
 Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/cygwin.pm
 Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/Unix.pm
-Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/VOS.pm
-Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/darwin.pm
-Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/VMS.pm
-Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/Windows.pm
-Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/Default.pm
 Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/os2.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/darwin.pm
 Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/aix.pm
-Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/MacOS.pm
-Installing /usr/local/man/man3/Module::Build::Platform::Unix.3pm
-Installing /usr/local/man/man3/Module::Build::API.3pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/Default.pm
+Installing /usr/local/share/perl/5.24.1/Module/Build/Platform/VOS.pm
 Installing /usr/local/man/man3/Module::Build::Notes.3pm
-Installing /usr/local/man/man3/Module::Build::Compat.3pm
-Installing /usr/local/man/man3/Module::Build::Platform::VOS.3pm
-Installing /usr/local/man/man3/Module::Build::ConfigData.3pm
-Installing /usr/local/man/man3/Module::Build::Platform::Windows.3pm
-Installing /usr/local/man/man3/Module::Build::Platform::cygwin.3pm
-Installing /usr/local/man/man3/Module::Build::Authoring.3pm
-Installing /usr/local/man/man3/Module::Build::Platform::aix.3pm
-Installing /usr/local/man/man3/Module::Build::Platform::MacOS.3pm
+Installing /usr/local/man/man3/Module::Build::Platform::os2.3pm
+Installing /usr/local/man/man3/Module::Build::Platform::Default.3pm
+Installing /usr/local/man/man3/Module::Build::Bundling.3pm
 Installing /usr/local/man/man3/Module::Build::Platform::VMS.3pm
 Installing /usr/local/man/man3/Module::Build::Platform::darwin.3pm
-Installing /usr/local/man/man3/Module::Build::Platform::os2.3pm
 Installing /usr/local/man/man3/Module::Build::Base.3pm
-Installing /usr/local/man/man3/Module::Build::Cookbook.3pm
-Installing /usr/local/man/man3/Module::Build::Platform::Default.3pm
-Installing /usr/local/man/man3/Module::Build.3pm
-Installing /usr/local/man/man3/Module::Build::Bundling.3pm
 Installing /usr/local/man/man3/Module::Build::PPMMaker.3pm
+Installing /usr/local/man/man3/Module::Build::Compat.3pm
+Installing /usr/local/man/man3/Module::Build::API.3pm
+Installing /usr/local/man/man3/Module::Build::Cookbook.3pm
+Installing /usr/local/man/man3/Module::Build::Platform::MacOS.3pm
+Installing /usr/local/man/man3/Module::Build::Platform::Windows.3pm
+Installing /usr/local/man/man3/Module::Build.3pm
+Installing /usr/local/man/man3/Module::Build::Authoring.3pm
+Installing /usr/local/man/man3/Module::Build::Platform::aix.3pm
+Installing /usr/local/man/man3/Module::Build::Platform::VOS.3pm
+Installing /usr/local/man/man3/Module::Build::Platform::Unix.3pm
+Installing /usr/local/man/man3/Module::Build::ConfigData.3pm
+Installing /usr/local/man/man3/Module::Build::Platform::cygwin.3pm
 Installing /usr/local/bin/config_data
-  LEONT/Module-Build-0.4224.tar.gz
+  LEONT/Module-Build-0.4229.tar.gz
   /usr/bin/make install  -- OK
 Archive::Tar => OK
 Archive::Zip => OK
@@ -806,10 +784,10 @@ IO::Compress::Bzip2 => OK
 Mail::SpamAssassin::Plugin::Rule2XSBody => OK
 Mail::SpamAssassin::Plugin::DCC => OK
 Mail::SpamAssassin::Plugin::Pyzor => OK
-[3J[H[2J
+[H[J
 Installing the MailScanner .deb package ... 
 Selecting previously unselected package mailscanner.
-(Reading database ... 135569 files and directories currently installed.)
+(Reading database ... 124769 files and directories currently installed.)
 Preparing to unpack .../MailScanner-5.0.3-7-noarch.deb ...
 Unpacking mailscanner (5.0.3-7) ...
 Setting up mailscanner (5.0.3-7) ...
