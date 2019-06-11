@@ -65,7 +65,8 @@ mysqladmin -uroot refresh
 ## disabled amavis if got install
 postconf -e 'content_filter = '
 
-mysql  <  files/powermaildb.sql
+mysql < files/powermaildb.sql
+mysql < files/powermail-extra-features.sql
 
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/postfix/sql/mysql_relay_domains_maps.cf
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/postfix/sql/mysql_virtual_alias_domain_catchall_maps.cf
