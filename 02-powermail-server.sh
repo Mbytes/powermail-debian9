@@ -68,6 +68,11 @@ postconf -e 'content_filter = '
 mysql < files/powermaildb.sql
 mysql < files/powermail-extra-features.sql
 
+## for all extra deatures
+/bin/cp -pRv files/webmin-powermail/powermail /usr/share/webmin/
+## instead of exim add powermail
+sed -i "s/exim/powermail/g" /etc/webmin/webmin.acl
+
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/postfix/sql/mysql_relay_domains_maps.cf
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/postfix/sql/mysql_virtual_alias_domain_catchall_maps.cf
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/postfix/sql/mysql_virtual_alias_domain_mailbox_maps.cf
@@ -140,7 +145,7 @@ systemctl disable spampd
 /etc/init.d/postfix restart
 /etc/init.d/rsyslog restart
 /etc/init.d/apache2 restart
-
+/etc/init.d/webmin restart
 ## add system domain
 
 /home/powermail/bin/vadddomain `hostname`

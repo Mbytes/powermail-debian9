@@ -99,7 +99,8 @@ echo "deb http://download.webmin.com/download/repository sarge contrib " > /etc/
 curl -s http://www.webmin.com/jcameron-key.asc | apt-key add -
 apt-get update
 apt-get install webmin
-
-
+## change port from 10000 to 8383
+sed -i "s/10000/8383/g" /etc/webmin/miniserv.conf
+/etc/init.d/webmin restart
 ## for termnial name in alt tab ..do following in xfce4 desktop
 ## Applications -> settings -> Settings Manager -> Window Manager Tweaks -> Cycling -> Cycle through windows in a list
