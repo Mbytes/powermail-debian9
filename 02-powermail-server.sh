@@ -73,6 +73,16 @@ mysql < files/powermail-extra-features.sql
 ## instead of exim add powermail
 sed -i "s/exim/powermail/g" /etc/webmin/webmin.acl
 
+
+echo "manager:xxxxxjpihs:0" >> /etc/webmin/miniserv.users
+echo "manager:powermail postfix custom" >>  /etc/webmin/webmin.acl 
+
+WEPASSVPOP=`pwgen -c -1 8`
+echo $WEPASSVPOP > /usr/local/src/manager-powermail-pass
+/usr/share/webmin/changepass.pl  /etc/webmin manager `cat /usr/local/src/manager-powermail-pass`
+
+
+
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/postfix/sql/mysql_relay_domains_maps.cf
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/postfix/sql/mysql_virtual_alias_domain_catchall_maps.cf
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/postfix/sql/mysql_virtual_alias_domain_mailbox_maps.cf
