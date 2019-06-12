@@ -23,11 +23,24 @@ $newinx=~ s/\t/""/eg;
 $newinx=~ s/\r/""/eg;
 $newinx=~ s/ /""/eg;
 $newinx=~ s/;/""/eg;
-#$newinx=~ s/\*/""/eg;
-#$newinx=~ s/%/""/eg;
-$newinx=~ s/,/""/eg;
+$newinx=~ s/\*/""/eg;
+$newinx=~ s/%/""/eg;
+#$newinx=~ s/,/""/eg;
 $newinx=~ s/'/""/eg;
 $newinx=~ s/\"/""/eg;
+#print "\n--> $newinx\n";
+
+$newiny=$ARGV[2];
+$newiny=~ s/\n/""/eg;
+$newiny=~ s/\t/""/eg;
+$newiny=~ s/\r/""/eg;
+$newiny=~ s/ /""/eg;
+$newiny=~ s/;/""/eg;
+$newinx=~ s/\*/""/eg;
+$newinx=~ s/%/""/eg;
+#$newiny=~ s/,/""/eg;
+$newiny=~ s/'/""/eg;
+$newiny=~ s/\"/""/eg;
 #print "\n--> $newinx\n";
 
 
@@ -53,6 +66,7 @@ $gonow=0;
 print "Please provide emailaddress . example : vadduser deepen\@deependhulla.com  ";
 }
 ($userx,$domaingot)=split/\@/,$newin;
+$fullname="Group Maillinglist ".$userx;
 
 $sqlin="SELECT `domain` FROM `domain` WHERE `domain` = '".$domaingot."' ";
 $table_data = $dbh->prepare($sqlin);
@@ -103,8 +117,9 @@ $newpass=~ s/\n/""/eg;
 $newpass=~ s/\t/""/eg;
 $newpass=~ s/\r/""/eg;
 $newpass=~ s/ /""/eg;
-if($newinx ne ""){$newpass=$newinx;}
-$sqlx="INSERT INTO `mailbox` (`username`, `password`, `name`, `maildir`, `quota`, `local_part`, `domain`, `created`, `modified`, `active`) VALUES ('".$newin."', '".$newpass."', '".$userx."', '".$domaingot."/".$userx."/', '0', '".$userx."', '".$domaingot."', NOW(), NOW(), '1');";
+## force random pass
+####if($newinx ne ""){$newpass=$newinx;}
+$sqlx="INSERT INTO `mailbox` (`username`, `password`, `name`, `maildir`, `quota`, `local_part`, `domain`, `created`, `modified`, `active`) VALUES ('".$newin."', '".$newpass."', '".$fullname."', '".$domaingot."/".$userx."/', '0', '".$userx."', '".$domaingot."', NOW(), NOW(), '1');";
 
 #print "\n$sqlx \n";
 $table_data = $dbh->prepare($sqlx);
@@ -115,7 +130,19 @@ $sqlx="INSERT INTO `alias` (`address`, `goto`, `domain`, `created`, `modified`, 
 $table_data = $dbh->prepare($sqlx);
 $table_data->execute;
 
-print " Created Mailbox  ".$newin." .\n Password : $newpass";
+
+$fullname="Group Maillinglist ".$userx;
+
+#$userx,$domaingot
+
+$vpost="postmaster\@".$domaingot;
+if($newiny ne ""){ $vpost=$newiny;}
+$sqlx="INSERT INTO `powermaillist` (`address`, `info`, `member`, `owner`, `domain`, `created`, `modified`, `active`, `sendtype`) VALUES ('".$newin."', '".$fullname."', '".$newinx."', '".$vpost."', '".$vdomain."', NOW(), NOW(), '1', 'ANYONE');";
+#print "<br>\n$sqlx \n";
+$table_data = $dbh->prepare($sqlx);
+$table_data->execute;
+
+print " Created Group Mailling List  ".$newin." .\n ";
 
 }
 

@@ -773,7 +773,7 @@ if($newpass eq $newpasscheck && $newpass ne "" &&  $newpasscheck ne "")
 {
 $vpassword=$newpass;
 $vpassword=~ s/'/""/eg;
-$vsql="`password` ='".$vpassword."' ";
+$vsql="`password` ='".$vpassword."', ";
 }
 if($in{'useractive'} eq ""){$in{'useractive'}="0";}
 $vuserdisk=$in{'vuserdiskquota'} * $in{'vuserdiskquota_units'} ;
