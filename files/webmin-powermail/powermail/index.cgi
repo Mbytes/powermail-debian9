@@ -867,6 +867,7 @@ $msize=$gquota;
 $remote_ip=$lasttime;
 if($remote_ip ne "" ){$remote_ip=$lasttime;}
 if($remote_ip eq "1970-01-01 05:30:00" ){$remote_ip="Never logged in";}
+if($remote_ip eq "1970-01-01 00:00:00" ){$remote_ip="Never logged in";}
 $ltimeshow=$remote_ip;
 if($atrash eq ""){$atrash=0;}
 if($aspam eq ""){$aspam=0;}
@@ -1013,6 +1014,7 @@ if($gact == 1){$gact2="YES";}
 $remote_ip=$lasttime;
 if($remote_ip ne "" ){$remote_ip=$lasttime;}
 if($remote_ip eq "1970-01-01 05:30:00" ){$remote_ip="Never logged in";}
+if($remote_ip eq "1970-01-01 00:00:00" ){$remote_ip="Never logged in";}
 
 $guser2=$guser;
 $guser2="<a href=\"index.cgi?vpopmaildomain=".$in{'vpopmaildomain'}."&fun=edituser&vusername=".$guser."&\">".$guser."</a>";
