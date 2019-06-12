@@ -83,6 +83,7 @@ sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/postfix/sql/
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/postfix/sql/mysql_virtual_mailbox_maps.cf
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/dovecot/dovecot-sql.conf.ext
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/dovecot/dovecot-dict-sql.conf.ext
+sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /etc/dovecot/dovecot-lastlogin-map.ext
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /var/www/html/powermailadmin/config.inc.php 
 sed -i "s/ohm8ahC2/`cat /usr/local/src/mysql-powermail-pass`/" /var/www/html/powermailadmin/config.local.php 
 
