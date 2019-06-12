@@ -3,6 +3,10 @@ use DBI;
 use WebminCore;
   init_config();
 
+#### show goto address in list of alias  by making it 1 , good for small setup not for big setup
+$show_goto_address=0;
+
+
 ###ui_print_header(undef, 'PowerMail Management', '');
 open(OUTOAZ,"</home/powermail/etc/powermail.mysql");
 while(<OUTOAZ>)
@@ -84,10 +88,28 @@ $table_data = $dbh->prepare($sqlx);
 $table_data->execute;
 while(($gaddress,$ggoto,$gdom,$gcreate,$gmod,$gact)=$table_data->fetchrow_array)
 {
+$ggoto=~ s/,/", "/eg;
+
 print "\n\"".$gaddress."\",\"".$ggoto."\",\"".$gdom."\",\"".$gcreate."\",\"".$gmod."\",\"".$gact."\",\"ALIAS\"";
 }
 
+print "\n\n";
+print '"List","GoTo","Owner","Domain","Created","Modify","Send_Type","Active","Type"';
 
+$sqlin="SELECT `address`,`info`, `member`, `owner`, `domain`, `created`, `modified`, `active`, `sendtype` FROM `powermaillist` as a  WHERE `domain` = '".$newin."' ";
+#print " -- $sqlin";
+
+$table_data = $dbh->prepare($sqlin);
+$table_data->execute;
+$vno=0;
+while(($guser,$ginfo,$goto,$gown,$gdom,$gcreate,$mtime,$gact,$gsend)=$table_data->fetchrow_array)
+{
+$goto=~ s/,/", "/eg;
+$gown=~ s/,/", "/eg;
+
+print "\n\"".$guser."\",\"".$goto."\",\"".$gown."\",\"".$gdom."\",\"".$gcreate."\",\"".$gmtime."\",\"".$gsend."\",\"".$gact."\",\"LIST\"";
+
+}
 
 
 
@@ -816,7 +838,7 @@ $p2table_data = $dbh->prepare($p2sql);
 $p2table_data->execute;
 
 
-$sqlin="SELECT a.`username`, a.`password`, a.`name`, a.`maildir`, a.`quota`, a.`domain`, a.`created`, a.`modified`, a.`active`,b.`autoclean_trash`, b.`autoclean_spam`, b.`autoclean_promo`, b.`change_pass_max_days`, b.`change_pass_alerts_before_days`, b.`lastlogintime`, b.`lastloginip`  FROM `mailbox`  as a LEFT JOIN `powermailbox` as b ON a.`username` = b.`username`  where  a.`domain` = '".$vdomain."' and a.`username` ='".$in{'vusername'}."' ";
+$sqlin="SELECT a.`username`, a.`password`, a.`name`, a.`maildir`, a.`quota`, a.`domain`, a.`created`, a.`modified`, a.`active`,b.`autoclean_trash`, b.`autoclean_spam`, b.`autoclean_promo`, b.`change_pass_max_days`, b.`change_pass_alerts_before_days`, FROM_UNIXTIME(b.`lastlogintime`), b.`lastloginip`  FROM `mailbox`  as a LEFT JOIN `powermailbox` as b ON a.`username` = b.`username`  where  a.`domain` = '".$vdomain."' and a.`username` ='".$in{'vusername'}."' ";
 
 
 #print " -- $sqlin";
@@ -838,14 +860,13 @@ $useractive=0;
 while(($guser,$gpass,$gname,$gmaildir,$gquota,$gdom,$gcreate,$gmod,$gact,$atrash,$aspam,$apromo,$passmax,$passalert,$lasttime,$lastip)=$table_data->fetchrow_array)
 {
 $fullname=$gname;
-if($remote_ip eq "0.0.0.0" ){$remote_ip="Never logged in";}
 #$mpass=$gpass;
 $maildirpath=$gmaildir."Maildir/";
 $maildirpath1=$gmaildir;
 $msize=$gquota;
-$remote_ip=$lastip;
-if($remote_ip ne "" ){$remote_ip=$lasttime."<br>".$lastip;}
-if($remote_ip eq "" ){$remote_ip="Never logged in";}
+$remote_ip=$lasttime;
+if($remote_ip ne "" ){$remote_ip=$lasttime;}
+if($remote_ip eq "1970-01-01 05:30:00" ){$remote_ip="Never logged in";}
 $ltimeshow=$remote_ip;
 if($atrash eq ""){$atrash=0;}
 if($aspam eq ""){$aspam=0;}
@@ -970,7 +991,7 @@ print &ui_columns_start(['No.',$user_url,$quota_url,$last_url,$create_url,$mod_u
 
 ####$sqlin="SELECT `username`, `password`, `name`, `maildir`, `quota`, `domain`, `created`, `modified`, `active` FROM `mailbox` WHERE `domain` = '".$in{'vpopmaildomain'}."' ".$ssql." order by `".$colname."` ".$orderby." ";
 
-$sqlin="SELECT a.`username`, a.`password`, a.`name`, a.`maildir`, a.`quota`, a.`domain`, a.`created`, a.`modified`, a.`active`,b.`autoclean_trash`, b.`autoclean_spam`, b.`autoclean_promo`, b.`change_pass_max_days`, b.`change_pass_alerts_before_days`, b.`lastlogintime`, b.`lastloginip`  FROM `mailbox`  as a LEFT JOIN `powermailbox` as b ON a.`username` = b.`username`  where  a.`domain` = '".$vdomain."' ".$ssql." order by ".$colname." ".$orderby."  ";
+$sqlin="SELECT a.`username`, a.`password`, a.`name`, a.`maildir`, a.`quota`, a.`domain`, a.`created`, a.`modified`, a.`active`,b.`autoclean_trash`, b.`autoclean_spam`, b.`autoclean_promo`, b.`change_pass_max_days`, b.`change_pass_alerts_before_days`, FROM_UNIXTIME(b.`lastlogintime`), b.`lastloginip`  FROM `mailbox`  as a LEFT JOIN `powermailbox` as b ON a.`username` = b.`username`  where  a.`domain` = '".$vdomain."' ".$ssql." order by ".$colname." ".$orderby."  ";
 
 #print " -- $sqlin";
 
@@ -989,9 +1010,10 @@ $p2table_data->execute;
 }
 $gact2="NO";
 if($gact == 1){$gact2="YES";}
-$remote_ip=$lastip;
-if($remote_ip ne "" ){$remote_ip=$lasttime."<br>".$lastip;}
-if($remote_ip eq "" ){$remote_ip="Never logged in";}
+$remote_ip=$lasttime;
+if($remote_ip ne "" ){$remote_ip=$lasttime;}
+if($remote_ip eq "1970-01-01 05:30:00" ){$remote_ip="Never logged in";}
+
 $guser2=$guser;
 $guser2="<a href=\"index.cgi?vpopmaildomain=".$in{'vpopmaildomain'}."&fun=edituser&vusername=".$guser."&\">".$guser."</a>";
 $ltime=$remote_ip;
@@ -1228,8 +1250,23 @@ if($gact == 1){$gact2="YES";}
 $guser2=$guser;
 $guser2="<a href=\"index.cgi?vpopmaildomain=".$in{'vpopmaildomain'}."&fun=editlist&vusername=".$guser."&\">".$guser."</a>";
 $ctime=$gcreate;
+##$goto=~ s/,/",<br>"/eg;
+
+if($show_goto_address==0)
+{
+@zaqlist=();@zaqlist=split/,/,$goto;$gotox=0;
+$goto = @zaqlist;
+@zzaqlist=();@zzaqlist=split/,/,$gown;$gownx=0;
+$gown = @zzaqlist;
+
+}
+
+if($show_goto_address==1)
+{
 $goto=~ s/,/",<br>"/eg;
 $gown=~ s/,/",<br>"/eg;
+}
+
 print &ui_columns_row([$vno,$guser2,$goto,$gown,$gsend,$ctime,$mtime,$gact2]);
 }
 print &ui_columns_end();
@@ -1416,7 +1453,21 @@ if($gact == 1){$gact2="YES";}
 $guser2=$guser;
 $guser2="<a href=\"index.cgi?vpopmaildomain=".$in{'vpopmaildomain'}."&fun=editalias&vusername=".$guser."&\">".$guser."</a>";
 $ctime=$gcreate;
+
+##$goto=~ s/,/",<br>"/eg;
+if($show_goto_address==0)
+{
+@zaqlist=();@zaqlist=split/,/,$goto;$gotox=0;
+$goto = @zaqlist;
+}
+
+if($show_goto_address==1)
+{
 $goto=~ s/,/",<br>"/eg;
+}
+
+
+
 $mtime=$gmod;
 print &ui_columns_row([$vno,$guser2,$goto,$ctime,$mtime,$gact2]);
 }
