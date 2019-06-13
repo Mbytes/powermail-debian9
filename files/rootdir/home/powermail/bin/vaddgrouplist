@@ -63,7 +63,7 @@ $gonow=1;
 if($newin eq "")
 {
 $gonow=0;
-print "Please provide emailaddress . example : vadduser deepen\@deependhulla.com  ";
+print "Please provide emailaddress . example : vaddgrouplist officegroup\@deependhulla.com  \"member1\@deependhulla.com,member2\@deependhulla.com\" \"owner1\@deependhulla.com,owner2\@deependhulla.com\"";
 }
 ($userx,$domaingot)=split/\@/,$newin;
 $fullname="Group Maillinglist ".$userx;
@@ -137,7 +137,7 @@ $fullname="Group Maillinglist ".$userx;
 
 $vpost="postmaster\@".$domaingot;
 if($newiny ne ""){ $vpost=$newiny;}
-$sqlx="INSERT INTO `powermaillist` (`address`, `info`, `member`, `owner`, `domain`, `created`, `modified`, `active`, `sendtype`) VALUES ('".$newin."', '".$fullname."', '".$newinx."', '".$vpost."', '".$vdomain."', NOW(), NOW(), '1', 'ANYONE');";
+$sqlx="INSERT INTO `powermaillist` (`address`, `info`, `member`, `owner`, `domain`, `created`, `modified`, `active`, `sendtype`) VALUES ('".$newin."', '".$fullname."', '".$newinx."', '".$vpost."', '".$domaingot."', NOW(), NOW(), '1', 'ANYONE');";
 #print "<br>\n$sqlx \n";
 $table_data = $dbh->prepare($sqlx);
 $table_data->execute;
