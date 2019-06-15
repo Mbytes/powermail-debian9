@@ -3,7 +3,7 @@
 
 /etc/init.d/apache2 stop
 ##certbot certonly -d `hostname` --standalone --agree-tos --email yourmail@example.com
-certbot certonly -d `hostname` --standalone --agree-tos 
+certbot certonly -d `hostname` --standalone --agree-tos --email postmaster@`hostname` 
 
 cat /etc/letsencrypt/live/`hostname`/{cert,chain,fullchain,privkey}.pem >/etc/webmin/miniserv.pem
 sed -i "s/powermail\.mydomainname\.com/`hostname`/" /usr/local/src/cert-renew-and-restart.sh
@@ -12,8 +12,11 @@ sed -i "s/powermail\.mydomainname\.com/`hostname`/" /usr/local/src/cert-renew-an
 echo "30 2 * * 1 /usr/local/src/cert-renew-and-restart.sh" >> /var/spool/cron/crontabs/root 
 
 /etc/init.d/cron restart
+/etc/init.d/apache2 start
+/etc/init.d/webmin restart
 
-echo "manually update SSL in apache2,postfix,dovecot,haraka"
+
+echo "manually update SSL in apache2,postfix,dovecot"
 echo "";
 
 

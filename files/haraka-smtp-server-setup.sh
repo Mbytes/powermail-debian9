@@ -42,6 +42,7 @@ npm install -g haraka-plugin-fcrdns
 /bin/cp -pR ../files/haraka-inbound /opt/
 
 sed -i "s/powermail\.mydomainname\.com/`hostname`/" /opt/haraka-inbound/config/host_list
+sed -i "s/powermail\.mydomainname\.com/`hostname`/" /opt/haraka-inbound/config/tls.ini
 
 /etc/init.d/postfix stop
 echo "make postfix local only as haraka check for port 25"
