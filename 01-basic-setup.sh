@@ -24,6 +24,8 @@ apt-get -y install vim openssh-server net-tools pwgen dialog postfix xfsprogs cl
 #ipv4 iptables rules saved in /etc/iptables/rules.v4
 apt-get -y install iptables-persistent
  
+## install GeoIP for blocking contry spefic IPs
+apt-get install geoip-bin geoip-database
 
 ## works only on Intel and not on ARM -- Tokudb is good for Archive Databases
 apt-get -y install mariadb-plugin-tokudb
