@@ -1,2 +1,3 @@
 MAILTO=""
 * * * * * /usr/share/webmin/powermail/cron-for-group-mail-list.sh
+1 6 * * * /usr/local/src/disk-space-alert.sh

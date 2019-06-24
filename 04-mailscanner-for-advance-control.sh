@@ -74,11 +74,13 @@ sed -i "s/powermail\.mydomainname\.com/`hostname`/" /var/www/html/mailscanner/co
 sed -i "s/powermail\.mydomainname\.com/`hostname`/"   /etc/MailScanner/MailScanner.conf
 
 
-echo "MAILTO=\"\"" >> /var/spool/cron/crontabs/root
+#echo "MAILTO=\"\"" >> /var/spool/cron/crontabs/root
 echo "*/5 * * * * /usr/local/bin/mailwatch-postfix-relay" >> /var/spool/cron/crontabs/root
 ## add Archive Part
 echo "#*/3 * * * * /usr/local/src/mailarchive-scripts/fetch-and-convert.sh" >> /var/spool/cron/crontabs/root
 echo "* * * * * /usr/local/src/mailarchive-scripts/add-email-from-stage2-to-final-index.sh" >> /var/spool/cron/crontabs/root
+echo "#*/5 * * * * /usr/local/src/check-mail-scanner-process-from-log.sh" >> /var/spool/cron/crontabs/root
+echo "#1 6 * * * /usr/local/src/generate-mail-report/send-report-with-csv.sh" >> /var/spool/cron/crontabs/root
 
 /etc/init.d/cron restart
 /etc/init.d/postfix restart

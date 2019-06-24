@@ -41,7 +41,7 @@ if [ "$HOLDC" -gt "$CHECKHOLD" ]; then
 echo "Restart MailScanner now"
 /etc/init.d/mailscanner restart
 `/usr/bin/top -c -n 1 > /tmp/toplog.txt`
-sendEmail -f postmaster@motilaloswal.com -t support@technoinfotech.com -u "`hostname` auto mailscanner restart with hold : $HOLDC " -m "Auto MailScanner Restarted on server `ifconfig  | grep inet | grep 192 | uniq`  with load of `w` \n " -s 127.0.0.1:25 -o tls=no -a /tmp/toplog.txt
+sendEmail -f postmaster@`hostname` -t postmaster@`hostname` -u "`hostname` Auto Mailscanner restart with hold : $HOLDC " -m "Auto MailScanner Restarted on server  with load of `w` \n " -s 127.0.0.1:25 -o tls=no -a /tmp/toplog.txt
 
 echo " $COUNTX Record : $DATEX " > $FILEX
 fi

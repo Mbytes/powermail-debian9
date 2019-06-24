@@ -1,6 +1,7 @@
 <?php
 
-$mysqlcon=mysqli_connect('127.0.0.1', 'admin', 'ThooR7re') ;
+$getpass=file_get_contents("/usr/local/src/mysql-admin-pass");
+$mysqlcon=mysqli_connect('127.0.0.1', 'admin', $getpass) ;
 mysqli_select_db($mysqlcon,"mailscanner");
 //$datet=date('Y-m-d');
 $datet=date('Y-m-d',strtotime("-1 days"));
@@ -143,7 +144,7 @@ file_put_contents($filey,$csvd);
 
 
 
-$cmdx="/usr/bin/sendEmail -f postmaster@yourdomainame.com -t admin@yourdomainname.com -u \"   `hostname` [".$datet."] Details CSV of top-sender as of now  \"  -s 127.0.0.1:25 -o tls=no -o message-file=".$filex."";
+$cmdx="/usr/bin/sendEmail -f postmaster@".$hostnamex." -t postmaster@".$hostnamex." -u \" ".$hostnamex." [".$datet."] Details CSV of top-sender as of now  \"  -s 127.0.0.1:25 -o tls=no -o message-file=".$filex."";
 
 for($u=0;$u<sizeof($userx);$u++)
 {
