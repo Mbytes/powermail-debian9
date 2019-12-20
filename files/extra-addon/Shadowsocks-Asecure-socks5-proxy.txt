@@ -1,0 +1,9 @@
+https://www.linuxbabe.com/desktop-linux/how-to-install-and-use-shadowsocks-command-line-client
+
+Shadowsocks - A secure socks5 proxy
+https://shadowsocks.org
+
+https://www.linuxbabe.com/desktop-linux/how-to-install-and-use-shadowsocks-command-line-client
+(with crone on reboot)
+https://www.linuxbabe.com/linux-server/how-to-enable-etcrc-local-with-systemd
+
