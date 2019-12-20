@@ -13,12 +13,34 @@
 sysctl -w net.ipv6.conf.all.disable_ipv6=1
 sysctl -w net.ipv6.conf.default.disable_ipv6=1
 
-#build rc.local as it not there by default in debian 9.x
+
+#build rc.local as it not there by default in debian 9.x and 10.x
 /bin/cp -pR /etc/rc.local /usr/local/old-rc.local-`date +%s` 2>/dev/null
-echo "#!/bin/bash" >/etc/rc.local;
+touch /etc/rc.local
+printf '%s\n' '#!/bin/bash'  | sudo tee -a /etc/rc.local
 echo "sysctl -w net.ipv6.conf.all.disable_ipv6=1" >>/etc/rc.local
 echo "sysctl -w net.ipv6.conf.default.disable_ipv6=1" >> /etc/rc.local
+echo "exit 0" >> /etc/rc.local
 chmod 755 /etc/rc.local
+
+echo "[Unit]" > /etc/systemd/system/rc-local.service
+echo " Description=/etc/rc.local Compatibility" >> /etc/systemd/system/rc-local.service
+echo " ConditionPathExists=/etc/rc.local" >> /etc/systemd/system/rc-local.service
+echo "" >> /etc/systemd/system/rc-local.service
+echo "[Service]" >> /etc/systemd/system/rc-local.service
+echo " Type=forking" >> /etc/systemd/system/rc-local.service
+echo " ExecStart=/etc/rc.local start" >> /etc/systemd/system/rc-local.service
+echo " TimeoutSec=0" >> /etc/systemd/system/rc-local.service
+echo " StandardOutput=tty" >> /etc/systemd/system/rc-local.service
+echo " RemainAfterExit=yes" >> /etc/systemd/system/rc-local.service
+echo " SysVStartPriority=99" >> /etc/systemd/system/rc-local.service
+echo "" >> /etc/systemd/system/rc-local.service
+echo "[Install]" >> /etc/systemd/system/rc-local.service
+echo " WantedBy=multi-user.target" >> /etc/systemd/system/rc-local.service
+
+systemctl enable rc-local
+systemctl start rc-local
+
 
 ## backup existing repo by copy to root
 /bin/cp -pR /etc/apt/sources.list /usr/local/old-sources.list-`date +%s`
