@@ -41,6 +41,16 @@ echo " WantedBy=multi-user.target" >> /etc/systemd/system/rc-local.service
 systemctl enable rc-local
 systemctl start rc-local
 
+## ssh Keep Alive
+echo "Host * " > /root/.ssh/config
+echo "    ServerAliveInterval 300" >> /root/.ssh/config
+echo "    ServerAliveCountMax 20" >> /root/.ssh/config
+
+echo "Host * " > /home/mailadmin/.ssh/config
+echo "    ServerAliveInterval 300" >> /home/mailadmin/.ssh/config
+echo "    ServerAliveCountMax 20" >> /home/mailadmin/.ssh/config
+chown mailadmin:mailadmin /home/mailadmin/.ssh/config
+
 
 ## backup existing repo by copy to root
 /bin/cp -pR /etc/apt/sources.list /usr/local/old-sources.list-`date +%s`
