@@ -24,20 +24,15 @@ apt-get -y install vim openssh-server net-tools pwgen dialog postfix xfsprogs cl
 echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
 echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
 
-#ipv4 iptables rules saved in /etc/iptables/rules.v4
-apt-get -y install iptables-persistent
- 
+##ipv4 iptables rules saved in /etc/iptables/rules.v4
 ## install GeoIP for blocking contry spefic IPs
-apt-get install geoip-bin geoip-database
-
 ## works only on Intel and not on ARM -- Tokudb is good for Archive Databases
-apt-get -y install mariadb-plugin-tokudb
+## etckeeper to keep in git all version change
+## fetchmail for mail download
+apt-get -y install iptables-persistent geoip-bin geoip-database mariadb-plugin-tokudb  etckeeper fetchmail
 
 ## in case one need mouse pointer on console-terminal for copy paste
 #apt-get -y install gpm
-
-## keep etc version via git
-apt-get -y install etckeeper
 
 a2enmod actions > /dev/null 2>&1 
 a2enmod proxy_fcgi > /dev/null 2>&1 
@@ -63,9 +58,6 @@ a2ensite proxy_http > /dev/null 2>&1
 apt-get -y install nginx-full 
 /etc/init.d/nginx stop
 systemctl disable nginx > /dev/null 2>&1
-
-## for fetchmail mail download
-apt-get -y install fetchmail
 
 
 /etc/init.d/mysql restart
