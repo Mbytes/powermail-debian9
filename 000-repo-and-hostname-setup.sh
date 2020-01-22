@@ -6,8 +6,9 @@
 ###HOSTNAME=powermail.domainname.com
 ###IPADDR=192.168.1.1
 
-###HOSTNAME=powermail.domainname.com
-###IPADDR=192.168.1.1
+### all in small-cap
+HOSTNAME=powermail.domainname.com
+IPADDR=192.168.1.1
 
 ##disable ipv6 as most time not required
 sysctl -w net.ipv6.conf.all.disable_ipv6=1
@@ -42,14 +43,16 @@ systemctl enable rc-local
 systemctl start rc-local
 
 ## ssh Keep Alive
+mkdir /root/.ssh 2>/dev/null
 echo "Host * " > /root/.ssh/config
 echo "    ServerAliveInterval 300" >> /root/.ssh/config
 echo "    ServerAliveCountMax 20" >> /root/.ssh/config
 
+mkdir /home/mailadmin/.ssh 2>/dev/null
 echo "Host * " > /home/mailadmin/.ssh/config
 echo "    ServerAliveInterval 300" >> /home/mailadmin/.ssh/config
 echo "    ServerAliveCountMax 20" >> /home/mailadmin/.ssh/config
-chown mailadmin:mailadmin /home/mailadmin/.ssh/config
+chown mailadmin:mailadmin /home/mailadmin/.ssh
 
 
 ## backup existing repo by copy to root
