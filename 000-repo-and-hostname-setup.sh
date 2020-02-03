@@ -52,7 +52,7 @@ mkdir /home/mailadmin/.ssh 2>/dev/null
 echo "Host * " > /home/mailadmin/.ssh/config
 echo "    ServerAliveInterval 300" >> /home/mailadmin/.ssh/config
 echo "    ServerAliveCountMax 20" >> /home/mailadmin/.ssh/config
-chown mailadmin:mailadmin /home/mailadmin/.ssh
+chown  -R mailadmin:mailadmin /home/mailadmin/.ssh
 
 
 ## backup existing repo by copy to root
