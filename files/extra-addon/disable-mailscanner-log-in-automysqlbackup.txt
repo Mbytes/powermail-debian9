@@ -1,0 +1,7 @@
+
+#need to exclude backup of mailscanner folder in automysqlbackup.
+DBEXCLUDE "mailscanner"
+# OR 
+DBEXCLUDE="mailscanner roundcube phpmyadmin groupoffice"
+
+
